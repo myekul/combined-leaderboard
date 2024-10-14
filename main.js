@@ -132,8 +132,8 @@ function generateHTML(categories) {
             <td>${thePlayer.rank}</td>
             </tr>`
         })
-        const theTable = document.getElementById('theTable')
-        theTable.innerHTML += HTMLContent
+        // const theTable = document.getElementById('theTable')
+        // theTable.innerHTML += HTMLContent
     })
     generateRankTable(categories)
 }
@@ -173,7 +173,11 @@ function generateRankTable(categories) {
             })
             sum = secondsToHMS(sum)
         }
-        HTMLContent += `<tr>
+        let otherRow = ''
+        if (index % 2 == 0) {
+            otherRow = 'otherRow'
+        }
+        HTMLContent += `<tr class=${otherRow}>
         <td>${index + 1}</td>
         <td style='text-align:left'>${player.name}</td>
         <td>${player.rank}</td>

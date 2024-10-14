@@ -3,6 +3,7 @@
     --cuphead-green: #a0e1c0;
     --dlc-font: #433650;
     --gray: #434343;
+    --gray2: #343434;
 }
 
 @font-face {
@@ -104,4 +105,8 @@ img {
 
 table {
     margin: 0 auto
+}
+
+.otherRow {
+    background-color: var(--gray2);
 }
