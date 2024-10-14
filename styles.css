@@ -8,12 +8,12 @@
 
 @font-face {
     font-family: "cuphead-memphis";
-    src: url("../fonts/cuphead-memphis.ttf") format("truetype");
+    src: url("fonts/cuphead-memphis.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "cuphead-vogue";
-    src: url("../fonts/CupheadVogue-ExtraBold-merged.ttf") format("truetype");
+    src: url("fonts/CupheadVogue-ExtraBold-merged.ttf") format("truetype");
 }
 
 body {
@@ -28,12 +28,24 @@ header {
     background-color: var(--cuphead-yellow);
     color: black;
     margin-top: 0;
+    margin-bottom: 20px;
     height: 110px;
 }
 
-h1 {
+footer {
+    background-color: var(--cuphead-yellow);
+    color: black;
+    height: 80px;
+    margin-top: 20px;
+    padding-top: 10px;
+    align-items: center;
+}
+h1{
     font-family: "cuphead-vogue";
     margin-bottom: 0;
+}
+h1,
+h2 {
     text-align: center;
     padding: 0 10px
 }
@@ -89,17 +101,23 @@ td {
     color: black
 }
 
-img {
+header img {
     height: 80px;
     width: 50px;
     object-fit: contain
+}
+
+footer img {
+    height: 32px;
+    width: auto;
+    object-fit: contain;
+    padding: 5px
 }
 
 .container {
     display: flex;
     margin: auto;
     justify-content: center;
-    /* Centers elements horizontally */
     align-items: center;
 }
 
