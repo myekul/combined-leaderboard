@@ -1,0 +1,107 @@
+:root {
+    --cuphead-yellow: #ffcf10;
+    --cuphead-green: #a0e1c0;
+    --dlc-font: #433650;
+    --gray: #434343;
+}
+
+@font-face {
+    font-family: "cuphead-memphis";
+    src: url("../fonts/cuphead-memphis.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "cuphead-vogue";
+    src: url("../fonts/CupheadVogue-ExtraBold-merged.ttf") format("truetype");
+}
+
+body {
+    font-family: "cuphead-memphis";
+    background-color: var(--gray);
+    color: white;
+    margin: 0;
+}
+
+header {
+    /* display: flex; */
+    background-color: var(--cuphead-yellow);
+    color: black;
+    margin-top: 0;
+    height: 110px;
+}
+
+h1 {
+    font-family: "cuphead-vogue";
+    margin-bottom: 0;
+    text-align: center;
+    padding: 0 10px
+}
+
+p {
+    padding: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+td {
+    text-align: center
+}
+
+.onePointOne {
+    background-color: mediumpurple;
+    color: black
+}
+
+.legacy {
+    background-color: mediumseagreen;
+    color: black
+}
+
+.nmg {
+    background-color: lightcoral;
+    color: black
+}
+
+.dlc {
+    background-color: var(--cuphead-green);
+    color: var(--dlc-font)
+}
+
+.dlcbase {
+    background-color: khaki;
+    color: black
+}
+
+.first {
+    background-color: var(--cuphead-yellow);
+    color: black
+}
+
+.second {
+    background-color: lightgray;
+    color: black
+}
+
+.third {
+    background-color: chocolate;
+    color: black
+}
+
+img {
+    height: 80px;
+    width: 50px;
+    object-fit: contain
+}
+
+.container {
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    /* Centers elements horizontally */
+    align-items: center;
+}
+
+table {
+    margin: 0 auto
+}
