@@ -1,8 +1,9 @@
 let players = new Set()
 let processedCategories = 0
 function getLeaderboard(gameId, categories, category) {
-    const url = `https://www.speedrun.com/api/v1/leaderboards/${gameId}/category/${category.id}?var-${category.var}=${category.subcat}&top=100&embed=players&embed=players,category`;
-    // const url = `https://www.speedrun.com/api/v1/games/sm64?embed=categories.variables`
+    const variables=`?var-${category.var}=${category.subcat}&var-${category.var2}=${category.subcat2}`
+    const url = `https://www.speedrun.com/api/v1/leaderboards/${gameId}/category/${category.id+variables}&top=100&embed=players&embed=players,category`;
+    // const url = `https://www.speedrun.com/api/v1/games/cuphead?embed=categories.variables`
     fetch(url)
         .then(response => response.json())
         .then(data => {
@@ -27,35 +28,45 @@ const cuphead = [
         class: 'onePointOne',
         id: '9d8lxv62',
         var: '0nwpgqr8',
-        subcat: '013kjprq'
+        subcat: '013kjprq',
+        var2:'ylp6g4rn',
+        subcat2:'mlnv7no1'
     },
     {
         name: 'Legacy',
         class: 'legacy',
         id: '82481pmk',
         var: 'onvv9m0n',
-        subcat: '5lm3ep81'
+        subcat: '5lm3ep81',
+        var2:'ql6ew5kn',
+        subcat2:'21d8nwpl'
     },
     {
         name: 'NMG',
         class: 'nmg',
         id: 'zd38jgek',
         var: 'kn0z0do8',
-        subcat: 'klr0d5ol'
+        subcat: 'klr0d5ol',
+        var2:'6njqk9jl',
+        subcat2:'xqk43zdl'
     },
     {
         name: 'DLC',
         class: 'dlc',
         id: '7kjl0wz2',
         var: 'wl3ddqo8',
-        subcat: '8104dd5l'
+        subcat: '8104dd5l',
+        var2:'wl3d6vw8',
+        subcat2:'p127504q'
     },
     {
         name: 'DLC+Base',
         class: 'dlcbase',
         id: 'xk95z7g2',
         var: 'wlekk5el',
-        subcat: 'jq6dee71'
+        subcat: 'jq6dee71',
+        var2:'wlek63rl',
+        subcat2:'xqkvrnkl'
     }
 ]
 const sm64 = [
@@ -150,7 +161,7 @@ function generateRankTable(categories) {
     <td></td>
     <td>Runner</td>
     <td>Avg Rank</td>
-    <td>Time</td>`
+    <td>Sum</td>`
     categories.forEach(category => {
         HTMLContent += `<td colspan=2>${category.name}</td>`
     })
