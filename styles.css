@@ -27,9 +27,9 @@ header {
     /* display: flex; */
     background-color: var(--cuphead-yellow);
     color: black;
-    margin-top: 0;
+    padding-top: 10px;
     margin-bottom: 20px;
-    height: 110px;
+    height: 130px;
 }
 
 footer {
@@ -40,14 +40,21 @@ footer {
     padding-top: 10px;
     align-items: center;
 }
-h1{
+
+h1 {
     font-family: "cuphead-vogue";
     margin-bottom: 0;
 }
+
+h1,
+p {
+    transform: translate(0px, -20px)
+}
+
 h1,
 h2 {
     text-align: center;
-    padding: 0 10px
+    padding: 0 10px;
 }
 
 p {
@@ -67,7 +74,7 @@ td {
 }
 
 .legacy {
-    background-color: mediumseagreen;
+    background-color: lightseagreen;
     color: black
 }
 
@@ -97,13 +104,13 @@ td {
 }
 
 .third {
-    background-color: chocolate;
+    background-color: darkorange;
     color: black
 }
 
 header img {
-    height: 80px;
-    width: 50px;
+    width: 55px;
+    height: auto;
     object-fit: contain
 }
 
@@ -127,4 +134,104 @@ table {
 
 .otherRow {
     background-color: var(--gray2);
+}
+
+.myekul {
+    width: 48px;
+    height: auto;
+    filter: drop-shadow(0.5px 0 0 black)
+        /* Right shadow */
+        drop-shadow(-0.5px 0 0 black)
+        /* Left shadow */
+        drop-shadow(0 0.5px 0 black)
+        /* Bottom shadow */
+        drop-shadow(0 -0.5px 0 black);
+    padding: 0
+}
+
+.grade-a-plus {
+    background-color: lime;
+    color: black
+}
+
+.grade-a {
+    background-color: limegreen;
+    color: black
+}
+
+.grade-a-minus {
+    background-color: mediumseagreen;
+    color: black
+}
+
+.grade-b-plus {
+    background-color: greenyellow;
+    color: black
+}
+
+.grade-b {
+    background-color: gold;
+    color: black
+}
+
+.grade-b-minus {
+    background-color: goldenrod;
+    color: black
+}
+
+.grade-c-plus {
+    background-color: orange;
+    color: black
+}
+
+.grade-c {
+    background-color: darkorange;
+    color: black
+}
+
+.grade-c-minus {
+    background-color: chocolate;
+    color: black
+}
+
+.grade-d-plus {
+    background-color: tomato;
+    color: black
+}
+
+.grade-d {
+    background-color: crimson;
+    color: black
+}
+
+.grade-d-minus {
+    background-color: maroon;
+    color: black
+}
+
+th.clickable {
+    background-color: dimgray;
+}
+
+th.clickable:hover {
+    background-color: gray;
+}
+
+th.clickable:active {
+    background-color: darkgray;
+}
+
+td.clickable:hover {
+    opacity: 0.7;
+}
+
+.clickable:hover {
+    cursor: pointer;
+}
+
+#cuphead-logo {
+    display: block;
+    width: 270px;
+    height: auto;
+    margin: 0 auto;
 }

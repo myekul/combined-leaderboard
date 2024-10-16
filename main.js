@@ -1,183 +1,166 @@
-let players = new Set()
+let playerNames = new Set()
+let players = []
+let game = cuphead
+let gameName = 'cuphead'
 let processedCategories = 0
+game.forEach(category => {
+    getLeaderboard(gameName, game, category)
+})
 function getLeaderboard(gameId, categories, category) {
-    const variables=`?var-${category.var}=${category.subcat}&var-${category.var2}=${category.subcat2}`
-    const url = `https://www.speedrun.com/api/v1/leaderboards/${gameId}/category/${category.id+variables}&top=100&embed=players&embed=players,category`;
-    // const url = `https://www.speedrun.com/api/v1/games/cuphead?embed=categories.variables`
+    let variables = `?var-${category.var}=${category.subcat}`
+    if (category.var2) {
+        variables += `&var-${category.var2}=${category.subcat2}`
+    }
+    const url = `https://www.speedrun.com/api/v1/leaderboards/${gameId}/category/${category.id + variables}&top=300&embed=players&embed=players,category`;
+    // const url = `https://www.speedrun.com/api/v1/games/sm64?embed=categories.variables`
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            console.log(data)
+            console.log('Data loaded')
             data.data.players.data.forEach(player => {
-                player.runs = []
-                players.add(player)
+                if (!player.name) {
+                    player.name = player.names.international
+                }
+                const initialSize = playerNames.size
+                playerNames.add(player.name)
+                if (playerNames.size > initialSize) {
+                    player.runs = new Array(5).fill(null)
+                    players.push(player)
+                }
             })
             category.runs = data.data
             processedCategories++
-            if (processedCategories == cuphead.length) {
+            if (processedCategories == categories.length) {
+                determineWeight(categories)
                 generatePlaces(categories)
-                generateRanks()
-                generateHTML(categories)
+                generateRanks(categories)
+                sortByCriteria('averagePercentile')
             }
         })
         .catch(error => console.error('Error fetching leaderboard:', error));
 }
-const cuphead = [
-    {
-        name: '1.1+',
-        class: 'onePointOne',
-        id: '9d8lxv62',
-        var: '0nwpgqr8',
-        subcat: '013kjprq',
-        var2:'ylp6g4rn',
-        subcat2:'mlnv7no1'
-    },
-    {
-        name: 'Legacy',
-        class: 'legacy',
-        id: '82481pmk',
-        var: 'onvv9m0n',
-        subcat: '5lm3ep81',
-        var2:'ql6ew5kn',
-        subcat2:'21d8nwpl'
-    },
-    {
-        name: 'NMG',
-        class: 'nmg',
-        id: 'zd38jgek',
-        var: 'kn0z0do8',
-        subcat: 'klr0d5ol',
-        var2:'6njqk9jl',
-        subcat2:'xqk43zdl'
-    },
-    {
-        name: 'DLC',
-        class: 'dlc',
-        id: '7kjl0wz2',
-        var: 'wl3ddqo8',
-        subcat: '8104dd5l',
-        var2:'wl3d6vw8',
-        subcat2:'p127504q'
-    },
-    {
-        name: 'DLC+Base',
-        class: 'dlcbase',
-        id: 'xk95z7g2',
-        var: 'wlekk5el',
-        subcat: 'jq6dee71',
-        var2:'wlek63rl',
-        subcat2:'xqkvrnkl'
-    }
-]
-const sm64 = [
-    {
-        id: 'wkpoo02r', // 120
-        // difficulties: '0nwpgqr8',
-        // regular: '013kjprq'
-    },
-    {
-        id: '7dgrrxk4', // 70
-        // difficulties: 'onvv9m0n',
-        // regular: '5lm3ep81'
-    },
-    {
-        id: 'n2y55mko', // 16
-        // difficulties: 'kn0z0do8',
-        // regular: 'klr0d5ol'
-    },
-    {
-        id: '7kjpp4k3', // 1
-        // difficulties: 'wl3ddqo8',
-        // regular: '8104dd5l'
-    },
-    {
-        id: 'xk9gg6d0', // 0
-        // difficulties: 'wlekk5el',
-        // regular: 'jq6dee71'
-    }
-]
-cuphead.forEach(category => {
-    getLeaderboard('cuphead', cuphead, category)
-})
-function generatePlaces(categories) {
+function determineWeight(categories) {
+    let numRuns = 0
     categories.forEach(category => {
+        numRuns += category.runs.runs.length
+    })
+    categories.forEach(category => {
+        category.weight = category.runs.runs.length / numRuns
+    })
+}
+function generatePlaces(categories) {
+    categories.forEach((category, index) => {
         category.runs.runs.forEach(run => {
-            const runPlayer = run.run.players[0].id
+            const runPlayer = run.run.players[0]
             let thePlayer = ''
             for (const player of players) {
-                if (player.id === runPlayer) {
+                if (player.id) {
+                    if (player.id == runPlayer.id) {
+                        thePlayer = player;
+                        break;
+                    }
+                } else if (player.name == runPlayer.name && player.rel == runPlayer.rel) {
                     thePlayer = player;
                     break;
                 }
             }
-            thePlayer.runs.push(run)
+            if (thePlayer.runs) {
+                thePlayer.runs[index] = run
+            }
             run.run.player = thePlayer
         })
     })
 }
-function generateRanks() {
-    for (const player of players) {
+function generateRanks(categories) {
+    players.forEach(player => {
         let placeSum = 0
-        player.runs.forEach(run => {
-            placeSum += parseInt(run.place)
-        })
-        let rank = placeSum / player.runs.length
-        rank = rank.toFixed(1)
-        player.rank = rank
-    }
-}
-function generateHTML(categories) {
-    categories.forEach(category => {
-        let HTMLContent = `<table>
-        <tr><td colspan=3>${category.runs.category.data.name}</td></tr>`
-        category.runs.runs.forEach(run => {
-            const thePlayer = run.run.player
-            if (thePlayer.rel == 'user') {
-                thePlayer.name = thePlayer.names.international
+        let percentileSum = 0
+        let playerCats = []
+        let hasOnePointOne = true
+        player.runs.forEach((run, runIndex) => {
+            if (run) {
+                placeSum += parseInt(run.place)
+                let category = categories[runIndex]
+                if (category) {
+                    playerCats.push(category)
+                    percentileSum += (category.runs.runs[0].run.times.primary_t / run.run.times.primary_t) * (category.weight)
+                    if (category.id == 'zd38jgek' && !hasOnePointOne) {
+                        let runCopy = { ...run }
+                        runCopy.place = '-'
+                        player.runs[0] = runCopy
+                        let onePointOne = categories[0]
+                        playerCats.push(onePointOne)
+                        percentileSum += (onePointOne.runs.runs[0].run.times.primary_t / run.run.times.primary_t) * (onePointOne.weight)
+                    }
+                }
+            } else if (runIndex == 0) {
+                hasOnePointOne = false
             }
-            HTMLContent += `<tr>
-            <td>${run.place}</td>
-            <td>${thePlayer.name}</td>
-            <td>${run.run.times.primary.substring(2).toLowerCase()}</td>
-            <td>${thePlayer.runs.length}</td>
-            <td>${thePlayer.rank}</td>
-            </tr>`
         })
-        // const theTable = document.getElementById('theTable')
-        // theTable.innerHTML += HTMLContent
+        let missingRunWeights = []
+        let totalWeight = 0
+        categories.forEach(category => {
+            let runMissing = true
+            playerCats.forEach(playerCat => {
+                if (category.id == playerCat.id) {
+                    runMissing = false
+                    totalWeight += category.weight
+                }
+            })
+            if (runMissing) {
+                missingRunWeights.push(category.weight)
+            }
+        })
+        player.averageRank = placeSum / player.runs.length
+        player.averagePercentile = percentileSum / totalWeight
+        // Penalty for missing runs
+        missingRunWeights.forEach(missingRunWeight => {
+            player.averagePercentile -= (player.averagePercentile * missingRunWeight) / categories.length
+        })
     })
-    generateRankTable(categories)
+}
+function sortByCriteria(criteria) {
+    players.sort((a, b) => {
+        return b[criteria] - a[criteria];
+    });
+    generateRankTable(game)
+}
+function sortByCategory(categoryIndex) {
+    players.sort((a, b) => {
+        const aRun = a.runs[categoryIndex]
+        const bRun = b.runs[categoryIndex]
+        if (aRun && bRun) {
+            return aRun.run.times.primary_t - bRun.run.times.primary_t;
+        }
+        if (aRun) return -1;
+        if (bRun) return 1;
+        return 0;
+    });
+    generateRankTable(game)
 }
 function generateRankTable(categories) {
-    const playersArray = Array.from(players)
-    playersArray.sort((a, b) => {
-        if (b.runs.length != a.runs.length) {
-            return b.runs.length - a.runs.length;
-        }
-        return a.rank - b.rank;
-    });
     let HTMLContent = `<table>
     <tr style='font-size:12px'>
-    <td></td>
-    <td>Runner</td>
-    <td>Avg Rank</td>
-    <td>Sum</td>`
-    categories.forEach(category => {
-        HTMLContent += `<td colspan=2>${category.name}</td>`
+    <th colspan=5 class='clickable' onclick="sortByCriteria('averagePercentile')">Runner</td>`
+    categories.forEach((category, categoryIndex) => {
+        HTMLContent += `<th colspan=3 class='clickable' onclick="sortByCategory(${categoryIndex})">${category.name}</td>`
     })
-    HTMLContent += `<td>Runs Missing</td>
-    <td>Best Rank</td>
-    <td>Worst Rank</td>
-    </tr>`
-    playersArray.slice(0, 300).forEach((player, index) => {
-        let places = [];
+    HTMLContent +=
+        `<th>Sum</td>
+        <th>Runs Missing</td>
+        </tr>`
+    players.slice(0, 300).forEach((player, index) => {
         let times = [];
         let sum = ''
+        let hasAllRuns = true
         player.runs.forEach(run => {
-            places.push(run.place)
-            times.push(run.run.times.primary_t)
+            if (run) {
+                times.push(run.run.times.primary_t)
+            } else {
+                hasAllRuns = false;
+            }
         })
-        if (player.runs.length == categories.length) {
+        if (hasAllRuns) {
             sum = 0;
             times.forEach(time => {
                 sum += time
@@ -188,35 +171,73 @@ function generateRankTable(categories) {
         if (index % 2 == 0) {
             otherRow = 'otherRow'
         }
-        HTMLContent += `<tr class=${otherRow}>
-        <td>${index + 1}</td>
-        <td style='text-align:left'>${player.name}</td>
-        <td>${player.rank}</td>
-        <td>${sum}</td>`
-        categories.forEach(category => {
-            let time = ''
-            let place = ''
-            player.runs.forEach(run => {
-                if (category.id == run.run.category) {
-                    time = secondsToHMS(run.run.times.primary_t)
-                    place = run.place
-                }
-            })
-            let theClass = category.class
-            if (place == 1) {
-                theClass = 'first'
-            } else if (place == 2) {
-                theClass = 'second'
-            } else if (place == 3) {
-                theClass = 'third'
+        let percentile = (player.averagePercentile * 100).toFixed(1)
+        let letterGrade = getLetterGrade(percentile)
+        let countryCode = ''
+        let countryName = ''
+        if (player.location) {
+            countryCode = player.location.country.code
+            countryName = player.location.country.names.international
+        }
+        let colorFrom = '#FFFFFF'
+        let colorTo = '#FFFFFF'
+        if (player['name-style']) {
+            if (player['name-style'].color) {
+                colorFrom = player['name-style'].color.dark
+                colorTo = player['name-style'].color.dark
+            } else {
+                colorFrom = player['name-style']['color-from'].dark
+                colorTo = player['name-style']['color-to'].dark
             }
-            HTMLContent += `<td style='font-size:12px;width:20px' class=${theClass}>${place}</td>`
-            HTMLContent += `<td style='width:50px' class=${theClass}>${time}</td>`
+        }
+        let clickable = ''
+        let playerLink = ''
+        if (player.weblink) {
+            clickable = 'clickable'
+            playerLink = `window.open('${player.weblink}', '_blank')`
+        }
+        HTMLContent +=
+            `<tr class=${otherRow}>
+            <td style='font-size:12px'>${percentile}</td>
+            <td style='text-align:left' class='${letterGrade.className}'>${letterGrade.grade}</td>
+            <td class=${placeClass(index + 1)}>${index + 1}</td>
+            <td><img src="https://www.speedrun.com/images/flags/${countryCode}.png" height='13px' title="${countryName}"></td>
+            <td onclick="${playerLink}" class='${clickable}' style='text-align:left;font-weight: bold;background: linear-gradient(90deg, ${colorFrom}, ${colorTo});
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;'>${player.name}</td>`
+        categories.forEach((category, categoryIndex) => {
+            let time = ''
+            let videoLink = ''
+            let clickable = ''
+            let place = ''
+            let percentile = ''
+            let percentileClass = ''
+            let percentileGrade = ''
+            let run = player.runs[categoryIndex]
+            if (run) {
+                time = secondsToHMS(run.run.times.primary_t)
+                if (run.run.videos) {
+                    videoLink = `window.open('${run.run.videos.links[run.run.videos.links.length - 1].uri}', '_blank')`
+                    clickable = 'clickable'
+                }
+                place = run.place
+                percentile = getLetterGrade((category.runs.runs[0].run.times.primary_t / run.run.times.primary_t) * 100)
+                percentileClass = percentile.className
+                percentileGrade = percentile.grade
+            }
+            let theClass = placeClass(place)
+            if (!theClass) {
+                theClass = category.class
+            }
+            HTMLContent +=
+                `<td style='font-size:12px;width:20px;text-align:left' class='${theClass} ${percentileClass}'>${percentileGrade}</td>
+                <td style='font-size:12px;width:20px' class=${theClass}>${place}</td>
+                <td onclick="${videoLink}" style='width:50px' class='${theClass} ${clickable}'>${time}</td>`
         })
-        HTMLContent += `<td>${categories.length - player.runs.length}</td>
-        <td>${Math.min(...places)}</td>
-        <td>${Math.max(...places)}</td>
-        </tr>`
+        HTMLContent +=
+            `<td>${sum}</td>
+            <td>${categories.length - times.length}</td>
+            </tr>`
     })
     const theTable = document.getElementById('theTable')
     theTable.innerHTML = HTMLContent
@@ -230,4 +251,15 @@ function secondsToHMS(seconds) {
     } else {
         return `${minutes}:${secs.toString().padStart(2, '0')}`;
     }
+}
+function placeClass(place) {
+    let theClass
+    if (place == 1) {
+        return 'first'
+    } else if (place == 2) {
+        return 'second'
+    } else if (place == 3) {
+        return 'third'
+    }
+    return theClass
 }
