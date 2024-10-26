@@ -4,6 +4,13 @@
     --dlc-font: #433650;
     --gray: #434343;
     --gray2: #343434;
+    --background: var(--gray);
+    --otherColor: var(--gray2);
+    --th: dimgray
+}
+
+.background {
+    background-color: var(--background);
 }
 
 @font-face {
@@ -14,6 +21,11 @@
 @font-face {
     font-family: "cuphead-vogue";
     src: url("fonts/CupheadVogue-ExtraBold-merged.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "sm64";
+    src: url("fonts/sm64.ttf") format("truetype");
 }
 
 body {
@@ -128,14 +140,6 @@ footer img {
     align-items: center;
 }
 
-table {
-    margin: 0 auto
-}
-
-.otherRow {
-    background-color: var(--gray2);
-}
-
 .myekul {
     width: 48px;
     height: auto;
@@ -147,6 +151,15 @@ table {
         /* Bottom shadow */
         drop-shadow(0 -0.5px 0 black);
     padding: 0
+}
+
+table {
+    margin: 0 auto;
+    table-layout: fixed;
+}
+
+.otherRow {
+    background-color: var(--otherColor);
 }
 
 .grade-a-plus {
@@ -165,7 +178,7 @@ table {
 }
 
 .grade-b-plus {
-    background-color: greenyellow;
+    background-color: yellow;
     color: black
 }
 
@@ -205,20 +218,25 @@ table {
 }
 
 .grade-d-minus {
+    background-color: firebrick;
+    color: black
+}
+
+.grade-f {
     background-color: maroon;
     color: black
 }
 
 th.clickable {
-    background-color: dimgray;
+    background-color: var(--th);
 }
 
 th.clickable:hover {
-    background-color: gray;
+    opacity: 0.8
 }
 
 th.clickable:active {
-    background-color: darkgray;
+    opacity: 0.6
 }
 
 td.clickable:hover {
@@ -229,9 +247,94 @@ td.clickable:hover {
     cursor: pointer;
 }
 
-#cuphead-logo {
+#game-logo {
     display: block;
     width: 270px;
     height: auto;
     margin: 0 auto;
+}
+
+th img {
+    width: 48px;
+    height: auto
+}
+
+tbody td:first-child,
+tbody td:nth-child(2),
+tbody td:nth-child(3),
+tbody td:nth-child(4),
+tbody td:nth-child(5) {
+    position: sticky;
+    left: 0;
+    z-index: 3;
+}
+
+tbody td:nth-child(2) {
+    left: 27px;
+}
+
+tbody td:nth-child(3) {
+    left: 53px;
+}
+
+tbody td:nth-child(4) {
+    left: 84px;
+}
+
+tbody td:nth-child(5) {
+    left: 107px;
+}
+
+.table-container {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+button {
+    width: 130px;
+    height: 30px;
+    font-size: 14px;
+    font-family: 'cuphead-memphis';
+    cursor: pointer;
+    border-radius: 10px;
+    border: 4px
+}
+
+button:hover {
+    opacity: 0.8
+}
+
+button:active {
+    opacity: 0.6;
+}
+
+.cuphead {
+    background-color: var(--cuphead-yellow);
+    color: black
+}
+
+.simple {
+    background-color: lightgreen;
+}
+
+.regular {
+    background-color: var(--cuphead-yellow);
+}
+
+.expert {
+    background-color: salmon;
+}
+
+#boardTitle {
+    width: 20%;
+    margin: 0 auto;
+    padding: 5px
+}
+
+progress::-webkit-progress-value {
+    background-color: var(--cuphead-yellow)
+}
+
+.active {
+    border: 4px solid white
 }

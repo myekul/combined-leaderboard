@@ -1,22 +1,153 @@
-let playerNames = new Set()
-let players = []
-let game = cuphead
-let gameName = 'cuphead'
-let processedCategories = 0
-game.forEach(category => {
-    getLeaderboard(gameName, game, category)
-})
-function getLeaderboard(gameId, categories, category) {
-    let variables = `?var-${category.var}=${category.subcat}`
-    if (category.var2) {
-        variables += `&var-${category.var2}=${category.subcat2}`
+const ILcats = [
+    {
+        name: 'anyNoDLC',
+        label: '',
+        id: '8246xjgd'
+    },
+    {
+        name: 'highestGradeNoDLC',
+        label: '',
+        id: '9d86pe32'
+    },
+    {
+        name: 'anyDLC',
+        label: ' - DLC',
+        id: 'z275j35k'
+    },
+    {
+        name: 'highestGradeDLC',
+        label: ' - DLC',
+        id: 'zdno9r72'
     }
-    const url = `https://www.speedrun.com/api/v1/leaderboards/${gameId}/category/${category.id + variables}&top=300&embed=players&embed=players,category`;
-    // const url = `https://www.speedrun.com/api/v1/games/sm64?embed=categories.variables`
+]
+getFullGame(game)
+function prepareLevelBoards(gameID, difficulty, version, categoryIndex, DLCorNot) {
+    // const ILsSection = document.getElementById('ILsSection')
+    ILsSection.style.display = ''
+    const category = ILcats[DLCorNot + categoryIndex]
+    let label = difficulty.charAt(0).toUpperCase() + difficulty.slice(1, difficulty.length) + ' Any%'
+    if (categoryIndex == 1) {
+        let highestGradeLabel = ''
+        if (difficulty == 'simple') {
+            highestGradeLabel = 'Simple B+'
+        } else if (difficulty == 'regular') {
+            highestGradeLabel = 'Regular A+'
+        } else if (difficulty == 'expert') {
+            highestGradeLabel = 'S-Rank'
+        }
+        label = highestGradeLabel
+    }
+    label += category.label
+    levelDifficulty = difficulty
+    highestGrade = categoryIndex
+    DLCnoDLC = DLCorNot
+    // const boardTitle = document.getElementById('boardTitle')
+    // boardTitle.innerHTML = label
+    // if (DLCorNot == 0) {
+    //     boardTitle.classList.add('cuphead')
+    //     boardTitle.classList.remove('dlc')
+    // } else {
+    //     boardTitle.classList.add('dlc')
+    //     boardTitle.classList.remove('cuphead')
+    // }
+    getLevels(gameID, difficulty, version, category.id)
+}
+function getAllLevels() {
+    game = []
+    getLevels(gameID, 'simple', 'currentPatch', ILcats[0 + DLCnoDLC].id, true)
+    getLevels(gameID, 'simple', 'currentPatch', ILcats[1 + DLCnoDLC].id, true)
+    getLevels(gameID, 'regular', 'currentPatch', ILcats[0 + DLCnoDLC].id, true)
+    getLevels(gameID, 'regular', 'currentPatch', ILcats[1 + DLCnoDLC].id, true)
+    getLevels(gameID, 'expert', 'currentPatch', ILcats[0 + DLCnoDLC].id, true)
+    getLevels(gameID, 'expert', 'currentPatch', ILcats[1 + DLCnoDLC].id, true)
+}
+function getFullGame(theGame) {
+    const theTable = document.getElementById('theTable')
+    theTable.innerHTML = 'Loading...'
+    game = theGame
+    const ILsSection = document.getElementById('ILsSection')
+    ILsSection.style.display = 'none'
+    playerNames = new Set()
+    players = []
+    processedCategories = 0
+    game.forEach(category => {
+        let variables = `?var-${category.var}=${category.subcat}`
+        if (category.var2) {
+            variables += `&var-${category.var2}=${category.subcat2}`
+        }
+        getLeaderboard(gameID, game, category, `category/${category.id}`, variables)
+    })
+}
+function getLevels(gameID, difficulty, version, category, all) {
+    let levelsCopy = levels.map(level => ({ ...level }));
+    if (version != 'currentPatch') {
+        levelsCopy = levels.slice(0, 19)
+    }
+    if (difficulty == 'simple') {
+        levelsCopy = levelsCopy.slice(0, 24)
+        levelsCopy.splice(17, 2)
+    }
+    levelsCopy.forEach(level => {
+        level.difficulty = difficulty
+        level.version = version
+        level.category = category
+    });
+    ['isle1', 'isle2', 'isle3', 'hell', 'isle4'].forEach((isle, isleIndex) => {
+        if (!document.getElementById('checkbox_' + isle).checked) {
+            let anotherCopy = []
+            levelsCopy.forEach(level => {
+                if (level.boss.isle != isleIndex + 1) {
+                    anotherCopy.push(level)
+                }
+            })
+            levelsCopy = anotherCopy
+        }
+    })
+    if (!document.getElementById('checkbox_ground').checked) {
+        let anotherCopy = []
+        levelsCopy.forEach(level => {
+            if (level.boss.plane == true) {
+                anotherCopy.push(level)
+            }
+        })
+        levelsCopy = anotherCopy
+    }
+    if (!document.getElementById('checkbox_plane').checked) {
+        let anotherCopy = []
+        levelsCopy.forEach(level => {
+            if (level.boss.plane == false) {
+                anotherCopy.push(level)
+            }
+        })
+        levelsCopy = anotherCopy
+    }
+    if (all) {
+        game.push(...levelsCopy)
+    } else {
+        game = levelsCopy
+    }
+    if (!all || game.length == 144 || game.length == 108) { // Fix this
+        playerNames = new Set()
+        players = []
+        const theTable = document.getElementById('theTable')
+        theTable.innerHTML = 'Loading...'
+        processedCategories = 0
+        game.forEach(level => {
+            let variables = `?var-${level.numPlayersID}=${level.soloID}&var-${level.difficultyID}=${level[level.difficulty]}`
+            if (level.versionID) {
+                variables += `&var-${level.versionID}=${level[level.version]}`
+            }
+            getLeaderboard(gameID, game, level, `level/${level.id}/${level.category}`, variables)
+        })
+    }
+}
+function getLeaderboard(gameID, categories, category, query, variables) {
+    const url = `https://www.speedrun.com/api/v1/leaderboards/${gameID}/${query}${variables}&top=300&embed=players&embed=players,category`;
+    // const url = `https://www.speedrun.com/api/v1/levels/69z3n2xd/categories`
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            console.log('Data loaded')
+            console.log(data)
             data.data.players.data.forEach(player => {
                 if (!player.name) {
                     player.name = player.names.international
@@ -24,20 +155,25 @@ function getLeaderboard(gameId, categories, category) {
                 const initialSize = playerNames.size
                 playerNames.add(player.name)
                 if (playerNames.size > initialSize) {
-                    player.runs = new Array(5).fill(null)
+                    player.runs = new Array(categories.length).fill(null)
                     players.push(player)
                 }
             })
             category.runs = data.data
             processedCategories++
+            const theTable = document.getElementById('theTable')
+            theTable.innerHTML = `Loading...<br><progress value=${processedCategories} max=${categories.length}></progress><br>${processedCategories}/${categories.length}`
             if (processedCategories == categories.length) {
-                determineWeight(categories)
-                generatePlaces(categories)
-                generateRanks(categories)
-                sortByCriteria('averagePercentile')
+                prepareData(categories)
             }
         })
         .catch(error => console.error('Error fetching leaderboard:', error));
+}
+function prepareData(categories) {
+    determineWeight(categories)
+    generatePlaces(categories)
+    generateRanks(categories)
+    sortByCriteria('averagePercentile')
 }
 function determineWeight(categories) {
     let numRuns = 0
@@ -47,6 +183,7 @@ function determineWeight(categories) {
     categories.forEach(category => {
         category.weight = category.runs.runs.length / numRuns
     })
+    console.log(numRuns)
 }
 function generatePlaces(categories) {
     categories.forEach((category, index) => {
@@ -99,15 +236,10 @@ function generateRanks(categories) {
         })
         let missingRunWeights = []
         let totalWeight = 0
-        categories.forEach(category => {
-            let runMissing = true
-            playerCats.forEach(playerCat => {
-                if (category.id == playerCat.id) {
-                    runMissing = false
-                    totalWeight += category.weight
-                }
-            })
-            if (runMissing) {
+        categories.forEach((category, categoryIndex) => {
+            if (player.runs[categoryIndex]) {
+                totalWeight += category.weight
+            } else {
                 missingRunWeights.push(category.weight)
             }
         })
@@ -115,7 +247,11 @@ function generateRanks(categories) {
         player.averagePercentile = percentileSum / totalWeight
         // Penalty for missing runs
         missingRunWeights.forEach(missingRunWeight => {
-            player.averagePercentile -= (player.averagePercentile * missingRunWeight) / categories.length
+            if (categories.length == 5) {
+                player.averagePercentile -= (player.averagePercentile * missingRunWeight) / categories.length
+            } else {
+                player.averagePercentile -= (player.averagePercentile * missingRunWeight)
+            }
         })
     })
 }
@@ -123,32 +259,50 @@ function sortByCriteria(criteria) {
     players.sort((a, b) => {
         return b[criteria] - a[criteria];
     });
-    generateRankTable(game)
+    generateRankTable(game, -1)
 }
 function sortByCategory(categoryIndex) {
     players.sort((a, b) => {
-        const aRun = a.runs[categoryIndex]
-        const bRun = b.runs[categoryIndex]
+        const aRun = a.runs[categoryIndex];
+        const bRun = b.runs[categoryIndex];
         if (aRun && bRun) {
-            return aRun.run.times.primary_t - bRun.run.times.primary_t;
+            const timeDiff = aRun.run.times.primary_t - bRun.run.times.primary_t;
+            if (timeDiff !== 0) {
+                return timeDiff;
+            }
+            const aDate = new Date(aRun.run.date);
+            const bDate = new Date(bRun.run.date);
+            return aDate - bDate;
         }
         if (aRun) return -1;
         if (bRun) return 1;
         return 0;
     });
-    generateRankTable(game)
+    generateRankTable(game, categoryIndex)
 }
-function generateRankTable(categories) {
-    let HTMLContent = `<table>
-    <tr style='font-size:12px'>
-    <th colspan=5 class='clickable' onclick="sortByCriteria('averagePercentile')">Runner</td>`
+function generateRankTable(categories, sortCategoryIndex) {
+    let HTMLContent = '<div class="table-container"><table>'
+    if (categories[0].boss) {
+        HTMLContent +=
+            `<thead>
+            <tr>
+            <th colspan=5></th>`
+        categories.forEach(category => {
+            HTMLContent += `<th colspan=3><img src='images/mugshots/${category.boss.id}.png'></th>`
+        })
+        HTMLContent += `</tr>`
+    }
+    HTMLContent +=
+        `<tr style='font-size:12px'>
+        <th colspan=5 class='clickable' onclick="sortByCriteria('averagePercentile')">Runner</td>`
     categories.forEach((category, categoryIndex) => {
         HTMLContent += `<th colspan=3 class='clickable' onclick="sortByCategory(${categoryIndex})">${category.name}</td>`
     })
     HTMLContent +=
         `<th>Sum</td>
         <th>Runs Missing</td>
-        </tr>`
+        </tr>
+        </thead>`
     players.slice(0, 300).forEach((player, index) => {
         let times = [];
         let sum = ''
@@ -167,9 +321,9 @@ function generateRankTable(categories) {
             })
             sum = secondsToHMS(sum)
         }
-        let otherRow = ''
+        let rowColor = 'background'
         if (index % 2 == 0) {
-            otherRow = 'otherRow'
+            rowColor = 'otherRow'
         }
         let percentile = (player.averagePercentile * 100).toFixed(1)
         let letterGrade = getLetterGrade(percentile)
@@ -196,49 +350,56 @@ function generateRankTable(categories) {
             clickable = 'clickable'
             playerLink = `window.open('${player.weblink}', '_blank')`
         }
-        HTMLContent +=
-            `<tr class=${otherRow}>
-            <td style='font-size:12px'>${percentile}</td>
-            <td style='text-align:left' class='${letterGrade.className}'>${letterGrade.grade}</td>
-            <td class=${placeClass(index + 1)}>${index + 1}</td>
-            <td><img src="https://www.speedrun.com/images/flags/${countryCode}.png" height='13px' title="${countryName}"></td>
-            <td onclick="${playerLink}" class='${clickable}' style='text-align:left;font-weight: bold;background: linear-gradient(90deg, ${colorFrom}, ${colorTo});
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;'>${player.name}</td>`
-        categories.forEach((category, categoryIndex) => {
-            let time = ''
-            let videoLink = ''
-            let clickable = ''
-            let place = ''
-            let percentile = ''
-            let percentileClass = ''
-            let percentileGrade = ''
-            let run = player.runs[categoryIndex]
-            if (run) {
-                time = secondsToHMS(run.run.times.primary_t)
-                if (run.run.videos) {
-                    videoLink = `window.open('${run.run.videos.links[run.run.videos.links.length - 1].uri}', '_blank')`
-                    clickable = 'clickable'
-                }
-                place = run.place
-                percentile = getLetterGrade((category.runs.runs[0].run.times.primary_t / run.run.times.primary_t) * 100)
-                percentileClass = percentile.className
-                percentileGrade = percentile.grade
-            }
-            let theClass = placeClass(place)
-            if (!theClass) {
-                theClass = category.class
-            }
+        let border = ''
+        if (categories.length > 5) {
+            border='border-right:2px solid black'
+        }
+        if (sortCategoryIndex == -1 || player.runs[sortCategoryIndex]) {
             HTMLContent +=
-                `<td style='font-size:12px;width:20px;text-align:left' class='${theClass} ${percentileClass}'>${percentileGrade}</td>
+                `<tr class=${rowColor}>
+            <td class='${rowColor}' style='font-size:12px;'>${percentile}</td>
+            <td class='${letterGrade.className}' style='text-align:left;width:1px'>${letterGrade.grade}</td>
+            <td class='${placeClass(index + 1, rowColor)}'>${index + 1}</td>
+            <td class='${rowColor}'><img src="https://www.speedrun.com/images/flags/${countryCode}.png" height='13px' title="${countryName}"></td>
+            <td onclick="${playerLink}" class='${clickable} ${rowColor}' style='text-align:left;font-weight: bold;'><span style='background: linear-gradient(90deg, ${colorFrom}, ${colorTo});
+    -webkit-background-clip: text;
+    color: transparent;'>${player.name}</span></td>`
+            categories.forEach((category, categoryIndex) => {
+                let time = ''
+                let videoLink = ''
+                let clickable = ''
+                let place = ''
+                let percentile = ''
+                let percentileClass = ''
+                let percentileGrade = ''
+                let run = player.runs[categoryIndex]
+                if (run) {
+                    time = secondsToHMS(run.run.times.primary_t)
+                    if (run.run.videos) {
+                        videoLink = `window.open('${run.run.videos.links[run.run.videos.links.length - 1].uri}', '_blank')`
+                        clickable = 'clickable'
+                    }
+                    place = run.place
+                    percentile = getLetterGrade((category.runs.runs[0].run.times.primary_t / run.run.times.primary_t) * 100)
+                    percentileClass = percentile.className
+                    percentileGrade = percentile.grade
+                }
+                let theClass = placeClass(place)
+                if (!theClass) {
+                    theClass = category.class
+                }
+                HTMLContent +=
+                    `<td style='font-size:12px;text-align:left' class='${theClass} ${percentileClass}'>${percentileGrade}</td>
                 <td style='font-size:12px;width:20px' class=${theClass}>${place}</td>
-                <td onclick="${videoLink}" style='width:50px' class='${theClass} ${clickable}'>${time}</td>`
-        })
-        HTMLContent +=
-            `<td>${sum}</td>
+                <td onclick="${videoLink}" class='${theClass} ${clickable}'>${time}</td>`
+            })
+            HTMLContent +=
+                `<td>${sum}</td>
             <td>${categories.length - times.length}</td>
             </tr>`
+        }
     })
+    HTMLContent += `</table></div>`
     const theTable = document.getElementById('theTable')
     theTable.innerHTML = HTMLContent
 }
@@ -252,8 +413,8 @@ function secondsToHMS(seconds) {
         return `${minutes}:${secs.toString().padStart(2, '0')}`;
     }
 }
-function placeClass(place) {
-    let theClass
+function placeClass(place, rowColor) {
+    let theClass = rowColor
     if (place == 1) {
         return 'first'
     } else if (place == 2) {

@@ -1,0 +1,94 @@
+
+0
+: 
+{id: '5d7vzved', name: 'The Root Pack', weblink: 'https://www.speedrun.com/cuphead/The_Root_Pack', rules: null, links: Array(7)}
+1
+: 
+{id: 'kwj51519', name: 'Goopy Le Grande', weblink: 'https://www.speedrun.com/cuphead/Goopy_Le_Grande', rules: null, links: Array(7)}
+2
+: 
+{id: 'owo0q03w', name: 'Hilda Berg', weblink: 'https://www.speedrun.com/cuphead/Hilda_Berg', rules: null, links: Array(7)}
+3
+: 
+{id: 'xd1787yd', name: 'Cagney Carnation', weblink: 'https://www.speedrun.com/cuphead/Cagney_Carnation', rules: null, links: Array(7)}
+4
+: 
+{id: 'ewpj0j4w', name: 'Ribby and Croaks', weblink: 'https://www.speedrun.com/cuphead/Ribby_and_Croaks', rules: null, links: Array(7)}
+5
+: 
+{id: 'y9mj1j09', name: 'Forest Follies', weblink: 'https://www.speedrun.com/cuphead/Forest_Follies', rules: null, links: Array(7)}
+6
+: 
+{id: '5wkj1jxd', name: 'Treetop Trouble', weblink: 'https://www.speedrun.com/cuphead/Treetop_Trouble', rules: null, links: Array(7)}
+7
+: 
+{id: 'n937y42d', name: 'Baroness Von Bon Bon', weblink: 'https://www.speedrun.com/cuphead/Baroness_Von_Bon_Bon', rules: null, links: Array(7)}
+8
+: 
+{id: 'z986g7rd', name: 'Beppi The Clown', weblink: 'https://www.speedrun.com/cuphead/Beppi_The_Clown', rules: null, links: Array(7)}
+9
+: 
+{id: 'rdn02z5w', name: 'Djimmi The Great', weblink: 'https://www.speedrun.com/cuphead/Djimmi_The_Great', rules: null, links: Array(7)}
+10
+: 
+{id: 'ldyy8gpd', name: 'Grim Matchstick', weblink: 'https://www.speedrun.com/cuphead/Grim_Matchstick', rules: null, links: Array(7)}
+11
+: 
+{id: 'gdre1xe9', name: 'Wally Warbles', weblink: 'https://www.speedrun.com/cuphead/Wally_Warbles', rules: null, links: Array(7)}
+12
+: 
+{id: 'nwllpoow', name: 'Funfair Fever', weblink: 'https://www.speedrun.com/cuphead/Funfair_Fever', rules: null, links: Array(7)}
+13
+: 
+{id: 'ywe1m5ld', name: 'Funhouse Frazzle', weblink: 'https://www.speedrun.com/cuphead/Funhouse_Frazzle', rules: null, links: Array(7)}
+14
+: 
+{id: '592znz69', name: 'Rumor Honeybottoms', weblink: 'https://www.speedrun.com/cuphead/Rumor_Honeybottoms', rules: null, links: Array(7)}
+15
+: 
+{id: '29v353xw', name: 'Captain Brineybeard', weblink: 'https://www.speedrun.com/cuphead/Captain_Brineybeard', rules: null, links: Array(7)}
+16
+: 
+{id: 'xd4jrj8d', name: 'Sally Stageplay', weblink: 'https://www.speedrun.com/cuphead/Sally_Stageplay', rules: null, links: Array(7)}
+17
+: 
+{id: 'xd0g3gjw', name: 'Werner Werman', weblink: 'https://www.speedrun.com/cuphead/Werner_Werman', rules: null, links: Array(7)}
+18
+: 
+{id: 'rw64e469', name: "Dr. Kahl's Robot", weblink: 'https://www.speedrun.com/cuphead/Dr._Kahls_Robot', rules: null, links: Array(7)}
+19
+: 
+{id: 'n937y7rd', name: 'Cala Maria', weblink: 'https://www.speedrun.com/cuphead/Cala_Maria', rules: null, links: Array(7)}
+20
+: 
+{id: 'z986g61d', name: 'Phantom Express', weblink: 'https://www.speedrun.com/cuphead/Phantom_Express', rules: null, links: Array(7)}
+21
+: 
+{id: 'rdn0206w', name: 'Perilous Piers', weblink: 'https://www.speedrun.com/cuphead/Perilous_Piers', rules: null, links: Array(7)}
+22
+: 
+{id: 'ldyy8y7d', name: 'Rugged Ridge', weblink: 'https://www.speedrun.com/cuphead/Rugged_Ridge', rules: null, links: Array(7)}
+23
+: 
+{id: '69z3n2xd', name: 'King Dice', weblink: 'https://www.speedrun.com/cuphead/King_Dice', rules: null, links: Array(7)}
+24
+: 
+{id: 'r9g214jd', name: 'The Devil', weblink: 'https://www.speedrun.com/cuphead/The_Devil', rules: null, links: Array(7)}
+25
+: 
+{id: 'xd4mpj2d', name: 'Glumstone The Giant', weblink: 'https://www.speedrun.com/cuphead/Glumstone_The_Giant', rules: null, links: Array(7)}
+26
+: 
+{id: 'xd0jpgxw', name: 'Moonshine Mob', weblink: 'https://www.speedrun.com/cuphead/Moonshine_Mob', rules: null, links: Array(7)}
+27
+: 
+{id: 'z980p6gd', name: 'The Howling Aces', weblink: 'https://www.speedrun.com/cuphead/The_Howling_Aces', rules: null, links: Array(7)}
+28
+: 
+{id: 'rw6024rw', name: 'Mortimer Freeze', weblink: 'https://www.speedrun.com/cuphead/Mortimer_Freeze', rules: null, links: Array(7)}
+29
+: 
+{id: 'n93pk7nd', name: 'Esther Winchester', weblink: 'https://www.speedrun.com/cuphead/Esther_Winchester', rules: null, links: Array(7)}
+30
+: 
+{id: 'rdnv30q9', name: 'Chef Saltbaker',

@@ -2,26 +2,71 @@
 
 <head>
     <link rel="stylesheet" href="styles.css">
-    <link rel="shortcut icon" href="images/favicon.png">
-    <title>SRC Combined Leaderboard</title>
+    <link id='favicon' rel="shortcut icon" href="images/favicon_cuphead.png">
+    <title>Cuphead Leaderboard</title>
 </head>
 
 <body>
     <header>
         <div class="container">
-            <img src="images/lobber.png" alt="">
-            <img src="images/roundabout.png" alt="">
+            <div class="cupheadWeapons">
+                <img src="images/lobber.png" alt="">
+                <img src="images/roundabout.png" alt="">
+            </div>
             <div>
-                <img id='cuphead-logo' src="images/cuphead.png" alt="">
+                <img id='game-logo' src="images/cuphead.png" alt="">
                 <div>
                     <h1>COMBINED LEADERBOARD</h1>
-                    <p>The best overall players across the 5 main categories</p>
+                    <p>The best overall players across each category</p>
                 </div>
             </div>
-            <img src="images/charge.png" alt="">
-            <img src="images/spread.png" alt="">
+            <div class="cupheadWeapons">
+                <img src="images/charge.png" alt="">
+                <img src="images/spread.png" alt="">
+            </div>
         </div>
     </header>
+    <!-- <div id='fullorIL' class='container'>
+        <button onclick="getFullGame(cuphead)">Full Game</button>
+        <button onclick="prepareLevelBoards(gameID, 'regular', 'currentPatch', 0,0)">ILs</button>
+    </div> -->
+    <div id="ILsSection">
+        <div class='container' style="margin-bottom:5px">
+            <button onclick="prepareLevelBoards(gameID, levelDifficulty, 'currentPatch', highestGrade,0)"
+                class="cuphead">Main Boards</button>
+            <button onclick="prepareLevelBoards(gameID, levelDifficulty, 'currentPatch', highestGrade,2)"
+                class="dlc">DLC Loadout</button>
+        </div>
+        <div class="container">
+            <input id="checkbox_isle1" type="checkbox" checked>Isle 1
+            <input id="checkbox_isle2" type="checkbox" checked>Isle 2
+            <input id="checkbox_isle3" type="checkbox" checked>Isle 3
+            <input id="checkbox_hell" type="checkbox" checked>Hell
+            <input id="checkbox_isle4" type="checkbox" checked>Isle 4
+            <input id="checkbox_ground" type="checkbox" checked>Ground
+            <input id="checkbox_plane" type="checkbox" checked>Plane
+        </div>
+        <div id='difficultyTabs' class='container'>
+            <div class="difficultyTabs">
+                <button onclick="prepareLevelBoards(gameID, 'simple', 'currentPatch', 0,DLCnoDLC)" class="simple">Simple
+                    Any%</button>
+                <button onclick="prepareLevelBoards(gameID, 'simple', 'currentPatch', 1,DLCnoDLC)" class="simple">Simple
+                    B+</button>
+                <button onclick="prepareLevelBoards(gameID, 'regular', 'currentPatch', 0,DLCnoDLC)"
+                    class="regular active">Regular
+                    Any%</button>
+                <button onclick="prepareLevelBoards(gameID, 'regular', 'currentPatch', 1,DLCnoDLC)"
+                    class="regular">Regular
+                    A+</button>
+                <button onclick="prepareLevelBoards(gameID, 'expert', 'currentPatch', 0,DLCnoDLC)" class="expert">Expert
+                    Any%</button>
+                <button onclick="prepareLevelBoards(gameID, 'expert', 'currentPatch', 1,DLCnoDLC)"
+                    class="expert">S-Rank</button>
+            </div>
+            <button onclick="getAllLevels()" style="width:50px">All</button>
+        </div>
+        <!-- <h2 id="boardTitle"></h2> -->
+    </div>
     <div style='text-align:center' id="theTable">Loading...</div>
     <footer>
         <div class="container">
@@ -39,7 +84,10 @@
             <h2>2024</h2>
         </div>
     </footer>
+    <script src="generated.js"></script>
     <script src="constants.js"></script>
+    <script src="moreconstants.js"></script>
+    <script src="generation.js"></script>
     <script src="main.js"></script>
 </body>
 

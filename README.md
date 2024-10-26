@@ -21,4 +21,4 @@ Each player recieves a score (out of 100) and a letter grade, which are determin
         - For each missing run, subtract (score * [weight of missing category]) / [# of categories]
 
 ## Planned features
-- Support for SM64
+- NES Tetris Pace Masters

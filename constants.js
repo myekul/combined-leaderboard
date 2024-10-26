@@ -1,3 +1,8 @@
+const API_KEY = 'AIzaSyDg6FBho-vfAm67-UdGP-8IbVFdLV23unY'
+const solo = {
+    var: '2lgzzwo8',
+    subcat: '21ge8p8l'
+}
 const cuphead = [
     {
         name: '1.1+',
@@ -146,3 +151,155 @@ function getLetterGrade(percentage) {
     }
     return result;
 }
+let bosses = [
+    {
+        id: 'therootpack',
+        label: 'The Root Pack',
+        isle: 1,
+        plane: false
+    },
+    {
+        id: 'goopylegrande',
+        label: 'Goopy Le Grande',
+        isle: 1,
+        plane: false
+    },
+    {
+        id: 'hildaberg',
+        label: 'Hilda Berg',
+        isle: 1,
+        plane: true
+    },
+    {
+        id: 'cagneycarnation',
+        label: 'Cagney Carnation',
+        isle: 1,
+        plane: false
+    },
+    {
+        id: 'ribbyandcroaks',
+        label: 'Ribby and Croaks',
+        isle: 1,
+        plane: false
+    },
+    {
+        id: 'baronessvonbonbon',
+        label: 'Baroness Von Bon Bon',
+        isle: 2,
+        plane: false
+    },
+    {
+        id: 'beppitheclown',
+        label: 'Beppi The Clown',
+        isle: 2,
+        plane: false
+    },
+    {
+        id: 'djimmithegreat',
+        label: 'Djimmi The Great',
+        isle: 2,
+        plane: true
+    },
+    {
+        id: 'grimmatchstick',
+        label: 'Grim Matchstick',
+        isle: 2,
+        plane: false
+    },
+    {
+        id: 'wallywarbles',
+        label: 'Wally Warbles',
+        isle: 2,
+        plane: true
+    },
+    {
+        id: 'rumorhoneybottoms',
+        label: 'Rumor Honeybottoms',
+        isle: 3,
+        plane: false
+    },
+    {
+        id: 'captainbrineybeard',
+        label: 'Captain Brineybeard',
+        isle: 3,
+        plane: false
+    },
+    {
+        id: 'sallystageplay',
+        label: 'Sally Stageplay',
+        isle: 3,
+        plane: false
+    },
+    {
+        id: 'wernerwerman',
+        label: 'Werner Werman',
+        isle: 3,
+        plane: false
+    },
+    {
+        id: 'drkahlsrobot',
+        label: "Dr. Kahl's Robot",
+        isle: 3,
+        plane: true
+    },
+    {
+        id: 'calamaria',
+        label: 'Cala Maria',
+        isle: 3,
+        plane: true
+    },
+    {
+        id: 'phantomexpress',
+        label: 'Phantom Express',
+        isle: 3,
+        plane: false
+    },
+    {
+        id: 'kingdice',
+        label: 'King Dice',
+        isle: 4,
+        plane: false
+    },
+    {
+        id: 'thedevil',
+        label: 'The Devil',
+        isle: 4,
+        plane: false
+    },
+    {
+        id: 'glumstonethegiant',
+        label: 'Glumstone The Giant',
+        isle: 5,
+        plane: false
+    },
+    {
+        id: 'moonshinemob',
+        label: 'Moonshine Mob',
+        isle: 5,
+        plane: false
+    },
+    {
+        id: 'thehowlingaces',
+        label: 'The Howling Aces',
+        isle: 5,
+        plane: false
+    },
+    {
+        id: 'mortimerfreeze',
+        label: 'Mortimer Freeze',
+        isle: 5,
+        plane: false
+    },
+    {
+        id: 'estherwinchester',
+        label: 'Esther Winchester',
+        isle: 5,
+        plane: true
+    },
+    {
+        id: 'chefsaltbaker',
+        label: 'Chef Saltbaker',
+        isle: 5,
+        plane: false
+    }
+];
