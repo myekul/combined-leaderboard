@@ -40,7 +40,7 @@ header {
     background-color: var(--cuphead-yellow);
     color: black;
     padding-top: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     height: 130px;
 }
 
@@ -231,16 +231,14 @@ th.clickable {
     background-color: var(--th);
 }
 
-th.clickable:hover {
+th.clickable:hover,
+td.clickable:hover {
     opacity: 0.8
 }
 
-th.clickable:active {
+th.clickable:active,
+td.clickable:active {
     opacity: 0.6
-}
-
-td.clickable:hover {
-    opacity: 0.7;
 }
 
 .clickable:hover {
@@ -297,7 +295,8 @@ button {
     font-family: 'cuphead-memphis';
     cursor: pointer;
     border-radius: 10px;
-    border: 4px
+    border: 4px;
+    margin: 2px;
 }
 
 button:hover {
@@ -337,4 +336,24 @@ progress::-webkit-progress-value {
 
 .active {
     border: 4px solid white
+}
+
+.animated-button {
+    background-color: var(--cuphead-yellow);
+    animation: pulse 2s infinite;
+}
+
+/* Define keyframes for the animation */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }

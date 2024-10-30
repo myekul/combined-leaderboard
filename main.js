@@ -1,3 +1,7 @@
+getFullGame(game)
+window.addEventListener('hashchange', () => {
+    location.reload();
+});
 const ILcats = [
     {
         name: 'anyNoDLC',
@@ -20,12 +24,28 @@ const ILcats = [
         id: 'zdno9r72'
     }
 ]
-getFullGame(game)
 function prepareLevelBoards(gameID, difficulty, version, categoryIndex, DLCorNot) {
-    // const ILsSection = document.getElementById('ILsSection')
+    fullgame = false
+    const ILsSection = document.getElementById('ILsSection')
     ILsSection.style.display = ''
     const category = ILcats[DLCorNot + categoryIndex]
     let label = difficulty.charAt(0).toUpperCase() + difficulty.slice(1, difficulty.length) + ' Any%'
+    document.querySelectorAll('.categoryTabs button').forEach(button => {
+        button.classList.remove('active')
+    })
+    const categoryButton = DLCorNot == 0 ? document.getElementById('mainBoards') : document.getElementById('dlcBoards')
+    categoryButton.classList.add('active')
+    // if (!event.shiftKey) {
+    document.querySelectorAll('.difficultyTabs button').forEach(button => {
+        button.classList.remove('active')
+    })
+    // }
+    let button = categoryIndex == 0 ? document.getElementById(difficulty + 'any') : document.getElementById(difficulty + 'highest')
+    // if (button.classList.contains('active')) {
+    //     button.classList.remove('active')
+    // } else {
+    button.classList.add('active')
+    // }
     if (categoryIndex == 1) {
         let highestGradeLabel = ''
         if (difficulty == 'simple') {
@@ -50,20 +70,44 @@ function prepareLevelBoards(gameID, difficulty, version, categoryIndex, DLCorNot
     //     boardTitle.classList.add('dlc')
     //     boardTitle.classList.remove('cuphead')
     // }
+    // if (event.shiftKey) {
+    //     getAllLevels()
+    // } else {
     getLevels(gameID, difficulty, version, category.id)
+    // }
 }
-function getAllLevels() {
-    game = []
-    getLevels(gameID, 'simple', 'currentPatch', ILcats[0 + DLCnoDLC].id, true)
-    getLevels(gameID, 'simple', 'currentPatch', ILcats[1 + DLCnoDLC].id, true)
-    getLevels(gameID, 'regular', 'currentPatch', ILcats[0 + DLCnoDLC].id, true)
-    getLevels(gameID, 'regular', 'currentPatch', ILcats[1 + DLCnoDLC].id, true)
-    getLevels(gameID, 'expert', 'currentPatch', ILcats[0 + DLCnoDLC].id, true)
-    getLevels(gameID, 'expert', 'currentPatch', ILcats[1 + DLCnoDLC].id, true)
-}
+// function getAllLevels() {
+//     game = []
+//     const allButtons = document.querySelectorAll('.difficultyTabs button')
+//     allButtons.forEach((button, index) => {
+//         if (button.classList.contains('active')) {
+//             switch (index) {
+//                 case 0:
+//                     getLevels(gameID, 'simple', 'currentPatch', ILcats[0 + DLCnoDLC].id, true);
+//                     break;
+//                 case 1:
+//                     getLevels(gameID, 'simple', 'currentPatch', ILcats[1 + DLCnoDLC].id, true);
+//                     break;
+//                 case 2:
+//                     getLevels(gameID, 'regular', 'currentPatch', ILcats[0 + DLCnoDLC].id, true);
+//                     break;
+//                 case 3:
+//                     getLevels(gameID, 'regular', 'currentPatch', ILcats[1 + DLCnoDLC].id, true);
+//                     break;
+//                 case 4:
+//                     getLevels(gameID, 'expert', 'currentPatch', ILcats[0 + DLCnoDLC].id, true);
+//                     break;
+//                 case 5:
+//                     getLevels(gameID, 'expert', 'currentPatch', ILcats[1 + DLCnoDLC].id, true);
+//                     break;
+//             }
+//         }
+//     });
+// }
 function getFullGame(theGame) {
+    fullgame = true
     const theTable = document.getElementById('theTable')
-    theTable.innerHTML = 'Loading...'
+    theTable.innerHTML = 'Loading API...'
     game = theGame
     const ILsSection = document.getElementById('ILsSection')
     ILsSection.style.display = 'none'
@@ -126,11 +170,11 @@ function getLevels(gameID, difficulty, version, category, all) {
     } else {
         game = levelsCopy
     }
-    if (!all || game.length == 144 || game.length == 108) { // Fix this
+    if (!all || game.length > 25) { // Fix this
         playerNames = new Set()
         players = []
         const theTable = document.getElementById('theTable')
-        theTable.innerHTML = 'Loading...'
+        theTable.innerHTML = 'Loading API...'
         processedCategories = 0
         game.forEach(level => {
             let variables = `?var-${level.numPlayersID}=${level.soloID}&var-${level.difficultyID}=${level[level.difficulty]}`
@@ -142,9 +186,18 @@ function getLevels(gameID, difficulty, version, category, all) {
     }
 }
 function getLeaderboard(gameID, categories, category, query, variables) {
-    const url = `https://www.speedrun.com/api/v1/leaderboards/${gameID}/${query}${variables}&top=300&embed=players&embed=players,category`;
+    let url = `https://www.speedrun.com/api/v1/leaderboards/${gameID}/${query}${variables}&top=300&embed=players&embed=players,category`;
+    if (document.getElementById('checkbox_percentile').checked) {
+        url = `https://www.speedrun.com/api/v1/leaderboards/${gameID}/${query}${variables}&embed=players&embed=players,category`;
+    }
     // const url = `https://www.speedrun.com/api/v1/levels/69z3n2xd/categories`
-    fetch(url)
+    fetch(url, {
+        method: "GET",
+        headers: {
+            "User-Agent": "combinedLeaderboard",
+            "Content-Type": "application/json"
+        }
+    })
         .then(response => response.json())
         .then(data => {
             console.log(data)
@@ -162,18 +215,25 @@ function getLeaderboard(gameID, categories, category, query, variables) {
             category.runs = data.data
             processedCategories++
             const theTable = document.getElementById('theTable')
-            theTable.innerHTML = `Loading...<br><progress value=${processedCategories} max=${categories.length}></progress><br>${processedCategories}/${categories.length}`
+            theTable.innerHTML = `Loading API...<br><progress value=${processedCategories} max=${categories.length}></progress><br>${processedCategories}/${categories.length}`
+            if (processedCategories > categories.length) {
+                theTable.innerHTML = 'An error has occurred. Please reload the page.'
+            }
             if (processedCategories == categories.length) {
                 prepareData(categories)
             }
         })
-        .catch(error => console.error('Error fetching leaderboard:', error));
+        .catch(error => {
+            console.error('Error fetching leaderboard:', error)
+            const theTable = document.getElementById('theTable')
+            theTable.innerHTML = 'Too many API requests! Please reload the page.'
+        });
 }
 function prepareData(categories) {
     determineWeight(categories)
     generatePlaces(categories)
     generateRanks(categories)
-    sortByCriteria('averagePercentile')
+    sortByCriteria('averagePercentage')
 }
 function determineWeight(categories) {
     let numRuns = 0
@@ -181,7 +241,8 @@ function determineWeight(categories) {
         numRuns += category.runs.runs.length
     })
     categories.forEach(category => {
-        category.weight = category.runs.runs.length / numRuns
+        category.weight = 100 / categories.length / 100
+        // category.weight = category.runs.runs.length / numRuns
     })
     console.log(numRuns)
 }
@@ -211,23 +272,26 @@ function generatePlaces(categories) {
 function generateRanks(categories) {
     players.forEach(player => {
         let placeSum = 0
-        let percentileSum = 0
-        let playerCats = []
+        let percentageSum = 0
         let hasOnePointOne = true
         player.runs.forEach((run, runIndex) => {
             if (run) {
                 placeSum += parseInt(run.place)
                 let category = categories[runIndex]
-                if (category) {
-                    playerCats.push(category)
-                    percentileSum += (category.runs.runs[0].run.times.primary_t / run.run.times.primary_t) * (category.weight)
-                    if (category.id == 'zd38jgek' && !hasOnePointOne) {
-                        let runCopy = { ...run }
-                        runCopy.place = '-'
+                percentageSum += (category.runs.runs[0].run.times.primary_t / run.run.times.primary_t) * (category.weight)
+                // NMG run in place of a 1.1 run
+                if (category.id == 'zd38jgek') {
+                    let runCopy = { ...run }
+                    runCopy.place = '-'
+                    const onePointOne = categories[0]
+                    const onePointOneRun = player.runs[0]
+                    if (!hasOnePointOne) {
                         player.runs[0] = runCopy
-                        let onePointOne = categories[0]
-                        playerCats.push(onePointOne)
-                        percentileSum += (onePointOne.runs.runs[0].run.times.primary_t / run.run.times.primary_t) * (onePointOne.weight)
+                        percentageSum += (onePointOne.runs.runs[0].run.times.primary_t / run.run.times.primary_t) * (onePointOne.weight)
+                    } else if (player.runs[0].run.times.primary_t > run.run.times.primary_t) {
+                        player.runs[0] = runCopy
+                        percentageSum -= (onePointOne.runs.runs[0].run.times.primary_t / onePointOneRun.run.times.primary_t) * (onePointOne.weight)
+                        percentageSum += (category.runs.runs[0].run.times.primary_t / run.run.times.primary_t) * (onePointOne.weight)
                     }
                 }
             } else if (runIndex == 0) {
@@ -244,13 +308,13 @@ function generateRanks(categories) {
             }
         })
         player.averageRank = placeSum / player.runs.length
-        player.averagePercentile = percentileSum / totalWeight
+        player.averagePercentage = percentageSum / totalWeight
         // Penalty for missing runs
         missingRunWeights.forEach(missingRunWeight => {
             if (categories.length == 5) {
-                player.averagePercentile -= (player.averagePercentile * missingRunWeight) / categories.length
+                player.averagePercentage -= (player.averagePercentage * missingRunWeight) / categories.length
             } else {
-                player.averagePercentile -= (player.averagePercentile * missingRunWeight)
+                player.averagePercentage -= (player.averagePercentage * missingRunWeight)
             }
         })
     })
@@ -281,31 +345,56 @@ function sortByCategory(categoryIndex) {
     generateRankTable(game, categoryIndex)
 }
 function generateRankTable(categories, sortCategoryIndex) {
-    let HTMLContent = '<div class="table-container"><table>'
-    if (categories[0].boss) {
+    let HTMLContent = '<div class="table-container"><table><thead>'
+    let displayPercentile = document.getElementById('checkbox_percentile').checked
+    let displayPercentage = document.getElementById('checkbox_percentage').checked
+    let displayGrade = document.getElementById('checkbox_grade').checked
+    let displayPlace = document.getElementById('checkbox_place').checked
+    let displayTime = document.getElementById('checkbox_time').checked
+    let displayYear = document.getElementById('checkbox_year').checked
+    let numCols = 0;
+    [displayPercentile, displayPercentage, displayGrade, displayPlace, displayTime, displayYear].forEach(display => {
+        if (display) {
+            numCols++
+        }
+    })
+    if (displayPercentile) {
         HTMLContent +=
-            `<thead>
-            <tr>
+            `<tr>
             <th colspan=5></th>`
         categories.forEach(category => {
-            HTMLContent += `<th colspan=3><img src='images/mugshots/${category.boss.id}.png'></th>`
+            HTMLContent += `<th colspan=${numCols}>${category.runs.runs.length} runs</th>`
         })
         HTMLContent += `</tr>`
     }
+    if (numCols) {
+        if (categories[0].boss) {
+            const colorClass = DLCnoDLC == 0 ? 'cuphead' : 'dlc'
+            HTMLContent +=
+                `<tr>
+                <th colspan=5></th>`
+            categories.forEach(category => {
+                HTMLContent += `<th colspan=${numCols} class=${colorClass}><img src='images/mugshots/${category.boss.id}.png'></th>`
+            })
+            HTMLContent += `</tr>`
+        }
+    }
     HTMLContent +=
         `<tr style='font-size:12px'>
-        <th colspan=5 class='clickable' onclick="sortByCriteria('averagePercentile')">Runner</td>`
-    categories.forEach((category, categoryIndex) => {
-        HTMLContent += `<th colspan=3 class='clickable' onclick="sortByCategory(${categoryIndex})">${category.name}</td>`
-    })
+        <th colspan=5 class='clickable' onclick="sortByCriteria('averagePercentage')">Runner</td>`
+    if (numCols > 0) {
+        categories.forEach((category, categoryIndex) => {
+            HTMLContent += `<th colspan=${numCols} class='clickable' onclick="sortByCategory(${categoryIndex})">${category.name}</td>`
+        })
+    }
     HTMLContent +=
         `<th>Sum</td>
+        <th>GPA</td>
         <th>Runs Missing</td>
         </tr>
         </thead>`
     players.slice(0, 300).forEach((player, index) => {
         let times = [];
-        let sum = ''
         let hasAllRuns = true
         player.runs.forEach(run => {
             if (run) {
@@ -314,25 +403,23 @@ function generateRankTable(categories, sortCategoryIndex) {
                 hasAllRuns = false;
             }
         })
+        let sum = hasAllRuns ? 0 : ''
+        let gpa = hasAllRuns ? 0 : ''
         if (hasAllRuns) {
-            sum = 0;
             times.forEach(time => {
                 sum += time
             })
             sum = secondsToHMS(sum)
+            gpa = (player.averagePercentage * 4).toFixed(1)
+            if (player.averagePercentage < 1 && gpa == 4) {
+                gpa = 3.9
+            }
         }
-        let rowColor = 'background'
-        if (index % 2 == 0) {
-            rowColor = 'otherRow'
-        }
-        let percentile = (player.averagePercentile * 100).toFixed(1)
-        let letterGrade = getLetterGrade(percentile)
-        let countryCode = ''
-        let countryName = ''
-        if (player.location) {
-            countryCode = player.location.country.code
-            countryName = player.location.country.names.international
-        }
+        let rowColor = index % 2 == 0 ? 'otherRow' : 'background'
+        let percentage = (player.averagePercentage * 100).toFixed(1)
+        let letterGrade = getLetterGrade(percentage)
+        let countryCode = player.location ? player.location.country.code : ''
+        let countryName = player.location ? player.location.country.names.international : ''
         let colorFrom = '#FFFFFF'
         let colorTo = '#FFFFFF'
         if (player['name-style']) {
@@ -344,59 +431,52 @@ function generateRankTable(categories, sortCategoryIndex) {
                 colorTo = player['name-style']['color-to'].dark
             }
         }
-        let clickable = ''
-        let playerLink = ''
-        if (player.weblink) {
-            clickable = 'clickable'
-            playerLink = `window.open('${player.weblink}', '_blank')`
-        }
-        let border = ''
-        if (categories.length > 5) {
-            border='border-right:2px solid black'
-        }
+        let clickable = player.weblink ? 'clickable' : '';
+        let playerLink = player.weblink ? `window.open('${player.weblink}', '_blank')` : '';
+        let border = categories.length > 5 ? 'border-right:2px solid black' : ''
         if (sortCategoryIndex == -1 || player.runs[sortCategoryIndex]) {
             HTMLContent +=
                 `<tr class=${rowColor}>
-            <td class='${rowColor}' style='font-size:12px;'>${percentile}</td>
-            <td class='${letterGrade.className}' style='text-align:left;width:1px'>${letterGrade.grade}</td>
+            <td class='${rowColor}' style='font-size:12px;'>${percentage}</td>
+            <td class='${letterGrade.className}' style='text-align:left;'>${letterGrade.grade}</td>
             <td class='${placeClass(index + 1, rowColor)}'>${index + 1}</td>
-            <td class='${rowColor}'><img src="https://www.speedrun.com/images/flags/${countryCode}.png" height='13px' title="${countryName}"></td>
-            <td onclick="${playerLink}" class='${clickable} ${rowColor}' style='text-align:left;font-weight: bold;'><span style='background: linear-gradient(90deg, ${colorFrom}, ${colorTo});
+            <td class='${rowColor}'><img src="https://www.speedrun.com/images/flags/${countryCode}.png" height='13px' title="${countryName}" alt=''></td>
+            <td onclick="${playerLink}" class='${clickable} ${rowColor}' style='text-align:left;font-weight: bold;${border}'><span style='background: linear-gradient(90deg, ${colorFrom}, ${colorTo});
     -webkit-background-clip: text;
     color: transparent;'>${player.name}</span></td>`
             categories.forEach((category, categoryIndex) => {
-                let time = ''
+                let run = player.runs[categoryIndex]
+                let time = run ? secondsToHMS(run.run.times.primary_t) : ''
+                let place = run ? run.place : ''
+                let percentage = run ? (category.runs.runs[0].run.times.primary_t / run.run.times.primary_t) * 100 : ''
+                let percentageObject = run ? getLetterGrade(percentage) : ''
+                let percentageClass = run ? percentageObject.className : ''
+                let percentageGrade = run ? percentageObject.grade : ''
+                percentage = percentage > 0 ? parseFloat(percentage).toFixed(1) : ''
+                let date = run ? new Date(run.run.date).getFullYear() : ''
                 let videoLink = ''
                 let clickable = ''
-                let place = ''
-                let percentile = ''
-                let percentileClass = ''
-                let percentileGrade = ''
-                let run = player.runs[categoryIndex]
                 if (run) {
-                    time = secondsToHMS(run.run.times.primary_t)
                     if (run.run.videos) {
                         videoLink = `window.open('${run.run.videos.links[run.run.videos.links.length - 1].uri}', '_blank')`
                         clickable = 'clickable'
                     }
-                    place = run.place
-                    percentile = getLetterGrade((category.runs.runs[0].run.times.primary_t / run.run.times.primary_t) * 100)
-                    percentileClass = percentile.className
-                    percentileGrade = percentile.grade
                 }
-                let theClass = placeClass(place)
-                if (!theClass) {
-                    theClass = category.class
-                }
-                HTMLContent +=
-                    `<td style='font-size:12px;text-align:left' class='${theClass} ${percentileClass}'>${percentileGrade}</td>
-                <td style='font-size:12px;width:20px' class=${theClass}>${place}</td>
-                <td onclick="${videoLink}" class='${theClass} ${clickable}'>${time}</td>`
+                let theClass = placeClass(place) ? placeClass(place) : category.class
+                let percentile = run ? run.place != '-' ? (run.place / category.runs.runs.length * 100).toFixed(1) : '-' : ''
+                HTMLContent += displayPercentile ? `<td style='font-size:12px;text-align:left;' class='${theClass} ${percentageClass}'>${percentile}</td>` : ''
+                HTMLContent += displayPercentage ? `<td style='font-size:12px;text-align:left;' class='${theClass} ${percentageClass}'>${percentage}</td>` : ''
+                HTMLContent += displayGrade ? `<td style='font-size:12px;text-align:left;' class='${theClass} ${percentageClass}'>${percentageGrade}</td>` : ''
+                HTMLContent += displayPlace ? `<td style='font-size:12px;width:20px;' class=${theClass}>${place}</td>` : ''
+                HTMLContent += displayTime ? `<td onclick="${videoLink}" class='${theClass} ${clickable}'>${time}</td>` : ''
+                HTMLContent += displayYear ? `<td class='${theClass}'>${date}</td>` : ''
             })
+            const gpaClass = gpa ? letterGrade.className : ''
             HTMLContent +=
                 `<td>${sum}</td>
-            <td>${categories.length - times.length}</td>
-            </tr>`
+                <td class='${gpaClass}'>${gpa}</td>
+                <td>${categories.length - times.length}</td>
+                </tr>`
         }
     })
     HTMLContent += `</table></div>`
@@ -423,4 +503,11 @@ function placeClass(place, rowColor) {
         return 'third'
     }
     return theClass
+}
+function refresh() {
+    fullgame ? getFullGame(game) : prepareLevelBoards(gameID, levelDifficulty, 'currentPatch', highestGrade, DLCnoDLC)
+    document.getElementById("refresh").style.display = "none"
+}
+function showRefresh() {
+    document.getElementById("refresh").style.display = ""
 }
