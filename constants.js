@@ -1,4 +1,3 @@
-const API_KEY = 'AIzaSyDg6FBho-vfAm67-UdGP-8IbVFdLV23unY'
 const solo = {
     var: '2lgzzwo8',
     subcat: '21ge8p8l'
@@ -87,6 +86,34 @@ const sm64 = [
         subcat: '9qj7z0oq'
     }
 ]
+let tetris = [
+    // {
+    //     name: 'Score PB',
+    //     tabName: 'NTSC 0-19 Start w/ Crash',
+    //     range: 'A:F'
+    // },
+    {
+        name: 'Maxout',
+        tabName: 'NTSC Maxout Lines',
+        range: 'A:E'
+    },
+    {
+        name: 'Rollover',
+        tabName: 'NTSC Rollover Lines',
+        range: 'A:E'
+    },
+    {
+        name: 'Into-29',
+        tabName: 'NTSC Into-29',
+        range: 'A:E'
+    },
+    {
+        name: '39 Linecap',
+        tabName: 'NTSC 39 Linecap',
+        range: 'A:E'
+    }
+];
+const reverseScore = ['Score PB', 'Into-29', '39 Linecap']
 function getLetterGrade(percentage) {
     let result = {
         grade: '',
@@ -151,6 +178,7 @@ function getLetterGrade(percentage) {
     }
     return result;
 }
+const isles = ['isle1', 'isle2', 'isle3', 'hell', 'isle4']
 let bosses = [
     {
         id: 'therootpack',
