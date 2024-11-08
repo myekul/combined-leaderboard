@@ -10,7 +10,7 @@ function loadClient() {
 }
 function fetchAllData() {
     processedCategories = 0
-    tetris.forEach((category, categoryIndex) => {
+    categories.forEach((category, categoryIndex) => {
         fetchData(category, categoryIndex)
     })
 }
@@ -55,7 +55,4 @@ function fetchData(category, categoryIndex) {
             prepareData(tetris)
         }
     }, (err) => console.error("Execute error", err));
-}
-if (gameID == 'tetris') {
-    gapi.load("client", loadClient);
 }

@@ -5,6 +5,13 @@
     <link id='favicon' rel="shortcut icon" href="">
     <title>Cuphead Leaderboard</title>
     <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <audio id="cardup" src="sfx/cardup.wav"></audio>
+    <audio id="carddown" src="sfx/carddown.wav"></audio>
+    <audio id="cardflip" src="sfx/cardflip.wav"></audio>
+    <audio id="category_select" src="sfx/category_select.wav"></audio>
+    <audio id="equip_move" src="sfx/equip_move.wav"></audio>
+    <audio id="move" src="sfx/move.wav"></audio>
 </head>
 
 <body>
@@ -28,65 +35,55 @@
         </div>
     </header>
     <main>
-        <div id="myModal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1>REPORT CARD</h1>
-                </div>
-                <div id="reportCard"></div>
-            </div>
-        </div>
         <div id='fullorIL' class='container' style="display:none">
-            <button onclick="getFullGame(cuphead)">Full Game</button>
-            <button onclick="prepareLevelBoards(gameID, 'regular', 'currentPatch', 0,0)">ILs</button>
+            <button id='fullgameButton' onclick="getFullGame()">Full Game</button>
+            <button id='ILbutton' onclick="prepareLevelBoards('regular', 'currentPatch', 0,0)">Individual
+                Levels</button>
         </div>
-        <div id='displayOptions' class="container">
-            <input id="checkbox_percentile" type="checkbox">Percentile
-            <input id="checkbox_percentage" type="checkbox">Score
-            <input id="checkbox_grade" type="checkbox" checked>Grade
-            <input id="checkbox_place" type="checkbox" checked>Place
-            <input id="checkbox_time" type="checkbox" checked>Time
-            <input id="checkbox_year" type="checkbox">Year
+        <div id="tabs" class="container">
+            <button id='leaderboardButton' onclick="showLeaderboard()">Boards</button>
+            <button id='chartsButton' onclick="showCharts()">Charts</button>
+            <!-- <button onclick="showStats()">Stats</button> -->
         </div>
         <!-- <div class="container">
             <span style="color:black;background-color: white;padding:0px 5px">Options</span>
         </div> -->
         <div id="ILsSection" style="display:none">
-            <div id='versionTabs' class='container' style="margin-bottom:5px">
-                <button id='legacy' onclick="prepareLevelBoards(gameID, levelDifficulty, 'legacy', highestGrade,0)"
-                    class="legacy">Legacy 1.0</button>
-                <button id='currentPatch'
-                    onclick="prepareLevelBoards(gameID, levelDifficulty, 'currentPatch', highestGrade,DLCnoDLC)"
-                    class="cuphead">Current Patch</button>
-            </div>
-            <div id='categoryTabs' class='container' style="margin-bottom:5px">
-                <button id='mainBoards'
-                    onclick="prepareLevelBoards(gameID, levelDifficulty, cupheadVersion, highestGrade,0)"
-                    class="cuphead">Main Boards</button>
-                <button id='dlcBoards'
-                    onclick="prepareLevelBoards(gameID, levelDifficulty, 'currentPatch', highestGrade,2)"
-                    class="dlc">DLC Loadout</button>
+            <div class="container">
+                <div id='versionTabs' class='container' style="margin:0">
+                    <button id='legacy' onclick="prepareLevelBoards(levelDifficulty, 'legacy', highestGrade,0)"
+                        class="legacy">Legacy 1.0</button>
+                    <button id='currentPatch'
+                        onclick="prepareLevelBoards(levelDifficulty, 'currentPatch', highestGrade,DLCnoDLC)"
+                        class="cuphead">Current Patch</button>
+                </div>
+                <div style="width:50px"></div>
+                <div id='categoryTabs' class='container' style="margin:0">
+                    <button id='mainBoards'
+                        onclick="prepareLevelBoards(levelDifficulty, cupheadVersion, highestGrade,0)"
+                        class="cuphead">Main Boards</button>
+                    <button id='dlcBoards' onclick="prepareLevelBoards(levelDifficulty, 'currentPatch', highestGrade,2)"
+                        class="dlc">DLC Loadout</button>
+                </div>
             </div>
             <div id='difficultyTabs' class='container'>
                 <div class="difficultyTabs container">
-                    <button id='simpleany' onclick="prepareLevelBoards(gameID, 'simple', cupheadVersion, 0,DLCnoDLC)"
+                    <button id='simpleany' onclick="prepareLevelBoards('simple', cupheadVersion, 0,DLCnoDLC)"
                         class="simple">Simple
                         Any%</button>
-                    <button id='simplehighest'
-                        onclick="prepareLevelBoards(gameID, 'simple', cupheadVersion, 1,DLCnoDLC)" class="simple">Simple
+                    <button id='simplehighest' onclick="prepareLevelBoards('simple', cupheadVersion, 1,DLCnoDLC)"
+                        class="simple">Simple
                         B+</button>
-                    <button id='regularany' onclick="prepareLevelBoards(gameID, 'regular', cupheadVersion, 0,DLCnoDLC)"
+                    <button id='regularany' onclick="prepareLevelBoards('regular', cupheadVersion, 0,DLCnoDLC)"
                         class="regular">Regular
                         Any%</button>
-                    <button id='regularhighest'
-                        onclick="prepareLevelBoards(gameID, 'regular', cupheadVersion, 1,DLCnoDLC)"
+                    <button id='regularhighest' onclick="prepareLevelBoards('regular', cupheadVersion, 1,DLCnoDLC)"
                         class="regular">Regular
                         A+</button>
-                    <button id='expertany' onclick="prepareLevelBoards(gameID, 'expert', cupheadVersion, 0,DLCnoDLC)"
+                    <button id='expertany' onclick="prepareLevelBoards('expert', cupheadVersion, 0,DLCnoDLC)"
                         class="expert">Expert
                         Any%</button>
-                    <button id='experthighest'
-                        onclick="prepareLevelBoards(gameID, 'expert', cupheadVersion, 1,DLCnoDLC)"
+                    <button id='experthighest' onclick="prepareLevelBoards('expert', cupheadVersion, 1,DLCnoDLC)"
                         class="expert">S-Rank</button>
                 </div>
                 <!-- <button onclick="getAllLevels()" style="width:50px">All</button> -->
@@ -106,7 +103,33 @@
             <button class='animated-button' onclick="refresh()" style='display:block;margin:0 auto'>Apply
                 changes</button>
         </div>
-        <div style='text-align:center' id="theTable">Loading API...</div>
+        <div id="leaderboardTab" class="tabs">
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1>REPORT CARD</h1>
+                    </div>
+                    <div id="reportCard"></div>
+                </div>
+            </div>
+            <section id='displayOptions' class="container">
+                <input id="checkbox_percentile" type="checkbox">Percentile
+                <input id="checkbox_percentage" type="checkbox">Score
+                <input id="checkbox_grade" type="checkbox" checked>Grade
+                <input id="checkbox_place" type="checkbox" checked>Place
+                <input id="checkbox_time" type="checkbox" checked>Time
+                <input id="checkbox_year" type="checkbox">Year
+            </section>
+            <div id="leaderboard"></div>
+        </div>
+        <div id="chartsTab" class="tabs" style="display:none">
+            <div id="chartCategories"></div>
+            <div id="chart"></div>
+        </div>
+        <div id="statsTab" class="tabs" style="display:none">
+            <div id="stats"></div>
+        </div>
+        <div id='loading' style='text-align:center'>Loading API...</div>
     </main>
     <footer>
         <div class="container">
@@ -124,11 +147,28 @@
             <h2>2024</h2>
         </div>
     </footer>
-    <script src="generated.js"></script>
-    <script src="constants.js"></script>
-    <script src="moreconstants.js"></script>
-    <script src="generation.js"></script>
+    <script src="general.js"></script>
+    <script src="modal.js"></script>
+
+    <script src="game/cuphead/constants.js"></script>
+    <script src="game/cuphead/generated.js"></script>
+
+    <script src="game/sm64/constants.js"></script>
+    <script src="game/sm64/generated.js"></script>
+
+    <script src="game/tetris/constants.js"></script>
+
     <script src="fetch.js"></script>
+
+    <script src="constants.js"></script>
+
+    <script src="generation.js"></script>
+
+    <script src="chart.js"></script>
+    <script src="stats.js"></script>
+
+    <script src="eventListeners.js"></script>
+
     <script src="main.js"></script>
 </body>
 
