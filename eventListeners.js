@@ -1,5 +1,7 @@
 document.querySelectorAll('#displayOptions input').forEach(input => {
-    input.addEventListener('click', refresh)
+    input.addEventListener('click', () => {
+        refresh();
+    });
 })
 document.querySelectorAll('#ILoptions input').forEach(input => {
     input.addEventListener('click', () => {
@@ -21,7 +23,7 @@ window.addEventListener('hashchange', () => {
     location.reload();
 });
 document.addEventListener('keydown', function (event) {
-    if (charts) {
+    if (page == 'charts') {
         let categoryIndex = fullgame ? fullgameCategoryIndex : levelCategoryIndex
         switch (event.key) {
             case 'ArrowLeft':

@@ -1,66 +1,10 @@
 function getLetterGrade(percentage) {
-    let result = {
-        grade: '',
-        className: ''
-    };
-    switch (true) {
-        case (percentage >= 97):
-            result.grade = "A+";
-            result.className = "grade-a-plus";
-            break;
-        case (percentage >= 93):
-            result.grade = "A";
-            result.className = "grade-a";
-            break;
-        case (percentage >= 90):
-            result.grade = "A-";
-            result.className = "grade-a-minus";
-            break;
-        case (percentage >= 87):
-            result.grade = "B+";
-            result.className = "grade-b-plus";
-            break;
-        case (percentage >= 83):
-            result.grade = "B";
-            result.className = "grade-b";
-            break;
-        case (percentage >= 80):
-            result.grade = "B-";
-            result.className = "grade-b-minus";
-            break;
-        case (percentage >= 77):
-            result.grade = "C+";
-            result.className = "grade-c-plus";
-            break;
-        case (percentage >= 73):
-            result.grade = "C";
-            result.className = "grade-c";
-            break;
-        case (percentage >= 70):
-            result.grade = "C-";
-            result.className = "grade-c-minus";
-            break;
-        case (percentage >= 67):
-            result.grade = "D+";
-            result.className = "grade-d-plus";
-            break;
-        case (percentage >= 63):
-            result.grade = "D";
-            result.className = "grade-d";
-            break;
-        case (percentage >= 60):
-            result.grade = "D-";
-            result.className = "grade-d-minus";
-            break;
-        case (percentage < 60):
-            result.grade = "F";
-            result.className = "grade-f";
-            break;
-        default:
-            result.grade = "Invalid percentage";
-            result.className = "grade-invalid";
+    for (let grade of grades) {
+        if (percentage >= grade.threshold) {
+            return grade;
+        }
     }
-    return result;
+    return grades[grades.length - 1]
 }
 function secondsToHMS(seconds) {
     const hours = Math.floor(seconds / 3600);
@@ -73,8 +17,7 @@ function secondsToHMS(seconds) {
     }
 }
 function getGPA(value) {
-    let gpa = (value * 4).toString().slice(0, 4)
-    return gpa
+    return (value * 4).toString().slice(0, 4)
 }
 function getPercentage(value) {
     return parseFloat(value * 100).toFixed(1)
@@ -101,4 +44,79 @@ function playSound(sfx) {
         sound.volume = 0.4
         sound.play()
     }
+}
+function getImage(image) {
+    return `<image src='images/${gameID}/${image}.png'`
+}
+function getColorClass() {
+    return gameID == 'cuphead' ? DLCnoDLC == 0 ? 'cuphead' : 'dlc' : ''
+}
+function getScore(category, wrTime, runTime) {
+    if (gameID == 'cuphead' && !fullgame) {
+        if (runTime > category.info.time) {
+            return 0
+        }
+        return (category.info.time - runTime) / (category.info.time - wrTime);
+    }
+    if (reverseScore.includes(category.name)) {
+        return runTime / wrTime
+    }
+    return wrTime / runTime
+}
+function showTab(tab) {
+    page = tab
+    window.history.pushState(null, null, '#' + tab);
+    document.querySelectorAll('.tabs').forEach(elem => {
+        elem.style.display = 'none'
+    })
+    document.getElementById(tab + 'Tab').style.display = ''
+    document.querySelectorAll('#tabs button').forEach(elem => {
+        elem.classList.remove('active2')
+    })
+    document.getElementById(tab + 'Button').classList.add('active2')
+    tab == 'charts' ? refreshCharts() : ''
+    if (tab == 'stats') {
+        allRuns = true
+        getFullGame()
+    }
+}
+function openLink(url) {
+    return `window.open('${url}', '_blank')`
+}
+function getPlayerName(player) {
+    let colorFrom = '#FFFFFF'
+    let colorTo = '#FFFFFF'
+    if (player['name-style']) {
+        if (player['name-style'].color) {
+            colorFrom = player['name-style'].color.dark
+            colorTo = player['name-style'].color.dark
+        } else {
+            colorFrom = player['name-style']['color-from'].dark
+            colorTo = player['name-style']['color-to'].dark
+        }
+    }
+    const HTMLContent = `<span style='background: linear-gradient(90deg, ${colorFrom}, ${colorTo});-webkit-background-clip: text;color: transparent;'>${player.name}</span>`
+    return HTMLContent
+}
+function getPlayerFlag(player, size) {
+    const playerLocation = player.location
+    if (playerLocation) {
+        let countryCode = playerLocation.country.code
+        let countryName = playerLocation.country.names.international
+        return getFlag(countryCode, countryName, size)
+    }
+    return ''
+}
+function getFlag(countryCode, countryName, size) {
+    let HTMLContent = `<img src="https://www.speedrun.com/images/flags/${countryCode}.png" height='${size}' title="${countryName}" alt=''></img>`
+    return HTMLContent
+}
+function buttonClick(pressed, unpressed, className) {
+    const button1 = document.getElementById(pressed)
+    const button2 = document.getElementById(unpressed)
+    button1.classList.add(className)
+    button2.classList.remove(className)
+}
+function getWorldRecord(category) {
+    return gameID == 'tetris' ? category.runs.runs[0].run.score : category.runs.runs[0].run.times.primary_t
 }

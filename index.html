@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 
 <head>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/grades.css">
+    <link rel="stylesheet" href="styles/modal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link id='favicon' rel="shortcut icon" href="">
     <title>Cuphead Leaderboard</title>
     <script src="https://apis.google.com/js/api.js"></script>
@@ -11,12 +14,15 @@
     <audio id="cardflip" src="sfx/cardflip.wav"></audio>
     <audio id="category_select" src="sfx/category_select.wav"></audio>
     <audio id="equip_move" src="sfx/equip_move.wav"></audio>
+    <audio id="locked" src="sfx/locked.wav"></audio>
     <audio id="move" src="sfx/move.wav"></audio>
+    <audio id="ready" src="sfx/ready.wav"></audio>
 </head>
 
 <body>
     <header>
         <div class="container">
+            <!-- <div style="position:absolute;top:50px;left:20px;transform:translateY(-50%)">Pace Academy</div> -->
             <div class="cupheadWeapons" style="display:none">
                 <img src="images/lobber.png" alt="">
                 <img src="images/roundabout.png" alt="">
@@ -24,7 +30,7 @@
             <div>
                 <img id='game-logo' class='game-logo' src="" alt="">
                 <div>
-                    <h1 id="subtitle">COMBINED LEADERBOARD</h1>
+                    <h1 id="subtitle" style="font-size:25px">COMBINED LEADERBOARD</h1>
                     <p>The best overall players across each category</p>
                 </div>
             </div>
@@ -35,19 +41,22 @@
         </div>
     </header>
     <main>
-        <div id='fullorIL' class='container' style="display:none">
-            <button id='fullgameButton' onclick="getFullGame()">Full Game</button>
-            <button id='ILbutton' onclick="prepareLevelBoards('regular', 'currentPatch', 0,0)">Individual
-                Levels</button>
+        <div class="container">
+            <div id='fullorIL' class='container' style="display:none; margin:0">
+                <button id='fullgameButton' onclick="getFullGame()">Full Game</button>
+                <button id='ILbutton' onclick="prepareLevelBoards()">Individual
+                    Levels</button>
+            </div>
+            <div id='displayOptionsButton' class='clickable' onclick="toggleDisplayOptions()"
+                style="width:50px;text-align:center"><i class="fa fa-sliders"></i></div>
+            <div id="tabs" class="container" style="margin:0">
+                <button id='leaderboardButton' onclick="showTab('leaderboard')" style='width:50px'><i
+                        class="fa fa-trophy"></i></button>
+                <button id='chartsButton' onclick="showTab('charts')" style='width:50px'><i
+                        class="fa fa-bar-chart"></i></button>
+                <!-- <button onclick="showTab('stats')">Stats</button> -->
+            </div>
         </div>
-        <div id="tabs" class="container">
-            <button id='leaderboardButton' onclick="showLeaderboard()">Boards</button>
-            <button id='chartsButton' onclick="showCharts()">Charts</button>
-            <!-- <button onclick="showStats()">Stats</button> -->
-        </div>
-        <!-- <div class="container">
-            <span style="color:black;background-color: white;padding:0px 5px">Options</span>
-        </div> -->
         <div id="ILsSection" style="display:none">
             <div class="container">
                 <div id='versionTabs' class='container' style="margin:0">
@@ -100,19 +109,22 @@
             </div>
         </div>
         <div id='refresh' style="display:none">
-            <button class='animated-button' onclick="refresh()" style='display:block;margin:0 auto'>Apply
+            <button class='animated-button' onclick="playSound('ready');refresh()"
+                style='display:block;margin:0 auto'>Apply
                 changes</button>
         </div>
-        <div id="leaderboardTab" class="tabs">
-            <div id="myModal" class="modal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1>REPORT CARD</h1>
+        <div id="leaderboardTab" class="tabs" style="display:none">
+            <div id="modal" class="modal">
+                <div id="modal-content">
+                    <div id="modal-header">
+                        <h1 id="modal-title"></h1>
                     </div>
-                    <div id="reportCard"></div>
+                    <div id="modal-player"></div>
+                    <div id="modal-body"></div>
                 </div>
+                <div id='modal-pages' class="container">hi</div>
             </div>
-            <section id='displayOptions' class="container">
+            <section id='displayOptions' class="container" style="display:none">
                 <input id="checkbox_percentile" type="checkbox">Percentile
                 <input id="checkbox_percentage" type="checkbox">Score
                 <input id="checkbox_grade" type="checkbox" checked>Grade
@@ -123,13 +135,33 @@
             <div id="leaderboard"></div>
         </div>
         <div id="chartsTab" class="tabs" style="display:none">
-            <div id="chartCategories"></div>
+            <div class="container">
+                <div id='chartPlayer' onclick="playSound('equip_move');drawChart('player')"
+                    class="banner chartTab clickable">Player
+                </div>
+                <div style="width:20px"></div>
+                <div id="chartCategories"></div>
+            </div>
+            <div class="container">
+                <select id="dropdown_top" onchange="refreshCharts()">
+                    <option value="30" selected>Top 30</option>
+                    <option value="100">Top 100</option>
+                    <option value="300">Top 300</option>
+                </select>
+                <div id="capDiv">
+                    <input id='checkbox_capped' onclick="refreshCharts()" type="checkbox" checked>Fixed
+                </div>
+            </div>
             <div id="chart"></div>
         </div>
         <div id="statsTab" class="tabs" style="display:none">
             <div id="stats"></div>
         </div>
-        <div id='loading' style='text-align:center'>Loading API...</div>
+        <div id='loading' style='text-align:center'>
+            <p>Loading API...</p>
+            <progress id='loadingProgress' value=0></progress>
+            <div id="loadingText"></div>
+        </div>
     </main>
     <footer>
         <div class="container">
@@ -147,7 +179,6 @@
             <h2>2024</h2>
         </div>
     </footer>
-    <script src="general.js"></script>
     <script src="modal.js"></script>
 
     <script src="game/cuphead/constants.js"></script>
@@ -160,12 +191,15 @@
 
     <script src="fetch.js"></script>
 
-    <script src="constants.js"></script>
-
     <script src="generation.js"></script>
 
+    <script src="leaderboard.js"></script>
     <script src="chart.js"></script>
     <script src="stats.js"></script>
+
+    <script src="general.js"></script>
+
+    <script src="constants.js"></script>
 
     <script src="eventListeners.js"></script>
 

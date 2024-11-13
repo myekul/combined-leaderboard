@@ -1,0 +1,91 @@
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes slideUp {
+    from {
+        top: 100%;
+        opacity: 0;
+        transform: translate(-50%, 0);
+    }
+
+    to {
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        top: 50%;
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+
+    to {
+        top: 100%;
+        opacity: 0;
+        transform: translate(-50%, 0);
+    }
+}
+
+#modal-content {
+    position: absolute;
+    background-color: var(--background);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 2px solid var(--gray);
+    border-radius: 8px;
+    overflow-y: auto;
+    max-height: 70vh;
+}
+
+#modal-header {
+    background-color: var(--banner);
+    color: var(--bannerText);
+    display: flex;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+#modal-body {
+    padding: 0 15px;
+    padding-bottom: 10px;
+    overflow-y: auto;
+    max-height: 70vh;
+    max-width: 90vw;
+}
+
+#modal-header h1 {
+    margin: 0 auto
+}
+
+#modal-other {
+    padding: 5px 0
+}
+
+#modal-player {
+    padding: 0 10px
+}
+
+#modal-pages div {
+    padding: 5px;
+    font-size: 20px
+}
+
+#modal-pages {
+    position: absolute;
+    bottom: 7vh;
+    margin: 0 auto;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: display 5s
+}

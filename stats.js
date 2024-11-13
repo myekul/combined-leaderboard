@@ -1,12 +1,3 @@
-function showStats() {
-    charts = false
-    document.getElementById('checkbox_percentile').checked = true
-    getFullGame()
-    document.querySelectorAll('.tabs').forEach(elem => {
-        elem.style.display = 'none'
-    })
-    document.getElementById('statsTab').style.display = ''
-}
 function updateStats() {
     if (gameID != 'tetris') {
         players.forEach(player => {

@@ -2,47 +2,59 @@
     --cuphead-yellow: #ffcf10;
     --cuphead-green: #a0e1c0;
     --dlc-font: #433650;
-    --background: #434343;
-    --otherColor: #343434;
+    --background: #343434;
+    --otherColor: #434343;
     --gray: dimgray;
     --font: 'cuphead-memphis';
     --font2: 'cuphead-vogue';
     --banner: var(--cuphead-yellow);
     --bannerText: black;
+    --modal-height: 30%
 }
 
 .background {
     background-color: var(--background);
 }
 
+.banner {
+    background-color: var(--banner);
+    color: var(--bannerText)
+}
+
 @font-face {
     font-family: "cuphead-memphis";
-    src: url("fonts/cuphead-memphis.ttf") format("truetype");
+    src: url("../fonts/cuphead-memphis.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "cuphead-vogue";
-    src: url("fonts/CupheadVogue-ExtraBold-merged.ttf") format("truetype");
+    src: url("../fonts/CupheadVogue-ExtraBold-merged.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "sm64";
-    src: url("fonts/sm64.ttf") format("truetype");
+    src: url("../fonts/sm64.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "pressStart2P";
-    src: url("fonts/pressStart2P.ttf") format("truetype");
+    src: url("../fonts/pressStart2P.ttf") format("truetype");
 }
 
 body {
     font-family: var(--font);
-    background-color: var(--background);
+    /* background-color: var(--background); */
     color: white;
     margin: 0;
     min-height: 100vh;
+    overscroll-behavior: none;
     display: flex;
     flex-direction: column;
+    background: repeating-linear-gradient(45deg,
+            var(--background),
+            var(--background) 10px,
+            var(--otherColor) 10px,
+            var(--otherColor) 20px);
 }
 
 main {
@@ -63,7 +75,14 @@ header {
     color: var(--bannerText);
     padding-top: 10px;
     margin-bottom: 10px;
-    height: 130px;
+    height: 100px;
+    justify-content: space-between;
+    display: flex;
+}
+
+#headerCenter {
+    flex-grow: 1;
+    text-align: center
 }
 
 footer {
@@ -81,7 +100,7 @@ h1 {
 }
 
 #subtitle,
-p {
+header p {
     transform: translate(0px, -20px)
 }
 
@@ -178,112 +197,49 @@ footer img {
 table {
     margin: 0 auto;
     table-layout: fixed;
+    background-color: var(--background);
 }
 
 .otherRow {
     background-color: var(--otherColor);
 }
 
-.grade-a-plus {
-    background-color: lime;
-    color: black
-}
-
-.grade-a {
-    background-color: limegreen;
-    color: black
-}
-
-.grade-a-minus {
-    background-color: mediumseagreen;
-    color: black
-}
-
-.grade-b-plus {
-    background-color: yellow;
-    color: black
-}
-
-.grade-b {
-    background-color: gold;
-    color: black
-}
-
-.grade-b-minus {
-    background-color: goldenrod;
-    color: black
-}
-
-.grade-c-plus {
-    background-color: orange;
-    color: black
-}
-
-.grade-c {
-    background-color: darkorange;
-    color: black
-}
-
-.grade-c-minus {
-    background-color: chocolate;
-    color: black
-}
-
-.grade-d-plus {
-    background-color: tomato;
-    color: black
-}
-
-.grade-d {
-    background-color: crimson;
-    color: black
-}
-
-.grade-d-minus {
-    background-color: firebrick;
-    color: black
-}
-
-.grade-f {
-    background-color: maroon;
-    color: black
-}
-
 #leaderboard th.clickable {
     background-color: var(--gray);
 }
 
-th.clickable:hover,
-td.clickable:hover {
-    opacity: 0.8
-}
-
-th.clickable:active,
-td.clickable:active {
-    opacity: 0.6
-}
-
 .clickable:hover {
+    opacity: 0.8;
     cursor: pointer;
+}
+
+.clickable:active {
+    opacity: 0.6
 }
 
 .game-logo {
     display: block;
-    width: 270px;
+    width: 210px;
     height: auto;
     margin: 0 auto;
 }
 
 th img {
-    width: 48px;
+    width: 42px;
     height: auto
 }
 
-tbody td:first-child,
-tbody td:nth-child(2),
-tbody td:nth-child(3),
-tbody td:nth-child(4),
-tbody td:nth-child(5) {
+#modal-img img {
+    width: 19px;
+    height: auto;
+    display: block;
+}
+
+.table-container td:first-child,
+.table-container tbody td:nth-child(2),
+.table-container tbody td:nth-child(3),
+.table-container tbody td:nth-child(4),
+.table-container tbody td:nth-child(5) {
     position: sticky;
     left: 0;
 }
@@ -319,6 +275,16 @@ button {
     border: 4px;
     margin: 2px;
     background-color: white;
+}
+
+.active:hover,
+.active:active,
+.active2:hover,
+.active2:active,
+.selected:hover,
+.selected:active {
+    opacity: 1;
+    cursor: default !important
 }
 
 button:hover {
@@ -383,93 +349,26 @@ progress::-webkit-progress-value {
     }
 }
 
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-@keyframes slideUp {
-    from {
-        top: 100%;
-        opacity: 0;
-    }
-
-    to {
-        top: 25%;
-        opacity: 1;
-    }
-}
-
-@keyframes slideDown {
-    from {
-        top: 25%;
-        opacity: 1;
-    }
-
-    to {
-        top: 100%;
-        opacity: 0;
-    }
-}
-
-.modal-content {
-    position: absolute;
-    background-color: var(--otherColor);
-    left: 50%;
-    transform: translateX(-50%);
-    border: 2px solid var(--gray);
-    /* width: 50%; */
-    /* max-width: 400px; */
-    border-radius: 8px;
-    overflow-y: auto;
-    max-height: 60vh;
-}
-
-.modal-header {
-    background-color: var(--banner);
-    color: var(--bannerText);
-    display: flex;
-    border-radius: 6px;
-    padding: 10px;
-}
-
-#reportCard {
-    padding: 0 10px;
-}
-
-.modal-header h1 {
-    margin: 0 auto
-}
-
-#modal-other {
-    padding: 10px 0
-}
-
-.close-btn {
-    color: gray;
-    float: right;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.close-btn:hover,
-.close-btn:focus {
-    color: black;
-    text-decoration: none;
-}
-
 #chart {
-    height: 500px
+    padding-top: 5px;
+    height: 500px;
+    /* border: 5px solid var(--background) */
 }
 
 .selected {
     background-color: white !important;
     color: black
+}
+
+select {
+    font-family: var(--font)
+}
+
+.chartTab {
+    padding: 5px
+}
+
+.grayedOut {
+    opacity: 0.4 !important;
+    cursor: default !important
 }
