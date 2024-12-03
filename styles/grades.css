@@ -1,64 +1,64 @@
 .grade-a-plus {
-    background-color: lime;
+    background-color: lime !important;
     color: black
 }
 
 .grade-a {
-    background-color: limegreen;
+    background-color: limegreen !important;
     color: black
 }
 
 .grade-a-minus {
-    background-color: mediumseagreen;
+    background-color: mediumseagreen !important;
     color: black
 }
 
 .grade-b-plus {
-    background-color: yellow;
+    background-color: yellow !important;
     color: black
 }
 
 .grade-b {
-    background-color: gold;
+    background-color: gold !important;
     color: black
 }
 
 .grade-b-minus {
-    background-color: goldenrod;
+    background-color: goldenrod !important;
     color: black
 }
 
 .grade-c-plus {
-    background-color: orange;
+    background-color: orange !important;
     color: black
 }
 
 .grade-c {
-    background-color: darkorange;
+    background-color: darkorange !important;
     color: black
 }
 
 .grade-c-minus {
-    background-color: chocolate;
+    background-color: chocolate !important;
     color: black
 }
 
 .grade-d-plus {
-    background-color: tomato;
+    background-color: tomato !important;
     color: black
 }
 
 .grade-d {
-    background-color: crimson;
+    background-color: crimson !important;
     color: black
 }
 
 .grade-d-minus {
-    background-color: firebrick;
+    background-color: firebrick !important;
     color: black
 }
 
 .grade-f {
-    background-color: maroon;
+    background-color: maroon !important;
     color: black
 }

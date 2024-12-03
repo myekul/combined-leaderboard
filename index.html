@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <head>
+    <link rel="stylesheet" href="styles/custom.css">
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="stylesheet" href="styles/grades.css">
     <link rel="stylesheet" href="styles/modal.css">
@@ -9,6 +10,7 @@
     <title>Cuphead Leaderboard</title>
     <script src="https://apis.google.com/js/api.js"></script>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <audio id="cardup" src="sfx/cardup.wav"></audio>
     <audio id="carddown" src="sfx/carddown.wav"></audio>
     <audio id="cardflip" src="sfx/cardflip.wav"></audio>
@@ -22,188 +24,249 @@
 <body>
     <header>
         <div class="container">
-            <!-- <div style="position:absolute;top:50px;left:20px;transform:translateY(-50%)">Pace Academy</div> -->
-            <div class="cupheadWeapons" style="display:none">
-                <img src="images/lobber.png" alt="">
-                <img src="images/roundabout.png" alt="">
-            </div>
+            <!-- <div class="cupheadWeapons" style="display:none">
+                <img src="images/cuphead/inventory/weapons/shop/lobber.png" alt="">
+                <img src="images/cuphead/inventory/weapons/shop/roundabout.png" alt="">
+            </div> -->
             <div>
                 <img id='game-logo' class='game-logo' src="" alt="">
-                <div>
+                <div id='titleText'>
                     <h1 id="subtitle" style="font-size:25px">COMBINED LEADERBOARD</h1>
-                    <p>The best overall players across each category</p>
+                    <div>The best overall players across each category</div>
                 </div>
             </div>
-            <div class="cupheadWeapons" style="display:none">
-                <img src="images/charge.png" alt="">
-                <img src="images/spread.png" alt="">
-            </div>
+            <!-- <div class="cupheadWeapons" style="display:none">
+                <img src="images/cuphead/inventory/weapons/shop/charge.png" alt="">
+                <img src="images/cuphead/inventory/weapons/shop/spread.png" alt="">
+            </div> -->
         </div>
     </header>
     <main>
-        <div class="container">
-            <div id='fullorIL' class='container' style="display:none; margin:0">
-                <button id='fullgameButton' onclick="getFullGame()">Full Game</button>
-                <button id='ILbutton' onclick="prepareLevelBoards()">Individual
-                    Levels</button>
+        <div class="container background headerRow" style="position:sticky;top:0">
+            <div id='modeSelection' class='container' style="display:none; margin:0">
+                <div id='fullgameButton' class='button' onclick="getFullGame()">Full Game</div>
+                <div id='levelsButton' class='button' onclick="getLevels()">Individual
+                    Levels</div>
+                <div id='fullgameILsButton' class='button' style='display:none' onclick="getFullgameILs()">Full Game ILs
+                </div>
             </div>
-            <div id='displayOptionsButton' class='clickable' onclick="toggleDisplayOptions()"
-                style="width:50px;text-align:center"><i class="fa fa-sliders"></i></div>
+            <div style="width:70px">
+                <div id="boardTitleSrc" class="container"></div>
+            </div>
             <div id="tabs" class="container" style="margin:0">
-                <button id='leaderboardButton' onclick="showTab('leaderboard')" style='width:50px'><i
-                        class="fa fa-trophy"></i></button>
-                <button id='chartsButton' onclick="showTab('charts')" style='width:50px'><i
-                        class="fa fa-bar-chart"></i></button>
-                <!-- <button onclick="showTab('stats')">Stats</button> -->
+                <div id='leaderboardButton' class='button' onclick="showTab('leaderboard')"><i class="fa fa-home"></i>
+                </div>
+                <div id='chartsButton' class='button' onclick="showTab('charts')"><i class="fa fa-bar-chart"></i></div>
+                <div id='mapButton' class='button' onclick="showTab('map')"><i class="fa fa-flag"></i></div>
+                <div id='infoButton' class='button' onclick="showTab('info')"><i class="fa fa-trophy"></i></div>
             </div>
         </div>
-        <div id="ILsSection" style="display:none">
+        <div id="ILsSection" class='hide headerRow' style="display:none">
             <div class="container">
                 <div id='versionTabs' class='container' style="margin:0">
-                    <button id='legacy' onclick="prepareLevelBoards(levelDifficulty, 'legacy', highestGrade,0)"
-                        class="legacy">Legacy 1.0</button>
-                    <button id='currentPatch'
-                        onclick="prepareLevelBoards(levelDifficulty, 'currentPatch', highestGrade,DLCnoDLC)"
-                        class="cuphead">Current Patch</button>
-                </div>
-                <div style="width:50px"></div>
-                <div id='categoryTabs' class='container' style="margin:0">
-                    <button id='mainBoards'
-                        onclick="prepareLevelBoards(levelDifficulty, cupheadVersion, highestGrade,0)"
-                        class="cuphead">Main Boards</button>
-                    <button id='dlcBoards' onclick="prepareLevelBoards(levelDifficulty, 'currentPatch', highestGrade,2)"
-                        class="dlc">DLC Loadout</button>
-                </div>
-            </div>
-            <div id='difficultyTabs' class='container'>
-                <div class="difficultyTabs container">
-                    <button id='simpleany' onclick="prepareLevelBoards('simple', cupheadVersion, 0,DLCnoDLC)"
-                        class="simple">Simple
-                        Any%</button>
-                    <button id='simplehighest' onclick="prepareLevelBoards('simple', cupheadVersion, 1,DLCnoDLC)"
-                        class="simple">Simple
-                        B+</button>
-                    <button id='regularany' onclick="prepareLevelBoards('regular', cupheadVersion, 0,DLCnoDLC)"
-                        class="regular">Regular
-                        Any%</button>
-                    <button id='regularhighest' onclick="prepareLevelBoards('regular', cupheadVersion, 1,DLCnoDLC)"
-                        class="regular">Regular
-                        A+</button>
-                    <button id='expertany' onclick="prepareLevelBoards('expert', cupheadVersion, 0,DLCnoDLC)"
-                        class="expert">Expert
-                        Any%</button>
-                    <button id='experthighest' onclick="prepareLevelBoards('expert', cupheadVersion, 1,DLCnoDLC)"
-                        class="expert">S-Rank</button>
-                </div>
-                <!-- <button onclick="getAllLevels()" style="width:50px">All</button> -->
-            </div>
-            <!-- <h2 id="boardTitle"></h2> -->
-            <div id='ILoptions' class="container">
-                <input id="checkbox_isle1" type="checkbox" checked>Isle 1
-                <input id="checkbox_isle2" type="checkbox" checked>Isle 2
-                <input id="checkbox_isle3" type="checkbox" checked>Isle 3
-                <input id="checkbox_hell" type="checkbox" checked>Hell
-                <input id="checkbox_isle4" type="checkbox" checked>Isle 4
-                <input id="checkbox_ground" type="checkbox" checked>Ground
-                <input id="checkbox_plane" type="checkbox" checked>Plane
-            </div>
-        </div>
-        <div id='refresh' style="display:none">
-            <button class='animated-button' onclick="playSound('ready');refresh()"
-                style='display:block;margin:0 auto'>Apply
-                changes</button>
-        </div>
-        <div id="leaderboardTab" class="tabs" style="display:none">
-            <div id="modal" class="modal">
-                <div id="modal-content">
-                    <div id="modal-header">
-                        <h1 id="modal-title"></h1>
+                    <div id='legacy' onclick="cupheadLevelSetting('legacy','nodlc')" class="button legacy">Legacy 1.0
                     </div>
-                    <div id="modal-player"></div>
-                    <div id="modal-body"></div>
+                    <div id='currentPatch' onclick="cupheadLevelSetting('currentPatch',DLCnoDLC)"
+                        class="button cuphead">Current Patch</div>
                 </div>
-                <div id='modal-pages' class="container">hi</div>
+                <div>
+                    <div id='ILcategoriesButton' onclick="toggleILcategories()" class='clickable container'
+                        style="width:50px">&#9660</div>
+                </div>
+                <div id='categoryTabs' class='container' style="margin:0">
+                    <div id='nodlcBoards' onclick="cupheadLevelSetting(cupheadVersion,'nodlc')" class="button cuphead">
+                        Main Boards</div>
+                    <div id='dlcBoards' onclick="cupheadLevelSetting('currentPatch','dlc')" class="button dlc">DLC
+                        Loadout</div>
+                </div>
+                <div id='allLevels' onclick="getAllLevels()" class='button gray' style="width:50px;margin-left:10px">All
+                </div>
             </div>
-            <section id='displayOptions' class="container" style="display:none">
+            <div id="ILcategories" style="display:none">
+                <div id="ILbosses"></div>
+                <div id='difficultyTabs' class="container">
+                    <div>
+                        <div id='difficultyBoth' class="container">
+                            <div id='simple' onclick="getDifficulty('simple')" class="button simple">
+                                Simple</div>
+                            <div id='regular' onclick="getDifficulty('regular')" class="button regular">
+                                Regular
+                            </div>
+                            <div id='expert' onclick="getDifficulty('expert')" class="button expert">
+                                Expert</div>
+                        </div>
+                        <div id='difficultyOne' class="container">
+                            <div id='simpleany' onclick="specificDifficulty('simple','any')" class="button simple">Any%
+                            </div>
+                            <div id='simplehighest' onclick="specificDifficulty('simple', 'highest')"
+                                class="button simple">B+</div>
+                            <div id='regularany' onclick="specificDifficulty('regular','any')" class="button regular">
+                                Any%</div>
+                            <div id='regularhighest' onclick="specificDifficulty('regular','highest')"
+                                class="button regular">A+</div>
+                            <div id='expertany' onclick="specificDifficulty('expert', 'any')" class="button expert">Any%
+                            </div>
+                            <div id='experthighest' onclick="specificDifficulty('expert', 'highest')"
+                                class="button expert">S-Rank</div>
+                        </div>
+                    </div>
+                    <div id='ground' onclick="getGroundPlane('ground')" class="button"><img id='groundimg'></div>
+                    <div id='plane' onclick="getGroundPlane('plane')" class="button"><img id='planeimg'></div>
+                </div>
+            </div>
+        </div>
+        <!-- Fullgame ILs -->
+        <div id="fullgameILsSection" class='hide headerRow' style="display:none">
+            <div id="fullgameILsVersionTabs" class="container">
+                <div id='fullgameILs_onePointOne' onclick="getFullgameILs('1.1+')" class="button onePointOne">1.1+</div>
+                <div id='fullgameILs_legacy' onclick="getFullgameILs('Legacy')" class="button legacy">Legacy</div>
+                <div id='fullgameILs_nmg' onclick="getFullgameILs('NMG')" class="button nmg">NMG</div>
+                <div id='fullgameILs_dlc' onclick="getFullgameILs('DLC L/S')" class="button dlc">DLC</div>
+                <div id='fullgameILs_dlcbase' onclick="getFullgameILs('DLC+Base L/S')" class="button dlcbase">DLC+Base
+                </div>
+            </div>
+        </div>
+        <div id="boardTitleDiv" class="container hide" style="margin-top:10px">
+            <input id="checkbox_isolate" type="checkbox" style="display:none">
+            <div id="boardTitle" class="container" style="margin:0"></div>
+            <div id='closeBoardTitle' class='clickable' style='padding-left:10px' onclick="showDefault()">&#10005</div>
+        </div>
+        <div id='categoriesSection' class="container hide" style="display:none">
+            <div>&#9664</div>
+            <div id="categoriesElem"></div>
+            <div>&#9654</div>
+        </div>
+        <div id='loading' style='text-align:center;margin-top:10px'>
+            <div>Loading API...</div>
+            <progress id='loadingProgress' value=0></progress>
+            <div id="loadingText"></div>
+        </div>
+        <div class="container">
+            <div id='optionsButton' class='clickable hide' onclick="toggleOptions()"
+                style="width:50px;text-align:center"><i class="fa fa-ellipsis-h"></i></div>
+        </div>
+        <!-- Leaderboard -->
+        <div id="leaderboardTab" class="tabs" style="display:none">
+            <div id='leaderboardOptions' class="options container" style="display:none">
                 <input id="checkbox_percentile" type="checkbox">Percentile
                 <input id="checkbox_percentage" type="checkbox">Score
                 <input id="checkbox_grade" type="checkbox" checked>Grade
                 <input id="checkbox_place" type="checkbox" checked>Place
                 <input id="checkbox_time" type="checkbox" checked>Time
                 <input id="checkbox_year" type="checkbox">Year
-            </section>
+            </div>
             <div id="leaderboard"></div>
         </div>
-        <div id="chartsTab" class="tabs" style="display:none">
-            <div class="container">
-                <div id='chartPlayer' onclick="playSound('equip_move');drawChart('player')"
-                    class="banner chartTab clickable">Player
-                </div>
-                <div style="width:20px"></div>
-                <div id="chartCategories"></div>
-            </div>
-            <div class="container">
-                <select id="dropdown_top" onchange="refreshCharts()">
+        <!-- Charts -->
+        <div id="chartsTab" class="tabs hide" style="display:none">
+            <div id='chartOptions' class="container options" style="display:none">
+                <select id="dropdown_top" onchange="action()">
                     <option value="30" selected>Top 30</option>
                     <option value="100">Top 100</option>
                     <option value="300">Top 300</option>
                 </select>
-                <div id="capDiv">
-                    <input id='checkbox_capped' onclick="refreshCharts()" type="checkbox" checked>Fixed
+                <div id="fixedDiv">
+                    <input id='checkbox_charts_fixed' onclick="action()" type="checkbox" checked>Fixed
                 </div>
             </div>
             <div id="chart"></div>
         </div>
-        <div id="statsTab" class="tabs" style="display:none">
-            <div id="stats"></div>
+        <!-- Info -->
+        <div id="infoTab" class="tabs" style="display:none">
+            <div id='infoOptions' class="container options" style="display:none">
+                <input id='checkbox_info_date' onclick="action()" type="checkbox">Date
+                <input id='checkbox_info_loadouts' onclick="action()" type="checkbox" checked>Loadouts
+            </div>
+            <div id="info"></div>
         </div>
-        <div id='loading' style='text-align:center'>
-            <p>Loading API...</p>
-            <progress id='loadingProgress' value=0></progress>
-            <div id="loadingText"></div>
+        <div id="modal" class="modal">
+            <div id="modal-content">
+                <div id="modal-header">
+                    <h1 id="modal-title"></h1>
+                </div>
+                <div id="modal-player"></div>
+                <div id="modal-body"></div>
+            </div>
+            <div id='modal-pages' class="container" style="display:none"></div>
+        </div>
+        <!-- Map -->
+        <div id="mapTab" class="tabs" style="display:none">
+            <div id='mapOptions' class="container options" style="display:none">
+                <select id="dropdown_mapMode" onchange="action()">
+                    <option value="all">Top 300</option>
+                    <option value="top100">Top 100</option>
+                    <option value="top30" selected>Top 30</option>
+                    <option value="trophies">Trophies</option>
+                    <option value="wrs">WRs</option>
+                </select>
+                <select id="dropdown_mapValue" onchange="action()">
+                    <option value="players" selected>Players</option>
+                    <option value="runs">Runs</option>
+                </select>
+                <div>
+                    <input id='checkbox_map_color' onclick="action()" type="checkbox">Color
+                </div>
+            </div>
+            <div class="container" style='align-items:flex-start'>
+                <div style="padding-left:100px;">
+                    <div id="tooltip"></div>
+                    <svg id="world-map" class='bigShadow' width="800" height="400"></svg>
+                    <div id="flagArmy"></div>
+                    <!-- <div id="countryChart"></div> -->
+                </div>
+                <div style="width:50%">
+                    <div id="countryTable"></div>
+                </div>
+            </div>
         </div>
     </main>
     <footer>
         <div class="container">
             <a href="https://www.speedrun.com/users/myekul" target="_blank">
-                <img src="images/social/speedrun.png" alt="">
+                <img src="images/social/speedrun.png" alt="" class="clickable">
             </a>
             <a href="https://www.youtube.com/@myekul/videos" target="_blank">
-                <img src="images/social/youtube.png" alt="">
+                <img src="images/social/youtube.png" alt="" class="clickable">
             </a>
             <a href="https://github.com/myekul" target="_blank">
-                <img id='github' src="images/social/github.png" alt="">
+                <img id='github' src="images/social/github.png" alt="" class="clickable">
             </a>
             <h2>myekul</h2>
             <img class='myekul' src="images/social/myekul.png" alt="">
             <h2>2024</h2>
         </div>
     </footer>
-    <script src="modal.js"></script>
+    <div id="dummy"></div>
+    <script type='module' src="code/api/firebase.js"></script>
+    <script src="code/api/sheets.js"></script>
+    <script src="code/api/src.js"></script>
 
-    <script src="game/cuphead/constants.js"></script>
-    <script src="game/cuphead/generated.js"></script>
+    <script src="code/elements/modal.js"></script>
+    <script src="code/elements/boardtitle.js"></script>
 
-    <script src="game/sm64/constants.js"></script>
-    <script src="game/sm64/generated.js"></script>
+    <script src="constants/cuphead/constants.js"></script>
+    <script src="constants/cuphead/bosses.js"></script>
+    <script src="constants/cuphead/loadouts.js"></script>
+    <script src="constants/sm64/constants.js"></script>
+    <script src="constants/tetris/constants.js"></script>
 
-    <script src="game/tetris/constants.js"></script>
+    <script src="code/page/leaderboard.js"></script>
+    <script src="code/page/chart.js"></script>
+    <script src="code/page/map.js"></script>
+    <script src="code/page/info.js"></script>
 
-    <script src="fetch.js"></script>
+    <script src="code/cupheadLevels.js"></script>
 
-    <script src="generation.js"></script>
+    <script src="code/general.js"></script>
+    <script src="code/penalty.js"></script>
 
-    <script src="leaderboard.js"></script>
-    <script src="chart.js"></script>
-    <script src="stats.js"></script>
+    <script src="code/variables.js"></script>
 
-    <script src="general.js"></script>
+    <script src="code/eventListeners.js"></script>
 
-    <script src="constants.js"></script>
+    <script src="code/generation.js"></script>
 
-    <script src="eventListeners.js"></script>
-
-    <script src="main.js"></script>
+    <script src="code/main.js"></script>
 </body>
 
 </html>

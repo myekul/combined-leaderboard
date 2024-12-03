@@ -13,7 +13,7 @@
 }
 
 .background {
-    background-color: var(--background);
+    background-color: var(--background) !important;
 }
 
 .banner {
@@ -21,35 +21,44 @@
     color: var(--bannerText)
 }
 
+.gray {
+    background-color: var(--gray);
+}
+
+.hiddenText {
+    color: transparent !important
+}
+
 @font-face {
     font-family: "cuphead-memphis";
-    src: url("../fonts/cuphead-memphis.ttf") format("truetype");
+    src: url("fonts/cuphead-memphis.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "cuphead-vogue";
-    src: url("../fonts/CupheadVogue-ExtraBold-merged.ttf") format("truetype");
+    src: url("fonts/CupheadVogue-ExtraBold-merged.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "sm64";
-    src: url("../fonts/sm64.ttf") format("truetype");
+    src: url("fonts/sm64.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "pressStart2P";
-    src: url("../fonts/pressStart2P.ttf") format("truetype");
+    src: url("fonts/pressStart2P.ttf") format("truetype");
 }
 
 body {
     font-family: var(--font);
-    /* background-color: var(--background); */
     color: white;
     margin: 0;
     min-height: 100vh;
     overscroll-behavior: none;
     display: flex;
     flex-direction: column;
+    white-space: nowrap;
+    /* background-color: var(--background); */
     background: repeating-linear-gradient(45deg,
             var(--background),
             var(--background) 10px,
@@ -70,11 +79,9 @@ progress {
 }
 
 header {
-    /* display: flex; */
     background-color: var(--banner);
     color: var(--bannerText);
     padding-top: 10px;
-    margin-bottom: 10px;
     height: 100px;
     justify-content: space-between;
     display: flex;
@@ -88,9 +95,9 @@ header {
 footer {
     background-color: var(--banner);
     color: var(--bannerText);
-    height: 80px;
+    height: 40px;
     margin-top: 20px;
-    padding-top: 10px;
+    padding-bottom: 30px;
     align-items: center;
 }
 
@@ -100,7 +107,7 @@ h1 {
 }
 
 #subtitle,
-header p {
+#titleText div {
     transform: translate(0px, -20px)
 }
 
@@ -115,50 +122,11 @@ p {
     margin-top: 0;
     margin-bottom: 0;
     text-align: center;
+    white-space: normal;
 }
 
 td {
     text-align: center
-}
-
-.onePointOne {
-    background-color: mediumpurple;
-    color: black
-}
-
-.legacy {
-    background-color: lightseagreen;
-    color: black
-}
-
-.nmg {
-    background-color: lightcoral;
-    color: black
-}
-
-.dlc {
-    background-color: var(--cuphead-green);
-    color: var(--dlc-font)
-}
-
-.dlcbase {
-    background-color: khaki;
-    color: black
-}
-
-.first {
-    background-color: var(--cuphead-yellow);
-    color: black
-}
-
-.second {
-    background-color: lightgray;
-    color: black
-}
-
-.third {
-    background-color: darkorange;
-    color: black
 }
 
 header img {
@@ -181,31 +149,21 @@ footer img {
     align-items: center;
 }
 
-.myekul {
-    width: 48px;
-    height: auto;
-    filter: drop-shadow(0.5px 0 0 black)
-        /* Right shadow */
-        drop-shadow(-0.5px 0 0 black)
-        /* Left shadow */
-        drop-shadow(0 0.5px 0 black)
-        /* Bottom shadow */
-        drop-shadow(0 -0.5px 0 black);
-    padding: 0
-}
-
 table {
     margin: 0 auto;
     table-layout: fixed;
     background-color: var(--background);
 }
 
-.otherRow {
+.otherColor {
     background-color: var(--otherColor);
 }
 
-#leaderboard th.clickable {
-    background-color: var(--gray);
+.clickable {
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
 }
 
 .clickable:hover {
@@ -224,57 +182,39 @@ table {
     margin: 0 auto;
 }
 
-th img {
-    width: 42px;
-    height: auto
-}
-
 #modal-img img {
     width: 19px;
     height: auto;
     display: block;
 }
 
-.table-container td:first-child,
-.table-container tbody td:nth-child(2),
-.table-container tbody td:nth-child(3),
-.table-container tbody td:nth-child(4),
-.table-container tbody td:nth-child(5) {
-    position: sticky;
-    left: 0;
-}
-
-tbody td:nth-child(2) {
-    left: 27px;
-}
-
-tbody td:nth-child(3) {
-    left: 53px;
-}
-
-tbody td:nth-child(4) {
-    left: 84px;
-}
-
-tbody td:nth-child(5) {
-    left: 107px;
-}
-
-.table-container {
-    max-width: 100%;
+#leaderboardContainer {
     overflow-x: auto;
 }
 
-button {
-    width: 150px;
-    height: 30px;
+th {
+    font-size: 12px
+}
+
+.button {
+    width: 140px;
+    height: 22px;
     font-size: 14px;
     font-family: var(--font);
     cursor: pointer;
-    border-radius: 10px;
-    border: 4px;
+    border-radius: 15px;
     margin: 2px;
     background-color: white;
+    color: black;
+    justify-content: center;
+    align-items: center;
+    display: flex
+}
+
+select {
+    border-radius: 15px;
+    padding:0 3px;
+    margin:0 3px
 }
 
 .active:hover,
@@ -283,39 +223,46 @@ button {
 .active2:active,
 .selected:hover,
 .selected:active {
-    opacity: 1;
+    opacity: 1 !important;
     cursor: default !important
 }
 
-button:hover {
+.button:hover {
     opacity: 0.8
 }
 
-button:active {
+.button:active {
     opacity: 0.6;
 }
 
 .cuphead {
-    background-color: var(--cuphead-yellow);
+    background-color: var(--cuphead-yellow) !important;
     color: black
 }
 
 .simple {
-    background-color: lightgreen;
+    background-color: lightgreen !important;
+    color: black
 }
 
 .regular {
-    background-color: var(--cuphead-yellow);
+    background-color: var(--cuphead-yellow) !important;
+    color: black
 }
 
 .expert {
-    background-color: salmon;
+    background-color: salmon !important;
+    color: black
 }
 
 #boardTitle {
-    width: 20%;
-    margin: 0 auto;
-    padding: 5px
+    padding: 5px;
+    font-weight: bold;
+}
+
+#boardTitle td,
+#boardTitle th {
+    font-size: 18px
 }
 
 progress::-webkit-progress-value {
@@ -330,34 +277,16 @@ progress::-webkit-progress-value {
     border: 4px solid gray
 }
 
-.animated-button {
-    background-color: var(--cuphead-yellow);
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.1);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
 #chart {
     padding-top: 5px;
     height: 500px;
-    /* border: 5px solid var(--background) */
+    width: 95%;
+    margin: 0 auto;
 }
 
 .selected {
     background-color: white !important;
-    color: black
+    color: black !important;
 }
 
 select {
@@ -365,10 +294,156 @@ select {
 }
 
 .chartTab {
-    padding: 5px
+    width: 80px
 }
 
 .grayedOut {
     opacity: 0.4 !important;
     cursor: default !important
+}
+
+#tabs .button {
+    width: 50px;
+    font-size: 18px
+}
+
+#fullgameILsVersionTabs div {
+    width: 100px
+}
+
+#fullgameILsWeapons img {
+    height: 36px;
+    padding: 2px
+}
+
+#boardTitle td,
+#boardLevel {
+    padding: 6px
+}
+
+#difficultyBoth div {
+    width: 124px;
+    height: 20px;
+}
+
+#difficultyOne div {
+    width: 60px;
+    height: 20px;
+}
+
+.debug {
+    filter: drop-shadow(5px 5px 5px var(--banner))
+}
+
+#ILbosses table {
+    margin-top: 10px
+}
+
+.ground img,
+#ground img {
+    height: 36px;
+    width: auto
+}
+
+.plane img,
+#plane img {
+    height: 30px;
+    width: auto
+}
+
+#ground,
+#plane {
+    background-color: skyblue;
+    width: 40px;
+    height: 40px
+}
+
+#allLevels {
+    background-color: mediumpurple;
+    color: white
+}
+
+.chartLabel {
+    color: black;
+    font-size: 20px;
+    padding: 0 5px
+}
+
+#chartPlayer {
+    background-color: var(--banner);
+    width: 50px;
+    height: 20px
+}
+
+.trophyCase {
+    font-size: 12px;
+}
+
+#tooltip {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 12px;
+    pointer-events: none;
+    display: none;
+}
+
+.hover:hover {
+    opacity: 0.6;
+}
+
+#world-map {
+    background: var(--otherColor);
+    border: 2px solid var(--background);
+    margin-top: 10px
+}
+
+#categoriesElem {
+    max-width: 80%;
+    overflow-x: scroll
+}
+
+.cursor:hover {
+    cursor: pointer
+}
+
+#boardTitleSrc img {
+    height: 25px;
+    width: auto;
+}
+
+.options {
+    padding-top: 4px
+}
+
+#flagArmy {
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+    width: 700px;
+    row-gap: 3px;
+    margin: 20px auto
+}
+
+#info td img {
+    height: 18px;
+    width: auto
+}
+
+.headerRow {
+    padding: 5px 0;
+    background-color: var(--otherColor);
+
+}
+
+.headerRow,
+.shadow {
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.bigShadow {
+    box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.2),
+        5px 5px 10px rgba(0, 0, 0, 0.2),
+        0 10px 10px rgba(0, 0, 0, 0.2);
 }
