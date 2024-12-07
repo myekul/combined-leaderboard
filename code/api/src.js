@@ -1,6 +1,6 @@
 function getLeaderboard(category, query, variables, extra) {
     const url = `https://www.speedrun.com/api/v1/leaderboards/${gameID}/${query}${variables}&top=300&embed=players,category`;
-    // const url = `https://www.speedrun.com/api/v1/games/cuphead/categories`
+    // const url = `https://www.speedrun.com/api/v1/games/titanfall_2/variables`
     fetch(url, {
         method: "GET",
         headers: {
@@ -25,15 +25,15 @@ function getLeaderboard(category, query, variables, extra) {
                 if (processedCategories == categories.length) {
                     // console.log(JSON.stringify(categories)) // JSON
                     const boardTitleSrc = document.getElementById('boardTitleSrc')
-                    boardTitleSrc.innerHTML = `<img src='images/social/speedrun.png'>`
+                    boardTitleSrc.innerHTML = `<img src='images/external/speedrun.png'>`
                     if (stopLeaderboards) {
                         stopLeaderboards = false
                     } else {
                         if (gameID == 'sm64' && mode == 'levels') {
-                            const variable = `?var-${platform.var}=${platform.subcat}`
-                            getLeaderboard(sm64[0], `category/${sm64[0].id}`, variable, true)
+                            getLeaderboard(sm64[0], `category/${sm64[0].id}`, sm64Var, true)
+                        } else if (gameID == 'titanfall_2') {
+                            getLeaderboard(titanfall_2, `category/${titanfall_2.id}`, titanfall_2VarFG, true)
                         } else {
-                            prepareData()
                             if (bossILindex > -1) {
                                 const boss = bosses[bossILindex]
                                 console.log(boss.name + ' loaded')
@@ -43,6 +43,7 @@ function getLeaderboard(category, query, variables, extra) {
                             if (gameID == 'cuphead' && mode == 'levels') {
                                 window.firebaseUtils.firestoreWrite()
                             }
+                            prepareData()
                         }
                     }
                 }
@@ -53,7 +54,9 @@ function getLeaderboard(category, query, variables, extra) {
                     getPlayers(extraCategory)
                     gapi.load("client", loadClient);
                 } else {
-                    extraCategory.className = sm64[0].className
+                    if (gameID == 'sm64') {
+                        extraCategory.className = sm64[0].className
+                    }
                     assignRuns(extraCategory)
                     prepareData()
                 }
@@ -67,8 +70,8 @@ function getLeaderboard(category, query, variables, extra) {
                     window.firebaseUtils.firestoreRead()
                     console.log('Too many API requests!')
                 } else {
-                    const loadingText = document.getElementById('loadingText')
-                    loadingText.innerText = 'Too many API requests! Please reload the page.'
+                    // const loadingText = document.getElementById('loadingText')
+                    // loadingText.innerText = 'Too many API requests! Please reload the page.'
                 }
             }
         });

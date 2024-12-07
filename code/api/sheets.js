@@ -57,7 +57,7 @@ function fetchTetris(category, categoryIndex) {
             prepareData()
             const url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID
             const boardTitleSrc = document.getElementById('boardTitleSrc')
-            boardTitleSrc.innerHTML = `<div onclick="${openLink(url)}" class='clickable'><img src='images/source/sheets.png'></div>`
+            boardTitleSrc.innerHTML = `<div onclick="${openLink(url)}" class='clickable'><img src='images/external/sheets.png'></div>`
         }
     }, (err) => console.error("Execute error", err));
 }
@@ -68,34 +68,36 @@ function fetchCuphead(category) {
         fields: 'sheets(data(rowData(values(userEnteredValue,textFormatRuns))))'
     }).then(response => {
         const values = response.result.sheets[0].data[0].rowData;
-        if (gameID == 'tetris') {
-
-        } else {
-            categories = []
-            bossesCopy = [...bosses]
-            if (fullgameILsCategory.name == 'DLC') {
-                bossesCopy = bossesCopy.slice(19, 25)
-            } else if (fullgameILsCategory.name != 'DLC+Base') {
-                bossesCopy = bossesCopy.slice(0, 19)
-            }
-            bossesCopy.sort((a, b) => (a.order || 0) - (b.order || 0));
-            if (fullgameILsCategory.name == 'DLC+Base') {
-                let elementsToMove = bossesCopy.slice(0, 6);
-                bossesCopy.splice(0, 6);
-                bossesCopy.splice(8, 0, ...elementsToMove);
-                let elem = bossesCopy.splice(2, 1)[0];
-                bossesCopy.unshift(elem);
-            }
-            bossesCopy.forEach(boss => {
-                categories.push({ name: boss.name, info: boss, runs: [] })
-            })
-            categories.forEach((category, categoryIndex) => {
+        categories = []
+        bossesCopy = [...bosses]
+        if (fullgameILsCategory.name == 'DLC') {
+            bossesCopy = bossesCopy.slice(19, 25)
+        } else if (fullgameILsCategory.name != 'DLC+Base') {
+            bossesCopy = bossesCopy.slice(0, 19)
+        }
+        bossesCopy.sort((a, b) => (a.order || 0) - (b.order || 0));
+        if (fullgameILsCategory.tabName == 'D+B') {
+            let elementsToMove = bossesCopy.slice(0, 6);
+            bossesCopy.splice(0, 6);
+            bossesCopy.splice(8, 0, ...elementsToMove);
+            let elem = bossesCopy.splice(2, 1)[0];
+            bossesCopy.unshift(elem);
+        }
+        bossesCopy.forEach(boss => {
+            categories.push({ name: boss.name, info: boss, runs: [] })
+        })
+        players.forEach(player => {
+            player.runs = new Array(categories.length).fill(null)
+        })
+        categories.forEach((category, categoryIndex) => {
+            if (values[categoryIndex]) {
                 if (values[categoryIndex].values) {
                     if (values[categoryIndex].values[0]) {
                         const rawTime = values[categoryIndex].values[0].userEnteredValue?.numberValue
                         const time = convertToSeconds(secondsToHMS(Math.round(rawTime * 24 * 60)))
                         values[categoryIndex].values.slice(1).forEach(column => {
-                            let playerName = column.userEnteredValue.formulaValue.split(',')[1].slice(2).split('"')[0]
+                            // console.log(column.userEnteredValue.formulaValue)
+                            let playerName = column.userEnteredValue.formulaValue.split(',')[1].trim().slice(1).split('"')[0]
                             const link = column.userEnteredValue.formulaValue.slice(12).split('"')[0]
                             let debug = false
                             if (playerName.startsWith("*")) {
@@ -107,10 +109,11 @@ function fetchCuphead(category) {
                         })
                     }
                 }
-            })
-        }
-        load(categories)
-        prepareData(categories)
+
+            }
+        })
+        completeLoad()
+        prepareData()
         gapi.client.sheets.spreadsheets.get({
             spreadsheetId: SHEET_ID
         }).then(response => {
@@ -123,8 +126,8 @@ function fetchCuphead(category) {
             });
             const url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/edit?gid=' + tabMap[fullgameILsCategory.tabName]
             const boardTitleSrc = document.getElementById('boardTitleSrc')
-            boardTitleSrc.innerHTML = `<div onclick="${openLink(url)}" class='clickable'><img src='images/source/sheets.png'></div>`
-            boardTitleSrc.innerHTML += `<div style='margin-left:5px' onclick="${openLink('https://www.speedrun.com/cuphead')}" class='clickable'><img src='images/social/speedrun.png'></div>`
+            boardTitleSrc.innerHTML = `<div onclick="${openLink(url)}" class='clickable'><img src='images/external/sheets.png'></div>`
+            boardTitleSrc.innerHTML += `<div style='margin-left:5px' onclick="${openLink('https://www.speedrun.com/cuphead')}" class='clickable'><img src='images/external/speedrun.png'></div>`
         });
     }, (err) => console.error("Execute error", err));
 }

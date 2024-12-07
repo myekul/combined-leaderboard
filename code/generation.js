@@ -1,4 +1,4 @@
-// generateLevelIDs(gameID)
+// generateLevelIDs('titanfall_2')
 // const tempCategories = []
 // let tempProcessedCategories = 0
 // const runNguns = ['Forest Follies', 'Treetop Trouble', 'Funfair Fever', 'Funhouse Frazzle', 'Rugged Ridge', 'Perilous Piers']
@@ -8,6 +8,8 @@
 //         .then(response => response.json())
 //         .then(data1 => {
 //             data1.data.forEach((category, levelIndex) => {
+//                 console.log(category)
+//                 // category = cleanCategory(category)
 //                 const url2 = `https://www.speedrun.com/api/v1/levels/${category.id}/variables`
 //                 if (gameID == 'cuphead') {
 //                     if (!runNguns.includes(category.name)) {
@@ -38,19 +40,27 @@
 //                                         }
 //                                     }
 //                                 }
-//                                 // delete category.links
+//                                 tempCategories[levelIndex] = category
 //                                 tempProcessedCategories++
-//                                 tempCategories.push(category)
 //                                 if (tempProcessedCategories == 25) {
 //                                     console.log(JSON.stringify(tempCategories)) // JSON
 //                                 }
 //                             })
 //                             .catch(error => console.error('Error fetching level variables:', error));
 //                     }
-//                 } else if (gameID == 'sm64') {
-//                     // console.log(JSON.stringify(data1.data))
+//                 } else {
+//                     tempCategories[levelIndex] = category
+//                     tempProcessedCategories++
+//                     if (tempProcessedCategories == 14) {
+//                         console.log(JSON.stringify(tempCategories)) // JSON
+//                     }
 //                 }
 //             })
 //         })
 //         .catch(error => console.error('Error fetching leaderboard:', error));
+// }
+// function cleanCategory(category) {
+//     delete category.links
+//     delete category.rules
+//     return category
 // }

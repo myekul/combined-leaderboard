@@ -152,7 +152,7 @@ const fullgameILs = {
     },
     'NMG P/S': {
         name: 'NMG',
-        tabName: 'P/S',
+        tabName: 'NMG P/S',
         className: 'nmg',
         range: 'C:H',
         index: 2,
@@ -160,9 +160,9 @@ const fullgameILs = {
         shot2: 'spread'
     },
     // DLC
-    'DLC L/S': {
+    DLC: {
         name: 'DLC',
-        tabName: 'DLC L/S',
+        tabName: 'DLC',
         className: 'dlc',
         range: 'C:H',
         index: 3,
@@ -179,16 +179,16 @@ const fullgameILs = {
         shot2: 'spread'
     },
     // DLC+Base
-    'DLC+Base L/S': {
+    'D+B': {
         name: 'DLC+Base',
-        tabName: 'D+B L/S',
+        tabName: 'D+B',
         className: 'dlcbase',
         range: 'C:H',
         index: 4,
         shot1: 'lobber',
         shot2: 'spread'
     },
-    'DLC+Base C/S': {
+    'D+B C/S': {
         name: 'DLC+Base',
         tabName: 'D+B C/S',
         className: 'dlcbase',

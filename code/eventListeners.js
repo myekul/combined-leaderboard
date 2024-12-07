@@ -44,3 +44,14 @@ document.addEventListener('keydown', function (event) {
         }
     }
 });
+window.onclick = function (event) {
+    const modal = document.getElementById("modal");
+    if (event.target == modal) {
+        // if (globalCountryName) {
+        //     playSound('carddown')
+        //     openModal(globalCountryName)
+        // } else {
+        closeModal()
+        // }
+    }
+}

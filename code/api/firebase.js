@@ -30,12 +30,12 @@ function docRef() {
 }
 function reduction() {
     const obj = {};
+    // const safeCategories = [ ...categories ]
     categories.forEach((category, categoryIndex) => {
         obj[categoryIndex] = category;
     });
     return obj
 }
-
 window.firebaseUtils = {
     firestoreWrite: async () => {
         const documentData = bossILindex > -1
@@ -111,6 +111,7 @@ window.firebaseUtils = {
     }
 }
 function firebaseReadSuccess() {
+    completeLoad()
     const boardTitleSrc = document.getElementById('boardTitleSrc')
-    boardTitleSrc.innerHTML = `<img src='images/source/firebase.png'>`
+    boardTitleSrc.innerHTML = `<img src='images/external/firebase.png'>`
 }

@@ -44,9 +44,9 @@ function info() {
     let HTMLContent = ''
     categories.forEach((category, categoryIndex) => {
         HTMLContent += `<tr class='${getRowColor(categoryIndex)}'>`
-        const className = mode == 'levels' || mode == 'fullgameILs' ? category.info.id : category.className
+        const className = category.info ? category.info.id : category.className
         HTMLContent += `<td class='${className}' style='text-align:left;font-weight:bold'>${category.name}</td>`
-        if (mode == 'levels' || mode == 'fullgameILs') {
+        if (category.info) {
             HTMLContent += `<td style='padding:0' class='${className}'>${getImage(category.info.id, 21)}</td>`
         }
         HTMLContent += getWorldRecordPlayers(categoryIndex, className)

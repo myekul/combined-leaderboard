@@ -28,14 +28,14 @@ function openModal(playerIndex) {
             player = players[playerIndex]
         }
         let playerLink = player.weblink ? `onclick="window.open('${player.weblink}', '_blank')"` : null;
-        let percentage = getPercentage(player.averagePercentage)
-        const letterGrade = getLetterGrade(percentage)
+        const percentage = getPercentage(player.score)
+        const grade = getLetterGrade(percentage)
         let HTMLContent =
             `<table>
                 <tr>
                     <td>${getPlayerFlag(player, 25)}</td>
                     <td><h2 ${playerLink} class='${playerLink ? 'clickable' : ''}'>${getPlayerName(player)}</h2></td>`
-        HTMLContent += mode != 'fullgameILs' ? `<td><h3 style='padding: 5px' class='${letterGrade.className}'>${letterGrade.grade}</h3></td>` : ''
+        HTMLContent += mode != 'fullgameILs' ? `<td><h3 style='padding: 5px' class='${grade.className}'>${grade.grade}</h3></td>` : ''
         HTMLContent += `<td class='modalBoardTitle' style='padding-left:20px'>${generateBoardTitle(2)}</td>
                 </tr>
             </table>`
@@ -94,9 +94,9 @@ function reportCard(player) {
             const numCats = getNumCats(category)
             for (let i = 1; i <= numCats; i++) {
                 const run = player.runs[categoryIndex]
-                let score = run ? getPercentage(run.percentage) : ''
-                let letterGrade = getLetterGrade(score)
-                let place = run ? run.place : ''
+                const percentage = getPercentage(run?.percentage)
+                const grade = getLetterGrade(percentage)
+                const place = run?.place
                 HTMLContent += `<tr class='${getRowColor(categoryIndex)}'>`
                 if (i == 1) {
                     const height = big5() ? '' : 21
@@ -105,10 +105,10 @@ function reportCard(player) {
                 const thisCategory = categories[categoryIndex]
                 HTMLContent += `<td>${getTrophy(place)}</td>`
                 HTMLContent += `<td class='${thisCategory.difficulty}' style='text-align:left'>${difficultyILs ? trimDifficulty(thisCategory.name) : thisCategory.name}</td>`
-                if (mode != 'fullgameILs' && !WRmode) {
+                if (run && !WRmode) {
                     HTMLContent +=
-                        `<td class='${letterGrade.className}' style='text-align:left'>${letterGrade.grade}</td>
-                        <td class='${letterGrade.className}'>${score}</td>`
+                        `<td class='${grade.className}' style='text-align:left'>${grade.grade}</td>
+                        <td class='${grade.className}'>${displayPercentage(percentage)}</td>`
                 }
                 categoryIndex++
             }
@@ -117,12 +117,12 @@ function reportCard(player) {
     } else {
         categories.forEach((category, categoryIndex) => {
             let run = player.runs[categoryIndex]
-            let score = run ? getPercentage(run.percentage) : ''
-            let letterGrade = getLetterGrade(score)
+            let percentage = run ? getPercentage(run.percentage) : ''
+            let grade = getLetterGrade(percentage)
             let place = run ? run.place : ''
             let image = ''
             let className = getRowColor(categoryIndex)
-            if (mode == 'levels' || mode == 'fullgameILs') {
+            if (category.info) {
                 image = getImage(category.info.id, 21)
                 className = category.info.id
             }
@@ -131,10 +131,10 @@ function reportCard(player) {
                     <td class='background' style='color:white'>${run?.debug ? '*' : ''}${getTrophy(place)}</td>`
             HTMLContent += `<td id='modal-img'>${image}</td>`
             HTMLContent += `<td class='${category.className}' style='text-align:left'>${category.name}</td>`
-            if (mode != 'fullgameILs' && !WRmode) {
+            if (run && mode != 'fullgameILs' && !WRmode) {
                 HTMLContent +=
-                    `<td class='${letterGrade.className}' style='text-align:left'>${letterGrade.grade}</td>
-                    <td class='${letterGrade.className}'>${score}</td>`
+                    `<td class='${grade.className}' style='text-align:left'>${grade.grade}</td>
+                    <td class='${grade.className}'>${displayPercentage(percentage)}</td>`
             }
             HTMLContent += `</tr>`
         })
@@ -150,7 +150,7 @@ function reportCard(player) {
             HTMLContent +=
                 `<tr>
                 <td>GPA:</td>
-                <td>${getGPA(player.averagePercentage)}</td>
+                <td>${getGPA(player.score)}</td>
             </tr>`
         }
         HTMLContent += `</table>`
@@ -268,14 +268,14 @@ function scoreBreakdown(player) {
     }
     HTMLContent += `</table>`
     HTMLContent += `<p>${player.explanation}</p>`
-    const averagePercentage = getPercentage(player.averagePercentage)
-    HTMLContent += `<div class='container'><h2 class=${getLetterGrade(averagePercentage).className}>${averagePercentage}</h2></div>`
+    const score = getPercentage(player.score)
+    HTMLContent += `<div class='container'><h2 class=${getLetterGrade(score).className}>${score}</h2></div>`
     return HTMLContent
 }
 function getCategoryHeader(category) {
     const colorClass = mode == 'levels' ? getColorClass() : ''
-    const style = mode == 'fullgame' ? 'width:75px' : ''
-    const cellContent = mode == 'fullgame' ? category.name : getImage(category.info.id)
+    const style = category.info ? '' : 'width:80px'
+    const cellContent = category.info ? getImage(category.info.id) : category.name
     return `<th class='${category.className} ${colorClass}' style="${style}">${cellContent}</th>`
 }
 function getExtraHeader(category) {
@@ -296,17 +296,6 @@ function countryModal(countryName) {
     playersCopy = [...country.players].slice(0, 100)
     sortPlayers(playersCopy)
     return `<div class='container'>${playersTable(playersCopy)}</div>`
-}
-window.onclick = function (event) {
-    const modal = document.getElementById("modal");
-    if (event.target == modal) {
-        // if (globalCountryName) {
-        //     playSound('carddown')
-        //     openModal(globalCountryName)
-        // } else {
-        closeModal()
-        // }
-    }
 }
 function modalKeyPress() {
     switch (event.key) {

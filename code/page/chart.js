@@ -9,7 +9,7 @@ function drawChart() {
         fixed = false
     } else if (fixed) {
         if (sortCategoryIndex == -1) {
-            maxValue = mode == 'fullgameILs' ? categories.length : 100
+            maxValue = mode == 'fullgameILs' || WRmode ? categories.length : 100
         } else if (gameID == 'cuphead') {
             maxValue = mode == 'fullgame' ? 3600 : 120
         } else if (gameID == 'sm64') {
@@ -28,18 +28,19 @@ function drawChart() {
     annotation ? rows[0].push({ role: 'annotation' }) : ''
     if (sortCategoryIndex == -1) {
         players.slice(0, numBars).forEach(player => {
-            if (mode == 'fullgameILs') {
+            if (mode == 'fullgameILs' || WRmode) {
                 numRuns = 0
                 player.runs.forEach(run => {
                     if (run) {
                         numRuns++
                     }
                 })
-                const newPlayer = [player.name, numRuns, getClassColor(fullgameILsCategory.className)]
+                const color = mode == 'fullgameILs' ? getClassColor(fullgameILsCategory.className) : getClassColor(getColorClass())
+                const newPlayer = [player.name, numRuns, color]
                 annotation ? newPlayer.push(numRuns) : ''
                 rows.push(newPlayer)
             } else {
-                const percentage = parseFloat(getPercentage(player.averagePercentage))
+                const percentage = parseFloat(getPercentage(player.score))
                 const newPlayer = [player.name, percentage, getClassColor(getLetterGrade(percentage).className)]
                 annotation ? newPlayer.push(percentage) : ''
                 rows.push(newPlayer)
@@ -53,7 +54,8 @@ function drawChart() {
             if (!fixed || (fixed && score < maxValue)) {
                 convertedTime = gameID == 'tetris' ? score : secondsToHMS(score)
                 if (!(gameID == 'cuphead' && mode == 'levels' && score > 120)) {
-                    const newRun = [run.playerName, Math.round(score), getClassColor(getLetterGrade(getPercentage(run.percentage)).className)]
+                    const colorClass = ((mode == 'levels' && WRmode) || (mode == 'fullgameILs' || WRmode)) ? categories[sortCategoryIndex].info.id : getLetterGrade(getPercentage(run.percentage)).className
+                    const newRun = [run.playerName, Math.round(score), getClassColor(colorClass)]
                     annotation ? newRun.push(convertedTime) : ''
                     rows.push(newRun)
                 }

@@ -23,8 +23,18 @@ function convertToSeconds(time) {
 function getGPA(value) {
     return (value * 4).toString().slice(0, 4)
 }
-function getPercentage(value) {
-    return parseFloat(value * 100).toFixed(1)
+function getPercentage(value, fixed) {
+    const fixedValue = fixed != null ? fixed : 2
+    if (value) {
+        if (fixed == 0) {
+            return parseInt(value * 100)
+        }
+        return parseFloat(value * 100).toFixed(fixedValue)
+    }
+    return ''
+}
+function displayPercentage(percentage) {
+    return percentage ? percentage.split('.')[0] + `<span style='font-size:70%'>.${percentage.split('.')[1]}</span>` : ''
 }
 function placeClass(place) {
     if (place == 1) {
@@ -88,7 +98,7 @@ function getTrophy(place) {
         }
         themeID = gameID == 'cuphead' ? 'jre1dqwn' : 'e87d4p8q'
         if (place) {
-            return `<img src='https://www.speedrun.com/static/theme/${themeID}/${placeText}.png' title='${placeText}' style='height:14px'>`
+            return `<img src='images/trophy/${gameID}/${place}.png' title='${placeText}' style='height:14px'>`
         }
     }
     return ''
@@ -103,14 +113,39 @@ function showTab(tab) {
     page = tab
     window.history.pushState(null, null, '#' + page);
     hideTabs()
+    document.querySelectorAll('.hide').forEach(elem => {
+        elem.style.display = 'none'
+    })
+    if (gameID == 'cuphead') {
+        if (mode == 'levels') {
+            document.getElementById('ILsSection').style.display = ''
+        }
+        if (mode == 'fullgameILs') {
+            document.getElementById('fullgameILsSection').style.display = ''
+        }
+    }
     document.getElementById(page + 'Tab').style.display = ''
     buttonClick(page + 'Button', 'tabs', 'active2')
     // if (tab == 'leaderboard' && sortCategoryIndex > -1 && !isolated) {
     //     document.getElementById('checkbox_isolate').checked = true
     // }
-    if (page == 'map') {
+    if (page != 'leaderboard') {
+        document.getElementById('checkbox_isolate').checked = false
+        isolated = false
+    }
+    const optionsButton = document.getElementById('optionsButton')
+    if (['sort'].includes(page) && gameID != 'tetris' && !(page == 'sort' && mode == 'fullgameILs')) {
         optionsOn(true)
+        optionsButton.style.display = 'none'
     } else {
+        if (mode == 'fullgameILs' && ['info', 'sort'].includes(page)) {
+            if (page == 'sort') {
+                document.getElementById('dropdown_sortCriteria').value = 'player'
+            }
+            optionsButton.style.display = 'none'
+        } else {
+            optionsButton.style.display = ''
+        }
         optionsOff()
     }
     action()
@@ -169,7 +204,7 @@ function toggleOptions() {
     }
 }
 function optionsOn(shh) {
-    if (!((mode == 'fullgameILs' && ['leaderboard', 'info'].includes(page))||page=='info'&&gameID=='tetris')) {
+    if (!((mode == 'fullgameILs' && ['leaderboard', 'info', 'sort'].includes(page)) || ['info', 'sort'].includes(page) && gameID == 'tetris')) {
         if (!shh) {
             playSound('move')
         }
@@ -226,7 +261,7 @@ function addOpacityToCSSVar(color) {
 }
 function hexToRgb(hex) {
     hex = hex.replace(/^#/, '');
-    if (hex.length === 3) {
+    if (hex.length == 3) {
         hex = hex.split('').map(function (hexChar) {
             return hexChar + hexChar;
         }).join('');
@@ -235,16 +270,6 @@ function hexToRgb(hex) {
     const g = parseInt(hex.substring(2, 4), 16);
     const b = parseInt(hex.substring(4, 6), 16);
     return `rgb(${r}, ${g}, ${b})`;
-}
-function getPlayerCols() {
-    let playerCols = 5
-    if (WRmode) {
-        playerCols = 3
-    }
-    if (gameID == 'sm64' && mode == 'levels') {
-        playerCols = 8
-    }
-    return playerCols
 }
 function getNumCols() {
     let numCols = 0
@@ -268,6 +293,8 @@ function action() {
         generateMap()
     } else if (page == 'info') {
         generateInfo()
+    } else if (page == 'sort') {
+        generateSort()
     }
     if (page != 'map') {
         countries = {}
@@ -276,10 +303,14 @@ function action() {
     const categoriesSection = document.getElementById('categoriesSection')
     if (['charts', 'map'].includes(page) || isolated) {
         categoriesSection.style.display = ''
+        if (sortCategoryIndex == -1) {
+            categoriesSection.classList.remove('sticky')
+        } else {
+            categoriesSection.classList.add('sticky')
+        }
     } else {
         categoriesSection.style.display = 'none'
     }
-    document.getElementById('optionsButton').style.display = ''
     setBoardTitle()
     updateCategories()
 }
@@ -312,4 +343,31 @@ function tetrisCheck(category, score) {
         return gameID == 'tetris' ? reverseScore.includes(category.name) ? Math.round(score) : (score / 1).toFixed(2) : secondsToHMS(score)
     }
     return ''
+}
+function getPlayerDisplay(player) {
+    return `<td class='${placeClass(player.rank)}'>${player.rank}</td>
+    <td>${getPlayerFlag(player, 13)}</td>
+    <td onclick="playSound('cardup');openModal(${player.rank - 1})" class='clickable' style='text-align:left;font-weight: bold;padding-right:5px'>${getPlayerName(player)}</td>`
+}
+function getNumDisplay() {
+    if (page == 'sort') {
+        return showMore ? 1000 : 300
+    }
+    return mode == 'fullgame' ? showMore ? 300 : 100 : showMore ? 100 : 20
+}
+function toggleGameSelect() {
+    const gameSelect = document.getElementById('gameSelect')
+    if (showGameSelect) {
+        showGameSelect = false
+        gameSelect.classList.add('hidden')
+        setTimeout(() => {
+            gameSelect.style.display = "none";
+        }, 200);
+        playSound('carddown')
+    } else {
+        showGameSelect = true
+        gameSelect.classList.remove('hidden')
+        gameSelect.style.display = ''
+        playSound('cardup')
+    }
 }

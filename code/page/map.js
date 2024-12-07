@@ -78,7 +78,7 @@ function getLocation(player, countriesObject) {
             countryName = 'United States'
             code = 'us'
         }
-        if (!['Antarctica', 'North Korea'].includes(countryName)) {
+        if (!['Antarctica', 'North Korea', 'Valhalla'].includes(countryName)) {
             const country = countriesObject[countryName]
             if (country) {
                 country.players.push(player)
@@ -140,7 +140,7 @@ function countryCount() {
     countriesArray.forEach((country, countryIndex) => {
         HTMLContent +=
             `<tr class='${getRowColor(countryIndex)}'>
-                <td style='text-align:right;font-size:12px'>${getPercentage(country.count / total)}%</td>
+                <td style='text-align:right;font-size:12px'>${displayPercentage(getPercentage(country.count / total, 1))}%</td>
                 <td>${country.count}</td>
                 <td>${getFlag(country.code, country.name, 15)}</td>
                 <td onclick="playSound('cardup');openModal('${country.name}')" class='clickable' style='text-align:left'>${country.name}</td>
@@ -226,10 +226,11 @@ function createMap() {
         const values = mapData.map(d => d.value);
         const maxValue = Math.max(...values);
         const colorChecked = document.getElementById('checkbox_map_color').checked
-        let color = rootStyles.getPropertyValue('--banner')
+        let color = '#fff'
+        // let color = rootStyles.getPropertyValue('--banner')
         if (colorChecked) {
             color = sortCategoryIndex > -1 && !(gameID == 'sm64' && mode == 'levels')
-                ? gameID == 'cuphead' && mode == 'levels' || mode == 'fullgameILs'
+                ? gameID == 'cuphead' && categories[sortCategoryIndex].info
                     ? getComputedStyle(document.getElementsByClassName(categories[sortCategoryIndex].info.id)[0]).backgroundColor
                     : getComputedStyle(document.getElementsByClassName(categories[sortCategoryIndex].className)[0]).backgroundColor
                 : rootStyles.getPropertyValue('--banner')

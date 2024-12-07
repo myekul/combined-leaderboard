@@ -22,221 +22,299 @@
 </head>
 
 <body>
-    <header>
-        <div class="container">
-            <!-- <div class="cupheadWeapons" style="display:none">
-                <img src="images/cuphead/inventory/weapons/shop/lobber.png" alt="">
-                <img src="images/cuphead/inventory/weapons/shop/roundabout.png" alt="">
-            </div> -->
-            <div>
-                <img id='game-logo' class='game-logo' src="" alt="">
-                <div id='titleText'>
-                    <h1 id="subtitle" style="font-size:25px">COMBINED LEADERBOARD</h1>
-                    <div>The best overall players across each category</div>
-                </div>
-            </div>
-            <!-- <div class="cupheadWeapons" style="display:none">
-                <img src="images/cuphead/inventory/weapons/shop/charge.png" alt="">
-                <img src="images/cuphead/inventory/weapons/shop/spread.png" alt="">
-            </div> -->
-        </div>
-    </header>
-    <main>
-        <div class="container background headerRow" style="position:sticky;top:0">
-            <div id='modeSelection' class='container' style="display:none; margin:0">
-                <div id='fullgameButton' class='button' onclick="getFullGame()">Full Game</div>
-                <div id='levelsButton' class='button' onclick="getLevels()">Individual
-                    Levels</div>
-                <div id='fullgameILsButton' class='button' style='display:none' onclick="getFullgameILs()">Full Game ILs
-                </div>
-            </div>
-            <div style="width:70px">
-                <div id="boardTitleSrc" class="container"></div>
-            </div>
-            <div id="tabs" class="container" style="margin:0">
-                <div id='leaderboardButton' class='button' onclick="showTab('leaderboard')"><i class="fa fa-home"></i>
-                </div>
-                <div id='chartsButton' class='button' onclick="showTab('charts')"><i class="fa fa-bar-chart"></i></div>
-                <div id='mapButton' class='button' onclick="showTab('map')"><i class="fa fa-flag"></i></div>
-                <div id='infoButton' class='button' onclick="showTab('info')"><i class="fa fa-trophy"></i></div>
-            </div>
-        </div>
-        <div id="ILsSection" class='hide headerRow' style="display:none">
-            <div class="container">
-                <div id='versionTabs' class='container' style="margin:0">
-                    <div id='legacy' onclick="cupheadLevelSetting('legacy','nodlc')" class="button legacy">Legacy 1.0
-                    </div>
-                    <div id='currentPatch' onclick="cupheadLevelSetting('currentPatch',DLCnoDLC)"
-                        class="button cuphead">Current Patch</div>
-                </div>
-                <div>
-                    <div id='ILcategoriesButton' onclick="toggleILcategories()" class='clickable container'
-                        style="width:50px">&#9660</div>
-                </div>
-                <div id='categoryTabs' class='container' style="margin:0">
-                    <div id='nodlcBoards' onclick="cupheadLevelSetting(cupheadVersion,'nodlc')" class="button cuphead">
-                        Main Boards</div>
-                    <div id='dlcBoards' onclick="cupheadLevelSetting('currentPatch','dlc')" class="button dlc">DLC
-                        Loadout</div>
-                </div>
-                <div id='allLevels' onclick="getAllLevels()" class='button gray' style="width:50px;margin-left:10px">All
-                </div>
-            </div>
-            <div id="ILcategories" style="display:none">
-                <div id="ILbosses"></div>
-                <div id='difficultyTabs' class="container">
+    <div id="bodyContent" style="display: none">
+        <header>
+            <div class="">
+                <div class="container" style="align-items: flex-end;">
+                    <img id='gameIcon1' style='height:36px;width:auto;margin-bottom:20px;padding:0 10px'>
                     <div>
-                        <div id='difficultyBoth' class="container">
-                            <div id='simple' onclick="getDifficulty('simple')" class="button simple">
-                                Simple</div>
-                            <div id='regular' onclick="getDifficulty('regular')" class="button regular">
-                                Regular
-                            </div>
-                            <div id='expert' onclick="getDifficulty('expert')" class="button expert">
-                                Expert</div>
-                        </div>
-                        <div id='difficultyOne' class="container">
-                            <div id='simpleany' onclick="specificDifficulty('simple','any')" class="button simple">Any%
-                            </div>
-                            <div id='simplehighest' onclick="specificDifficulty('simple', 'highest')"
-                                class="button simple">B+</div>
-                            <div id='regularany' onclick="specificDifficulty('regular','any')" class="button regular">
-                                Any%</div>
-                            <div id='regularhighest' onclick="specificDifficulty('regular','highest')"
-                                class="button regular">A+</div>
-                            <div id='expertany' onclick="specificDifficulty('expert', 'any')" class="button expert">Any%
-                            </div>
-                            <div id='experthighest' onclick="specificDifficulty('expert', 'highest')"
-                                class="button expert">S-Rank</div>
+                        <img id='gameLogo' class='gameLogo container'>
+                        <h1 id='subtitle' style="font-size:25px;transform: translate(0px, -20px);text-align: center;">
+                            COMBINED LEADERBOARD
+                        </h1>
+                    </div>
+                    <img id='gameIcon2' style='height:36px;width:auto;margin-bottom:20px;padding:0 10px'>
+                </div>
+                <div class='container' style="transform: translate(0px, -20px)">The best overall players across each
+                    category
+                </div>
+            </div>
+        </header>
+        <main>
+            <div class="background sticky">
+                <div class="container headerRow">
+                    <div id='gameSelectButton' class="clickable container" onclick="toggleGameSelect()">
+                        <div style="margin-right:10px"><i class="fa fa-bars"></i></div>
+                        <img id='gameLogoButton' src="">
+                    </div>
+                    <div id="gameSelect" class="sticky" style="display:none"></div>
+                    <div id='modeSelection' class='container' style="display:none; margin:0">
+                        <div id='fullgameButton' class='button' onclick="getFullGame()">Full Game</div>
+                        <div id='levelsButton' class='button' onclick="getLevels()">Individual
+                            Levels</div>
+                        <div id='fullgameILsButton' class='button' style='display:none' onclick="getFullgameILs()">Full
+                            Game
+                            ILs
                         </div>
                     </div>
-                    <div id='ground' onclick="getGroundPlane('ground')" class="button"><img id='groundimg'></div>
-                    <div id='plane' onclick="getGroundPlane('plane')" class="button"><img id='planeimg'></div>
+                    <div style="width:70px">
+                        <div id="boardTitleSrc" class="container"></div>
+                    </div>
+                    <div id="tabs" class="container" style="margin:0">
+                        <div id='leaderboardButton' class='button' onclick="showTab('leaderboard')"><i
+                                class="fa fa-home"></i>
+                        </div>
+                        <div id='chartsButton' class='button' onclick="showTab('charts')"><i
+                                class="fa fa-bar-chart"></i>
+                        </div>
+                        <div id='mapButton' class='button' onclick="showTab('map')"><i class="fa fa-flag"></i></div>
+                        <div id='infoButton' class='button' onclick="showTab('info')"><i class="fa fa-trophy"></i></div>
+                        <div id='sortButton' class='button' onclick="showTab('sort')"><i
+                                class="fa fa-sort-amount-asc"></i>
+                        </div>
+                    </div>
+                    <div id='loading' style='position:absolute;right:40px'>
+                        <div>Loading API...</div>
+                        <!-- <div id="loadingText"></div> -->
+                    </div>
+                </div>
+                <div class="progress-container bigShadow">
+                    <div id="progress-bar" class="progress-bar"></div>
                 </div>
             </div>
-        </div>
-        <!-- Fullgame ILs -->
-        <div id="fullgameILsSection" class='hide headerRow' style="display:none">
-            <div id="fullgameILsVersionTabs" class="container">
-                <div id='fullgameILs_onePointOne' onclick="getFullgameILs('1.1+')" class="button onePointOne">1.1+</div>
-                <div id='fullgameILs_legacy' onclick="getFullgameILs('Legacy')" class="button legacy">Legacy</div>
-                <div id='fullgameILs_nmg' onclick="getFullgameILs('NMG')" class="button nmg">NMG</div>
-                <div id='fullgameILs_dlc' onclick="getFullgameILs('DLC L/S')" class="button dlc">DLC</div>
-                <div id='fullgameILs_dlcbase' onclick="getFullgameILs('DLC+Base L/S')" class="button dlcbase">DLC+Base
+            <div id="ILsSection" class='hide headerRow' style="display:none">
+                <div class="container">
+                    <div id='versionTabs' class='container' style="margin:0">
+                        <div id='legacy' onclick="cupheadLevelSetting('legacy','nodlc')" class="button legacy">Legacy
+                            1.0
+                        </div>
+                        <div id='currentPatch' onclick="cupheadLevelSetting('currentPatch',DLCnoDLC)"
+                            class="button cuphead">Current Patch</div>
+                    </div>
+                    <div>
+                        <div id='ILcategoriesButton' onclick="toggleILcategories()" class='clickable container'
+                            style="width:50px">&#9660</div>
+                    </div>
+                    <div id='categoryTabs' class='container' style="margin:0">
+                        <div id='nodlcBoards' onclick="cupheadLevelSetting(cupheadVersion,'nodlc')"
+                            class="button cuphead">
+                            Main Boards</div>
+                        <div id='dlcBoards' onclick="cupheadLevelSetting('currentPatch','dlc')" class="button dlc">DLC
+                            Loadout</div>
+                    </div>
+                    <div id='allLevels' onclick="getAllLevels()" class='button gray'
+                        style="width:50px;margin-left:10px">All
+                    </div>
+                </div>
+                <div id="ILcategories" style="display:none">
+                    <div id="ILbosses"></div>
+                    <div id='difficultyTabs' class="container">
+                        <div>
+                            <div id='difficultyBoth' class="container">
+                                <div id='simple' onclick="getDifficulty('simple')" class="button simple">
+                                    Simple</div>
+                                <div id='regular' onclick="getDifficulty('regular')" class="button regular">
+                                    Regular
+                                </div>
+                                <div id='expert' onclick="getDifficulty('expert')" class="button expert">
+                                    Expert</div>
+                            </div>
+                            <div id='difficultyOne' class="container">
+                                <div id='simpleany' onclick="specificDifficulty('simple','any')" class="button simple">
+                                    Any%
+                                </div>
+                                <div id='simplehighest' onclick="specificDifficulty('simple', 'highest')"
+                                    class="button simple">B+</div>
+                                <div id='regularany' onclick="specificDifficulty('regular','any')"
+                                    class="button regular">
+                                    Any%</div>
+                                <div id='regularhighest' onclick="specificDifficulty('regular','highest')"
+                                    class="button regular">A+</div>
+                                <div id='expertany' onclick="specificDifficulty('expert', 'any')" class="button expert">
+                                    Any%
+                                </div>
+                                <div id='experthighest' onclick="specificDifficulty('expert', 'highest')"
+                                    class="button expert">S-Rank</div>
+                            </div>
+                        </div>
+                        <div id='ground' onclick="getGroundPlane('ground')" class="button"><img id='groundimg'></div>
+                        <div id='plane' onclick="getGroundPlane('plane')" class="button"><img id='planeimg'></div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div id="boardTitleDiv" class="container hide" style="margin-top:10px">
-            <input id="checkbox_isolate" type="checkbox" style="display:none">
-            <div id="boardTitle" class="container" style="margin:0"></div>
-            <div id='closeBoardTitle' class='clickable' style='padding-left:10px' onclick="showDefault()">&#10005</div>
-        </div>
-        <div id='categoriesSection' class="container hide" style="display:none">
-            <div>&#9664</div>
-            <div id="categoriesElem"></div>
-            <div>&#9654</div>
-        </div>
-        <div id='loading' style='text-align:center;margin-top:10px'>
-            <div>Loading API...</div>
-            <progress id='loadingProgress' value=0></progress>
-            <div id="loadingText"></div>
-        </div>
-        <div class="container">
-            <div id='optionsButton' class='clickable hide' onclick="toggleOptions()"
-                style="width:50px;text-align:center"><i class="fa fa-ellipsis-h"></i></div>
-        </div>
-        <!-- Leaderboard -->
-        <div id="leaderboardTab" class="tabs" style="display:none">
-            <div id='leaderboardOptions' class="options container" style="display:none">
-                <input id="checkbox_percentile" type="checkbox">Percentile
-                <input id="checkbox_percentage" type="checkbox">Score
-                <input id="checkbox_grade" type="checkbox" checked>Grade
-                <input id="checkbox_place" type="checkbox" checked>Place
-                <input id="checkbox_time" type="checkbox" checked>Time
-                <input id="checkbox_year" type="checkbox">Year
+            <!-- Fullgame ILs -->
+            <div id="fullgameILsSection" class='hide headerRow' style="display:none">
+                <div id="fullgameILsVersionTabs" class="container">
+                    <div id='fullgameILs_onePointOne' onclick="getFullgameILs('1.1+')" class="button onePointOne">1.1+
+                    </div>
+                    <div id='fullgameILs_legacy' onclick="getFullgameILs('Legacy')" class="button legacy">Legacy</div>
+                    <div id='fullgameILs_nmg' onclick="getFullgameILs('NMG')" class="button nmg">NMG</div>
+                    <div id='fullgameILs_dlc' onclick="getFullgameILs('DLC')" class="button dlc">DLC</div>
+                    <div id='fullgameILs_dlcbase' onclick="getFullgameILs('D+B')" class="button dlcbase">DLC+Base
+                    </div>
+                </div>
+                <!-- <div id="nmg_loadouts" class="container loadouts">
+                    <div id='nmg_lobberspread' onclick="getFullgameILs('NMG')" class="button nmg container">
+                        <img src="images/cuphead/inventory/weapons/lobber.png">
+                        <img src="images/cuphead/inventory/weapons/spread.png">
+                    </div>
+                    <div id='nmg_peashooterspread' onclick="getFullgameILs('NMG P/S')" class="button nmg">
+                        <img src="images/cuphead/inventory/weapons/peashooter.png">
+                        <img src="images/cuphead/inventory/weapons/spread.png">
+                    </div>
+                </div>
+                <div id="dlc_loadouts" class="container loadouts">
+                    <div id='dlc_lobberspread' onclick="getFullgameILs('DLC')" class="button dlc container">
+                        <img src="images/cuphead/inventory/weapons/lobber.png">
+                        <img src="images/cuphead/inventory/weapons/spread.png">
+                    </div>
+                    <div id='dlc_peashooterspread' onclick="getFullgameILs('DLC C/S')" class="button dlc">
+                        <img src="images/cuphead/inventory/weapons/charge.png">
+                        <img src="images/cuphead/inventory/weapons/spread.png">
+                    </div>
+                </div>
+                <div id="dlcbase_loadouts" class="container loadouts">
+                    <div id='dlc_lobberspread' onclick="getFullgameILs('D+B')" class="button dlcbase container">
+                        <img src="images/cuphead/inventory/weapons/lobber.png">
+                        <img src="images/cuphead/inventory/weapons/spread.png">
+                    </div>
+                    <div id='dlcbase_peashooterspread' onclick="getFullgameILs('D+B C/S')" class="button dlcbase">
+                        <img src="images/cuphead/inventory/weapons/charge.png">
+                        <img src="images/cuphead/inventory/weapons/spread.png">
+                    </div>
+                </div> -->
             </div>
-            <div id="leaderboard"></div>
-        </div>
-        <!-- Charts -->
-        <div id="chartsTab" class="tabs hide" style="display:none">
-            <div id='chartOptions' class="container options" style="display:none">
-                <select id="dropdown_top" onchange="action()">
-                    <option value="30" selected>Top 30</option>
-                    <option value="100">Top 100</option>
-                    <option value="300">Top 300</option>
-                </select>
-                <div id="fixedDiv">
-                    <input id='checkbox_charts_fixed' onclick="action()" type="checkbox" checked>Fixed
+            <div id="boardTitleDiv" class="container sticky" style="margin-top:10px">
+                <input id="checkbox_isolate" type="checkbox" style="display:none">
+                <div id="boardTitle" class="container" style="margin:0"></div>
+                <div id='closeBoardTitle' class='clickable' style='display:none;padding-left:10px'
+                    onclick="showDefault()">&#10005
                 </div>
             </div>
-            <div id="chart"></div>
-        </div>
-        <!-- Info -->
-        <div id="infoTab" class="tabs" style="display:none">
-            <div id='infoOptions' class="container options" style="display:none">
-                <input id='checkbox_info_date' onclick="action()" type="checkbox">Date
-                <input id='checkbox_info_loadouts' onclick="action()" type="checkbox" checked>Loadouts
+            <div id='categoriesSection' class="container hide" style="display:none">
+                <div>&#9664</div>
+                <div id="categoriesElem"></div>
+                <div>&#9654</div>
             </div>
-            <div id="info"></div>
-        </div>
-        <div id="modal" class="modal">
-            <div id="modal-content">
-                <div id="modal-header">
-                    <h1 id="modal-title"></h1>
-                </div>
-                <div id="modal-player"></div>
-                <div id="modal-body"></div>
+            <div class="container">
+                <div id='optionsButton' class='clickable hide' onclick="toggleOptions()"
+                    style="width:50px;text-align:center"><i class="fa fa-ellipsis-h"></i></div>
             </div>
-            <div id='modal-pages' class="container" style="display:none"></div>
-        </div>
-        <!-- Map -->
-        <div id="mapTab" class="tabs" style="display:none">
-            <div id='mapOptions' class="container options" style="display:none">
-                <select id="dropdown_mapMode" onchange="action()">
-                    <option value="all">Top 300</option>
-                    <option value="top100">Top 100</option>
-                    <option value="top30" selected>Top 30</option>
-                    <option value="trophies">Trophies</option>
-                    <option value="wrs">WRs</option>
-                </select>
-                <select id="dropdown_mapValue" onchange="action()">
-                    <option value="players" selected>Players</option>
-                    <option value="runs">Runs</option>
-                </select>
-                <div>
-                    <input id='checkbox_map_color' onclick="action()" type="checkbox">Color
+            <!-- Leaderboard -->
+            <div id="leaderboardTab" class="tabs" style="display:none">
+                <div id='leaderboardOptions' class="options" style="display:none">
+                    <div class="container">
+                        <input id="checkbox_numRuns" type="checkbox"># of Runs
+                    </div>
+                    <div class="container">
+                        <input id="checkbox_percentile" type="checkbox">Percentile
+                        <input id="checkbox_percentage" type="checkbox">Score
+                        <input id="checkbox_grade" type="checkbox" checked>Grade
+                        <input id="checkbox_place" type="checkbox" checked>Place
+                        <input id="checkbox_time" type="checkbox" checked>Time
+                        <input id="checkbox_year" type="checkbox">Year
+                    </div>
+                </div>
+                <div id="leaderboard"></div>
+            </div>
+            <!-- Charts -->
+            <div id="chartsTab" class="tabs hide" style="display:none">
+                <div id='chartOptions' class="container options" style="display:none">
+                    <select id="dropdown_top" onchange="action()">
+                        <option value="30" selected>Top 30</option>
+                        <option value="100">Top 100</option>
+                        <option value="300">Top 300</option>
+                    </select>
+                    <div id="fixedDiv">
+                        <input id='checkbox_charts_fixed' onclick="action()" type="checkbox" checked>Fixed
+                    </div>
+                </div>
+                <div id="chart"></div>
+            </div>
+            <!-- Map -->
+            <div id="mapTab" class="tabs" style="display:none">
+                <div id='mapOptions' class="container options" style="display:none">
+                    <div>
+                        <input id='checkbox_map_color' onclick="action()" type="checkbox">Color
+                    </div>
+                </div>
+                <div class="container">
+                    <select id="dropdown_mapMode" onchange="action()">
+                        <option value="all">Top 300</option>
+                        <option value="top100">Top 100</option>
+                        <option value="top30" selected>Top 30</option>
+                        <option value="trophies">Trophies</option>
+                        <option value="wrs">WRs</option>
+                    </select>
+                    <select id="dropdown_mapValue" onchange="action()">
+                        <option value="players" selected>Players</option>
+                        <option value="runs">Runs</option>
+                    </select>
+                </div>
+                <div class="container" style='align-items:flex-start'>
+                    <div style="padding-left:100px;">
+                        <div id="tooltip"></div>
+                        <svg id="world-map" class='bigShadow' width="800" height="400"></svg>
+                        <div id="flagArmy"></div>
+                        <!-- <div id="countryChart"></div> -->
+                    </div>
+                    <div style="width:50%">
+                        <div id="countryTable"></div>
+                    </div>
                 </div>
             </div>
-            <div class="container" style='align-items:flex-start'>
-                <div style="padding-left:100px;">
-                    <div id="tooltip"></div>
-                    <svg id="world-map" class='bigShadow' width="800" height="400"></svg>
-                    <div id="flagArmy"></div>
-                    <!-- <div id="countryChart"></div> -->
+            <!-- Info -->
+            <div id="infoTab" class="tabs" style="display:none">
+                <div id='infoOptions' class="container options" style="display:none">
+                    <input id='checkbox_info_date' onclick="action()" type="checkbox">Date
+                    <input id='checkbox_info_loadouts' onclick="action()" type="checkbox" checked>Loadouts
                 </div>
-                <div style="width:50%">
-                    <div id="countryTable"></div>
-                </div>
+                <div id="info"></div>
             </div>
-        </div>
-    </main>
-    <footer>
-        <div class="container">
-            <a href="https://www.speedrun.com/users/myekul" target="_blank">
-                <img src="images/social/speedrun.png" alt="" class="clickable">
-            </a>
-            <a href="https://www.youtube.com/@myekul/videos" target="_blank">
-                <img src="images/social/youtube.png" alt="" class="clickable">
-            </a>
-            <a href="https://github.com/myekul" target="_blank">
-                <img id='github' src="images/social/github.png" alt="" class="clickable">
-            </a>
-            <h2>myekul</h2>
-            <img class='myekul' src="images/social/myekul.png" alt="">
-            <h2>2024</h2>
-        </div>
-    </footer>
-    <div id="dummy"></div>
+            <div id="sortTab" class="tabs" style="display:none">
+                <!-- <div id='sortOptions' class="container options" style="display:none">
+                    <input id='checkbox_info_date' onclick="action()" type="checkbox">Date
+                    <input id='checkbox_info_loadouts' onclick="action()" type="checkbox" checked>Loadouts
+                </div> -->
+                <div id='sortOptions' class="container options">
+                    <select id="dropdown_sortCriteria" onchange="action()">
+                        <option value="score" selected>Score</option>
+                        <option value="player">Player</option>
+                        <option value="date">Date</option>
+                        <option value="time">Time</option>
+                    </select>
+                </div>
+                <div id="sort"></div>
+            </div>
+            <div id="modal" class="modal">
+                <div id="modal-content">
+                    <div id="modal-header">
+                        <h1 id="modal-title"></h1>
+                    </div>
+                    <div id="modal-player"></div>
+                    <div id="modal-body"></div>
+                </div>
+                <div id='modal-pages' class="container" style="display:none"></div>
+            </div>
+        </main>
+        <footer>
+            <div class="container">
+                <a href="https://www.speedrun.com/users/myekul" target="_blank">
+                    <img src="images/external/speedrun.png" class="clickable">
+                </a>
+                <a href="https://www.youtube.com/@myekul/videos" target="_blank">
+                    <img src="images/external/youtube.png" class="clickable">
+                </a>
+                <a href="https://github.com/myekul" target="_blank">
+                    <img id='github' src="images/external/github.png" class="clickable">
+                </a>
+                <h2>myekul</h2>
+                <img class='myekul' src="images/external/myekul.png">
+                <h2>2024</h2>
+            </div>
+        </footer>
+        <div id="dummy"></div>
+    </div>
     <script type='module' src="code/api/firebase.js"></script>
     <script src="code/api/sheets.js"></script>
     <script src="code/api/src.js"></script>
@@ -249,11 +327,13 @@
     <script src="constants/cuphead/loadouts.js"></script>
     <script src="constants/sm64/constants.js"></script>
     <script src="constants/tetris/constants.js"></script>
+    <script src="constants/titanfall_2/constants.js"></script>
 
     <script src="code/page/leaderboard.js"></script>
     <script src="code/page/chart.js"></script>
     <script src="code/page/map.js"></script>
     <script src="code/page/info.js"></script>
+    <script src="code/page/sort.js"></script>
 
     <script src="code/cupheadLevels.js"></script>
 

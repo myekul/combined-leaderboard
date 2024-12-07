@@ -5,6 +5,7 @@ function parseCheckboxes() {
         displayBoolean.push(document.getElementById('checkbox_' + checkbox).checked)
     })
     isolated = document.getElementById('checkbox_isolate').checked
+    displayNumRuns = document.getElementById('checkbox_numRuns').checked
     if (isolated && sortCategoryIndex == -1) {
         sortCategoryIndex = 0
         organizePlayers(sortCategoryIndex)
@@ -15,7 +16,7 @@ function playersTable(playersArray) {
     if (page != 'map') {
         HTMLContent +=
             `<tr style='font-size:12px;${getHeaderSize()}'>
-        <th colspan=${getPlayerCols()} class='clickable gray ${!(sortCategoryIndex > -1 || isolated) ? 'selected' : ''}' onclick="showDefault()">Player</th>
+        <th colspan=10 class='clickable gray ${!(sortCategoryIndex > -1 || isolated) ? 'selected' : ''}' onclick="showDefault()">Player</th>
         </tr>`
     }
     if (mode == 'fullgameILs' || WRmode) {
@@ -49,7 +50,7 @@ function fancyHeader(numCols, extra) {
 function generateHeader(category, categoryIndex) {
     let HTMLContent = ''
     let cellContent = category.name
-    if ((mode == 'levels' && bossILindex == -1) || mode == 'fullgameILs') {
+    if ((category.info && bossILindex == -1) || mode == 'fullgameILs') {
         cellContent = getImage(category.info.id)
     }
     if (gameID == 'cuphead' && mode == 'levels' && big4()) {
@@ -59,7 +60,7 @@ function generateHeader(category, categoryIndex) {
             cellContent = trimDifficulty(category.name)
         }
     }
-    let colorClass = mode == 'fullgame' ? 'gray' : category.info.id
+    let colorClass = category.info ? category.info.id : 'gray'
     if (mode == 'levels' && big5()) {
         colorClass = category.difficulty
     }
@@ -67,22 +68,23 @@ function generateHeader(category, categoryIndex) {
     return HTMLContent
 }
 function generateLeaderboard() {
-    numPlayersDisplay = mode == 'fullgame' ? showMore ? 300 : 100 : showMore ? 100 : 30
-    playersCopy = [...players].slice(0, numPlayersDisplay)
+    playersCopy = [...players].slice(0, getNumDisplay())
     let HTMLContent = `<div class="container">`
     HTMLContent += playersTable(playersCopy)
     HTMLContent +=
         `<div id='leaderboardContainer' class='bigShadow'>
         <table>`
-    // if (displayBoolean[0]) {
-    //     HTMLContent +=
-    //         `<tr>
-    //         <th colspan=${getPlayerCols()}></th>`
-    //     categories.forEach(category => {
-    //         HTMLContent += `<th colspan=${getNumCols()}>${category.runs.length} runs</th>`
-    //     })
-    //     HTMLContent += `</tr>`
-    // }
+    if (displayNumRuns) {
+        categories.forEach(category => {
+            let numRuns = category.runs.length
+            let runs = numRuns > 1 ? 'runs' : 'run'
+            if (numRuns == 300) {
+                numRuns += '+'
+            }
+            HTMLContent += `<th colspan=${getNumCols()}>${numRuns} ${runs}</th>`
+        })
+    }
+    HTMLContent += `</tr>`
     const numCols = getNumCols()
     if (!isolated) {
         HTMLContent += fancyHeader(numCols)
@@ -118,13 +120,13 @@ function generateLeaderboard() {
         }
         HTMLContent += `</tr>`
     }
-    players.slice(0, numPlayersDisplay).forEach((player, playerIndex) => {
+    players.slice(0, getNumDisplay()).forEach((player, playerIndex) => {
         if (sortCategoryIndex == -1 || player.runs[sortCategoryIndex]) {
             HTMLContent += parsePlayerRuns(player, playerIndex)
         }
     })
     HTMLContent += `</tbody></table></div></div>`
-    if (!showMore && (sortCategoryIndex == -1 ? players.length > numPlayersDisplay : categories[sortCategoryIndex].runs.length > numPlayersDisplay)) {
+    if (!showMore && (sortCategoryIndex == -1 ? players.length > getNumDisplay() : categories[sortCategoryIndex].runs.length > getNumDisplay())) {
         HTMLContent += `<div onclick="showMorePlayers()" class='button' style='margin:0 auto;margin-top:15px'>Show More</div>`
     } else {
         showMore = false
@@ -138,33 +140,33 @@ function generateLeaderboard() {
 }
 function parsePlayer(player, playerIndex) {
     let HTMLContent = ''
-    player.scores = [];
     player.hasAllRuns = true
+    player.numRuns = 0
     player.runs.forEach(run => {
         if (run) {
-            gameID == 'tetris' ? player.scores.push(null) : player.scores.push(run.score)
+            player.numRuns++
         } else {
             player.hasAllRuns = false;
         }
     })
     player.sum = player.hasAllRuns ? 0 : ''
-    player.gpa = player.hasAllRuns ? parseFloat(getGPA(player.averagePercentage).slice(0, 3)).toFixed(1) : ''
     if (player.hasAllRuns) {
-        player.scores.forEach(score => {
-            player.sum += score
+        player.runs.forEach(run => {
+            player.sum += run.score
         })
         player.sum = secondsToHMS(player.sum)
     }
-    let percentage = getPercentage(player.averagePercentage)
+    player.gpa = player.hasAllRuns ? parseFloat(getGPA(player.score).slice(0, 3)).toFixed(1) : ''
+    let percentage = getPercentage(player.score)
     let letterGrade = getLetterGrade(percentage)
     HTMLContent += `<tr class='${getRowColor(playerIndex)} categoryLabel' style='height:22px'>`
     if (mode == 'fullgameILs') {
         if (player.extra) {
             const extra = player.extra
-            const newLetterGrade = getLetterGrade(getPercentage(extra.percentage))
+            const grade = getLetterGrade(getPercentage(extra.percentage))
             const thePlaceClass = placeClass(extra.place)
             const className = thePlaceClass ? thePlaceClass : mode == 'fullgameILs' ? fullgameILsCategory.className : sm64[0].className
-            HTMLContent += `<td class='${newLetterGrade.className}' style='font-size:12px'>${newLetterGrade.grade}</td>`
+            HTMLContent += `<td class='${grade.className}' style='font-size:12px;text-align:left'>${grade.grade}</td>`
             HTMLContent += gameID == 'sm64' ? `<td class='${className}' style='font-size:12px'>${player.extra.place}</td>` : ''
             HTMLContent += `<td class='${className} '>${secondsToHMS(player.extra.score)}</td>`
         } else {
@@ -174,16 +176,14 @@ function parsePlayer(player, playerIndex) {
             }
         }
     }
-    if (gameID == 'sm64' && mode == 'levels') {
+    if (gameID == 'titanfall_2' || (gameID == 'sm64' && mode == 'levels')) {
         HTMLContent += parseRun(player, playerIndex, extraCategory)
     }
     HTMLContent += page == 'map' ? `<td class='${placeClass(playerIndex + 1)}'>${playerIndex + 1}</td>` : ''
-    HTMLContent += (mode != 'fullgameILs' && !WRmode) ? `<td style='font-size:12px'>${percentage}</td>` : ''
+    HTMLContent += (mode != 'fullgameILs' && !WRmode) ? `<td style='font-size:12px'>${displayPercentage(percentage)}</td>` : ''
     HTMLContent += (mode != 'fullgameILs' && !WRmode) ? `<td class='${letterGrade.className}' style='text-align:left'>${letterGrade.grade}</td>` : ''
-    HTMLContent += `<td class='${placeClass(player.rank)}'>${player.rank}</td>`
-    HTMLContent += `<td>${getPlayerFlag(player, 13)}</td>`
-    HTMLContent += `<td onclick="playSound('cardup');openModal(${player.rank - 1})" class='clickable' style='text-align:left;font-weight: bold;padding-right:5px'>${getPlayerName(player)}</td>`
-    if (page == 'map') {
+    HTMLContent += getPlayerDisplay(player)
+    if (['map', 'sort'].includes(page)) {
         if (sortCategoryIndex == -1) {
             player.count1 = 0
             player.count2 = 0
@@ -216,11 +216,11 @@ function parsePlayerRuns(player, playerIndex) {
             HTMLContent += parseRun(player, playerIndex, category, categoryIndex)
         })
         if (!(mode == 'fullgameILs' || WRmode)) {
-            const gpaClass = player.gpa ? getLetterGrade(getPercentage(player.averagePercentage)).className : ''
+            const gpaClass = player.gpa ? getLetterGrade(getPercentage(player.score)).className : ''
             HTMLContent += gameID == 'tetris' ? '' : `<td>${player.sum}</td>`
             HTMLContent +=
                 `<td class='${gpaClass}'>${player.gpa}</td>
-                <td>${categories.length - player.scores.length}</td>`
+                <td>${categories.length - player.numRuns}</td>`
         }
     }
     HTMLContent += `</tr>`
@@ -229,12 +229,12 @@ function parsePlayerRuns(player, playerIndex) {
 function parseRun(player, playerIndex, category, categoryIndex) {
     let HTMLContent = ``
     let colorClass = category.className ? category.className : ''
+    colorClass = category.info ? category.info.id : colorClass
     const grayedOut = categoryIndex != null && sortCategoryIndex > -1 ? categoryIndex == sortCategoryIndex ? '' : 'grayedOut' : ''
     const run = categoryIndex == null ? player.extra : player.runs[categoryIndex]
     if (!run) {
         if (!(mode == 'fullgameILs' || WRmode)) {
-            numPlayersDisplay = mode == 'fullgame' ? showMore ? 300 : 100 : showMore ? 100 : 30
-            if (sortCategoryIndex == -1 ? playerIndex == numPlayersDisplay - 1 : playerIndex == categories[sortCategoryIndex].runs.length - 1) {
+            if (sortCategoryIndex == -1 ? playerIndex == getNumDisplay() - 1 : playerIndex == categories[sortCategoryIndex].runs.length - 1) {
                 HTMLContent += displayBoolean[0] ? `<td class='hiddenText ${colorClass} ${grayedOut}' style='font-size:12px;text-align:left;'>99.9</td>` : ''
                 HTMLContent += displayBoolean[1] ? `<td class='hiddenText ${colorClass} ${grayedOut}' style='font-size:12px;text-align:left;'>100.0</td>` : ''
                 HTMLContent += displayBoolean[2] ? `<td class='hiddenText ${colorClass} ${grayedOut}' style='font-size:12px;text-align:left;'>A+</td>` : ''
@@ -253,40 +253,37 @@ function parseRun(player, playerIndex, category, categoryIndex) {
     }
     const score = run.score
     const time = gameID == 'tetris' ? score : secondsToHMS(score)
-    const place = run ? run.place : ''
+    const place = run.place
     const percentage = getPercentage(run.percentage)
-    const percentageObject = getLetterGrade(percentage)
-    const percentageClass = percentageObject.className
-    const percentageGrade = percentageObject.grade
-    const date = new Date(run.date).getFullYear()
+    const grade = getLetterGrade(percentage)
+    const thePlaceClass = placeClass(place)
+    const newColorClass = thePlaceClass ? thePlaceClass : colorClass
+    const percentile = run.place != '-' ? (run.place / category.runs.length * 100).toFixed(1) : '-'
     const runLink = gameID != 'tetris' ? openLink(run.weblink) : ''
     const videoLink = getVideoLink(run)
-    const thePlaceClass = placeClass(place)
-    colorClass = thePlaceClass ? thePlaceClass : category.className
-    const percentile = run.place != '-' ? (run.place / category.runs.length * 100).toFixed(1) : '-'
-    if (mode == 'fullgameILs' || WRmode) {
+    if (mode == 'fullgameILs' || (WRmode && page != 'sort')) {
         const debug = run.debug ? '*' : ''
         HTMLContent += `<td onclick="${videoLink}" class='${category.className} ${grayedOut} ${videoLink ? 'clickable' : ''}'>${getTrophy(run.place)}${debug}</td>`
     } else {
-        HTMLContent += displayBoolean[0] ? `<td style='font-size:12px;text-align:left;' class='${colorClass} ${grayedOut} ${percentageClass}'>${percentile}</td>` : ''
-        HTMLContent += displayBoolean[1] ? `<td style='font-size:12px;text-align:left;' class='${colorClass} ${grayedOut} ${percentageClass}'>${percentage}</td>` : ''
-        HTMLContent += displayBoolean[2] ? `<td style='font-size:12px;text-align:left;' class='${colorClass} ${grayedOut} ${percentageClass}'>${percentageGrade}</td>` : ''
-        HTMLContent += displayBoolean[3] ? `<td onclick="${runLink}" style='font-size:12px;' class='${colorClass} ${grayedOut} ${runLink ? 'clickable' : ''}'>${place}</td>` : ''
-        HTMLContent += displayBoolean[4] ? `<td onclick="${videoLink}" class='${colorClass} ${grayedOut} ${videoLink ? 'clickable' : ''}'>${time}</td>` : ''
-        HTMLContent += displayBoolean[5] ? `<td class='${colorClass} ${grayedOut}'>${date}</td>` : ''
+        HTMLContent += displayBoolean[0] ? `<td style='font-size:12px;text-align:left;' class='${newColorClass} ${grayedOut} ${grade.className}'>${percentile}</td>` : ''
+        HTMLContent += displayBoolean[1] ? `<td style='font-size:12px;text-align:left;' class='${newColorClass} ${grayedOut} ${grade.className}'>${percentage}</td>` : ''
+        HTMLContent += displayBoolean[2] ? `<td style='font-size:12px;text-align:left;' class='${newColorClass} ${grayedOut} ${grade.className}'>${grade.grade}</td>` : ''
+        HTMLContent += displayBoolean[3] ? `<td onclick="${runLink}" style='font-size:12px;' class='${page != 'sort' ? newColorClass : thePlaceClass} ${grayedOut} ${runLink ? 'clickable' : ''}'>${place}</td>` : ''
+        HTMLContent += displayBoolean[4] ? `<td onclick="${videoLink}" class='${page != 'sort' ? newColorClass : colorClass} ${grayedOut} ${videoLink ? 'clickable' : ''}'>${time}</td>` : ''
+        HTMLContent += displayBoolean[5] ? `<td class='${newColorClass} ${grayedOut}'>${new Date(run.date).getFullYear()}</td>` : ''
     }
     return HTMLContent
 }
 function showMorePlayers() {
     playSound('ready')
     showMore = true
-    generateLeaderboard()
+    action()
 }
 function getHeaderSize() {
     if (bossILindex > -1) {
         return 'width:150px'
     }
-    if (allILs || difficultyILs || isleIndex > -1 || groundPlane) {
+    if (big4()) {
         return ''
     }
 }

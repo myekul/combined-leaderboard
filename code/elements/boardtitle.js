@@ -56,7 +56,7 @@ function generateBoardTitle(extra) {
         if (cellContent) {
             cellContent = `<span id='boardLevel'>${cellContent}</span>`
         }
-        if (bossILindex == -1) {
+        if (gameID == 'cuphead' && bossILindex == -1) {
             HTMLContent += `<th class='container ${className}'>${image}${cellContent}</th>`
         } else {
             category = categories[sortCategoryIndex]

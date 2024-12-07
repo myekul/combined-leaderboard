@@ -2,34 +2,46 @@ const rootStyles = getComputedStyle(document.documentElement)
 let playerNames = new Set()
 let players = []
 let categories
-let levelCategories
+
 let fullgameILsCategory
 let modalIndex = 0
 let globalPlayerIndex = -1
+
 let mode = 'fullgame'
+
 let cupheadVersion = 'currentPatch'
 let levelDifficulty = 'regular'
 let DLCnoDLC = 'nodlc'
 let anyHighest = 'any'
-let options = false
-let ILcategories = false
+
 let processedCategories = 0
-let showMore = false
 let sortCategoryIndex = -1
-let bossILindex = -1
-let isleIndex = -1
 let displayBoolean = []
-let stopLeaderboards = false
-let allILs = true
-let groundPlane
-let difficultyILs = false
-let firstTime = true
-let WRmode = false
-let showModal = false
+
 let extraCategory = {}
 let countries = {}
 let globalCountryName
+
+// Modes
+
+// Big 5
+let allILs = true
+let groundPlane
+let difficultyILs = false
+let bossILindex = -1
+let isleIndex = -1
+
+let stopLeaderboards = false
+let showMore = false
+let options = false
+let ILcategories = false
+let firstTime = true
+let WRmode = false
+let showModal = false
 let isolated = false
+let displayNumRuns = false
+let showGameSelect = false
+
 const hash = window.location.hash
 let page = hash ? hash.slice(1) : 'leaderboard'
 const url = new URL(window.location.href);
@@ -40,13 +52,17 @@ if (!gameParam) {
     url.searchParams.set('game', gameParam);
     window.history.pushState({}, '', url);
 }
+const gameID = gameParam;
 let modeParam = params.get('mode')
 if (!modeParam) {
-    setMode('fullgame')
+    if (gameID == 'titanfall_2') {
+        setMode('levels')
+    } else {
+        setMode('fullgame')
+    }
 } else if (['fullgame', 'levels', 'fullgameILs'].includes(modeParam)) {
     setMode(modeParam)
 }
-const gameID = gameParam;
 const SHEET_ID = gameID == 'cuphead' ? '14l1hkW337uiyCRkNz61MNq99AEoidZdqaQUIpH5FlGU' : '1ZBxkZEsfwDsUpyire4Xb16er36Covk7nhR8BN_LPodI'
 if (gameID == 'tetris') {
     url.searchParams.delete('mode');
@@ -55,23 +71,49 @@ if (gameID == 'tetris') {
     categories = tetris
     gapi.load("client", loadClient);
 }
+if (gameID == 'titanfall_2') {
+    url.searchParams.delete('mode');
+    window.history.pushState({}, '', url);
+    mode = 'levels'
+}
 // Stylization
-const gameLogo = document.getElementById('game-logo')
-gameLogo.src = `images/${gameID}.png`
+document.addEventListener('DOMContentLoaded', function () {
+    gameTabs()
+    document.getElementById('bodyContent').style.display = ''
+})
+function gameTabs() {
+    let HTMLContent = ''
+    const games = ['cuphead', 'sm64', 'tetris', 'titanfall_2']
+    games.forEach(game => {
+        HTMLContent += `<a href='?game=${game}' class="container clickable ${game}"><img src="images/logo/${game}.png"></a>`
+    })
+    document.getElementById('gameSelect').innerHTML = HTMLContent
+}
+document.getElementById('gameLogo').src = `images/logo/${gameID}.png`
+document.getElementById('gameLogoButton').src = `images/logo/${gameID}.png`
+document.getElementById('gameIcon1').src = `images/favicon/${gameID}.png`
+document.getElementById('gameIcon2').src = `images/favicon/${gameID}.png`
 const title = document.querySelector('title')
-if (gameID == 'sm64') {
+if (gameID == 'cuphead') {
+    // const cupheadWeapons = document.querySelectorAll('.cupheadWeapons')
+    // cupheadWeapons.forEach(elem => {
+    //     elem.style.display = ''
+    // })
+    document.documentElement.style.setProperty('--banner', 'var(--cuphead-yellow)');
+    document.getElementById('fullgameILsButton').style.display = ''
+    document.getElementById('modeSelection').style.display = ''
+} else if (gameID == 'sm64') {
     gameLogo.style.width = '350px'
     title.innerText = 'SM64 Leaderboard'
     document.getElementById('modeSelection').style.display = ''
-    // document.documentElement.style.setProperty('--background', 'navy');
-    // document.documentElement.style.setProperty('--otherColor', 'darkblue');
-    // document.documentElement.style.setProperty('--gray', 'slateblue');
+    document.documentElement.style.setProperty('--banner', 'royalblue');
+    document.documentElement.style.setProperty('--bannerText', 'white');
 } else if (gameID == 'tetris') {
-    gameLogo.style.width = '250px'
+    gameLogo.style.height = '80px'
     const subtitle = document.getElementById('subtitle')
     subtitle.innerText = 'PACE ACADEMY'
-    subtitle.style.paddingTop = '10px'
-    title.innerText = 'Pace Academy'
+    subtitle.style.padding = '8px 0'
+    title.innerText = 'Tetris Pace Academy'
     const header = document.querySelector('header')
     header.style.height = '140px'
     document.getElementById('optionsButton').style.display = 'none'
@@ -82,15 +124,12 @@ if (gameID == 'sm64') {
     document.documentElement.style.setProperty('--font2', 'pressStart2P');
     document.documentElement.style.setProperty('--banner', 'black');
     document.documentElement.style.setProperty('--bannerText', 'white');
-} else {
-    // const cupheadWeapons = document.querySelectorAll('.cupheadWeapons')
-    // cupheadWeapons.forEach(elem => {
-    //     elem.style.display = ''
-    // })
-    document.getElementById('fullgameILsButton').style.display = ''
-    document.getElementById('modeSelection').style.display = ''
+} else if (gameID == 'titanfall_2') {
+    title.innerText = 'Titanfall 2 Leaderboard'
+    document.documentElement.style.setProperty('--banner', 'cadetblue');
+    document.documentElement.style.setProperty('--bannerText', 'azure');
 }
-document.getElementById('favicon').href = `images/favicon_${gameID}.png`
+document.getElementById('favicon').href = `images/favicon/${gameID}.png`
 const grades = [
     { grade: 'A+', className: 'grade-a-plus', threshold: 97 },
     { grade: 'A', className: 'grade-a', threshold: 93 },

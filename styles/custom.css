@@ -11,6 +11,38 @@
     padding: 0
 }
 
+.cuphead {
+    background-color: var(--cuphead-yellow) !important;
+    color: black
+}
+
+.sm64 {
+    background-color: royalblue;
+}
+
+.tetris {
+    background-color: black;
+}
+
+.titanfall_2 {
+    background-color: cadetblue;
+}
+
+.simple {
+    background-color: lightgreen !important;
+    color: black
+}
+
+.regular {
+    background-color: var(--cuphead-yellow) !important;
+    color: black
+}
+
+.expert {
+    background-color: salmon !important;
+    color: black
+}
+
 .first {
     background-color: var(--cuphead-yellow) !important;
     color: black
@@ -255,7 +287,7 @@
 
 .thi {
     background-color: limegreen;
-    color: khaki
+    color: beige
 }
 
 .ttc {

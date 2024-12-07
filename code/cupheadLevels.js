@@ -27,9 +27,10 @@ function cupheadLevelSetting(version, DLCorNot) {
     } else {
         getCupheadSRC()
     }
+    updateILbosses()
 }
 function getCupheadSRC() {
-    fetch('resources/cupheadLevels.json')
+    fetch('resources/levels/cuphead.json')
         .then(response => response.json())
         .then(data => {
             categories = data
@@ -50,7 +51,6 @@ function getCupheadSRC() {
             });
             if (bossILindex > -1) {
                 getCupheadBoss()
-                console.log(categories)
             } else {
                 disableLevelModes()
             }
@@ -82,10 +82,11 @@ function getAllLevels() {
             .then(data => {
                 categories = data
                 resetAndGo()
+                completeLoad()
             })
         firstTime = false;
         const boardTitleSrc = document.getElementById('boardTitleSrc')
-        boardTitleSrc.innerHTML = `<div style='font-size:18px;padding-bottom:5px'>{ }</div>`
+        boardTitleSrc.innerHTML = `<div style='font-size:16px;padding-bottom:5px'>{ }</div>`
     } else {
         window.firebaseUtils.firestoreRead25()
     }
@@ -111,7 +112,6 @@ function getIsle(index) {
     playSound('category_select')
     disableLevelModes()
     isleIndex = index
-    updateILbosses()
     categories = []
     resetLoad()
     if (cupheadVersion != 'currentPatch' && isleIndex == 4) {
