@@ -1,4 +1,5 @@
-// generateLevelIDs('titanfall_2')
+// generateLevelIDs('cuphead')
+// console.log('hi')
 // const tempCategories = []
 // let tempProcessedCategories = 0
 // const runNguns = ['Forest Follies', 'Treetop Trouble', 'Funfair Fever', 'Funhouse Frazzle', 'Rugged Ridge', 'Perilous Piers']
@@ -8,16 +9,14 @@
 //         .then(response => response.json())
 //         .then(data1 => {
 //             data1.data.forEach((category, levelIndex) => {
-//                 console.log(category)
-//                 // category = cleanCategory(category)
+//                 // console.log(category)
+//                 category = cleanCategory(category)
 //                 const url2 = `https://www.speedrun.com/api/v1/levels/${category.id}/variables`
 //                 if (gameID == 'cuphead') {
 //                     if (!runNguns.includes(category.name)) {
 //                         fetch(url2)
 //                             .then(response => response.json())
 //                             .then(data2 => {
-//                                 category.numPlayersID = data2.data[0].id
-//                                 category.soloID = data2.data[0].values.default
 //                                 category.difficultyID = data2.data[1].id
 //                                 for (let [key, value] of Object.entries(data2.data[1].values.choices)) {
 //                                     if (value == 'Simple') {

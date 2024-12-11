@@ -6,13 +6,14 @@ function parseCheckboxes() {
     })
     isolated = document.getElementById('checkbox_isolate').checked
     displayNumRuns = document.getElementById('checkbox_numRuns').checked
+    milliseconds = document.getElementById('checkbox_milliseconds').checked
     if (isolated && sortCategoryIndex == -1) {
         sortCategoryIndex = 0
         organizePlayers(sortCategoryIndex)
     }
 }
 function playersTable(playersArray) {
-    let HTMLContent = `<table ${page == 'leaderboard' ? `class='bigShadow'` : ''} style="align-self: flex-end;margin:0">`
+    let HTMLContent = `<div class='bigShadow' style='align-self: flex-end;'><div style='overflow-x:scroll;'><table>`
     if (page != 'map') {
         HTMLContent +=
             `<tr style='font-size:12px;${getHeaderSize()}'>
@@ -27,7 +28,7 @@ function playersTable(playersArray) {
             HTMLContent += parsePlayer(player, playerIndex)
         }
     })
-    HTMLContent += `</table>`
+    HTMLContent += `</table></div></div>`
     return HTMLContent
 }
 function fancyHeader(numCols, extra) {
@@ -53,7 +54,7 @@ function generateHeader(category, categoryIndex) {
     if ((category.info && bossILindex == -1) || mode == 'fullgameILs') {
         cellContent = getImage(category.info.id)
     }
-    if (gameID == 'cuphead' && mode == 'levels' && big4()) {
+    if (gameID == 'cuphead' && mode == 'levels' && big5()) {
         if (isolated) {
             cellContent = category.name
         } else {

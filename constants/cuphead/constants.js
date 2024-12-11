@@ -1,7 +1,3 @@
-const solo = {
-    var: '2lgzzwo8',
-    subcat: '21ge8p8l'
-}
 const cuphead = [
     {
         name: '1.1+',
@@ -47,6 +43,133 @@ const cuphead = [
         subcat: 'jq6dee71',
         var2: 'wlek63rl',
         subcat2: 'xqkvrnkl'
+    }
+]
+const cupheadOnePointOne=[
+    {
+        name: 'Any%',
+        className: 'onePointOne',
+        id: '9d8lxv62',
+        var: '0nwpgqr8',
+        subcat: '013kjprq',
+        var2: 'ylp6g4rn',
+        subcat2: 'mlnv7no1'
+    },
+    {
+        name: 'All Flags',
+        className: 'onePointOne',
+        id: '9d8lxv62',
+        var: '0nwpgqr8',
+        subcat: '013kjprq',
+        var2: 'ylp6g4rn',
+        subcat2: '810nypoq'
+    },
+    {
+        name: 'Full Clear',
+        className: 'onePointOne',
+        id: '9d8lxv62',
+        var: '0nwpgqr8',
+        subcat: '013kjprq',
+        var2: 'ylp6g4rn',
+        subcat2: '9qjmo97q'
+    }
+]
+const cupheadLegacy=[
+    {
+        name: 'Any%',
+        className: 'legacy',
+        id: '82481pmk',
+        var: 'onvv9m0n',
+        subcat: '5lm3ep81',
+        var2: 'ql6ew5kn',
+        subcat2: '21d8nwpl'
+    },
+    {
+        name: 'All Flags',
+        className: 'legacy',
+        id: '82481pmk',
+        var: 'onvv9m0n',
+        subcat: '5lm3ep81',
+        var2: 'ql6ew5kn',
+        subcat2: '5q8v3oyl'
+    },
+    {
+        name: 'Full Clear',
+        className: 'legacy',
+        id: '82481pmk',
+        var: 'onvv9m0n',
+        subcat: '5lm3ep81',
+        var2: 'ql6ew5kn',
+        subcat2: '4qy2mr61'
+    }
+]
+const cupheadNMG=[
+    {
+        name: 'Any%',
+        className: 'nmg',
+        id: 'zd38jgek',
+        var: 'kn0z0do8',
+        subcat: 'klr0d5ol',
+        var2: '6njqk9jl',
+        subcat2: 'xqk43zdl'
+    },
+    {
+        name: 'All Flags',
+        className: 'nmg',
+        id: 'zd38jgek',
+        var: 'kn0z0do8',
+        subcat: 'klr0d5ol',
+        var2: '6njqk9jl',
+        subcat2: 'gq74o7pq'
+    },
+    {
+        name: 'Full Clear',
+        className: 'nmg',
+        id: 'zd38jgek',
+        var: 'kn0z0do8',
+        subcat: 'klr0d5ol',
+        var2: '6njqk9jl',
+        subcat2: '21g46x61'
+    }
+]
+const cupheadDLC=[
+    {
+        name: 'Any%',
+        className: 'dlc',
+        id: '7kjl0wz2',
+        var: 'wl3ddqo8',
+        subcat: '8104dd5l',
+        var2: 'wl3d6vw8',
+        subcat2: 'p127504q'
+    },
+    {
+        name: '100%',
+        className: 'dlc',
+        id: '7kjl0wz2',
+        var: 'wl3ddqo8',
+        subcat: '8104dd5l',
+        var2: 'wl3d6vw8',
+        subcat2: '81p9758q'
+    }
+]
+const cupheadDLCBase=[
+    {
+        name: 'Any%',
+        className: 'dlcbase',
+        id: 'xk95z7g2',
+        var: 'wlekk5el',
+        subcat: 'jq6dee71',
+        var2: 'wlek63rl',
+        subcat2: 'xqkvrnkl'
+    },
+    {
+        name: '300%',
+        className: 'dlcbase',
+        id: 'xk95z7g2',
+        var: 'wlekk5el',
+        subcat: 'jq6dee71',
+        var2: 'wlek63rl',
+        subcat2: 'gq78nxd1'
     }
 ]
 const cuphead100 = [

@@ -52,7 +52,6 @@ function sortRuns(sortCriteria) {
         if (big5()) {
             className = category.difficulty
         }
-        // const categoryName=gameID=='cuphead'&&!big5()?category.name:
         if (sortCriteria == 'date') {
             if (runIndex < everyRun.length - 1) {
                 const date1 = new Date(run.run.date)
@@ -69,7 +68,6 @@ function sortRuns(sortCriteria) {
             HTMLContent += `<td class='${grade.className}'>${displayPercentage(percentage)}</td>`
         }
         HTMLContent += `<td class='${className}'>${category.name}</td>`
-        // HTMLContent += category.info ? `<td class='${category.info.id}'>${category.info.name}</td>` : ''
         HTMLContent += category.info ? `<td class='container ${category.info.id}'>${getImage(category.info.id, 20)}</td>` : ''
         HTMLContent += parseRun(player, run.playerIndex, category, run.categoryIndex)
         HTMLContent += getPlayerDisplay(player)

@@ -28,6 +28,18 @@
     background-color: cadetblue;
 }
 
+.smb1 {
+    background-color: mediumslateblue;
+}
+
+.smb2 {
+    background-color: cornflowerblue;
+}
+
+.smb3 {
+    background-color: yellow;
+}
+
 .simple {
     background-color: lightgreen !important;
     color: black

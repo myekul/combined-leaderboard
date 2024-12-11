@@ -72,16 +72,18 @@ window.firebaseUtils = {
         }
     },
     firestoreRead25: async () => {
-        const numDocs = cupheadVersion == 'currentPatch' ? 25 : 19
+        let numDocs = cupheadVersion == 'currentPatch' && !basegameILs ? 25 : 19
         const collectionRef = collection(db, getCollection())
         let query1 = query(collectionRef, limit(numDocs))
         if (difficultyILs && levelDifficulty == 'simple') {
+            numDocs = cupheadVersion == 'currentPatch' && !basegameILs ? 22 : 17
             query1 = query(collectionRef, where('categories.0.info.time', '==', 129), limit(numDocs))
         } else if (isleIndex > -1) {
             query1 = query(collectionRef, where('categories.0.info.isle', '==', isleIndex + 1), limit(numDocs))
         } else if (groundPlane == 'ground') {
             query1 = query(collectionRef, where('categories.0.info.plane', '==', false), limit(numDocs))
         } else if (groundPlane == 'plane') {
+            numDocs = basegameILs ? 5 : 6
             query1 = query(collectionRef, where('categories.0.info.plane', '==', true), limit(numDocs))
         }
         try {
@@ -104,7 +106,7 @@ window.firebaseUtils = {
                 });
             }
             resetAndGo()
-            // console.log(JSON.stringify(categories)) // JSON
+            console.log(JSON.stringify(categories)) // JSON
         } catch (error) {
             console.error("Error fetching documents: ", error)
         }

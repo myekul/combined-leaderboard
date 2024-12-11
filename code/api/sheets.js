@@ -8,16 +8,16 @@ function loadClient() {
         }, (err) => console.error("Error loading GAPI client for API", err));
 }
 function fetchAllData() {
-    categories.forEach((category, categoryIndex) => {
-        if (gameID == 'cuphead') {
-            fetchCuphead(category, categoryIndex)
-        } else {
+    if (gameID == 'cuphead') {
+        fetchCuphead()
+    } else {
+        categories.forEach((category, categoryIndex) => {
             fetchTetris(category, categoryIndex)
-        }
-
-    })
+        })
+    }
 }
 function fetchTetris(category, categoryIndex) {
+    resetLoad()
     return gapi.client.sheets.spreadsheets.values.get({
         spreadsheetId: SHEET_ID,
         range: `'${category.tabName}'!${category.range}`
@@ -61,10 +61,10 @@ function fetchTetris(category, categoryIndex) {
         }
     }, (err) => console.error("Execute error", err));
 }
-function fetchCuphead(category) {
+function fetchCuphead() {
     return gapi.client.sheets.spreadsheets.get({
         spreadsheetId: SHEET_ID,
-        ranges: [`'${category.tabName}'!${category.range}`],
+        ranges: [`'${fullgameILsCategory.tabName}'!${fullgameILsCategory.range}`],
         fields: 'sheets(data(rowData(values(userEnteredValue,textFormatRuns))))'
     }).then(response => {
         const values = response.result.sheets[0].data[0].rowData;

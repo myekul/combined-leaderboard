@@ -3,9 +3,8 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 
 ## Motivation
 ### A more granular leaderboard
-- On traditional leaderboards, the player in 1st place can be leagues ahead of everyone in 2nd, 3rd, and so on. There's no easy way to make this comparison without doing the math in your head.
+- On traditional leaderboards, the player in 1st place can have a speedrun leagues ahead of everyone in 2nd, 3rd, and so on. There's no easy way to make this comparison without doing the math in your head.
     - This leaderboard caluculates letter grades for every run in every category, allowing you to easily identify the best players.
-    - The chart section allows you to visualize the competition.
 ### Motivation
 - Players have reported increased motivation to try out new categories to improve their leaderboard placement.
 ### Organization
@@ -19,7 +18,7 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 ## How it works
 This website uses three database API systems:
 - **Speedrun.com** API is used to extract data from the SRC database.
-    - Cuphead, SM64
+    - Cuphead, SM64, Titanfall 2
 - **Google Sheets** API is used to extract data from spreadsheets.
     - Cuphead, Tetris
 - **Firebase** API is used to cache and organize data from SRC.
@@ -52,14 +51,32 @@ Each player recieves a score (out of 100) and a letter grade, which are determin
     - For SM64:
         - If a player has a 0-Star run but no 1-Star run, their 1-Star penalty will be halved.
 
+## Tabs
+### Leaderboard
+- Ranks players based on a number of criteria (see above)
+
+### Chart
+- Visualizes the competition 
+- Compares player scores and run scores
+
+### Map
+- Displays where in the world the top players are from
+
+### World records
+- Displays the world record holders for each category
+
+### Sort
+- Sort players or runs by rank, score, time, etc.
+
+## Disclaimer
+Admittedley, player rank calculation can be a very subjective thing. I tried to make it as fair as possible, but I don't expect these rankings to be taken seriously. I just thought it would be a fun way to compare speedrunners with other players of similar caliber.
+
 ## Planned features
-- Fullgame ILs - other loadouts
 - Missing run penalty explanation
 - When score is worse that penalty, penalize instead?
 - Credits page
-- Percentages for chart categories
-- Convert bosses array to a set
-- Remove API links from SRC categories
+- Percentages for chart categories?
+- Convert bosses array to a set?
 - SM64 IL divisions
 - WR mode
 
@@ -68,3 +85,5 @@ Each player recieves a score (out of 100) and a letter grade, which are determin
 - Chart time format oddities
 - Modal scrolling oddities
 - Legacy IL loadouts are unfinished
+- Map color logic is weird
+- Hortizontal scrollbar misalignment

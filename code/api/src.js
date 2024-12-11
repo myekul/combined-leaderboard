@@ -1,6 +1,5 @@
 function getLeaderboard(category, query, variables, extra) {
-    const url = `https://www.speedrun.com/api/v1/leaderboards/${gameID}/${query}${variables}&top=300&embed=players,category`;
-    // const url = `https://www.speedrun.com/api/v1/games/titanfall_2/variables`
+    const url = `https://www.speedrun.com/api/v1/leaderboards/${gameID}/${query}?${variables}&top=300&embed=players,category`;
     fetch(url, {
         method: "GET",
         headers: {
@@ -24,8 +23,6 @@ function getLeaderboard(category, query, variables, extra) {
                 load()
                 if (processedCategories == categories.length) {
                     // console.log(JSON.stringify(categories)) // JSON
-                    const boardTitleSrc = document.getElementById('boardTitleSrc')
-                    boardTitleSrc.innerHTML = `<img src='images/external/speedrun.png'>`
                     if (stopLeaderboards) {
                         stopLeaderboards = false
                     } else {
@@ -34,13 +31,15 @@ function getLeaderboard(category, query, variables, extra) {
                         } else if (gameID == 'titanfall_2') {
                             getLeaderboard(titanfall_2, `category/${titanfall_2.id}`, titanfall_2VarFG, true)
                         } else {
+                            const boardTitleSrc = document.getElementById('boardTitleSrc')
+                            boardTitleSrc.innerHTML = `<img src='images/external/speedrun.png'>`
                             if (bossILindex > -1) {
                                 const boss = bosses[bossILindex]
                                 console.log(boss.name + ' loaded')
                             } else {
                                 console.log(categories.length + '/' + categories.length + ' loaded')
                             }
-                            if (gameID == 'cuphead' && mode == 'levels') {
+                            if (gameID == 'cuphead' && mode == 'levels' && !basegameILs) {
                                 window.firebaseUtils.firestoreWrite()
                             }
                             prepareData()
@@ -59,6 +58,8 @@ function getLeaderboard(category, query, variables, extra) {
                     }
                     assignRuns(extraCategory)
                     prepareData()
+                    const boardTitleSrc = document.getElementById('boardTitleSrc')
+                    boardTitleSrc.innerHTML = `<img src='images/external/speedrun.png'>`
                 }
             }
         })

@@ -24,18 +24,21 @@
 <body>
     <div id="bodyContent" style="display: none">
         <header>
-            <div class="">
+            <div>
                 <div class="container" style="align-items: flex-end;">
-                    <img id='gameIcon1' style='height:36px;width:auto;margin-bottom:20px;padding:0 10px'>
+                    <img id='gameIcon1' style='height:32px;width:auto;margin-bottom:25px;padding:0 10px'>
                     <div>
-                        <img id='gameLogo' class='gameLogo container'>
+                        <img id='gameLogo' class='container' style="height:50px;width:auto">
+                        <h1 id='gameTitle' class='container'
+                            style="position:absolute;left:50%;transform: translate(-50%, -45px)"></h1>
                         <h1 id='subtitle' style="font-size:25px;transform: translate(0px, -20px);text-align: center;">
                             COMBINED LEADERBOARD
                         </h1>
                     </div>
-                    <img id='gameIcon2' style='height:36px;width:auto;margin-bottom:20px;padding:0 10px'>
+                    <img id='gameIcon2' style='height:32px;width:auto;margin-bottom:25px;padding:0 10px'>
                 </div>
-                <div class='container' style="transform: translate(0px, -20px)">The best overall players across each
+                <div id='titleDesc' class='container' style="transform: translate(0px, -20px)">The best overall players
+                    across each
                     category
                 </div>
             </div>
@@ -68,7 +71,7 @@
                                 class="fa fa-bar-chart"></i>
                         </div>
                         <div id='mapButton' class='button' onclick="showTab('map')"><i class="fa fa-flag"></i></div>
-                        <div id='infoButton' class='button' onclick="showTab('info')"><i class="fa fa-trophy"></i></div>
+                        <div id='WRsButton' class='button' onclick="showTab('WRs')"><i class="fa fa-trophy"></i></div>
                         <div id='sortButton' class='button' onclick="showTab('sort')"><i
                                 class="fa fa-sort-amount-asc"></i>
                         </div>
@@ -82,6 +85,7 @@
                     <div id="progress-bar" class="progress-bar"></div>
                 </div>
             </div>
+            <!-- Cuphead ILs -->
             <div id="ILsSection" class='hide headerRow' style="display:none">
                 <div class="container">
                     <div id='versionTabs' class='container' style="margin:0">
@@ -107,7 +111,11 @@
                     </div>
                 </div>
                 <div id="ILcategories" style="display:none">
-                    <div id="ILbosses"></div>
+                    <div class="container">
+                        <div id="ILbosses"></div>
+                        <input id='checkbox_basegameILs' type="checkbox" onchange='toggleBasegameILs()'
+                            style="accent-color: var(--cuphead-green);" checked>
+                    </div>
                     <div id='difficultyTabs' class="container">
                         <div>
                             <div id='difficultyBoth' class="container">
@@ -153,36 +161,7 @@
                     <div id='fullgameILs_dlcbase' onclick="getFullgameILs('D+B')" class="button dlcbase">DLC+Base
                     </div>
                 </div>
-                <!-- <div id="nmg_loadouts" class="container loadouts">
-                    <div id='nmg_lobberspread' onclick="getFullgameILs('NMG')" class="button nmg container">
-                        <img src="images/cuphead/inventory/weapons/lobber.png">
-                        <img src="images/cuphead/inventory/weapons/spread.png">
-                    </div>
-                    <div id='nmg_peashooterspread' onclick="getFullgameILs('NMG P/S')" class="button nmg">
-                        <img src="images/cuphead/inventory/weapons/peashooter.png">
-                        <img src="images/cuphead/inventory/weapons/spread.png">
-                    </div>
-                </div>
-                <div id="dlc_loadouts" class="container loadouts">
-                    <div id='dlc_lobberspread' onclick="getFullgameILs('DLC')" class="button dlc container">
-                        <img src="images/cuphead/inventory/weapons/lobber.png">
-                        <img src="images/cuphead/inventory/weapons/spread.png">
-                    </div>
-                    <div id='dlc_peashooterspread' onclick="getFullgameILs('DLC C/S')" class="button dlc">
-                        <img src="images/cuphead/inventory/weapons/charge.png">
-                        <img src="images/cuphead/inventory/weapons/spread.png">
-                    </div>
-                </div>
-                <div id="dlcbase_loadouts" class="container loadouts">
-                    <div id='dlc_lobberspread' onclick="getFullgameILs('D+B')" class="button dlcbase container">
-                        <img src="images/cuphead/inventory/weapons/lobber.png">
-                        <img src="images/cuphead/inventory/weapons/spread.png">
-                    </div>
-                    <div id='dlcbase_peashooterspread' onclick="getFullgameILs('D+B C/S')" class="button dlcbase">
-                        <img src="images/cuphead/inventory/weapons/charge.png">
-                        <img src="images/cuphead/inventory/weapons/spread.png">
-                    </div>
-                </div> -->
+                <div id="loadouts" class="container"></div>
             </div>
             <div id="boardTitleDiv" class="container sticky" style="margin-top:10px">
                 <input id="checkbox_isolate" type="checkbox" style="display:none">
@@ -205,6 +184,7 @@
                 <div id='leaderboardOptions' class="options" style="display:none">
                     <div class="container">
                         <input id="checkbox_numRuns" type="checkbox"># of Runs
+                        <input id="checkbox_milliseconds" type="checkbox">Milliseconds
                     </div>
                     <div class="container">
                         <input id="checkbox_percentile" type="checkbox">Percentile
@@ -228,6 +208,7 @@
                     <div id="fixedDiv">
                         <input id='checkbox_charts_fixed' onclick="action()" type="checkbox" checked>Fixed
                     </div>
+                    <input id='checkbox_charts_normalized' onclick="action()" type="checkbox" checked>Normalized
                 </div>
                 <div id="chart"></div>
             </div>
@@ -241,10 +222,10 @@
                 <div class="container">
                     <select id="dropdown_mapMode" onchange="action()">
                         <option value="all">Top 300</option>
-                        <option value="top100">Top 100</option>
-                        <option value="top30" selected>Top 30</option>
+                        <option value="top100" selected>Top 100</option>
+                        <option value="top30">Top 30</option>
                         <option value="trophies">Trophies</option>
-                        <option value="wrs">WRs</option>
+                        <option value="WRs">WRs</option>
                     </select>
                     <select id="dropdown_mapValue" onchange="action()">
                         <option value="players" selected>Players</option>
@@ -263,19 +244,16 @@
                     </div>
                 </div>
             </div>
-            <!-- Info -->
-            <div id="infoTab" class="tabs" style="display:none">
-                <div id='infoOptions' class="container options" style="display:none">
-                    <input id='checkbox_info_date' onclick="action()" type="checkbox">Date
-                    <input id='checkbox_info_loadouts' onclick="action()" type="checkbox" checked>Loadouts
+            <!-- WRs -->
+            <div id="WRsTab" class="tabs" style="display:none">
+                <div id='WRsOptions' class="container options" style="display:none">
+                    <input id='checkbox_WRs_date' onclick="action()" type="checkbox">Date
+                    <input id='checkbox_WRs_loadouts' onclick="action()" type="checkbox" checked>Loadouts
                 </div>
-                <div id="info"></div>
+                <div id="WRs"></div>
             </div>
+            <!-- Sort -->
             <div id="sortTab" class="tabs" style="display:none">
-                <!-- <div id='sortOptions' class="container options" style="display:none">
-                    <input id='checkbox_info_date' onclick="action()" type="checkbox">Date
-                    <input id='checkbox_info_loadouts' onclick="action()" type="checkbox" checked>Loadouts
-                </div> -->
                 <div id='sortOptions' class="container options">
                     <select id="dropdown_sortCriteria" onchange="action()">
                         <option value="score" selected>Score</option>
@@ -328,11 +306,14 @@
     <script src="constants/sm64/constants.js"></script>
     <script src="constants/tetris/constants.js"></script>
     <script src="constants/titanfall_2/constants.js"></script>
+    <script src="constants/smb1/constants.js"></script>
+    <script src="constants/smb2/constants.js"></script>
+    <script src="constants/smb3/constants.js"></script>
 
     <script src="code/page/leaderboard.js"></script>
     <script src="code/page/chart.js"></script>
     <script src="code/page/map.js"></script>
-    <script src="code/page/info.js"></script>
+    <script src="code/page/WRs.js"></script>
     <script src="code/page/sort.js"></script>
 
     <script src="code/cupheadLevels.js"></script>

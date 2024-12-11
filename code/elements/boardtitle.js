@@ -17,7 +17,7 @@ function setBoardTitle() {
     boardTitleDiv.style.display = ''
 }
 function generateBoardTitle(extra) {
-    let HTMLContent = `<div><table style='border: 3px solid var(--banner)'><tr>`
+    let HTMLContent = `<div><table id='boardTitleTable'><tr>`
     if (sortCategoryIndex == -1 || extra == 2) {
         if (difficultyILs) {
             HTMLContent += `<td class='${levelDifficulty}'>${levelDifficulty.charAt(0).toUpperCase() + levelDifficulty.slice(1)}</td>`
@@ -68,7 +68,7 @@ function generateBoardTitle(extra) {
         }
     } else if (mode == 'fullgame' && page == 'charts') {
         HTMLContent += `<td class='banner'>Player Score</td>`
-    } else if (mode == 'levels' && allILs) {
+    } else if (mode == 'levels' && ((gameID == 'cuphead' && allILs) || gameID != 'cuphead')) {
         HTMLContent += `<td>Top IL Runners</td>`
     }
     if (gameID == 'cuphead' && mode == 'levels') {
@@ -81,6 +81,9 @@ function generateBoardTitle(extra) {
         if (cupheadVersion == 'legacy') {
             HTMLContent += `<td class='legacy'>Legacy</td>`
         }
+        if (basegameILs && isleIndex == -1 && bossILindex == -1) {
+            HTMLContent += `<td class='cuphead'>Base Game</td>`
+        }
     }
     if (mode == 'fullgameILs') {
         HTMLContent += `<td class=${fullgameILsCategory.className}>${fullgameILsCategory.name}</td>`
@@ -91,7 +94,7 @@ function generateBoardTitle(extra) {
             </th>`
     }
     HTMLContent += `</tr></table></div>`
-    if (HTMLContent == `<div><table style='border: 3px solid var(--banner)'><tr></tr></table></div>`) {
+    if (HTMLContent == `<div><table id='boardTitleTable'><tr></tr></table></div>`) {
         return ''
     }
     return HTMLContent
@@ -112,6 +115,9 @@ function updateCategories() {
             if (mode == 'levels' && big4()) {
                 categoryName = trimDifficulty(category.name)
                 className = category.difficulty
+            }
+            if (!className) {
+                className = 'gray'
             }
             HTMLContent += `<th onclick="drawNewChart(${categoryIndex})" class='${className} clickable ${isSelected(categoryIndex)} chartTab'>${categoryName}</th>`
         }

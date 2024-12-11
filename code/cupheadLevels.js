@@ -37,7 +37,7 @@ function getCupheadSRC() {
             categories.forEach((category, categoryIndex) => {
                 category.info = bosses[categoryIndex]
             })
-            if (cupheadVersion != 'currentPatch') {
+            if (cupheadVersion != 'currentPatch' || basegameILs) {
                 categories = categories.slice(0, 19)
             }
             if (levelDifficulty == 'simple') {
@@ -136,23 +136,6 @@ function getGroundPlane(groundOrPlane) {
     updateILbosses()
     window.firebaseUtils.firestoreRead25()
 }
-function updateILbosses() {
-    let HTMLContent = `<table><tr>`
-    isles.forEach((isle, index) => {
-        const selected = index == isleIndex ? 'selected' : ''
-        HTMLContent += `<th colspan=${isle.numBosses} onclick="getIsle(${index})" class='clickable ${selected} ${isle.className}'>${isle.name}</th>`
-    })
-    HTMLContent += `</tr><tr>`
-    bosses.forEach((category, categoryIndex) => {
-        const selected = bossILindex == categoryIndex ? 'selected' : ''
-        HTMLContent += `<th onclick="getBossIL('${category.id}')" class='clickable ${category.id} ${selected}'>${getImage(category.id)}</th>`
-    })
-    HTMLContent += `</tr></table>`
-    const ILbosses = document.getElementById('ILbosses')
-    ILbosses.innerHTML = HTMLContent
-    document.getElementById('groundimg').src = `images/cuphead/ground_${cupheadVersion}.png`
-    document.getElementById('planeimg').src = `images/cuphead/plane_${cupheadVersion}.png`
-}
 function getBossIL(bossName) {
     playSound('category_select')
     disableLevelModes()
@@ -181,6 +164,18 @@ function toggleILcategories() {
         ILcategoriesButton.innerHTML = '&#9660'
     } else {
         ILcategoriesOn()
+    }
+}
+function toggleBasegameILs() {
+    if (basegameILs) {
+        basegameILs = false
+    } else {
+        basegameILs = true
+    }
+    if (bossILindex == -1 && isleIndex == -1) {
+        refreshLeaderboard()
+    } else {
+        updateILbosses()
     }
 }
 function ILcategoriesOn() {
@@ -216,13 +211,9 @@ function getCupheadBoss() {
             })
         })
     }
-    // resetLoad()
-    // categories.forEach(category => {
-    //     cupheadPrep(category)
-    // })
 }
 function cupheadPrep(category) {
-    let variables = `?var-${category.numPlayersID}=${category.soloID}&var-${category.difficultyID}=${category[category.difficulty]}`
+    let variables = `var-2lgzzwo8=21ge8p8l&var-${category.difficultyID}=${category[category.difficulty]}` // Players - Solo
     if (category.versionID) {
         variables += `&var-${category.versionID}=${category[category.version]}`
     }
@@ -250,4 +241,41 @@ function disableLevelModes() {
     groundPlane = null
     document.getElementById('checkbox_isolate').checked = false
     document.getElementById('allLevels').classList.remove('selected')
+}
+function updateILbosses() {
+    const checkbox_basegameILs = document.getElementById('checkbox_basegameILs')
+    if (DLCnoDLC == 'dlc' || cupheadVersion == 'legacy') {
+        basegameILs = false
+        checkbox_basegameILs.checked = true
+        checkbox_basegameILs.style.opacity = 0
+    } else {
+        checkbox_basegameILs.style.opacity = 1
+    }
+    let HTMLContent = `<table><tr>`
+    isles.forEach((isle, index) => {
+        let grayscale = ''
+        let clickevent = `getIsle(${index})`
+        if (basegameILs && index == 4) {
+            grayscale = 'grayscale'
+            clickevent = `playSound('locked')`
+        }
+        const selected = index == isleIndex ? 'selected' : ''
+        HTMLContent += `<th colspan=${isle.numBosses} onclick="${clickevent}" class='clickable ${selected} ${isle.className} ${grayscale}'>${isle.name}</th>`
+    })
+    HTMLContent += `</tr><tr>`
+    bosses.forEach((category, categoryIndex) => {
+        let grayscale = ''
+        let clickevent = `getBossIL('${category.id}')`
+        if (basegameILs && category.isle == 5) {
+            grayscale = 'grayscale'
+            clickevent = `playSound('locked')`
+        }
+        const selected = bossILindex == categoryIndex ? 'selected' : ''
+        HTMLContent += `<th onclick="${clickevent}" class='clickable ${category.id} ${selected} ${grayscale}'>${getImage(category.id)}</th>`
+    })
+    HTMLContent += `</tr></table>`
+    const ILbosses = document.getElementById('ILbosses')
+    ILbosses.innerHTML = HTMLContent
+    document.getElementById('groundimg').src = `images/cuphead/ground_${cupheadVersion}.png`
+    document.getElementById('planeimg').src = `images/cuphead/plane_${cupheadVersion}.png`
 }

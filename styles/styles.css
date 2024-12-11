@@ -118,12 +118,6 @@ td {
     text-align: center
 }
 
-header img {
-    width: 55px;
-    height: auto;
-    object-fit: contain
-}
-
 footer img {
     height: 32px;
     width: auto;
@@ -164,11 +158,6 @@ table {
     opacity: 0.6
 }
 
-.gameLogo {
-    height: 50px;
-    width: auto;
-}
-
 #modal-img img {
     width: 19px;
     height: auto;
@@ -176,7 +165,7 @@ table {
 }
 
 #leaderboardContainer {
-    overflow-x: auto;
+    overflow-x: scroll;
 }
 
 th {
@@ -237,6 +226,11 @@ select {
     max-width: 50%;
 }
 
+#boardTitleTable {
+    border: 3px solid var(--banner);
+    border-radius: 5px
+}
+
 progress::-webkit-progress-value {
     background-color: var(--cuphead-yellow)
 }
@@ -267,7 +261,8 @@ select {
 }
 
 .chartTab {
-    width: 80px
+    width: 80px;
+    padding: 0 5px
 }
 
 .grayedOut {
@@ -403,7 +398,7 @@ select {
     margin: 20px auto
 }
 
-#info td img {
+#WRs td img {
     height: 18px;
     width: auto
 }
@@ -425,11 +420,11 @@ select {
         0 10px 10px rgba(0, 0, 0, 0.2);
 }
 
-.loadouts .button {
+#loadouts .button {
     width: 50px
 }
 
-.loadouts img {
+#loadouts img {
     height: 20px;
     width: auto
 }
@@ -456,7 +451,7 @@ select {
     position: absolute;
     left: 0;
     top: 50px;
-    width: 300px;
+    width: 250px;
     background-color: var(--background);
     opacity: 1;
     z-index: 1;
@@ -494,8 +489,10 @@ select {
 }
 
 #gameSelect img {
-    height: 40px;
-    padding: 5px
+    max-width: 250px;
+    width: 70%;
+    height: 50px;
+    object-fit: contain;
 }
 
 .progress-container {
@@ -529,4 +526,26 @@ select {
     100% {
         transform: rotate(360deg);
     }
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--banner);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--gray);
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--background);
+}
+
+.grayscale {
+    filter: grayscale(100%) brightness(40%);
 }

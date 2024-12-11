@@ -2,6 +2,7 @@ function drawChart() {
     const backgroundColor = rootStyles.getPropertyValue('--otherColor')
     const font = rootStyles.getPropertyValue('--font')
     sortPlayers(players)
+    let normalized = document.getElementById('checkbox_charts_normalized').checked
     let fixed = document.getElementById('checkbox_charts_fixed').checked
     let maxValue = 0
     if (gameID == 'tetris') {
@@ -14,7 +15,21 @@ function drawChart() {
             maxValue = mode == 'fullgame' ? 3600 : 120
         } else if (gameID == 'sm64') {
             maxValue = mode == 'fullgame' ? 6000 : 400
+        } else if (gameID == 'titanfall_2') {
+            maxValue = 600
+        } else if (gameID == 'smb1') {
+            maxValue = 1200
+        } else if (gameID == 'smb2') {
+            maxValue = 1800
+        } else {
+            maxValue = 3600
         }
+    }
+    if (mode == 'fullgameILs' || WRmode) {
+        normalized = false
+    }
+    if (normalized) {
+        maxValue = 100
     }
     const numBars = document.getElementById('dropdown_top').value
     const annotation = numBars <= 30
@@ -40,8 +55,8 @@ function drawChart() {
                 annotation ? newPlayer.push(numRuns) : ''
                 rows.push(newPlayer)
             } else {
-                const percentage = parseFloat(getPercentage(player.score))
-                const newPlayer = [player.name, percentage, getClassColor(getLetterGrade(percentage).className)]
+                const percentage = getPercentage(player.score)
+                const newPlayer = [player.name, parseFloat(percentage), getClassColor(getLetterGrade(percentage).className)]
                 annotation ? newPlayer.push(percentage) : ''
                 rows.push(newPlayer)
             }
@@ -51,11 +66,15 @@ function drawChart() {
         const categoryRuns = category.runs.slice(0, numBars)
         categoryRuns.forEach(run => {
             let score = run.score
-            if (!fixed || (fixed && score < maxValue)) {
-                convertedTime = gameID == 'tetris' ? score : secondsToHMS(score)
-                if (!(gameID == 'cuphead' && mode == 'levels' && score > 120)) {
-                    const colorClass = ((mode == 'levels' && WRmode) || (mode == 'fullgameILs' || WRmode)) ? categories[sortCategoryIndex].info.id : getLetterGrade(getPercentage(run.percentage)).className
-                    const newRun = [run.playerName, Math.round(score), getClassColor(colorClass)]
+            if (!fixed || (!normalized && fixed && score < maxValue) || normalized) {
+                const convertedTime = gameID == 'tetris' ? score : secondsToHMS(score)
+                if (!(!normalized && gameID == 'cuphead' && mode == 'levels' && score > 120)) {
+                    const colorClass = mode == 'fullgameILs' || WRmode ? categories[sortCategoryIndex].info.id : getLetterGrade(getPercentage(run.percentage)).className
+                    let rowContent = Math.round(score)
+                    if (normalized) {
+                        rowContent = parseFloat(getPercentage(run.percentage))
+                    }
+                    const newRun = [run.playerName, rowContent, getClassColor(colorClass)]
                     annotation ? newRun.push(convertedTime) : ''
                     rows.push(newRun)
                 }

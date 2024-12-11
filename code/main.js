@@ -5,10 +5,13 @@ function getFullGame() {
     disableLevelModes()
     // hideTabs()
     sortCategoryIndex = -1
-    categories = gameID == 'cuphead' ? cuphead : sm64
+    categories = categorySet[gameID]
     resetLoad()
     categories.forEach(category => {
-        let variables = `?var-${category.var}=${category.subcat}`
+        let variables = ''
+        if (category.var) {
+            variables += `var-${category.var}=${category.subcat}`
+        }
         if (category.var2) {
             variables += `&var-${category.var2}=${category.subcat2}`
         }
@@ -19,7 +22,9 @@ function getLevels() {
     if (gameID == 'cuphead' && mode != 'levels') {
         allILs = true
     }
-    setMode('levels')
+    if (gameID != 'titanfall_2') {
+        setMode('levels')
+    }
     // hideTabs()
     if (gameID == 'cuphead') {
         cupheadLevelSetting()
@@ -34,17 +39,36 @@ function getFullgameILs(categoryName) {
     sortCategoryIndex = -1
     categoryName = categoryName != null ? categoryName : '1.1+'
     fullgameILsCategory = fullgameILs[categoryName]
-    categories = [fullgameILsCategory]
+    updateLoadouts(categoryName)
     buttonClick('fullgameILs_' + fullgameILsCategory.className, 'fullgameILsVersionTabs', 'active')
     resetLoad()
     players = []
     playerNames = new Set()
     let category = cuphead[fullgameILsCategory.index]
-    let variables = `?var-${category.var}=${category.subcat}`
+    let variables = `var-${category.var}=${category.subcat}`
     if (category.var2) {
         variables += `&var-${category.var2}=${category.subcat2}`
     }
     getLeaderboard(category, `category/${category.id}`, variables, true)
+}
+function updateLoadouts(categoryName) {
+    let HTMLContent = ''
+    let fullgameCategories = []
+    if (fullgameILsCategory.name == 'NMG') {
+        fullgameCategories.push('NMG', 'NMG P/S')
+    } else if (fullgameILsCategory.name == 'DLC') {
+        fullgameCategories.push('DLC', 'DLC C/S')
+    } else if (fullgameILsCategory.name == 'DLC+Base') {
+        fullgameCategories.push('D+B', 'D+B C/S')
+    }
+    fullgameCategories.forEach(category => {
+        HTMLContent +=
+            `<div onclick="playSound('category_select');getFullgameILs('${category}')" class="button ${fullgameILsCategory.className} container ${categoryName == category ? 'active' : ''}">
+            <img src="images/cuphead/inventory/weapons/${fullgameILs[category].shot1}.png">
+            <img src="images/cuphead/inventory/weapons/${fullgameILs[category].shot2}.png">
+        </div>`
+    })
+    document.getElementById('loadouts').innerHTML = HTMLContent
 }
 function enableWRMode() {
     WRmode = true
@@ -221,6 +245,7 @@ function generateRanks() {
                             player.percentageSum -= getScore(onePointOne, onePointOneWR, onePointOneRun.score) * (1 / categories.length)
                             player.percentageSum += runCopy.percentage * (1 / categories.length)
                         }
+                        // Highest grade in place of an Any% run
                     } else if (mode == 'levels' && big5() && runIndex % 2 == 1 && !WRmode) {
                         let runCopy = { ...run }
                         runCopy.place = '-'
@@ -290,7 +315,10 @@ function sortPlayers(playersArray) {
 }
 function refreshLeaderboard() {
     sortCategoryIndex = -1
-    if (gameID != 'tetris') {
+    if (gameID == 'tetris') {
+        categories = tetris
+        gapi.load("client", loadClient);
+    } else {
         if (mode == 'fullgame') {
             getFullGame()
         } else if (mode == 'levels') {
@@ -305,17 +333,11 @@ function resetLoad() {
     playerNames = new Set()
     players = []
     stopLeaderboards = false
-    document.getElementById('boardTitleSrc').innerHTML=`<div class='loader'></div>`
+    document.getElementById('boardTitleSrc').innerHTML = `<div class='loader'></div>`
     document.getElementById('progress-bar').style.width = 0;
     document.getElementById('loading').style.display = ''
-    // const loadingText = document.getElementById('loadingText')
-    // if (mode == 'fullgameILs' || big4()) {
-    //     loadingText.innerText = ''
-    // } else {
-    //     loadingText.innerText = '0/' + categories.length
-    // }
 }
-function completeLoad(){
+function completeLoad() {
     document.getElementById('progress-bar').style.width = '100%';
 }
 function hideTabs() {

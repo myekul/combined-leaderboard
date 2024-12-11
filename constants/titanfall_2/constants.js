@@ -4,9 +4,9 @@ const titanfall_2 = {
     var: '',
     subcat: ''
 }
-const titanfall_2VarFG = '?var-5lyj7d2l=jq6yp5j1' // Full game Standard
+const titanfall_2VarFG = 'var-5lyj7d2l=jq6yp5j1' // Full game Standard
 // https://www.speedrun.com/api/v1/games/o6gen512/variables
-const titanfall_2VarIL = '?var-9l71p59l=gq7zjrn1' // IL Standard
+const titanfall_2VarIL = 'var-9l71p59l=gq7zjrn1' // IL Standard
 const titanfall_2LevelIDs = [
     { name: 'BT-7274' },
     { name: 'Blood & Rust' },

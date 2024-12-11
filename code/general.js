@@ -10,11 +10,19 @@ function secondsToHMS(seconds) {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const secs = Math.floor(seconds % 60);
+    let HTMLContent = ''
     if (hours > 0) {
-        return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        HTMLContent = `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
     } else {
-        return `${minutes}:${secs.toString().padStart(2, '0')}`;
+        HTMLContent = `${minutes}:${secs.toString().padStart(2, '0')}`;
     }
+    if (milliseconds && page != 'charts') {
+        const ms = Math.floor((seconds % 1) * 1000)
+        if (ms) {
+            HTMLContent += `.<span style='font-size:75%'>${ms.toString().padStart(3, '0')}</span>`
+        }
+    }
+    return HTMLContent
 }
 function convertToSeconds(time) {
     const [minutes, seconds] = time.split(":").map(Number);
@@ -85,21 +93,19 @@ function getScore(category, wrTime, runTime) {
     return wrTime / runTime
 }
 function getTrophy(place) {
-    if (gameID != 'tetris') {
-        let placeText = ''
-        if (place == 1) {
-            placeText = '1st'
-        } else if (place == 2) {
-            placeText = '2nd'
-        } else if (place == 3) {
-            placeText = '3rd'
-        } else {
-            return ''
-        }
-        themeID = gameID == 'cuphead' ? 'jre1dqwn' : 'e87d4p8q'
-        if (place) {
-            return `<img src='images/trophy/${gameID}/${place}.png' title='${placeText}' style='height:14px'>`
-        }
+    let placeText = ''
+    if (place == 1) {
+        placeText = '1st'
+    } else if (place == 2) {
+        placeText = '2nd'
+    } else if (place == 3) {
+        placeText = '3rd'
+    } else {
+        return ''
+    }
+    themeID = gameID == 'cuphead' ? 'jre1dqwn' : 'e87d4p8q'
+    if (place) {
+        return `<img src='images/trophy/${['cuphead', 'sm64', 'titanfall_2'].includes(gameID) ? gameID + '/' : ''}${place}.png' title='${placeText}' style='height:14px'>`
     }
     return ''
 }
@@ -138,7 +144,7 @@ function showTab(tab) {
         optionsOn(true)
         optionsButton.style.display = 'none'
     } else {
-        if (mode == 'fullgameILs' && ['info', 'sort'].includes(page)) {
+        if (mode == 'fullgameILs' && ['WRs', 'sort'].includes(page)) {
             if (page == 'sort') {
                 document.getElementById('dropdown_sortCriteria').value = 'player'
             }
@@ -204,7 +210,7 @@ function toggleOptions() {
     }
 }
 function optionsOn(shh) {
-    if (!((mode == 'fullgameILs' && ['leaderboard', 'info', 'sort'].includes(page)) || ['info', 'sort'].includes(page) && gameID == 'tetris')) {
+    if (!((mode == 'fullgameILs' && ['leaderboard', 'WRs', 'sort'].includes(page)) || ['WRs', 'sort'].includes(page) && gameID == 'tetris')) {
         if (!shh) {
             playSound('move')
         }
@@ -285,16 +291,12 @@ function getNumCols() {
 }
 function action() {
     parseCheckboxes()
-    if (page == 'leaderboard') {
-        generateLeaderboard()
-    } else if (page == 'charts') {
-        refreshCharts()
-    } else if (page == 'map') {
-        generateMap()
-    } else if (page == 'info') {
-        generateInfo()
-    } else if (page == 'sort') {
-        generateSort()
+    pageAction()
+    if (page != 'leaderboard') {
+        document.getElementById('leaderboard').innerHTML = ''
+    }
+    if (page != 'charts') {
+        document.getElementById('chart').innerHTML = ''
     }
     if (page != 'map') {
         countries = {}
@@ -314,6 +316,25 @@ function action() {
     setBoardTitle()
     updateCategories()
 }
+function pageAction() {
+    switch (page) {
+        case 'leaderboard':
+            generateLeaderboard();
+            break;
+        case 'charts':
+            refreshCharts();
+            break;
+        case 'map':
+            generateMap();
+            break;
+        case 'WRs':
+            generateWRs();
+            break;
+        case 'sort':
+            generateSort();
+            break;
+    }
+}
 function showDefault() {
     playSound('equip_move')
     sortCategoryIndex = -1
@@ -323,7 +344,11 @@ function showDefault() {
 }
 function getVideoLink(run) {
     if (run.videos) {
-        return openLink(run.videos.links[run.videos.links.length - 1].uri)
+        if (run.videos.links) {
+            return openLink(run.videos.links[run.videos.links.length - 1].uri)
+        } else {
+            return openLink(run.videos.text)
+        }
     }
 }
 function trimDifficulty(difficulty) {

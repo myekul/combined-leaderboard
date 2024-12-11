@@ -17,7 +17,7 @@ function generateMap() {
         categories.forEach((category, categoryIndex) => {
             const run = player.runs[categoryIndex]
             if (run) {
-                if (mapMode == 'wrs') {
+                if (mapMode == 'WRs') {
                     if (run.place == 1) {
                         goated = true
                     }
@@ -37,7 +37,7 @@ function generateMap() {
             goated = false
             const run = player.runs[categoryIndex]
             if (run) {
-                if (mapMode == 'wrs') {
+                if (mapMode == 'WRs') {
                     if (run.place == 1) {
                         goated = true
                     }
@@ -78,7 +78,7 @@ function getLocation(player, countriesObject) {
             countryName = 'United States'
             code = 'us'
         }
-        if (!['Antarctica', 'North Korea', 'Valhalla'].includes(countryName)) {
+        if (!['Antarctica', 'North Korea', 'Valhalla', 'British Indian Ocean Territory'].includes(countryName)) {
             const country = countriesObject[countryName]
             if (country) {
                 country.players.push(player)
@@ -228,7 +228,7 @@ function createMap() {
         const colorChecked = document.getElementById('checkbox_map_color').checked
         let color = '#fff'
         // let color = rootStyles.getPropertyValue('--banner')
-        if (colorChecked) {
+        if (colorChecked && gameID == 'cuphead') {
             color = sortCategoryIndex > -1 && !(gameID == 'sm64' && mode == 'levels')
                 ? gameID == 'cuphead' && categories[sortCategoryIndex].info
                     ? getComputedStyle(document.getElementsByClassName(categories[sortCategoryIndex].info.id)[0]).backgroundColor
@@ -265,7 +265,7 @@ function createMap() {
                         const flag = getFlag(isoMap32[d.id].toLowerCase(), d.properties.name, 30)
                         const currentColor = d3.select(this).attr("fill");
                         d3.select(this).classed("cursor", true);
-                        d3.select(this).attr("fill", "white").attr("data-original-color", currentColor);
+                        d3.select(this).attr("fill", "var(--banner)").attr("data-original-color", currentColor);
                         tooltip.style("display", "block")
                             .html(getTooltip(flag, label));
                     }

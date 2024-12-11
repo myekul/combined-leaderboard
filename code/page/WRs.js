@@ -1,14 +1,14 @@
-function generateInfo() {
+function generateWRs() {
     let HTMLContent = `<table class='bigShadow'>`
     if (gameID == 'cuphead' && mode == 'levels') {
-        HTMLContent += cupheadLevelInfo()
+        HTMLContent += cupheadLevelWRs()
     } else {
-        HTMLContent += info()
+        HTMLContent += WRs()
     }
     HTMLContent += `</table>`
     sortCategoryIndex = -1
     sortPlayers(players)
-    document.getElementById('info').innerHTML = HTMLContent
+    document.getElementById('WRs').innerHTML = HTMLContent
 }
 function getWorldRecordPlayers(categoryIndex, className) {
     let HTMLContent = ''
@@ -22,7 +22,7 @@ function getWorldRecordPlayers(categoryIndex, className) {
     if (!worldRecord) {
         worldRecord = ''
     }
-    if (document.getElementById('checkbox_info_date').checked) {
+    if (document.getElementById('checkbox_WRs_date').checked) {
         HTMLContent += gameID != 'tetris' && mode != 'fullgameILs' ? `<td>${playersCopy[0].runs[sortCategoryIndex].date}</td>` : ''
     }
     if (mode == 'fullgame') {
@@ -34,13 +34,13 @@ function getWorldRecordPlayers(categoryIndex, className) {
         if (run) {
             if (run.place == 1) {
                 HTMLContent += `<td>${getPlayerFlag(player, 13)}</td>`
-                HTMLContent += `<td onclick="${getVideoLink(run)}" class='clickable' style='text-align:left'>${getPlayerName(player)}</td>`
+                HTMLContent += `<td onclick="${getVideoLink(run)}" class='clickable' style='text-align:left'>${run.debug ? '*' : ''}${getPlayerName(player)}</td>`
             }
         }
     })
     return HTMLContent
 }
-function info() {
+function WRs() {
     let HTMLContent = ''
     categories.forEach((category, categoryIndex) => {
         HTMLContent += `<tr class='${getRowColor(categoryIndex)}'>`
@@ -54,7 +54,7 @@ function info() {
     })
     return HTMLContent
 }
-function cupheadLevelInfo() {
+function cupheadLevelWRs() {
     let HTMLContent = ''
     // let loadoutsArray = [[], [], [], []]
     let categoryIndex = 0
@@ -69,7 +69,7 @@ function cupheadLevelInfo() {
                 const height = big5() ? '' : 21
                 HTMLContent += `<th rowspan=${numCats} ${clickEvent} class='${clickable} ${category.info.id}'>${getImage(category.info.id, height)}</th>`
             }
-            if (document.getElementById('checkbox_info_loadouts').checked) {
+            if (document.getElementById('checkbox_WRs_loadouts').checked) {
                 HTMLContent += getLoadout(category, numCats, i)
             }
             if (big5()) {

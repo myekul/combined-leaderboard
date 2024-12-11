@@ -31,11 +31,11 @@ function openModal(playerIndex) {
         const percentage = getPercentage(player.score)
         const grade = getLetterGrade(percentage)
         let HTMLContent =
-            `<table>
+            `<table style='padding:10px'>
                 <tr>
                     <td>${getPlayerFlag(player, 25)}</td>
-                    <td><h2 ${playerLink} class='${playerLink ? 'clickable' : ''}'>${getPlayerName(player)}</h2></td>`
-        HTMLContent += mode != 'fullgameILs' ? `<td><h3 style='padding: 5px' class='${grade.className}'>${grade.grade}</h3></td>` : ''
+                    <td><h2 ${playerLink} class='${playerLink ? 'clickable' : ''}' style='margin:0 5px'>${getPlayerName(player)}</h2></td>`
+        HTMLContent += mode != 'fullgameILs' ? `<td><h3 style='padding: 5px;margin:0 5px' class='${grade.className}'>${grade.grade}</h3></td>` : ''
         HTMLContent += `<td class='modalBoardTitle' style='padding-left:20px'>${generateBoardTitle(2)}</td>
                 </tr>
             </table>`
@@ -134,7 +134,8 @@ function reportCard(player) {
             if (run && mode != 'fullgameILs' && !WRmode) {
                 HTMLContent +=
                     `<td class='${grade.className}' style='text-align:left'>${grade.grade}</td>
-                    <td class='${grade.className}'>${displayPercentage(percentage)}</td>`
+                    <td class='${grade.className}'>${displayPercentage(percentage)}</td>
+                    <td class='${category.className}'>${tetrisCheck(category, run.score)}</td>`
             }
             HTMLContent += `</tr>`
         })
@@ -219,7 +220,6 @@ function scoreBreakdown(player) {
     })
     const missingRuns = missingCategories.length > 0
     const numRuns = categories.length - missingCategories.length
-    const percentageSum = (player.truePercentageSum * 100).toFixed(1)
     playerCategories.forEach((category, categoryIndex) => {
         HTMLContent += getCategoryHeader(category)
         if (categoryIndex < numRuns) {
@@ -238,11 +238,12 @@ function scoreBreakdown(player) {
         })
         HTMLContent += `</tr>`
     }
+    const percentageSum = (player.truePercentageSum * 100).toFixed(1)
     HTMLContent += `<tr>`
     playerRuns.forEach((run, runIndex) => {
         const percentage = getPercentage(run.percentage)
         const letterGrade = getLetterGrade(percentage)
-        HTMLContent += `<td class=${letterGrade.className}>${percentage}</td>`
+        HTMLContent += `<td class=${letterGrade.className}>${displayPercentage(percentage)}</td>`
         if (runIndex < playerRuns.length - 1) {
             HTMLContent += `<td>+</td>`
         } else {
@@ -251,9 +252,9 @@ function scoreBreakdown(player) {
     })
     HTMLContent += `</tr></table>`
     if (numRuns > 1) {
-        HTMLContent += `<p>${percentageSum} / ${numRuns} = ${(percentageSum / numRuns).toFixed(1)}</p>`
+        HTMLContent += `<p>${percentageSum} / ${numRuns} = ${displayPercentage(getPercentage(player.truePercentageSum / numRuns))}</p>`
     }
-    HTMLContent += missingRuns ? `<h2>Missing Runs</h2>` : ''
+    HTMLContent += missingRuns ? `<h2 class='container' style='padding:10px'>Missing Runs</h2>` : ''
     HTMLContent += `<table><tr>`
     missingCategories.forEach(missingCategory => {
         HTMLContent += getCategoryHeader(missingCategory)
@@ -269,7 +270,7 @@ function scoreBreakdown(player) {
     HTMLContent += `</table>`
     HTMLContent += `<p>${player.explanation}</p>`
     const score = getPercentage(player.score)
-    HTMLContent += `<div class='container'><h2 class=${getLetterGrade(score).className}>${score}</h2></div>`
+    HTMLContent += `<div class='container'><h2 class='${getLetterGrade(score).className}' style='padding:5px'>${displayPercentage(score)}</h2></div>`
     return HTMLContent
 }
 function getCategoryHeader(category) {
@@ -309,7 +310,7 @@ function modalKeyPress() {
             break;
         case 'ArrowUp':
             event.preventDefault();
-            if (globalPlayerIndex > 0) {
+            if (globalPlayerIndex > 0 && sortCategoryIndex == -1 && page == 'leaderboard') {
                 playSound('cardflip')
                 globalPlayerIndex--
                 openModal(globalPlayerIndex)
@@ -319,7 +320,7 @@ function modalKeyPress() {
             break
         case 'ArrowDown':
             event.preventDefault();
-            if (globalPlayerIndex < 300 && globalPlayerIndex < players.length - 1) {
+            if (globalPlayerIndex < 300 && globalPlayerIndex < players.length - 1 && sortCategoryIndex == -1 && page == 'leaderboard') {
                 playSound('cardflip')
                 globalPlayerIndex++
                 openModal(globalPlayerIndex)
