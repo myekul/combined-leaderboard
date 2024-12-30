@@ -32,7 +32,7 @@ function getLeaderboard(category, query, variables, extra) {
                             getLeaderboard(titanfall_2, `category/${titanfall_2.id}`, titanfall_2VarFG, true)
                         } else {
                             const boardTitleSrc = document.getElementById('boardTitleSrc')
-                            boardTitleSrc.innerHTML = `<img src='images/external/speedrun.png'>`
+                            boardTitleSrc.innerHTML = `${getAnchor(`https://www.speedrun.com/${gameID}`)}<img src='images/external/src.png' class='clickable'>`
                             if (bossILindex > -1) {
                                 const boss = bosses[bossILindex]
                                 console.log(boss.name + ' loaded')
@@ -59,7 +59,7 @@ function getLeaderboard(category, query, variables, extra) {
                     assignRuns(extraCategory)
                     prepareData()
                     const boardTitleSrc = document.getElementById('boardTitleSrc')
-                    boardTitleSrc.innerHTML = `<img src='images/external/speedrun.png'>`
+                    boardTitleSrc.innerHTML = `${getAnchor(`https://www.speedrun.com/${gameID}`)}<img src='images/external/src.png' class='clickable'>`
                 }
             }
         })
@@ -104,13 +104,27 @@ function cleanPlayers(thePlayers) {
         if (!player.name) {
             player.name = player.names.international
         }
+        let img = null
+        if (player.assets?.image.uri) {
+            img = player.assets.image.uri.split('=')[1]
+        }
         const cleanPlayer =
         {
             id: player.id ? player.id : null,
             name: player.name,
             'name-style': player['name-style'] ? player['name-style'] : null,
+            links: { src: player.weblink ? true : false, img: img },
             location: player.location ? player.location : null,
-            weblink: player.weblink ? player.weblink : null
+            signup: player.signup ? player.signup.slice(0, 10) : null
+        }
+        if (player.twitch) {
+            cleanPlayer.links.twitch = player.twitch.uri.split('twitch.tv/')[1]
+        }
+        if (player.youtube) {
+            if(player.name=='MarkinSws'){
+                console.log(player)
+            }
+            cleanPlayer.links.youtube = player.youtube.uri
         }
         newPlayers.push(cleanPlayer)
     })

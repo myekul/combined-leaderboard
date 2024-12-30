@@ -74,8 +74,13 @@ main {
     flex: 1;
 }
 
+a {
+    text-decoration: none;
+    color: inherit
+}
+
 input {
-    accent-color: var(--banner);
+    accent-color: var(--banner)
 }
 
 progress {
@@ -169,13 +174,13 @@ table {
 }
 
 th {
-    font-size: 12px
+    font-size: 75%
 }
 
 .button {
     width: 140px;
     height: 22px;
-    font-size: 14px;
+    font-size: 85%;
     font-family: var(--font);
     cursor: pointer;
     border-radius: 15px;
@@ -218,7 +223,7 @@ select {
 
 #boardTitle td,
 #boardTitle th {
-    font-size: 18px
+    font-size: 110%
 }
 
 #boardTitleDiv {
@@ -226,7 +231,7 @@ select {
     max-width: 50%;
 }
 
-#boardTitleTable {
+.boardTitleTable {
     border: 3px solid var(--banner);
     border-radius: 5px
 }
@@ -247,7 +252,7 @@ progress::-webkit-progress-value {
 #chart {
     padding-top: 5px;
     height: 500px;
-    width: 95%;
+    width: 75%;
     margin: 0 auto;
 }
 
@@ -272,16 +277,19 @@ select {
 
 #tabs .button {
     width: 40px;
-    font-size: 18px
+    font-size: 110%
 }
 
+#fullgameCategories .button,
+#ILcategories_sm64 .button,
+#WRsTabs .button,
 #fullgameILsVersionTabs div {
-    width: 100px
+    width: 85px
 }
 
 #fullgameILsWeapons img {
     height: 36px;
-    padding: 2px
+    padding: 0 2px
 }
 
 #boardTitle td,
@@ -297,10 +305,6 @@ select {
 #difficultyOne div {
     width: 60px;
     height: 20px;
-}
-
-.debug {
-    filter: drop-shadow(5px 5px 5px var(--banner))
 }
 
 #ILbosses table {
@@ -333,7 +337,7 @@ select {
 
 .chartLabel {
     color: black;
-    font-size: 20px;
+    font-size: 125%;
     padding: 0 5px
 }
 
@@ -344,16 +348,16 @@ select {
 }
 
 .trophyCase {
-    font-size: 12px;
+    font-size: 75%;
 }
 
-#tooltip {
+#mapTooltip {
     position: absolute;
     background: white;
     border: 1px solid #ccc;
     padding: 5px;
     border-radius: 4px;
-    font-size: 12px;
+    font-size: 75%;
     pointer-events: none;
     display: none;
 }
@@ -414,7 +418,8 @@ select {
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
-.bigShadow {
+.bigShadow,
+svg {
     box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.2),
         5px 5px 10px rgba(0, 0, 0, 0.2),
         0 10px 10px rgba(0, 0, 0, 0.2);
@@ -454,9 +459,8 @@ select {
     width: 250px;
     background-color: var(--background);
     opacity: 1;
-    z-index: 1;
+    z-index: 10;
     transform: translateX(-100%);
-    /* Start slightly above */
     animation: slideRight 0.2s ease-out forwards;
 }
 
@@ -467,24 +471,20 @@ select {
 @keyframes slideRight {
     0% {
         transform: translateX(-100%);
-        /* Start slightly above */
     }
 
     100% {
         transform: translateX(0);
-        /* End at normal position */
     }
 }
 
 @keyframes slideLeft {
     0% {
         transform: translateX(0);
-        /* Start slightly above */
     }
 
     100% {
         transform: translateX(-150%);
-        /* End at normal position */
     }
 }
 
@@ -497,7 +497,7 @@ select {
 
 .progress-container {
     width: 100%;
-    height: 4px;
+    height: 5px;
     background-color: gray;
     overflow: hidden;
 }
@@ -529,8 +529,8 @@ select {
 }
 
 ::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+    width: 8px;
+    height: 8px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -548,4 +548,11 @@ select {
 
 .grayscale {
     filter: grayscale(100%) brightness(40%);
+}
+
+.gameIcon {
+    height: 30px;
+    width: auto;
+    margin-bottom: 20px;
+    padding: 0 10px
 }

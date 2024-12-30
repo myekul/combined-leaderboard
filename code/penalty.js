@@ -19,6 +19,23 @@ function applyPenalties(player) {
                     } else {
                         player.score -= penalty(player)
                     }
+                } else if (categories[1].name == 'All Flags') {
+                    if (runIndex == 0 && (player.runs[1] || player.runs[2])) {
+                        player.score -= halfPenalty(player)
+                        player.explanation += player.name + ' is missing an Any% run, but they have an All Flags / Full Clear run, so their Any% penalty is halved.\n'
+                    } else if (runIndex == 1 && (player.runs[2])) {
+                        player.score -= halfPenalty(player)
+                        player.explanation += player.name + ' is missing an All Flags run, but they have a Full Clear run, so their All Flags penalty is halved.\n'
+                    } else {
+                        player.score -= penalty(player)
+                    }
+                } else if (['100%', '300%'].includes(categories[1].name)) {
+                    if (runIndex == 0 && player.runs[1]) {
+                        player.score -= halfPenalty(player)
+                        player.explanation += player.name + ' is missing an Any% run, but they have a completion run, so their Any% penalty is halved.\n'
+                    } else {
+                        player.score -= penalty(player)
+                    }
                 } else if (categories[0].name == '120 Star') {
                     if (runIndex == 3 && player.runs[4]) {
                         player.score -= halfPenalty(player)
@@ -30,7 +47,7 @@ function applyPenalties(player) {
                     player.score -= penalty(player)
                 }
             } else {
-                if (bossILindex > -1 || WRmode) {
+                if (bossILindex > -1) {
                     player.score -= penalty(player)
                 } else if (allILs || isleIndex > -1 || groundPlane) {
                     const category = categories[runIndex]

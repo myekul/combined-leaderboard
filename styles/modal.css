@@ -64,21 +64,9 @@
     max-width: 90vw;
 }
 
-#modal-header h1 {
-    margin: 0 auto
-}
-
-#modal-other {
-    padding: 5px 0
-}
-
-#modal-player {
-    padding: 0 40px
-}
-
 #modal-pages div {
     padding: 5px;
-    font-size: 20px
+    font-size: 150%
 }
 
 #modal-pages {
@@ -95,5 +83,5 @@
 }
 
 .modalBoardTitle span {
-    font-size: 20px
+    font-size: 150%
 }

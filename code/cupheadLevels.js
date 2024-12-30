@@ -63,7 +63,7 @@ function getCupheadSRC() {
                         stopLeaderboards = true
                         window.firebaseUtils.firestoreRead()
                     }
-                }, 1000);
+                }, 2000);
             })
         })
 }
@@ -154,16 +154,32 @@ function getBossIL(bossName) {
     })
     getCupheadSRC()
 }
+function toggleFullgameCategories() {
+    playSound('move')
+    const fullgameCategoriesButton = document.getElementById('fullgameCategoriesButton')
+    const fullgameCategoriesElem = document.getElementById('fullgameCategories')
+    if (showFullgameCategories) {
+        showFullgameCategories = false
+        fullgameCategoriesElem.style.display = 'none'
+        fullgameCategoriesButton.innerHTML = '&#9660'
+    } else {
+        showFullgameCategories = true
+        fullgameCategoriesElem.style.display = ''
+        fullgameCategoriesButton.innerHTML = '&#10005'
+    }
+}
 function toggleILcategories() {
     playSound('move')
+    const ILcategoriesButton = document.getElementById('ILcategoriesButton_' + gameID)
+    const ILcategoriesElem = document.getElementById('ILcategories_' + gameID)
     if (ILcategories) {
         ILcategories = false
-        const ILcategoriesButton = document.getElementById('ILcategoriesButton')
-        const ILcategoriesElem = document.getElementById('ILcategories')
         ILcategoriesElem.style.display = 'none'
         ILcategoriesButton.innerHTML = '&#9660'
     } else {
-        ILcategoriesOn()
+        ILcategories = true
+        ILcategoriesElem.style.display = ''
+        ILcategoriesButton.innerHTML = '&#10005'
     }
 }
 function toggleBasegameILs() {
@@ -177,13 +193,6 @@ function toggleBasegameILs() {
     } else {
         updateILbosses()
     }
-}
-function ILcategoriesOn() {
-    ILcategories = true
-    const ILcategoriesButton = document.getElementById('ILcategoriesButton')
-    const ILcategoriesElem = document.getElementById('ILcategories')
-    ILcategoriesElem.style.display = ''
-    ILcategoriesButton.innerHTML = '&#10005'
 }
 function getCupheadBoss() {
     const boss = categories[bossILindex]

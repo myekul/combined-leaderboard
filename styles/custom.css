@@ -18,30 +18,46 @@
 
 .sm64 {
     background-color: royalblue;
+    color: white
 }
 
 .tetris {
     background-color: black;
+    color: white
 }
 
 .titanfall_2 {
     background-color: cadetblue;
+    color: azure
 }
 
 .smb1 {
     background-color: mediumslateblue;
+    color: white
+}
+
+.smbtll {
+    background-color: slateblue;
+    color: white
 }
 
 .smb2 {
     background-color: cornflowerblue;
+    color: white
 }
 
 .smb3 {
     background-color: yellow;
+    color: black
 }
 
 .simple {
     background-color: lightgreen !important;
+    color: black
+}
+
+.simplehighest {
+    background-color: limegreen !important;
     color: black
 }
 
@@ -50,8 +66,18 @@
     color: black
 }
 
+.regularhighest {
+    background-color: goldenrod !important;
+    color: black
+}
+
 .expert {
     background-color: salmon !important;
+    color: black
+}
+
+.experthighest {
+    background-color: indianred !important;
     color: black
 }
 

@@ -1,6 +1,4 @@
 function drawChart() {
-    const backgroundColor = rootStyles.getPropertyValue('--otherColor')
-    const font = rootStyles.getPropertyValue('--font')
     sortPlayers(players)
     let normalized = document.getElementById('checkbox_charts_normalized').checked
     let fixed = document.getElementById('checkbox_charts_fixed').checked
@@ -10,7 +8,7 @@ function drawChart() {
         fixed = false
     } else if (fixed) {
         if (sortCategoryIndex == -1) {
-            maxValue = mode == 'fullgameILs' || WRmode ? categories.length : 100
+            maxValue = mode == 'fullgameILs' ? categories.length : 100
         } else if (gameID == 'cuphead') {
             maxValue = mode == 'fullgame' ? 3600 : 120
         } else if (gameID == 'sm64') {
@@ -25,7 +23,7 @@ function drawChart() {
             maxValue = 3600
         }
     }
-    if (mode == 'fullgameILs' || WRmode) {
+    if (mode == 'fullgameILs') {
         normalized = false
     }
     if (normalized) {
@@ -43,20 +41,20 @@ function drawChart() {
     annotation ? rows[0].push({ role: 'annotation' }) : ''
     if (sortCategoryIndex == -1) {
         players.slice(0, numBars).forEach(player => {
-            if (mode == 'fullgameILs' || WRmode) {
+            if (mode == 'fullgameILs') {
                 numRuns = 0
                 player.runs.forEach(run => {
                     if (run) {
                         numRuns++
                     }
                 })
-                const color = mode == 'fullgameILs' ? getClassColor(fullgameILsCategory.className) : getClassColor(getColorClass())
+                const color = mode == 'fullgameILs' ? getColorFromClass(fullgameILsCategory.className) : getColorFromClass(getColorClass())
                 const newPlayer = [player.name, numRuns, color]
                 annotation ? newPlayer.push(numRuns) : ''
                 rows.push(newPlayer)
             } else {
                 const percentage = getPercentage(player.score)
-                const newPlayer = [player.name, parseFloat(percentage), getClassColor(getLetterGrade(percentage).className)]
+                const newPlayer = [player.name, parseFloat(percentage), getColorFromClass(getLetterGrade(percentage).className)]
                 annotation ? newPlayer.push(percentage) : ''
                 rows.push(newPlayer)
             }
@@ -69,12 +67,12 @@ function drawChart() {
             if (!fixed || (!normalized && fixed && score < maxValue) || normalized) {
                 const convertedTime = gameID == 'tetris' ? score : secondsToHMS(score)
                 if (!(!normalized && gameID == 'cuphead' && mode == 'levels' && score > 120)) {
-                    const colorClass = mode == 'fullgameILs' || WRmode ? categories[sortCategoryIndex].info.id : getLetterGrade(getPercentage(run.percentage)).className
+                    const colorClass = mode == 'fullgameILs' ? categories[sortCategoryIndex].info.id : getLetterGrade(getPercentage(run.percentage)).className
                     let rowContent = Math.round(score)
                     if (normalized) {
                         rowContent = parseFloat(getPercentage(run.percentage))
                     }
-                    const newRun = [run.playerName, rowContent, getClassColor(colorClass)]
+                    const newRun = [run.playerName, rowContent, getColorFromClass(colorClass)]
                     annotation ? newRun.push(convertedTime) : ''
                     rows.push(newRun)
                 }
@@ -94,18 +92,18 @@ function drawChart() {
         legend: {
             position: 'none'
         },
-        backgroundColor: backgroundColor,
+        backgroundColor: getBackgroundColor(),
         hAxis: {
             // title: 'Time',
             // textStyle: {
             //     color: 'white',
-            //     fontName: font
+            //     fontName: getFont()
             // },
             // titleTextStyle: {
             //     color: 'white',
-            //     fontName: font
+            //     fontName: getFont()
             // },
-            // color: backgroundColor,
+            // color: getBackgroundColor(),
             // position: 'none',
             minValue: 0,
             maxValue: maxValue
@@ -114,19 +112,19 @@ function drawChart() {
             textPosition: annotation ? '' : 'none',
             textStyle: {
                 color: 'white',
-                fontName: font,
+                fontName: getFont(),
                 fontSize: 12
             },
         },
         tooltip: {
             textStyle: {
-                fontName: font
+                fontName: getFont()
             }
         },
         annotations: {
             style: 'none',
             textStyle: {
-                fontName: font
+                fontName: getFont()
             }
         },
         bars: 'horizontal',
@@ -144,9 +142,4 @@ function refreshCharts() {
     google.charts.setOnLoadCallback(function () {
         drawChart()
     });
-}
-function drawNewChart(categoryIndex) {
-    playSound('equip_move')
-    sortCategoryIndex = categoryIndex
-    action()
 }

@@ -74,7 +74,12 @@ const loadouts = {
         ['charge', 'spread', 'super3', 'whetstone']
     ],
     thedevil: [
-        ['charge', 'spread', 'super3', 'whetstone']
+        [],
+        [],
+        ['charge', 'spread', '', 'whetstone'],
+        ['charge', 'spread', 'super3', 'whetstone'],
+        ['charge', 'spread', 'super3', 'whetstone'],
+        ['charge', 'spread', '', 'whetstone']
     ],
     glumstonethegiant: [
         ['charge', 'spread', 'super3', 'whetstone']
@@ -316,12 +321,12 @@ const loadoutsLegacy = {
         ['roundabout', 'lobber', '', 'coffee'],
     ],
     djimmithegreat: [
-        ['','','','whetstone'],
-        ['','','','coffee'],
-        ['','','','whetstone'],
-        ['','','','coffee'],
-        ['','','','whetstone'],
-        ['','','','whetstone']
+        ['', '', '', 'whetstone'],
+        ['', '', '', 'coffee'],
+        ['', '', '', 'whetstone'],
+        ['', '', '', 'coffee'],
+        ['', '', '', 'whetstone'],
+        ['', '', '', 'whetstone']
     ],
     grimmatchstick: [
         ['roundabout', 'lobber', '', 'coffee'],
@@ -377,4 +382,31 @@ const loadoutsLegacy = {
     thedevil: [
         ['charge', 'spread', 'super3', 'whetstone']
     ]
+};
+const bossHP = {
+    therootpack: [900, 1235, 1300],
+    goopylegrande: [1000, 1200, 1400],
+    hildaberg: [2200, 2600, 3000],
+    cagneycarnation: [1000, 1300, 1500],
+    ribbyandcroaks: [1400, 1700, 1900],
+    baronessvonbonbon: [1145, 1100, 1100, 1100, 1405, 1335],
+    beppitheclown: [1200, 1550, 1850],
+    djimmithegreat: [2320, 2320, 2720, 2560, 3120, 3060],
+    grimmatchstick: [1200, 1700, 1900],
+    wallywarbles: [2000, 2400, 2800],
+    rumorhoneybottoms: [1000, 1200, 1400],
+    captainbrineybeard: [1000, 1200, 1400],
+    sallystageplay: [1100, 1344, 1607],
+    wernerwerman: [1500, 2000, 2100],
+    drkahlsrobot: [1250, 2075, 2640],
+    calamaria: [1900, 2500, 3000],
+    phantomexpress: [1130, 1150, 1150],
+    kingdice: [0, 2250, 2825],
+    thedevil: [0, 1900, 2100],
+    glumstonethegiant: [1150, 1500, 1700],
+    moonshinemob: [975, 1255, 1455],
+    thehowlingaces: [1100, 1400, 1600],
+    mortimerfreeze: [1350, 1650, 1850],
+    estherwinchester: [2250, 2850, 3200],
+    chefsaltbaker: [0, 1500, 1700]
 };

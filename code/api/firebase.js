@@ -81,6 +81,7 @@ window.firebaseUtils = {
         } else if (isleIndex > -1) {
             query1 = query(collectionRef, where('categories.0.info.isle', '==', isleIndex + 1), limit(numDocs))
         } else if (groundPlane == 'ground') {
+            numDocs = basegameILs ? 14 : 19
             query1 = query(collectionRef, where('categories.0.info.plane', '==', false), limit(numDocs))
         } else if (groundPlane == 'plane') {
             numDocs = basegameILs ? 5 : 6
@@ -106,7 +107,7 @@ window.firebaseUtils = {
                 });
             }
             resetAndGo()
-            console.log(JSON.stringify(categories)) // JSON
+            // console.log(JSON.stringify(categories)) // JSON
         } catch (error) {
             console.error("Error fetching documents: ", error)
         }

@@ -4,11 +4,11 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 ## Motivation
 ### A more granular leaderboard
 - On traditional leaderboards, the player in 1st place can have a speedrun leagues ahead of everyone in 2nd, 3rd, and so on. There's no easy way to make this comparison without doing the math in your head.
-    - This leaderboard caluculates letter grades for every run in every category, allowing you to easily identify the best players.
-### Motivation
-- Players have reported increased motivation to try out new categories to improve their leaderboard placement.
+    - This leaderboard caluculates letter grades for every run in every category, allowing you to easily identify the best scores.
+### Player Motivation
+- Players have reported increased motivation to improve their times and try out new categories to raise their leaderboard placement.
 ### Organization
-- Cuphead has a LOT of categories. In my opinion, the default frontend organization system on speedrun.com is not conducive to the overwhelming number of categories. This site seeks to make the database more navigable.
+- Cuphead has a LOT of IL categories. In my opinion, the default frontend organization system on speedrun.com is not conducive to the overwhelming number of categories. This site seeks to make the database more navigable.
 
 ## Controls
 - Use left and right arrow keys to switch between categories.
@@ -18,24 +18,21 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 ## How it works
 This website uses three database API systems:
 - **Speedrun.com** API is used to extract data from the SRC database.
-    - Cuphead, SM64, Titanfall 2
 - **Google Sheets** API is used to extract data from spreadsheets.
-    - Cuphead, Tetris
 - **Firebase** API is used to cache and organize data from SRC.
-    - Cuphead
 
 Google Charts API is also used to create graphs.
 
 ## Rank calculation
 Each player recieves a score (out of 100) and a letter grade, which are determined by a few things:
 - Run times compared to world record times
-    - Early implementations used place rankings and percentile averages. This combined leaderboard directly compares times to preserve granular data and keep things fair and competitive.
-    - e.g. Cuphead: In 1.1+, myekul has a 30:36 and Grondious has a 27:19.
-        - The calculation would be 27:19/30:36.
-        - myekul would recieve an 89.25% (B+) for this category.
+    - Early implementations used place rankings and percentile averages. Instead of that, this combined leaderboard directly compares times to preserve granular data and keep things fair and competitive.
+    - e.g. Cuphead: In 1.1+, myekul has a 29:54 and Grondious has a 27:19.
+        - The calculation would be 27:19/29:54.
+        - myekul would recieve a 91.36% (A-) for this category.
     - e.g. SM64: In 16 Star, simply has a 15:56 and Suigi has a 14:35.
         - The calculation would be 14:35/15:56.
-        - simply would recieve an 91.5% (A-) for this category.
+        - simply would recieve a 91.5% (A-) for this category.
 - Missing categories
     - If a player is missing categories, they will recieve a score penalty.
     - Here is the formula for this penalty:
@@ -63,7 +60,7 @@ Each player recieves a score (out of 100) and a letter grade, which are determin
 - Displays where in the world the top players are from
 
 ### World records
-- Displays the world record holders for each category
+- Displays the world records for each category
 
 ### Sort
 - Sort players or runs by rank, score, time, etc.
@@ -75,15 +72,18 @@ Admittedley, player rank calculation can be a very subjective thing. I tried to 
 - Missing run penalty explanation
 - When score is worse that penalty, penalize instead?
 - Credits page
-- Percentages for chart categories?
 - Convert bosses array to a set?
-- SM64 IL divisions
 - WR mode
+- Linear color scale for dates
+- Categories for date charts
+- Score chart should be grades, not 0-100
+- Logic explanations
 
 ## Known bugs
 - Leaderboard shifting username box
 - Chart time format oddities
 - Modal scrolling oddities
 - Legacy IL loadouts are unfinished
+- Legacy IL boss HP is inaccurate
 - Map color logic is weird
-- Hortizontal scrollbar misalignment
+- Some YouTube channel links are broken (SRC fault)

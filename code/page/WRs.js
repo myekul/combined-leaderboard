@@ -1,5 +1,11 @@
 function generateWRs() {
+    showWRsTab(WRsTab)
+}
+function WRsPlayers() {
     let HTMLContent = `<table class='bigShadow'>`
+    if (document.getElementById('checkbox_WRs_dps').checked || document.getElementById('checkbox_WRs_hp').checked) {
+        assignHP()
+    }
     if (gameID == 'cuphead' && mode == 'levels') {
         HTMLContent += cupheadLevelWRs()
     } else {
@@ -10,7 +16,7 @@ function generateWRs() {
     sortPlayers(players)
     document.getElementById('WRs').innerHTML = HTMLContent
 }
-function getWorldRecordPlayers(categoryIndex, className) {
+function getWorldRecordPlayers(categoryIndex) {
     let HTMLContent = ''
     sortCategoryIndex = categoryIndex
     const playersCopy = [...players]
@@ -18,23 +24,28 @@ function getWorldRecordPlayers(categoryIndex, className) {
     // if (['levels', 'fullgameILs'].includes(mode)) {
     //     HTMLContent += `<td>${getImage(categories[categoryIndex].info.id)}</td>`
     // }
-    let worldRecord = getWorldRecord(categories[categoryIndex])
+    const category = categories[categoryIndex]
+    let worldRecord = getWorldRecord(category)
     if (!worldRecord) {
         worldRecord = ''
     }
     if (document.getElementById('checkbox_WRs_date').checked) {
         HTMLContent += gameID != 'tetris' && mode != 'fullgameILs' ? `<td>${playersCopy[0].runs[sortCategoryIndex].date}</td>` : ''
     }
-    if (mode == 'fullgame') {
-        className = 'first'
+    if (document.getElementById('checkbox_WRs_dps').checked) {
+        HTMLContent += `<td>${getDPS(category, worldRecord)} DPS</td>`
     }
-    HTMLContent += `<td class='${className}'>${tetrisCheck(categories[categoryIndex], worldRecord)}</td>`
+    if (document.getElementById('checkbox_WRs_hp').checked) {
+        HTMLContent += `<td style='font-size:75%'>${category.hp} HP</td>`
+    }
+    const className = mode == 'fullgame' ? 'first' : classNameLogic(category)
+    HTMLContent += `<td class='${className}'>${tetrisCheck(category, worldRecord)}</td>`
     playersCopy.forEach(player => {
         const run = player.runs[sortCategoryIndex]
         if (run) {
             if (run.place == 1) {
                 HTMLContent += `<td>${getPlayerFlag(player, 13)}</td>`
-                HTMLContent += `<td onclick="${getVideoLink(run)}" class='clickable' style='text-align:left'>${run.debug ? '*' : ''}${getPlayerName(player)}</td>`
+                HTMLContent += `<td class='clickable' style='text-align:left'>${getVideoLink(run)}${run.debug ? '*' : ''}${getPlayerName(player)}</td>`
             }
         }
     })
@@ -43,21 +54,29 @@ function getWorldRecordPlayers(categoryIndex, className) {
 function WRs() {
     let HTMLContent = ''
     categories.forEach((category, categoryIndex) => {
-        HTMLContent += `<tr class='${getRowColor(categoryIndex)}'>`
-        const className = category.info ? category.info.id : category.className
-        HTMLContent += `<td class='${className}' style='text-align:left;font-weight:bold'>${category.name}</td>`
-        if (category.info) {
-            HTMLContent += `<td style='padding:0' class='${className}'>${getImage(category.info.id, 21)}</td>`
-        }
-        HTMLContent += getWorldRecordPlayers(categoryIndex, className)
+        HTMLContent += WRsCategoryDisplay(category, categoryIndex)
+        HTMLContent += getWorldRecordPlayers(categoryIndex)
         HTMLContent += `</tr>`
     })
     return HTMLContent
 }
+function WRsCategoryDisplay(category, categoryIndex) {
+    let HTMLContent = ''
+    const className = classNameLogic(category)
+    HTMLContent += `<tr class='${getRowColor(categoryIndex)}'>`
+    HTMLContent += `<td class='${className}' style='text-align:left;font-weight:bold'>${category.name}</td>`
+    if (category.info) {
+        HTMLContent += `<td style='padding:0' class='${className}'>${getImage(category.info.id, 21)}</td>`
+    }
+    return HTMLContent
+}
 function cupheadLevelWRs() {
     let HTMLContent = ''
-    // let loadoutsArray = [[], [], [], []]
     let categoryIndex = 0
+    const loadoutsChecked = document.getElementById('checkbox_WRs_loadouts').checked
+    if (loadoutsChecked && !categories[0].loadout) {
+        assignLoadouts()
+    }
     while (categoryIndex < categories.length) {
         const category = categories[categoryIndex]
         const numCats = getNumCats(category)
@@ -69,11 +88,15 @@ function cupheadLevelWRs() {
                 const height = big5() ? '' : 21
                 HTMLContent += `<th rowspan=${numCats} ${clickEvent} class='${clickable} ${category.info.id}'>${getImage(category.info.id, height)}</th>`
             }
-            if (document.getElementById('checkbox_WRs_loadouts').checked) {
-                HTMLContent += getLoadout(category, numCats, i)
+            const thisCategory = categories[categoryIndex]
+            if (loadoutsChecked) {
+                const loadout = thisCategory.loadout
+                HTMLContent += loadout[0] ? `<td><img src='images/cuphead/inventory/weapons/${loadout[0]}.png' class='container'></td>` : `<td></td>`
+                HTMLContent += loadout[1] ? `<td><img src='images/cuphead/inventory/weapons/${loadout[1]}.png' class='container'></td>` : `<td></td>`
+                HTMLContent += loadout[2] ? `<td><img src='images/cuphead/inventory/supers/${loadout[2]}.png' class='container'></td>` : `<td></td>`
+                HTMLContent += loadout[3] ? `<td><img src='images/cuphead/inventory/charms/${loadout[3]}.png' class='container'></td>` : `<td></td>`
             }
             if (big5()) {
-                const thisCategory = categories[categoryIndex]
                 HTMLContent += `<td class='${thisCategory.difficulty}' style='width:6px'></td>`
             }
             HTMLContent += getWorldRecordPlayers(categoryIndex, category.info.id)
@@ -83,36 +106,365 @@ function cupheadLevelWRs() {
     }
     return HTMLContent
 }
-function getLoadout(category, numCats, i) {
+function WRsSums() {
     let HTMLContent = ''
-    let loadout = cupheadVersion == 'legacy' ? loadoutsLegacy[category.info.id] : DLCnoDLC == 'nodlc' ? loadouts[category.info.id] : loadoutsDLC[category.info.id]
-    if (difficultyILs && loadout.length > 1) {
-        if (levelDifficulty == 'simple') {
-            loadout = loadout.slice(0, 2)
-        } else if (levelDifficulty == 'regular') {
-            loadout = loadout.slice(2, 4)
-        } else if (levelDifficulty == 'expert') {
-            loadout = loadout.slice(4, 6)
-        }
-    }
-    if (loadout.length == 0) {
-        const charm = DLCnoDLC == 'nodlc' ? 'whetstone' : 'divinerelic'
-        HTMLContent += `<td></td><td></td><td></td><td><img src='images/cuphead/inventory/charms/${charm}.png' class='container'></td>`
+    if (gameID == 'cuphead' && mode == 'levels') {
+        HTMLContent += WRsSumsCuphead()
     } else {
-        let index = loadout.length == 1 ? 0 : i - 1
-        if (loadout.length > 1 && numCats == 4 && !difficultyILs) {
-            index += 2
-        }
-        const theLoadout = []
-        for (let j = 0; j < 4; j++) {
-            const item = loadout[index][j]
-            // loadoutsArray[j].push(item)
-            theLoadout.push(item)
-        }
-        HTMLContent += theLoadout[0] ? `<td><img src='images/cuphead/inventory/weapons/${theLoadout[0]}.png' class='container'></td>` : `<td></td>`
-        HTMLContent += theLoadout[1] ? `<td><img src='images/cuphead/inventory/weapons/${theLoadout[1]}.png' class='container'></td>` : `<td></td>`
-        HTMLContent += theLoadout[2] ? `<td><img src='images/cuphead/inventory/supers/${theLoadout[2]}.png' class='container'></td>` : `<td></td>`
-        HTMLContent += theLoadout[3] ? `<td><img src='images/cuphead/inventory/charms/${theLoadout[3]}.png' class='container'></td>` : `<td></td>`
+        HTMLContent += `<table>`
+        sum = 0
+        categories.forEach((category, categoryIndex) => {
+            const worldRecord = getWorldRecord(category)
+            sum += worldRecord
+            HTMLContent += WRsCategoryDisplay(category, categoryIndex)
+            HTMLContent += `<td class='${classNameLogic(category)}'>${tetrisCheck(category, worldRecord)}</td>`
+            HTMLContent += `</tr>`
+        })
+        HTMLContent += `</table>`
+        HTMLContent += `<div class='container' style='margin-top:20px;font-size:150%'>${secondsToHMS(sum)}</div>`
     }
+    document.getElementById('WRs').innerHTML = HTMLContent
+}
+function WRsSumsCuphead() {
+    let HTMLContent = `<table>`
+    let totalSum = 0
+    let categoryIndex = 0
+    while (categoryIndex < categories.length) {
+        const category = categories[categoryIndex]
+        const numCats = getNumCats(category)
+        if (categoryIndex == 0 && big5()) {
+            HTMLContent += `<tr><td></td><td></td>`
+            for (let i = 0; i < numCats; i++) {
+                const thisCategory = categories[i]
+                HTMLContent += `<td class='${thisCategory.difficulty}' style='font-size:60%'>${trimDifficulty(thisCategory.name)}</td>`
+            }
+            HTMLContent += `</tr>`
+        }
+        HTMLContent += `<tr class='${getRowColor(categoryIndex)}'>`
+        HTMLContent += `<td class='${category.info.id}'>${category.info.name}</td>`
+        HTMLContent += `<th class='${category.info.id} container'>${getImage(category.info.id, 21)}</th>`
+        if (numCats == 4) {
+            HTMLContent += `<td></td><td></td>`
+        }
+        let sum = 0
+        let thisCategory
+        for (let i = 1; i <= numCats; i++) {
+            thisCategory = categories[categoryIndex]
+            const worldRecord = getWorldRecord(thisCategory)
+            HTMLContent += `<td class='${category.info.id}'>${secondsToHMS(worldRecord)}</td>`
+            sum += worldRecord
+            categoryIndex++
+        }
+        HTMLContent += big4() ? `<td>${secondsToHMS(sum)}</td>` : ''
+        totalSum += sum
+        HTMLContent += `</tr>`
+    }
+    HTMLContent += `</table>`
+    HTMLContent += `<div class='container' style='margin-top:20px;font-size:150%'>${secondsToHMS(totalSum)}</div>`
     return HTMLContent
+}
+function WRsChart() {
+    const allWRs = []
+    const WRs = { count: [] }
+    const isleObject = { 1: [], 2: [], 3: [], 4: [], 5: [] }
+    const difficultyObject = { simple: [], simplehighest: [], regular: [], regularhighest: [], expert: [], experthighest: [] }
+    const groundPlaneObject = { ground: [], plane: [] }
+    const dropdown_WRsChart = document.getElementById('dropdown_WRsChart').value
+    const checkbox_hp = document.getElementById('checkbox_hp').checked
+    let sortObject
+    let objectReference
+    categories.forEach((category, categoryIndex) => {
+        let worldRecord = getWorldRecord(category)
+        worldRecord = worldRecord ? worldRecord.toString().split('.')[0] : 0
+        const worldRecordObject = { score: worldRecord }
+        if (checkbox_hp) {
+            worldRecordObject.categoryIndex = categoryIndex
+        }
+        if (dropdown_WRsChart == 'isle') {
+            sortObject = isleObject
+            sortObject[category.info.isle].push(worldRecordObject)
+            objectReference = isles
+        } else if (dropdown_WRsChart == 'difficulty') {
+            sortObject = difficultyObject
+            sortObject[(big5() && categoryIndex % 2 == 0) || (!big5() && anyHighest == 'any') ? category.difficulty : category.difficulty + 'highest'].push(worldRecordObject)
+            objectReference = difficulties
+        } else if (dropdown_WRsChart == 'groundPlane') {
+            sortObject = groundPlaneObject
+            sortObject[category.info.plane ? 'plane' : 'ground'].push(worldRecordObject)
+            objectReference = groundPlaneArray
+        } else {
+            sortObject = WRs
+        }
+        WRs['count'].push(worldRecordObject)
+        allWRs.push(worldRecord)
+    })
+    WRsInfo(sortObject, objectReference, WRs, allWRs)
+    const min = Math.min(...allWRs)
+    const max = Math.max(...allWRs)
+    const fullData = [];
+    if (checkbox_hp) {
+        assignHP()
+        let sortObjectIndex = 0
+        for (const key in sortObject) {
+            sortObject[key].forEach(elem => {
+                const worldRecord = parseInt(elem.score)
+                const categoryIndex = elem.categoryIndex
+                const category = categories[categoryIndex]
+                const newEntry = [worldRecord]
+                for (let i = 0; i < Object.keys(sortObject).length; i++) {
+                    if (i == sortObjectIndex) {
+                        newEntry.push(category.hp)
+                    } else {
+                        newEntry.push(Infinity)
+                    }
+                }
+                if (!objectReference) {
+                    newEntry.push('color: ' + getColorFromClass(category.info.id))
+                    newEntry.push(generateBoardTitle(0, categoryIndex))
+                }
+                fullData.push(newEntry)
+            })
+            sortObjectIndex++
+        }
+    } else {
+        for (const key in sortObject) {
+            sortObject[key] = sortObject[key].reduce((acc, item) => {
+                acc[item.score] = (acc[item.score] || 0) + 1;
+                return acc;
+            }, {});
+        }
+        for (let i = min; i <= max; i++) {
+            const newEntry = [i]
+            for (const key in sortObject) {
+                newEntry.push(sortObject[key][i] || Infinity)
+            }
+            fullData.push(newEntry);
+        }
+    }
+    if (!objectReference && checkbox_hp) {
+        tooltipStyle = document.createElement('style');
+        tooltipStyle.innerHTML =
+            `.google-visualization-tooltip {
+                background-color: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                transform: translate(-5%, 50%);
+            }`
+        document.head.appendChild(tooltipStyle);
+    } else {
+        tooltipStyle?.remove()
+    }
+    const labels = ['Time']
+    let colors = []
+    if (objectReference) {
+        objectReference.forEach(object => {
+            labels.push(object.name)
+            colors.push(getColorFromClass(object.className))
+        })
+    } else {
+        labels.push('Count')
+        if (checkbox_hp) {
+            labels.push({ role: 'style' })
+            labels.push({ role: 'tooltip', p: { html: true } })
+        }
+        const colorClass = bossILindex > -1 ? bosses[bossILindex].id : 'banner'
+        colors.push(getColorFromClass(colorClass))
+    }
+    const chartData = [labels, ...fullData]
+    var data = google.visualization.arrayToDataTable(chartData);
+    var options = {
+        chartArea: { width: '80%' },
+        hAxis: {
+            title: 'Time',
+            titleTextStyle: {
+                color: 'white',
+                fontName: getFont()
+            },
+            textStyle: {
+                color: 'white',
+                fontName: getFont(),
+                fontSize: 12
+            },
+            minValue: 0,
+            maxValue: gameID == 'cuphead' && mode == 'levels' || mode == 'fullgameILs' ? 120 : max
+        },
+        vAxis: {
+            title: checkbox_hp ? 'HP' : '# of WRs',
+            titleTextStyle: {
+                color: 'white',
+                fontName: getFont()
+            },
+            textStyle: {
+                color: 'white',
+                fontName: getFont(),
+                fontSize: 12
+            },
+            minValue: 0,
+            maxValue: checkbox_hp ? 3500 : 10
+        },
+        tooltip: {
+            textStyle: {
+                fontName: getFont()
+            },
+            isHtml: checkbox_hp && !objectReference
+        },
+        legend: {
+            position: objectReference ? 'top' : 'none',
+            textStyle: {
+                fontName: getFont(),
+                fontSize: 12,
+                color: 'white'
+            }
+        },
+        isStacked: true,
+        colors: colors,
+        backgroundColor: getBackgroundColor()
+    };
+    document.getElementById('WRs').innerHTML = ''
+    var chart
+    if (checkbox_hp) {
+        chart = new google.visualization.ScatterChart(document.getElementById('WRsChart'));
+    } else {
+        chart = new google.visualization.ColumnChart(document.getElementById('WRsChart'));
+    }
+    chart.draw(data, options);
+}
+function WRsInfo(sortObject, objectReference, WRs, allWRs) {
+    if (bossILindex > -1) {
+        objectReference = null
+        sortObject = WRs
+    }
+    let HTMLContent = `<table>`
+    HTMLContent += `<tr><td></td>`
+    if (objectReference) {
+        HTMLContent += `<td>All</td>`
+        objectReference.forEach(object => {
+            if (document.getElementById('dropdown_WRsChart').value == 'difficulty') {
+                HTMLContent += `<td class='${object.className.split('highest')[0]}'>${trimDifficulty(object.name)}</td>`
+            } else {
+                HTMLContent += `<td class='${object.className}'>${object.name}</td>`
+            }
+        })
+    }
+    HTMLContent += `</tr><tr class='otherColor'><td>Mean</td>`
+    if (objectReference) {
+        HTMLContent += `<td>${findMean(allWRs)}</td>`
+    }
+    for (const key in sortObject) {
+        sortObject[key]
+        HTMLContent += `<td>${findMean(sortObjectArray(sortObject[key]))}</td> `
+    }
+    HTMLContent += `</tr><tr><td>Median</td>`
+    if (objectReference) {
+        HTMLContent += `<td>${findMedian(allWRs)}</td>`
+    }
+    for (const key in sortObject) {
+        HTMLContent += `<td>${findMedian(sortObjectArray(sortObject[key]))}</td> `
+    }
+    HTMLContent += `</tr><tr class='otherColor'><td>Mode</td>`
+    if (objectReference) {
+        HTMLContent += `<td>${findMode(allWRs)}</td>`
+    }
+    for (const key in sortObject) {
+        HTMLContent += `<td>${findMode(sortObjectArray(sortObject[key]))}</td> `
+    }
+    HTMLContent += `</tr><tr><td>Std. dev</td>`
+    if (objectReference) {
+        HTMLContent += `<td>${findStandardDeviation(allWRs)}</td>`
+    }
+    for (const key in sortObject) {
+        HTMLContent += `<td>${findStandardDeviation(sortObjectArray(sortObject[key]))}</td> `
+    }
+    HTMLContent += `</table>`
+    document.getElementById('WRsInfo').innerHTML = HTMLContent
+}
+function sortObjectArray(arr) {
+    return arr.map(elem => elem.score)
+}
+function showWRsTab(tab) {
+    WRsTab = tab
+    buttonClick('WRs_' + WRsTab, 'WRsTabs', 'active2')
+    document.getElementById('WRsChart').innerHTML = ''
+    const WRsChartSection = document.getElementById('WRsChartSection')
+    const WRsChartOptions = document.getElementById('WRsChartOptions')
+    if (WRsTab == 'chart') {
+        WRsChartSection.style.display = ''
+        if ((gameID == 'cuphead' && mode == 'levels' || mode == 'fullgameILs')) {
+            WRsChartOptions.style.display = ''
+        } else {
+            document.getElementById('dropdown_WRsChart').value = 'default'
+            document.getElementById('checkbox_hp').checked = false
+            WRsChartOptions.style.display = 'none'
+        }
+    } else {
+        WRsChartSection.style.display = 'none'
+        WRsChartOptions.style.display = 'none'
+    }
+    if (gameID == 'tetris') {
+        document.getElementById('WRsTabs').style.display = 'none'
+    }
+    if (WRsTab == 'players') {
+        WRsPlayers()
+    } else if (WRsTab == 'sums') {
+        WRsSums()
+    } else if (WRsTab == 'chart') {
+        WRsChart()
+    }
+}
+function assignLoadouts() {
+    let categoryIndex = 0
+    while (categoryIndex < categories.length) {
+        const category = categories[categoryIndex]
+        const numCats = getNumCats(category)
+        for (let i = 1; i <= numCats; i++) {
+            let loadout = cupheadVersion == 'legacy' ? loadoutsLegacy[category.info.id] : DLCnoDLC == 'nodlc' ? loadouts[category.info.id] : loadoutsDLC[category.info.id]
+            if (difficultyILs && loadout.length > 1) {
+                if (levelDifficulty == 'simple') {
+                    loadout = loadout.slice(0, 2)
+                } else if (levelDifficulty == 'regular') {
+                    loadout = loadout.slice(2, 4)
+                } else if (levelDifficulty == 'expert') {
+                    loadout = loadout.slice(4, 6)
+                }
+            }
+            let theLoadout = []
+            if (loadout.length == 0) {
+                const charm = DLCnoDLC == 'nodlc' ? 'whetstone' : 'divinerelic'
+                theLoadout = ['', '', '', charm]
+            } else {
+                let index = loadout.length == 1 ? 0 : i - 1
+                if (loadout.length > 1 && numCats == 4 && !difficultyILs) {
+                    index += 2
+                }
+                for (let j = 0; j < 4; j++) {
+                    const item = loadout[index][j]
+                    theLoadout.push(item)
+                }
+            }
+            categories[categoryIndex].loadout = theLoadout
+            categoryIndex++
+        }
+    }
+}
+function assignHP() {
+    categories.forEach((category, categoryIndex) => {
+        const hp = bossHP[category.info.id]
+        let hpIndex
+        const difficulty = category.difficulty
+        if (difficulty == 'simple') {
+            hpIndex = 0
+        } else if (difficulty == 'regular') {
+            hpIndex = 1
+        } else if (difficulty == 'expert') {
+            hpIndex = 2
+        }
+        if (hp.length == 6) {
+            hpIndex *= 2
+            hpIndex += categoryIndex % 2
+            if (!big5() && anyHighest == 'highest') {
+                hpIndex++
+            }
+        }
+        category.hp = hp[hpIndex]
+    })
 }

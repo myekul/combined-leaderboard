@@ -8,7 +8,6 @@ function openModal(playerIndex) {
         modalIndex = 0
     } else {
         document.getElementById('modal-pages').style.display = ''
-        document.addEventListener("keydown", modalKeyPress);
     }
     document.addEventListener('keydown', function (event) {
         if (event.key == 'Escape' && showModal) {
@@ -18,6 +17,7 @@ function openModal(playerIndex) {
     const modalTitle = document.getElementById('modal-title')
     const modalBody = document.getElementById('modal-body')
     if (playerModal) {
+        document.addEventListener("keydown", modalKeyPress);
         globalPlayerIndex = playerIndex
         let player = players[playerIndex]
         if (sortCategoryIndex > -1) {
@@ -27,18 +27,31 @@ function openModal(playerIndex) {
             sortCategoryIndex = oldIndex
             player = players[playerIndex]
         }
-        let playerLink = player.weblink ? `onclick="window.open('${player.weblink}', '_blank')"` : null;
         const percentage = getPercentage(player.score)
         const grade = getLetterGrade(percentage)
-        let HTMLContent =
-            `<table style='padding:10px'>
-                <tr>
-                    <td>${getPlayerFlag(player, 25)}</td>
-                    <td><h2 ${playerLink} class='${playerLink ? 'clickable' : ''}' style='margin:0 5px'>${getPlayerName(player)}</h2></td>`
-        HTMLContent += mode != 'fullgameILs' ? `<td><h3 style='padding: 5px;margin:0 5px' class='${grade.className}'>${grade.grade}</h3></td>` : ''
-        HTMLContent += `<td class='modalBoardTitle' style='padding-left:20px'>${generateBoardTitle(2)}</td>
-                </tr>
-            </table>`
+        let HTMLContent = `<div class='container' style='padding-top:8px'>`
+        HTMLContent += gameID != 'tetris' ? `<div style='width:50px;height:50px;padding-right:10px'>${getPlayerIcon(player)}</div>` : ''
+        HTMLContent += `<div>`
+        HTMLContent += `<div class='container' style='padding-bottom:2px'>`
+        HTMLContent += `<h2 style='margin:0'>${getPlayerName(player)}</h2>`
+        HTMLContent += mode != 'fullgameILs' ? `<div style='padding-left:8px'><h3 style='padding:3px;margin:0 5px;border-radius:5px' class='${grade.className}'>${grade.grade}</h3></div>` : ''
+        HTMLContent += `</div>`
+        if (player.links) {
+            HTMLContent += `<div class='container' style='gap:5px;justify-content:flex-start'>`
+            const flag = getPlayerFlag(player, 12)
+            HTMLContent += `<div>${flag}</div>`
+            HTMLContent += flag ? `<div class='container' style='width:10px;margin:0'>&#8226;</div>` : ''
+            const socials = ['src', 'twitch', 'youtube']
+            socials.forEach(social => {
+                const anchor = getAnchor(getSocial(player, social))
+                HTMLContent += anchor ? `${anchor}<img src='images/external/${social}.png' class='clickable container' style='height:16px;width:auto'>` : ''
+            })
+            HTMLContent += `</div>`
+        }
+        HTMLContent += `</div>`
+        const boardTitle = generateBoardTitle(2)
+        HTMLContent += boardTitle ? `<div class='modalBoardTitle' style='padding-left:20px'>${boardTitle}</div>` : ''
+        HTMLContent += `</div>`
         document.getElementById('modal-player').innerHTML = HTMLContent
         if (modalIndex == 0) {
             modalTitle.innerText = 'REPORT CARD'
@@ -86,7 +99,7 @@ function closeModal() {
     }, 200);
 }
 function reportCard(player) {
-    let HTMLContent = `<table><th></th>`
+    let HTMLContent = `<table>`
     if (gameID == 'cuphead' && mode == 'levels' && big5()) {
         let categoryIndex = 0
         while (categoryIndex < categories.length) {
@@ -105,7 +118,7 @@ function reportCard(player) {
                 const thisCategory = categories[categoryIndex]
                 HTMLContent += `<td>${getTrophy(place)}</td>`
                 HTMLContent += `<td class='${thisCategory.difficulty}' style='text-align:left'>${difficultyILs ? trimDifficulty(thisCategory.name) : thisCategory.name}</td>`
-                if (run && !WRmode) {
+                if (run) {
                     HTMLContent +=
                         `<td class='${grade.className}' style='text-align:left'>${grade.grade}</td>
                         <td class='${grade.className}'>${displayPercentage(percentage)}</td>`
@@ -128,10 +141,10 @@ function reportCard(player) {
             }
             HTMLContent +=
                 `<tr class='${className}'>
-                    <td class='background' style='color:white'>${run?.debug ? '*' : ''}${getTrophy(place)}</td>`
-            HTMLContent += `<td id='modal-img'>${image}</td>`
+                    <td class='background' style='color:white;padding-right:3px;text-align:right'>${run?.debug ? '*' : ''}${getTrophy(place)}</td>`
+            HTMLContent += image ? `<td id='modal-img'>${image}</td>` : ''
             HTMLContent += `<td class='${category.className}' style='text-align:left'>${category.name}</td>`
-            if (run && mode != 'fullgameILs' && !WRmode) {
+            if (run && mode != 'fullgameILs') {
                 HTMLContent +=
                     `<td class='${grade.className}' style='text-align:left'>${grade.grade}</td>
                     <td class='${grade.className}'>${displayPercentage(percentage)}</td>
@@ -143,7 +156,7 @@ function reportCard(player) {
     HTMLContent += `</table>`
     if (mode != 'fullgameILs') {
         HTMLContent +=
-            `<table id='modal-other'><tr>
+            `<table style='padding: 5px 0'><tr>
             <td>Rank:</td>
             <td>${player.rank}</td>
         </tr>`
@@ -270,7 +283,7 @@ function scoreBreakdown(player) {
     HTMLContent += `</table>`
     HTMLContent += `<p>${player.explanation}</p>`
     const score = getPercentage(player.score)
-    HTMLContent += `<div class='container'><h2 class='${getLetterGrade(score).className}' style='padding:5px'>${displayPercentage(score)}</h2></div>`
+    HTMLContent += `<div class='container'><h2 class='${getLetterGrade(score).className}' style='padding:5px;border-radius:5px'>${displayPercentage(score)}</h2></div>`
     return HTMLContent
 }
 function getCategoryHeader(category) {
@@ -302,11 +315,15 @@ function modalKeyPress() {
     switch (event.key) {
         case 'ArrowLeft':
             event.preventDefault();
-            modalLeft();
+            if (mode != 'fullgameILs') {
+                modalLeft();
+            }
             break;
         case 'ArrowRight':
             event.preventDefault();
-            modalRight();
+            if (mode != 'fullgameILs') {
+                modalRight()
+            }
             break;
         case 'ArrowUp':
             event.preventDefault();

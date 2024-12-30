@@ -140,7 +140,7 @@ function countryCount() {
     countriesArray.forEach((country, countryIndex) => {
         HTMLContent +=
             `<tr class='${getRowColor(countryIndex)}'>
-                <td style='text-align:right;font-size:12px'>${displayPercentage(getPercentage(country.count / total, 1))}%</td>
+                <td style='text-align:right;font-size:75%'>${displayPercentage(getPercentage(country.count / total, 1))}%</td>
                 <td>${country.count}</td>
                 <td>${getFlag(country.code, country.name, 15)}</td>
                 <td onclick="playSound('cardup');openModal('${country.name}')" class='clickable' style='text-align:left'>${country.name}</td>
@@ -165,7 +165,6 @@ function flagArmy() {
     document.getElementById('flagArmy').innerHTML = HTMLContent
 }
 // function pieChart() {
-//     const font = rootStyles.getPropertyValue('--font')
 //     const rows = [['Country', '# of Players', { role: 'tooltip', p: { html: true } }]]
 //     countriesObject = sortCategoryIndex > -1 ? categories[sortCategoryIndex].countries : countries
 //     const countriesArray = createArray(countriesObject)
@@ -189,7 +188,7 @@ function flagArmy() {
 //         height: 600,
 //         tooltip: {
 //             textStyle: {
-//                 fontName: font,
+//                 fontName: getFont(),
 //                 color: 'black'
 //             },
 //             isHtml: true
@@ -197,12 +196,12 @@ function flagArmy() {
 //         annotations: {
 //             style: 'none',
 //             textStyle: {
-//                 fontName: font
+//                 fontName: getFont()
 //             },
 //         },
 //         pieSliceText: 'label',
 //         pieSliceTextStyle: {
-//             fontName: font,
+//             fontName: getFont(),
 //         },
 //     };
 //     const chart = new google.visualization.PieChart(document.getElementById('countryChart'));
@@ -241,7 +240,7 @@ function createMap() {
         const width = 800;
         const height = 400;
         const svg = d3.select("#world-map");
-        const tooltip = d3.select("#tooltip");
+        const tooltip = d3.select("#mapTooltip");
         const projection = d3.geoNaturalEarth1()
             .scale(150)
             .translate([width / 2, height / 2]);
@@ -262,7 +261,7 @@ function createMap() {
                 .on("mouseover", function (event, d) {
                     if (d.properties.value) {
                         const label = d.properties.value.name
-                        const flag = getFlag(isoMap32[d.id].toLowerCase(), d.properties.name, 30)
+                        const flag = getFlag(isoMap32[d.id].toLowerCase(), d.properties.name, 20)
                         const currentColor = d3.select(this).attr("fill");
                         d3.select(this).classed("cursor", true);
                         d3.select(this).attr("fill", "var(--banner)").attr("data-original-color", currentColor);

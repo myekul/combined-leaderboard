@@ -16,27 +16,28 @@ function setBoardTitle() {
     const boardTitleDiv = document.getElementById('boardTitleDiv')
     boardTitleDiv.style.display = ''
 }
-function generateBoardTitle(extra) {
-    let HTMLContent = `<div><table id='boardTitleTable'><tr>`
-    if (sortCategoryIndex == -1 || extra == 2) {
-        if (difficultyILs) {
-            HTMLContent += `<td class='${levelDifficulty}'>${levelDifficulty.charAt(0).toUpperCase() + levelDifficulty.slice(1)}</td>`
-        } else if (groundPlane) {
-            HTMLContent += `<th style='padding: 0 5px' class='container ${getColorClass()}'><img src='images/cuphead/${groundPlane}_${cupheadVersion}.png' style='height:42px;width:auto'></th>`
-        } else if (isleIndex > -1) {
-            const isle = isles[isleIndex]
-            HTMLContent += `<td class='${isle.className}'>${isle.name}</td>`
-        }
+function generateBoardTitle(extra, categoryIndex) {
+    let worldRecord
+    let imgSize = 42
+    if (categoryIndex == null) {
+        categoryIndex = sortCategoryIndex
+    } else {
+        worldRecord = true
+        imgSize = 21
+    }
+    let HTMLContent = `<div><table class='boardTitleTable'><tr>`
+    if (worldRecord) {
+        HTMLContent += `<td class='first'>${secondsToHMS(getWorldRecord(categories[categoryIndex]))}</td>`
     }
     if (mode == 'levels' & bossILindex > -1) {
         category = bosses[bossILindex]
         imgsrc = category.id
         let className = category.className ? category.className : imgsrc
         let cellContent = category.name
-        HTMLContent += `<th class='container ${className}'>${getImage(imgsrc)}<span id='boardLevel'>${cellContent}</span></th>`
+        HTMLContent += `<th class='container ${className}'>${getImage(imgsrc, imgSize)}<span id='boardLevel'>${cellContent}</span></th>`
     }
-    if (sortCategoryIndex > -1 && extra != 2) {
-        let category = categories[sortCategoryIndex]
+    if (categoryIndex > -1 && extra != 2) {
+        let category = categories[categoryIndex]
         let imgsrc
         if (category.info) {
             imgsrc = category.info.id
@@ -44,7 +45,7 @@ function generateBoardTitle(extra) {
         let className = category.className ? category.className : imgsrc
         let image = ''
         if (imgsrc) {
-            image = getImage(imgsrc)
+            image = getImage(imgsrc, imgSize)
         }
         let cellContent = category.name
         if (gameID == 'cuphead' && big4()) {
@@ -56,20 +57,32 @@ function generateBoardTitle(extra) {
         if (cellContent) {
             cellContent = `<span id='boardLevel'>${cellContent}</span>`
         }
-        if (gameID == 'cuphead' && bossILindex == -1) {
+        if ((gameID == 'cuphead' && bossILindex == -1) || gameID == 'sm64') {
             HTMLContent += `<th class='container ${className}'>${image}${cellContent}</th>`
         } else {
-            category = categories[sortCategoryIndex]
             HTMLContent += `<td class='${category.difficulty}'>${category.name}</td>`
         }
         if (gameID == 'cuphead' && big4()) {
-            const category = categories[sortCategoryIndex]
             HTMLContent += `<td class='${category.difficulty}'>${category.name}</td>`
         }
-    } else if (mode == 'fullgame' && page == 'charts') {
-        HTMLContent += `<td class='banner'>Player Score</td>`
-    } else if (mode == 'levels' && ((gameID == 'cuphead' && allILs) || gameID != 'cuphead')) {
+    } else if (mode == 'levels' && ((gameID == 'cuphead' && bossILindex == -1) || gameID != 'cuphead')) {
         HTMLContent += `<td>Top IL Runners</td>`
+    }
+    if (categoryIndex == -1 || extra == 2) {
+        if (difficultyILs) {
+            HTMLContent += `<td class='${levelDifficulty}'>${levelDifficulty.charAt(0).toUpperCase() + levelDifficulty.slice(1)}</td>`
+        } else if (groundPlane) {
+            HTMLContent += `<th style='padding: 0 5px' class='container ${getColorClass()}'><img src='images/cuphead/${groundPlane}_${cupheadVersion}.png' style='height:42px;width:auto'></th>`
+        } else if (isleIndex > -1) {
+            const isle = isles[isleIndex]
+            HTMLContent += `<td class='${isle.className}'>${isle.name}</td>`
+        }
+    }
+    if (mode == 'fullgame' && fullgameCategory) {
+        HTMLContent += `<td class='${cuphead[fullgameCategory][0].className}'>${fullgameCategory}</td>`
+    }
+    if (mode == 'levels' && sm64ILsSection) {
+        HTMLContent += `<td class='banner'>${sm64ILsSection}</td>`
     }
     if (gameID == 'cuphead' && mode == 'levels') {
         if (!big5()) {
@@ -89,12 +102,15 @@ function generateBoardTitle(extra) {
         HTMLContent += `<td class=${fullgameILsCategory.className}>${fullgameILsCategory.name}</td>`
         HTMLContent +=
             `<th id='fullgameILsWeapons' class='container'>
-                <img src="images/cuphead/inventory/weapons/${fullgameILsCategory.shot1}.png"></img>
-                <img src="images/cuphead/inventory/weapons/${fullgameILsCategory.shot2}.png"></img>
+                <img src="images/cuphead/inventory/weapons/${fullgameILsCategory.shot1}.png" style='height:${imgSize}px'></img>
+                <img src="images/cuphead/inventory/weapons/${fullgameILsCategory.shot2}.png" style='height:${imgSize}px'></img>
             </th>`
     }
+    if (page == 'charts' && sortCategoryIndex == -1 && mode != 'fullgameILs') {
+        HTMLContent += `<td class='banner'>Player Score</td>`
+    }
     HTMLContent += `</tr></table></div>`
-    if (HTMLContent == `<div><table id='boardTitleTable'><tr></tr></table></div>`) {
+    if (HTMLContent == `<div><table class='boardTitleTable'><tr></tr></table></div>`) {
         return ''
     }
     return HTMLContent
@@ -106,7 +122,7 @@ function updateCategories() {
     categories.forEach((category, categoryIndex) => {
         let className = category.className
         if (category.info && bossILindex == -1 && !(gameID == 'cuphead' && big4())) {
-            HTMLContent += `<th onclick="drawNewChart(${categoryIndex})" class='${category.info.id} clickable ${isSelected(categoryIndex)}'>${getImage(category.info.id)}</th>`
+            HTMLContent += `<th onclick="organizePlayers(${categoryIndex})" class='${category.info.id} clickable ${isSelected(categoryIndex)}'>${getImage(category.info.id)}</th>`
         } else {
             let categoryName = category.name
             if (bossILindex > -1) {
@@ -119,7 +135,7 @@ function updateCategories() {
             if (!className) {
                 className = 'gray'
             }
-            HTMLContent += `<th onclick="drawNewChart(${categoryIndex})" class='${className} clickable ${isSelected(categoryIndex)} chartTab'>${categoryName}</th>`
+            HTMLContent += `<th onclick="organizePlayers(${categoryIndex})" class='${className} clickable ${isSelected(categoryIndex)} chartTab'>${categoryName}</th>`
         }
     })
     HTMLContent += `</tr></table>`

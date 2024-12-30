@@ -1,11 +1,21 @@
 google.charts.load('current', { packages: ['corechart'] });
-refreshLeaderboard()
-function getFullGame() {
+document.addEventListener('DOMContentLoaded', function () {
+    refreshLeaderboard()
+})
+function getFullgame(categoryName) {
     setMode('fullgame')
     disableLevelModes()
     // hideTabs()
     sortCategoryIndex = -1
-    categories = categorySet[gameID]
+    if (categoryName) {
+        fullgameCategory = categoryName
+        categories = cuphead[categoryName]
+        buttonClick('fullgameCategories_' + categories[0].className, 'fullgameCategories', 'active')
+    } else {
+        fullgameCategory = ''
+        categories = categorySet[gameID]
+        buttonClick('fullgameCategories_main', 'fullgameCategories', 'active')
+    }
     resetLoad()
     categories.forEach(category => {
         let variables = ''
@@ -44,7 +54,7 @@ function getFullgameILs(categoryName) {
     resetLoad()
     players = []
     playerNames = new Set()
-    let category = cuphead[fullgameILsCategory.index]
+    let category = cuphead['main'][fullgameILsCategory.index]
     let variables = `var-${category.var}=${category.subcat}`
     if (category.var2) {
         variables += `&var-${category.var2}=${category.subcat2}`
@@ -59,7 +69,7 @@ function updateLoadouts(categoryName) {
     } else if (fullgameILsCategory.name == 'DLC') {
         fullgameCategories.push('DLC', 'DLC C/S')
     } else if (fullgameILsCategory.name == 'DLC+Base') {
-        fullgameCategories.push('D+B', 'D+B C/S')
+        fullgameCategories.push('DLC+Base', 'DLC+Base C/S')
     }
     fullgameCategories.forEach(category => {
         HTMLContent +=
@@ -70,11 +80,7 @@ function updateLoadouts(categoryName) {
     })
     document.getElementById('loadouts').innerHTML = HTMLContent
 }
-function enableWRMode() {
-    WRmode = true
-    prepareData()
-}
-function getOtherLevels() {
+function getOtherLevels(section) {
     fetch(`resources/levels/${gameID}.json`)
         .then(response => response.json())
         .then(data => {
@@ -83,6 +89,23 @@ function getOtherLevels() {
             if (gameID == 'sm64') {
                 categories.forEach((category, categoryIndex) => {
                     category.info = sm64LevelIDs[categoryIndex]
+                })
+                switch (section) {
+                    case 'Lobby':
+                        categories = categories.slice(0, 5)
+                        break
+                    case 'Basement':
+                        categories = categories.slice(5, 9)
+                        break
+                    case 'Upstairs':
+                        categories = categories.slice(9, 13)
+                        break
+                    case 'Tippy':
+                        categories = categories.slice(13, 15)
+                        break
+                }
+                sm64ILsSection = section
+                categories.forEach((category) => {
                     getLeaderboard(category, `level/${category.id}/zdnq4oqd`, sm64Var) // Stage RTA
                 })
             } else if (gameID == 'titanfall_2') {
@@ -131,43 +154,6 @@ function prepareData() {
         sortCategoryIndex = -1
         sortPlayers(players)
     }
-    if (WRmode) {
-        categories.forEach(category => {
-            newRuns = []
-            category.runs.forEach((run, runIndex) => {
-                if (run.place == 1) {
-                    newRuns.push(run)
-                } else {
-                    category.runs = category.runs.slice(0, runIndex)
-                }
-            })
-        })
-        const newPlayers = []
-        players.forEach(player => {
-            const newRuns = []
-            player.numWRs = 0
-            player.runs.forEach(run => {
-                if (run) {
-                    if (run.place == 1) {
-                        player.numWRs++
-                        newRuns.push(run)
-                    } else {
-                        newRuns.push(null)
-                    }
-                } else {
-                    newRuns.push(null)
-                }
-            })
-            if (player.numWRs > 0) {
-                player.runs = newRuns
-                newPlayers.push(player)
-            }
-        })
-        players = newPlayers
-        generateRanks()
-        sortCategoryIndex = -1
-        sortPlayers(players)
-    }
     players.forEach((player, playerIndex) => {
         player.rank = playerIndex + 1
     })
@@ -185,7 +171,7 @@ function assignRuns(category, categoryIndex) {
     category.runs.forEach((run, runIndex) => {
         if (runIndex == 0) {
             run.first = true
-            if (category.runs[runIndex + 1]?.place > 1) {
+            if (category.runs[runIndex + 1]?.place > 1 || category.runs.length == 1) {
                 run.untied = true
             }
         }
@@ -232,11 +218,13 @@ function generateRanks() {
                 if (gameID == 'cuphead') {
                     if (category.name == 'NMG' || category.name == 'Full Clear NMG') {
                         let runCopy = { ...run }
-                        runCopy.place = '-'
                         const onePointOne = categories[0]
                         const onePointOneRun = player.runs[0]
                         const onePointOneWR = getWorldRecord(onePointOne)
                         runCopy.percentage = getScore(onePointOne, onePointOneWR, run.score)
+                        runCopy.place = runCopy.percentage >= 1 ? 1 : '-'
+                        runCopy.first = false
+                        runCopy.untied = false
                         if (!onePointOneRun) {
                             player.runs[0] = runCopy
                             player.percentageSum += runCopy.percentage * (1 / categories.length)
@@ -246,14 +234,16 @@ function generateRanks() {
                             player.percentageSum += runCopy.percentage * (1 / categories.length)
                         }
                         // Highest grade in place of an Any% run
-                    } else if (mode == 'levels' && big5() && runIndex % 2 == 1 && !WRmode) {
+                    } else if (mode == 'levels' && big5() && runIndex % 2 == 1) {
                         let runCopy = { ...run }
-                        runCopy.place = '-'
                         const anyIndex = runIndex - 1
                         const any = categories[anyIndex]
                         const anyRun = player.runs[anyIndex]
                         const anyWR = getWorldRecord(any)
                         runCopy.percentage = getScore(any, anyWR, run.score)
+                        runCopy.place = runCopy.percentage >= 1 ? 1 : '-'
+                        runCopy.first = false
+                        runCopy.untied = false
                         if (!anyRun) {
                             player.runs[anyIndex] = runCopy
                             player.percentageSum += runCopy.percentage * (1 / categories.length)
@@ -279,10 +269,17 @@ function generateRanks() {
         applyPenalties(player)
     })
 }
-function organizePlayers(categoryIndex) {
-    sortCategoryIndex = categoryIndex
-    sortPlayers(players)
-    action()
+function organizePlayers(categoryIndex, shh) {
+    if (categoryIndex > categories.length - 1 || categoryIndex < 0) {
+        playSound('locked')
+    } else {
+        if (!shh) {
+            playSound('equip_move')
+        }
+        sortCategoryIndex = categoryIndex
+        sortPlayers(players)
+        action()
+    }
 }
 function sortPlayers(playersArray) {
     if (sortCategoryIndex == -1) {
@@ -320,7 +317,7 @@ function refreshLeaderboard() {
         gapi.load("client", loadClient);
     } else {
         if (mode == 'fullgame') {
-            getFullGame()
+            getFullgame()
         } else if (mode == 'levels') {
             getLevels()
         } else if (mode == 'fullgameILs') {

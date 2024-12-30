@@ -26,16 +26,16 @@
         <header>
             <div>
                 <div class="container" style="align-items: flex-end;">
-                    <img id='gameIcon1' style='height:32px;width:auto;margin-bottom:25px;padding:0 10px'>
+                    <img class='gameIcon'>
                     <div>
                         <img id='gameLogo' class='container' style="height:50px;width:auto">
                         <h1 id='gameTitle' class='container'
                             style="position:absolute;left:50%;transform: translate(-50%, -45px)"></h1>
-                        <h1 id='subtitle' style="font-size:25px;transform: translate(0px, -20px);text-align: center;">
+                        <h1 id='subtitle' style="font-size:150%;transform: translate(0px, -20px);text-align: center;">
                             COMBINED LEADERBOARD
                         </h1>
                     </div>
-                    <img id='gameIcon2' style='height:32px;width:auto;margin-bottom:25px;padding:0 10px'>
+                    <img class='gameIcon'>
                 </div>
                 <div id='titleDesc' class='container' style="transform: translate(0px, -20px)">The best overall players
                     across each
@@ -52,7 +52,7 @@
                     </div>
                     <div id="gameSelect" class="sticky" style="display:none"></div>
                     <div id='modeSelection' class='container' style="display:none; margin:0">
-                        <div id='fullgameButton' class='button' onclick="getFullGame()">Full Game</div>
+                        <div id='fullgameButton' class='button' onclick="getFullgame()">Full Game</div>
                         <div id='levelsButton' class='button' onclick="getLevels()">Individual
                             Levels</div>
                         <div id='fullgameILsButton' class='button' style='display:none' onclick="getFullgameILs()">Full
@@ -85,8 +85,32 @@
                     <div id="progress-bar" class="progress-bar"></div>
                 </div>
             </div>
+            <!-- Cuphead Fullgame Categories -->
+            <div id="fullgameCategoriesSection" class='hide headerRow' style="display:none">
+                <div id='fullgameCategoriesButton' onclick="toggleFullgameCategories()" class='clickable container'
+                    style="width:50px">&#9660</div>
+                <div id="fullgameCategories" style="display:none">
+                    <div class="container">
+                        <div id='fullgameCategories_main' onclick="getFullgame()" class="button cuphead"
+                            style="width:150px">Main Leaderboard</div>
+                    </div>
+                    <div class="container">
+                        <div id='fullgameCategories_onePointOne' onclick="getFullgame('1.1+')"
+                            class="button onePointOne">
+                            1.1+
+                        </div>
+                        <div id='fullgameCategories_legacy' onclick="getFullgame('Legacy')" class="button legacy">Legacy
+                        </div>
+                        <div id='fullgameCategories_nmg' onclick="getFullgame('NMG')" class="button nmg">NMG</div>
+                        <div id='fullgameCategories_dlc' onclick="getFullgame('DLC')" class="button dlc">DLC</div>
+                        <div id='fullgameCategories_dlcbase' onclick="getFullgame('DLC+Base')" class="button dlcbase">
+                            DLC+Base
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Cuphead ILs -->
-            <div id="ILsSection" class='hide headerRow' style="display:none">
+            <div id="ILsSection_cuphead" class='hide headerRow' style="display:none">
                 <div class="container">
                     <div id='versionTabs' class='container' style="margin:0">
                         <div id='legacy' onclick="cupheadLevelSetting('legacy','nodlc')" class="button legacy">Legacy
@@ -96,7 +120,7 @@
                             class="button cuphead">Current Patch</div>
                     </div>
                     <div>
-                        <div id='ILcategoriesButton' onclick="toggleILcategories()" class='clickable container'
+                        <div id='ILcategoriesButton_cuphead' onclick="toggleILcategories()" class='clickable container'
                             style="width:50px">&#9660</div>
                     </div>
                     <div id='categoryTabs' class='container' style="margin:0">
@@ -106,11 +130,8 @@
                         <div id='dlcBoards' onclick="cupheadLevelSetting('currentPatch','dlc')" class="button dlc">DLC
                             Loadout</div>
                     </div>
-                    <div id='allLevels' onclick="getAllLevels()" class='button gray'
-                        style="width:50px;margin-left:10px">All
-                    </div>
                 </div>
-                <div id="ILcategories" style="display:none">
+                <div id="ILcategories_cuphead" style="display:none">
                     <div class="container">
                         <div id="ILbosses"></div>
                         <input id='checkbox_basegameILs' type="checkbox" onchange='toggleBasegameILs()'
@@ -147,10 +168,28 @@
                         </div>
                         <div id='ground' onclick="getGroundPlane('ground')" class="button"><img id='groundimg'></div>
                         <div id='plane' onclick="getGroundPlane('plane')" class="button"><img id='planeimg'></div>
+                        <div id='allLevels' onclick="getAllLevels()" class='button gray'
+                            style="width:50px;margin-left:10px">All
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- Fullgame ILs -->
+            <div id="ILsSection_sm64" class='hide headerRow' style="display:none">
+                <div id='ILcategoriesButton_sm64' onclick="toggleILcategories()" class='clickable container'
+                    style="width:50px">&#9660</div>
+                <div id='ILcategories_sm64' style="display:none">
+                    <div class="container">
+                        <div onclick="getLevels()" class="button">All</div>
+                    </div>
+                    <div class="container">
+                        <div onclick="getOtherLevels('Lobby')" class="button">Lobby</div>
+                        <div onclick="getOtherLevels('Basement')" class="button">Basement</div>
+                        <div onclick="getOtherLevels('Upstairs')" class="button">Upstairs</div>
+                        <div onclick="getOtherLevels('Tippy')" class="button">Tippy</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Cuphead Fullgame ILs -->
             <div id="fullgameILsSection" class='hide headerRow' style="display:none">
                 <div id="fullgameILsVersionTabs" class="container">
                     <div id='fullgameILs_onePointOne' onclick="getFullgameILs('1.1+')" class="button onePointOne">1.1+
@@ -158,11 +197,12 @@
                     <div id='fullgameILs_legacy' onclick="getFullgameILs('Legacy')" class="button legacy">Legacy</div>
                     <div id='fullgameILs_nmg' onclick="getFullgameILs('NMG')" class="button nmg">NMG</div>
                     <div id='fullgameILs_dlc' onclick="getFullgameILs('DLC')" class="button dlc">DLC</div>
-                    <div id='fullgameILs_dlcbase' onclick="getFullgameILs('D+B')" class="button dlcbase">DLC+Base
+                    <div id='fullgameILs_dlcbase' onclick="getFullgameILs('DLC+Base')" class="button dlcbase">DLC+Base
                     </div>
                 </div>
                 <div id="loadouts" class="container"></div>
             </div>
+            <!-- Board Title -->
             <div id="boardTitleDiv" class="container sticky" style="margin-top:10px">
                 <input id="checkbox_isolate" type="checkbox" style="display:none">
                 <div id="boardTitle" class="container" style="margin:0"></div>
@@ -171,9 +211,9 @@
                 </div>
             </div>
             <div id='categoriesSection' class="container hide" style="display:none">
-                <div>&#9664</div>
+                <div class="clickable" onclick="organizePlayers(sortCategoryIndex-1)">&#9664</div>
                 <div id="categoriesElem"></div>
-                <div>&#9654</div>
+                <div class="clickable" onclick="organizePlayers(sortCategoryIndex+1)">&#9654</div>
             </div>
             <div class="container">
                 <div id='optionsButton' class='clickable hide' onclick="toggleOptions()"
@@ -185,6 +225,10 @@
                     <div class="container">
                         <input id="checkbox_numRuns" type="checkbox"># of Runs
                         <input id="checkbox_milliseconds" type="checkbox">Milliseconds
+                    </div>
+                    <div class="container">
+                        <input id="checkbox_flags" type="checkbox" checked>Flags
+                        <input id="checkbox_icons" type="checkbox" checked>Icons
                     </div>
                     <div class="container">
                         <input id="checkbox_percentile" type="checkbox">Percentile
@@ -234,8 +278,8 @@
                 </div>
                 <div class="container" style='align-items:flex-start'>
                     <div style="padding-left:100px;">
-                        <div id="tooltip"></div>
-                        <svg id="world-map" class='bigShadow' width="800" height="400"></svg>
+                        <div id="mapTooltip"></div>
+                        <svg id="world-map" width="800" height="400"></svg>
                         <div id="flagArmy"></div>
                         <!-- <div id="countryChart"></div> -->
                     </div>
@@ -244,33 +288,92 @@
                     </div>
                 </div>
             </div>
+            <div id="dateTab">
+                <div id="date"></div>
+            </div>
             <!-- WRs -->
             <div id="WRsTab" class="tabs" style="display:none">
+                <div id="WRsTabs" class="container" style="padding:5px 0">
+                    <div id='WRs_players' onclick="showWRsTab('players')" class="button">Players</div>
+                    <div id='WRs_sums' onclick="showWRsTab('sums')" class="button">Sums</div>
+                    <div id='WRs_chart' onclick="showWRsTab('chart')" class="button">Times</div>
+                </div>
                 <div id='WRsOptions' class="container options" style="display:none">
                     <input id='checkbox_WRs_date' onclick="action()" type="checkbox">Date
-                    <input id='checkbox_WRs_loadouts' onclick="action()" type="checkbox" checked>Loadouts
+                    <div id="WRsCupheadILsOptions">
+                        <input id='checkbox_WRs_loadouts' onclick="action()" type="checkbox" checked>Loadouts
+                        <input id='checkbox_WRs_dps' onclick="action()" type="checkbox">DPS
+                        <input id='checkbox_WRs_hp' onclick="action()" type="checkbox">HP
+                    </div>
                 </div>
                 <div id="WRs"></div>
+                <div id="WRsChartSection">
+                    <div id="WRsChartOptions" class="container">
+                        <select id="dropdown_WRsChart" onchange="action()">
+                            <option value="default" selected>Default</option>
+                            <option value="isle">Isle</option>
+                            <option value="difficulty">Difficulty</option>
+                            <option value="groundPlane">Ground / Plane</option>
+                        </select>
+                        <input id='checkbox_hp' type="checkbox" onchange="action()">HP
+                    </div>
+                    <div id="WRsChart" style="height:500px;width:95%;padding:5px 0" class="container"></div>
+                    <div id="WRsInfo"></div>
+                </div>
             </div>
             <!-- Sort -->
             <div id="sortTab" class="tabs" style="display:none">
                 <div id='sortOptions' class="container options">
                     <select id="dropdown_sortCriteria" onchange="action()">
-                        <option value="score" selected>Score</option>
-                        <option value="player">Player</option>
-                        <option value="date">Date</option>
-                        <option value="time">Time</option>
+                        <optgroup label="Runs">
+                            <option value="score" selected>Score</option>
+                            <option value="date">Date</option>
+                            <option value="category">Category</option>
+                            <option value="playerIndex">Player Rank</option>
+                            <option value="time">Time</option>
+                        </optgroup>
+                        <optgroup label="Player">
+                            <option value="player">Player</option>
+                            <option value="joindate">Join Date</option>
+                        </optgroup>
+                        <optgroup id="extraSortCriteria" label="Extra">
+                            <option value="dps">DPS</option>
+                        </optgroup>
+                    </select>
+                    <select id="dropdown_sortRange" onchange="action()">
+                        <option value="top300" selected>Top 300</option>
+                        <option value="top100">Top 100</option>
+                        <option value="trophies">Trophies</option>
+                        <option value="WRs">WRs</option>
+                        <option value="firstWR">WRs (First)</option>
+                        <option value="untiedWR">WRs (Untied)</option>
                     </select>
                 </div>
-                <div id="sort"></div>
+                <div>
+                    <select id="sortDateOptions" class="container" onchange="action()">
+                        <option value="year" selected>Year</option>
+                        <option value="season">Season</option>
+                        <option value="month">Month</option>
+                        <option value="dayofyear">Day of Year</option>
+                        <option value="dayofmonth">Day of Month</option>
+                        <option value="dayofweek">Day of Week</option>
+                    </select>
+                    <div id='sortChartDiv' class="container" style="padding-top:5px;padding-bottom:15px">
+                        <div id="sortChart" style="width:70%;height:300px"></div>
+                        <div id="sortPieChart" style="width:20%;height:300px;padding-left:10px"></div>
+                    </div>
+                    <div class="container">
+                        <div id="sort" style="width:50%"></div>
+                    </div>
+                </div>
             </div>
             <div id="modal" class="modal">
                 <div id="modal-content">
                     <div id="modal-header">
-                        <h1 id="modal-title"></h1>
+                        <h1 id="modal-title" class="container"></h1>
                     </div>
-                    <div id="modal-player"></div>
-                    <div id="modal-body"></div>
+                    <div id="modal-player" style="padding:0 40px"></div>
+                    <div id="modal-body" style="padding-top:8px"></div>
                 </div>
                 <div id='modal-pages' class="container" style="display:none"></div>
             </div>
@@ -278,7 +381,7 @@
         <footer>
             <div class="container">
                 <a href="https://www.speedrun.com/users/myekul" target="_blank">
-                    <img src="images/external/speedrun.png" class="clickable">
+                    <img src="images/external/src.png" class="clickable">
                 </a>
                 <a href="https://www.youtube.com/@myekul/videos" target="_blank">
                     <img src="images/external/youtube.png" class="clickable">
@@ -291,7 +394,6 @@
                 <h2>2024</h2>
             </div>
         </footer>
-        <div id="dummy"></div>
     </div>
     <script type='module' src="code/api/firebase.js"></script>
     <script src="code/api/sheets.js"></script>
@@ -302,13 +404,11 @@
 
     <script src="constants/cuphead/constants.js"></script>
     <script src="constants/cuphead/bosses.js"></script>
-    <script src="constants/cuphead/loadouts.js"></script>
+    <script src="constants/cuphead/bossInfo.js"></script>
     <script src="constants/sm64/constants.js"></script>
     <script src="constants/tetris/constants.js"></script>
     <script src="constants/titanfall_2/constants.js"></script>
-    <script src="constants/smb1/constants.js"></script>
-    <script src="constants/smb2/constants.js"></script>
-    <script src="constants/smb3/constants.js"></script>
+    <script src="constants/smb.js"></script>
 
     <script src="code/page/leaderboard.js"></script>
     <script src="code/page/chart.js"></script>
@@ -318,6 +418,7 @@
 
     <script src="code/cupheadLevels.js"></script>
 
+    <script src="code/math.js"></script>
     <script src="code/general.js"></script>
     <script src="code/penalty.js"></script>
 

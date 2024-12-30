@@ -57,7 +57,7 @@ function fetchTetris(category, categoryIndex) {
             prepareData()
             const url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID
             const boardTitleSrc = document.getElementById('boardTitleSrc')
-            boardTitleSrc.innerHTML = `<div onclick="${openLink(url)}" class='clickable'><img src='images/external/sheets.png'></div>`
+            boardTitleSrc.innerHTML = `<div class='clickable'>${getAnchor(url)}<img src='images/external/sheets.png'></div>`
         }
     }, (err) => console.error("Execute error", err));
 }
@@ -76,7 +76,7 @@ function fetchCuphead() {
             bossesCopy = bossesCopy.slice(0, 19)
         }
         bossesCopy.sort((a, b) => (a.order || 0) - (b.order || 0));
-        if (fullgameILsCategory.tabName == 'D+B') {
+        if (fullgameILsCategory.tabName == 'DLC+Base') {
             let elementsToMove = bossesCopy.slice(0, 6);
             bossesCopy.splice(0, 6);
             bossesCopy.splice(8, 0, ...elementsToMove);
@@ -90,6 +90,7 @@ function fetchCuphead() {
             player.runs = new Array(categories.length).fill(null)
         })
         categories.forEach((category, categoryIndex) => {
+            category.difficulty = 'regular'
             if (values[categoryIndex]) {
                 if (values[categoryIndex].values) {
                     if (values[categoryIndex].values[0]) {
@@ -126,8 +127,8 @@ function fetchCuphead() {
             });
             const url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/edit?gid=' + tabMap[fullgameILsCategory.tabName]
             const boardTitleSrc = document.getElementById('boardTitleSrc')
-            boardTitleSrc.innerHTML = `<div onclick="${openLink(url)}" class='clickable'><img src='images/external/sheets.png'></div>`
-            boardTitleSrc.innerHTML += `<div style='margin-left:5px' onclick="${openLink('https://www.speedrun.com/cuphead')}" class='clickable'><img src='images/external/speedrun.png'></div>`
+            boardTitleSrc.innerHTML = `<div class='clickable'>${getAnchor(url)}<img src='images/external/sheets.png'></div>`
+            boardTitleSrc.innerHTML += `<div style='margin-left:5px' class='clickable'>${getAnchor('https://www.speedrun.com/cuphead')}<img src='images/external/src.png'></div>`
         });
     }, (err) => console.error("Execute error", err));
 }

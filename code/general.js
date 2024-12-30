@@ -54,11 +54,6 @@ function placeClass(place) {
     }
     return null
 }
-function getClassColor(className) {
-    var element = document.querySelector('.' + className);
-    var color = window.getComputedStyle(element).backgroundColor;
-    return color;
-}
 function playSound(sfx) {
     if (gameID == 'cuphead') {
         const sound = document.getElementById(sfx)
@@ -119,22 +114,32 @@ function showTab(tab) {
     page = tab
     window.history.pushState(null, null, '#' + page);
     hideTabs()
+    tooltipStyle?.remove()
     document.querySelectorAll('.hide').forEach(elem => {
         elem.style.display = 'none'
     })
     if (gameID == 'cuphead') {
+        if (mode == 'fullgame') {
+            document.getElementById('fullgameCategoriesSection').style.display = ''
+        }
         if (mode == 'levels') {
-            document.getElementById('ILsSection').style.display = ''
+            document.getElementById('ILsSection_cuphead').style.display = ''
         }
         if (mode == 'fullgameILs') {
             document.getElementById('fullgameILsSection').style.display = ''
         }
+    }
+    if (gameID == 'sm64' && mode == 'levels') {
+        document.getElementById('ILsSection_sm64').style.display = ''
     }
     document.getElementById(page + 'Tab').style.display = ''
     buttonClick(page + 'Button', 'tabs', 'active2')
     // if (tab == 'leaderboard' && sortCategoryIndex > -1 && !isolated) {
     //     document.getElementById('checkbox_isolate').checked = true
     // }
+    if (gameID == 'cuphead' && mode == 'levels' || mode == 'fullgameILs') {
+        document.getElementById('checkbox_hp').checked = true
+    }
     if (page != 'leaderboard') {
         document.getElementById('checkbox_isolate').checked = false
         isolated = false
@@ -154,10 +159,62 @@ function showTab(tab) {
         }
         optionsOff()
     }
+    const WRsCupheadILsOptions = document.getElementById('WRsCupheadILsOptions')
+    if (gameID == 'cuphead' && mode == 'levels' || mode == 'fullgameILs') {
+        WRsCupheadILsOptions.style.display = ''
+    } else {
+        WRsCupheadILsOptions.style.display = 'none'
+    }
     action()
 }
-function openLink(url) {
-    return `window.open('${url}', '_blank')`
+function action() {
+    parseCheckboxes()
+    pageAction()
+    if (page != 'leaderboard') {
+        document.getElementById('leaderboard').innerHTML = ''
+    }
+    if (page != 'charts') {
+        document.getElementById('chart').innerHTML = ''
+    }
+    if (page != 'map') {
+        countries = {}
+        document.getElementById('world-map').innerHTML = ''
+    }
+    const categoriesSection = document.getElementById('categoriesSection')
+    if (['charts', 'map', 'sort'].includes(page) || isolated) {
+        categoriesSection.style.display = ''
+        if (sortCategoryIndex == -1) {
+            categoriesSection.classList.remove('sticky')
+        } else {
+            categoriesSection.classList.add('sticky')
+        }
+    } else {
+        categoriesSection.style.display = 'none'
+    }
+    setBoardTitle()
+    updateCategories()
+}
+function pageAction() {
+    switch (page) {
+        case 'leaderboard':
+            generateLeaderboard();
+            break;
+        case 'charts':
+            refreshCharts();
+            break;
+        case 'map':
+            generateMap();
+            break;
+        case 'WRs':
+            generateWRs();
+            break;
+        case 'sort':
+            generateSort();
+            break;
+    }
+}
+function getAnchor(url) {
+    return url ? `<a href="${url}" target='_blank'>` : ''
 }
 function getPlayerName(player) {
     let colorFrom = '#FFFFFF'
@@ -186,6 +243,11 @@ function getPlayerFlag(player, size) {
         return getFlag(countryCode, countryName, size)
     }
     return ''
+}
+function getPlayerIcon(player) {
+    const imgsrc = player.links?.img ? player.links.img : ''
+    const src = imgsrc ? 'https://www.speedrun.com/static/user/' + player.id + '/image?v=' + imgsrc : 'images/null.png'
+    return `<img src='${src}' style='width:100%;height:100%;border-radius: 50%;object-fit: cover;object-position:center'></img>`
 }
 function getFlag(countryCode, countryName, size) {
     let HTMLContent = `<img src="https://www.speedrun.com/images/flags/${countryCode}.png" class='container' style="height:${size}px" title="${countryName}" alt=''></img>`
@@ -284,56 +346,10 @@ function getNumCols() {
             numCols++
         }
     })
-    if (mode == 'fullgameILs' || WRmode) {
+    if (mode == 'fullgameILs') {
         numCols = 1
     }
     return numCols
-}
-function action() {
-    parseCheckboxes()
-    pageAction()
-    if (page != 'leaderboard') {
-        document.getElementById('leaderboard').innerHTML = ''
-    }
-    if (page != 'charts') {
-        document.getElementById('chart').innerHTML = ''
-    }
-    if (page != 'map') {
-        countries = {}
-        document.getElementById('world-map').innerHTML = ''
-    }
-    const categoriesSection = document.getElementById('categoriesSection')
-    if (['charts', 'map'].includes(page) || isolated) {
-        categoriesSection.style.display = ''
-        if (sortCategoryIndex == -1) {
-            categoriesSection.classList.remove('sticky')
-        } else {
-            categoriesSection.classList.add('sticky')
-        }
-    } else {
-        categoriesSection.style.display = 'none'
-    }
-    setBoardTitle()
-    updateCategories()
-}
-function pageAction() {
-    switch (page) {
-        case 'leaderboard':
-            generateLeaderboard();
-            break;
-        case 'charts':
-            refreshCharts();
-            break;
-        case 'map':
-            generateMap();
-            break;
-        case 'WRs':
-            generateWRs();
-            break;
-        case 'sort':
-            generateSort();
-            break;
-    }
 }
 function showDefault() {
     playSound('equip_move')
@@ -345,10 +361,12 @@ function showDefault() {
 function getVideoLink(run) {
     if (run.videos) {
         if (run.videos.links) {
-            return openLink(run.videos.links[run.videos.links.length - 1].uri)
+            return getAnchor(run.videos.links[run.videos.links.length - 1].uri)
         } else {
-            return openLink(run.videos.text)
+            return getAnchor(run.videos.text)
         }
+    } else {
+        return ''
     }
 }
 function trimDifficulty(difficulty) {
@@ -370,9 +388,18 @@ function tetrisCheck(category, score) {
     return ''
 }
 function getPlayerDisplay(player) {
-    return `<td class='${placeClass(player.rank)}'>${player.rank}</td>
-    <td>${getPlayerFlag(player, 13)}</td>
-    <td onclick="playSound('cardup');openModal(${player.rank - 1})" class='clickable' style='text-align:left;font-weight: bold;padding-right:5px'>${getPlayerName(player)}</td>`
+    let HTMLContent = ''
+    HTMLContent += `<td class='${placeClass(player.rank)}'>${player.rank}</td>`
+    if (gameID != 'tetris') {
+        if (document.getElementById('checkbox_flags').checked) {
+            HTMLContent += `<td>${getPlayerFlag(player, 12)}</td>`
+        }
+        if (document.getElementById('checkbox_icons').checked) {
+            HTMLContent += `<td><div style='width:18px;height:18px'>${getPlayerIcon(player)}</div></td>`
+        }
+    }
+    HTMLContent += `<td onclick="playSound('cardup');openModal(${player.rank - 1})" class='clickable' style='text-align:left;font-weight: bold;padding-right:5px'>${getPlayerName(player)}</td>`
+    return HTMLContent
 }
 function getNumDisplay() {
     if (page == 'sort') {
@@ -395,4 +422,54 @@ function toggleGameSelect() {
         gameSelect.style.display = ''
         playSound('cardup')
     }
+}
+function classNameLogic(category) {
+    return category.info ? category.info.id : category.className
+}
+function getColorFromClass(className, textColor) {
+    const field = textColor ? 'color' : 'backgroundColor'
+    const tempEl = document.createElement('div');
+    tempEl.className = className;
+    document.body.appendChild(tempEl);
+    const color = getComputedStyle(tempEl)[field];
+    document.body.removeChild(tempEl);
+    return color;
+}
+function getBackgroundColor() {
+    return rootStyles.getPropertyValue('--otherColor')
+}
+function getFont() {
+    return rootStyles.getPropertyValue('--font')
+}
+function getDPS(category, score) {
+    return Math.round(category.hp / score)
+}
+function getSeason(month) {
+    if (month < 2 || month === 11) {
+        return 3;
+    } else if (month < 5) {
+        return 0;
+    } else if (month < 8) {
+        return 1;
+    } else {
+        return 2;
+    }
+}
+function getDayOfYear(date) {
+    const start = new Date(date.getFullYear(), 0, 0);
+    const diff = date - start + (start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000;
+    const oneDay = 1000 * 60 * 60 * 24;
+    return Math.floor(diff / oneDay);
+}
+function getSocial(player, social) {
+    if (player.links[social]) {
+        if (social == 'src') {
+            return 'https://www.speedrun.com/user/' + player.name
+        } else if (social == 'twitch') {
+            return 'https://www.twitch.tv/' + player.links.twitch
+        } else if (social == 'youtube') {
+            return player.links.youtube
+        }
+    }
+    return ''
 }
