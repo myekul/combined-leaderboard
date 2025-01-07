@@ -1,3 +1,4 @@
+const API_KEY = 'AIzaSyDg6FBho-vfAm67-UdGP-8IbVFdLV23unY'
 const rootStyles = getComputedStyle(document.documentElement)
 let playerNames = new Set()
 let players = []
@@ -18,6 +19,8 @@ let processedCategories = 0
 let sortCategoryIndex = -1
 let displayBoolean = []
 
+let modalSliders = false
+let modalPercentages = []
 let tooltipStyle
 let WRsTab = 'players'
 let fullgameCategory
@@ -74,6 +77,7 @@ if (['fullgame', 'levels', 'fullgameILs'].includes(modeParam)) {
 } else {
     setMode('fullgame')
 }
+let numModalPages = 3
 const SHEET_ID = gameID == 'cuphead' ? '14l1hkW337uiyCRkNz61MNq99AEoidZdqaQUIpH5FlGU' : '1ZBxkZEsfwDsUpyire4Xb16er36Covk7nhR8BN_LPodI'
 if (['tetris', 'smb1'].includes(gameID)) {
     setMode('fullgame')
@@ -168,6 +172,10 @@ if (['tetris', 'smb1', 'smbtll', 'smb2', 'smb3'].includes(gameID)) {
     gameIcons.forEach(gameIcon => {
         gameIcon.style.marginBottom = '27px'
     })
+}
+if (gameID == 'sm64') {
+    gameLogo.style.height = '80px'
+    header.style.height = '130px'
 }
 document.getElementById('favicon').href = `images/favicon/${gameID}.png`
 const grades = [

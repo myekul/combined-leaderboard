@@ -29,20 +29,35 @@ function convertToSeconds(time) {
     return minutes * 60 + seconds;
 }
 function getGPA(value) {
-    return (value * 4).toString().slice(0, 4)
+    return (value / 100 * 4).toString().slice(0, 4)
 }
-function getPercentage(value, fixed) {
-    const fixedValue = fixed != null ? fixed : 2
+function getPercentage(value) {
     if (value) {
-        if (fixed == 0) {
-            return parseInt(value * 100)
-        }
-        return parseFloat(value * 100).toFixed(fixedValue)
+        return value * 100
     }
     return ''
 }
 function displayPercentage(percentage) {
-    return percentage ? percentage.split('.')[0] + `<span style='font-size:70%'>.${percentage.split('.')[1]}</span>` : ''
+    if (percentage) {
+        percentage = percentage.toFixed(2).toString()
+        let percentageDecimals = '00'
+        if (percentage.split('.').length > 1) {
+            percentageDecimals = percentage.split('.')[1]
+            if (percentageDecimals.length == 1) {
+                percentageDecimals += 0
+            }
+        }
+        return percentage.split('.')[0] + `<span style='font-size:70%;justify-self:flex-end'>.${percentageDecimals}</span>`
+    }
+    return ''
+}
+function displayLetterGrade(percentage) {
+    const grade = getLetterGrade(percentage)
+    return `<div style='padding:4px;margin:0 5px;border-radius:5px;min-width:20px;text-align:center' class='${grade.className}'>${grade.grade}</div>`
+}
+function displayLetterScore(percentage) {
+    const grade = getLetterGrade(percentage)
+    return `<div style='font-size:120%;padding:3px;margin:0 5px;border-radius:5px;min-width:50px;text-align:center' class='${grade.className}'>${displayPercentage(percentage)}</div>`
 }
 function placeClass(place) {
     if (place == 1) {
@@ -58,7 +73,7 @@ function playSound(sfx) {
     if (gameID == 'cuphead') {
         const sound = document.getElementById(sfx)
         sound.currentTime = 0
-        sound.volume = 0.4
+        sound.volume = 0.2
         sound.play()
     }
 }
@@ -244,10 +259,10 @@ function getPlayerFlag(player, size) {
     }
     return ''
 }
-function getPlayerIcon(player) {
+function getPlayerIcon(player, size) {
     const imgsrc = player.links?.img ? player.links.img : ''
     const src = imgsrc ? 'https://www.speedrun.com/static/user/' + player.id + '/image?v=' + imgsrc : 'images/null.png'
-    return `<img src='${src}' style='width:100%;height:100%;border-radius: 50%;object-fit: cover;object-position:center'></img>`
+    return `<div style='width:${size}px;height:${size}px'><img src='${src}' style='width:100%;height:100%;border-radius: 50%;object-fit: cover;object-position:center' title='${player.name}'></img></div>`
 }
 function getFlag(countryCode, countryName, size) {
     let HTMLContent = `<img src="https://www.speedrun.com/images/flags/${countryCode}.png" class='container' style="height:${size}px" title="${countryName}" alt=''></img>`
@@ -361,9 +376,9 @@ function showDefault() {
 function getVideoLink(run) {
     if (run.videos) {
         if (run.videos.links) {
-            return getAnchor(run.videos.links[run.videos.links.length - 1].uri)
+            return run.videos.links[run.videos.links.length - 1].uri
         } else {
-            return getAnchor(run.videos.text)
+            return run.videos.text
         }
     } else {
         return ''
@@ -395,7 +410,7 @@ function getPlayerDisplay(player) {
             HTMLContent += `<td>${getPlayerFlag(player, 12)}</td>`
         }
         if (document.getElementById('checkbox_icons').checked) {
-            HTMLContent += `<td><div style='width:18px;height:18px'>${getPlayerIcon(player)}</div></td>`
+            HTMLContent += `<td>${getPlayerIcon(player, 18)}</td>`
         }
     }
     HTMLContent += `<td onclick="playSound('cardup');openModal(${player.rank - 1})" class='clickable' style='text-align:left;font-weight: bold;padding-right:5px'>${getPlayerName(player)}</td>`
@@ -472,4 +487,10 @@ function getSocial(player, social) {
         }
     }
     return ''
+}
+function normalize50(percentage) {
+    if (percentage < 50) {
+        return 0
+    }
+    return ((percentage - 50) / (100 - 50)) * 100
 }

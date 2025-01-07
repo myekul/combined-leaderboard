@@ -53,9 +53,8 @@ function drawChart() {
                 annotation ? newPlayer.push(numRuns) : ''
                 rows.push(newPlayer)
             } else {
-                const percentage = getPercentage(player.score)
-                const newPlayer = [player.name, parseFloat(percentage), getColorFromClass(getLetterGrade(percentage).className)]
-                annotation ? newPlayer.push(percentage) : ''
+                const newPlayer = [player.name, player.score, getColorFromClass(getLetterGrade(player.score).className)]
+                annotation ? newPlayer.push(player.score.toFixed(2)) : ''
                 rows.push(newPlayer)
             }
         })
@@ -95,17 +94,17 @@ function drawChart() {
         backgroundColor: getBackgroundColor(),
         hAxis: {
             // title: 'Time',
-            // textStyle: {
-            //     color: 'white',
-            //     fontName: getFont()
-            // },
+            textStyle: {
+                color: 'white',
+                fontName: getFont()
+            },
             // titleTextStyle: {
             //     color: 'white',
             //     fontName: getFont()
             // },
             // color: getBackgroundColor(),
             // position: 'none',
-            minValue: 0,
+            minValue: document.getElementById('checkbox_charts_50').checked && mode != 'fullgameILs' ? 50 : 0,
             maxValue: maxValue
         },
         vAxis: {

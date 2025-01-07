@@ -21,7 +21,9 @@ This website uses three database API systems:
 - **Google Sheets** API is used to extract data from spreadsheets.
 - **Firebase** API is used to cache and organize data from SRC.
 
-Google Charts API is also used to create graphs.
+Additionally:
+- **Google Charts** API is used to create graphs.
+- **YouTube Data** API is used to fetch YouTube video data.
 
 ## Rank calculation
 Each player recieves a score (out of 100) and a letter grade, which are determined by a few things:
@@ -44,7 +46,6 @@ Each player recieves a score (out of 100) and a letter grade, which are determin
         - If a player has a 1.1+ run but no submitted NMG run, their NMG penalty will be halved.
         - If a player has a 1.1+ and/or NMG run and a DLC run but no DLC+Base run, their DLC+Base penalty will be halved.
         - If a player has a DLC+Base run but no DLC run, their DLC penalty will be halved.
-        - If a player has a DLC+Base run but no 1.1+ or NMG run, their penalty will be halved for those categories.
     - For SM64:
         - If a player has a 0-Star run but no 1-Star run, their 1-Star penalty will be halved.
 
@@ -52,15 +53,15 @@ Each player recieves a score (out of 100) and a letter grade, which are determin
 ### Leaderboard
 - Ranks players based on a number of criteria (see above)
 
+### World records
+- Displays the world records for each category
+
 ### Chart
 - Visualizes the competition 
 - Compares player scores and run scores
 
 ### Map
 - Displays where in the world the top players are from
-
-### World records
-- Displays the world records for each category
 
 ### Sort
 - Sort players or runs by rank, score, time, etc.
@@ -73,11 +74,12 @@ Admittedley, player rank calculation can be a very subjective thing. I tried to 
 - When score is worse that penalty, penalize instead?
 - Credits page
 - Convert bosses array to a set?
-- WR mode
 - Linear color scale for dates
 - Categories for date charts
-- Score chart should be grades, not 0-100
+- Score chart should be grades, not 0-100?
 - Logic explanations
+- Cuphead one gun
+- 1.1 ILs (Goopy, Sally, Werner)
 
 ## Known bugs
 - Leaderboard shifting username box
@@ -87,3 +89,4 @@ Admittedley, player rank calculation can be a very subjective thing. I tried to 
 - Legacy IL boss HP is inaccurate
 - Map color logic is weird
 - Some YouTube channel links are broken (SRC fault)
+- Date sort is off by 1 day

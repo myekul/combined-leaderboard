@@ -45,7 +45,7 @@
     border: 2px solid var(--gray);
     border-radius: 8px;
     overflow-y: auto;
-    max-height: 70vh;
+    max-height: 80vh;
 }
 
 #modal-header {
@@ -71,7 +71,7 @@
 
 #modal-pages {
     position: absolute;
-    bottom: 7vh;
+    bottom: 2vh;
     margin: 0 auto;
     left: 50%;
     transform: translate(-50%, -50%);

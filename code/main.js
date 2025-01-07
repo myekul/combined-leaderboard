@@ -105,6 +105,12 @@ function getOtherLevels(section) {
                         break
                 }
                 sm64ILsSection = section
+                if (sm64ILsSection) {
+                    buttonClick(sm64ILsSection, 'ILcategories_sm64', 'active2')
+                } else {
+                    buttonClick('sm64ILsAll', 'ILcategories_sm64', 'active2')
+                }
+
                 categories.forEach((category) => {
                     getLeaderboard(category, `level/${category.id}/zdnq4oqd`, sm64Var) // Stage RTA
                 })
@@ -131,7 +137,7 @@ function addPlayer(player) {
 }
 function load() {
     processedCategories++
-    document.getElementById('progress-bar').style.width = getPercentage(processedCategories / categories.length) + '%'
+    document.getElementById('progress-bar').style.width = processedCategories / categories.length * 100 + '%'
     // const loadingText = document.getElementById('loadingText')
     // if (processedCategories <= categories.length) {
     //     loadingText.innerText = processedCategories + '/' + categories.length
@@ -263,7 +269,7 @@ function generateRanks() {
             }
         })
         // player.averageRank = placeSum / player.runs.length
-        player.score = player.percentageSum / totalWeight
+        player.score = player.percentageSum / totalWeight * 100
         // player.averagePercentage = player.score
         player.explanation = ''
         applyPenalties(player)

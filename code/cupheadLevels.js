@@ -77,7 +77,7 @@ function getAllLevels() {
     resetLoad()
     updateILbosses()
     if (firstTime) {
-        fetch('resources/allLevels.json')
+        fetch('https://gist.githubusercontent.com/myekul/a62e824b667fd6f37b9881f397263f66/raw/b4beb2582a66c59be9d7cd16a77856c6295329b5/allLevels.json')
             .then(response => response.json())
             .then(data => {
                 categories = data
@@ -252,39 +252,42 @@ function disableLevelModes() {
     document.getElementById('allLevels').classList.remove('selected')
 }
 function updateILbosses() {
-    const checkbox_basegameILs = document.getElementById('checkbox_basegameILs')
-    if (DLCnoDLC == 'dlc' || cupheadVersion == 'legacy') {
-        basegameILs = false
-        checkbox_basegameILs.checked = true
-        checkbox_basegameILs.style.opacity = 0
-    } else {
-        checkbox_basegameILs.style.opacity = 1
-    }
     let HTMLContent = `<table><tr>`
-    isles.forEach((isle, index) => {
-        let grayscale = ''
-        let clickevent = `getIsle(${index})`
-        if (basegameILs && index == 4) {
-            grayscale = 'grayscale'
-            clickevent = `playSound('locked')`
+    if (cupheadVersion != 'onePointOne') {
+        const checkbox_basegameILs = document.getElementById('checkbox_basegameILs')
+        if (DLCnoDLC == 'dlc' || cupheadVersion == 'legacy') {
+            basegameILs = false
+            checkbox_basegameILs.checked = true
+            checkbox_basegameILs.style.opacity = 0
+        } else {
+            checkbox_basegameILs.style.opacity = 1
         }
-        const selected = index == isleIndex ? 'selected' : ''
-        HTMLContent += `<th colspan=${isle.numBosses} onclick="${clickevent}" class='clickable ${selected} ${isle.className} ${grayscale}'>${isle.name}</th>`
-    })
-    HTMLContent += `</tr><tr>`
-    bosses.forEach((category, categoryIndex) => {
-        let grayscale = ''
-        let clickevent = `getBossIL('${category.id}')`
-        if (basegameILs && category.isle == 5) {
-            grayscale = 'grayscale'
-            clickevent = `playSound('locked')`
-        }
-        const selected = bossILindex == categoryIndex ? 'selected' : ''
-        HTMLContent += `<th onclick="${clickevent}" class='clickable ${category.id} ${selected} ${grayscale}'>${getImage(category.id)}</th>`
-    })
+        isles.forEach((isle, index) => {
+            let grayscale = ''
+            let clickevent = `getIsle(${index})`
+            if (basegameILs && index == 4) {
+                grayscale = 'grayscale'
+                clickevent = `playSound('locked')`
+            }
+            const selected = index == isleIndex ? 'selected' : ''
+            HTMLContent += `<th colspan=${isle.numBosses} onclick="${clickevent}" class='clickable ${selected} ${isle.className} ${grayscale}'>${isle.name}</th>`
+        })
+        HTMLContent += `</tr><tr>`
+        bosses.forEach((category, categoryIndex) => {
+            let grayscale = ''
+            let clickevent = `getBossIL('${category.id}')`
+            if (basegameILs && category.isle == 5) {
+                grayscale = 'grayscale'
+                clickevent = `playSound('locked')`
+            }
+            const selected = bossILindex == categoryIndex ? 'selected' : ''
+            HTMLContent += `<th onclick="${clickevent}" class='clickable ${category.id} ${selected} ${grayscale}'>${getImage(category.id)}</th>`
+        })
+        const character = cupheadVersion == 'currentPatch' ? 'mugman' : 'cuphead'
+        document.getElementById('groundimg').src = `images/cuphead/ground_${character}.png`
+        document.getElementById('planeimg').src = `images/cuphead/plane_${character}.png`
+    }
     HTMLContent += `</tr></table>`
     const ILbosses = document.getElementById('ILbosses')
     ILbosses.innerHTML = HTMLContent
-    document.getElementById('groundimg').src = `images/cuphead/ground_${cupheadVersion}.png`
-    document.getElementById('planeimg').src = `images/cuphead/plane_${cupheadVersion}.png`
 }

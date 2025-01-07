@@ -135,7 +135,8 @@ function countryCount() {
             }
         })
     })
-    let HTMLContent = generateBoardTitle(1)
+    let HTMLContent = ''
+    HTMLContent += `<div class='container'>${generateBoardTitle(1)}</div>`
     HTMLContent += `<table class='bigShadow'>`
     countriesArray.forEach((country, countryIndex) => {
         HTMLContent +=

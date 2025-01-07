@@ -2,7 +2,7 @@ function generateWRs() {
     showWRsTab(WRsTab)
 }
 function WRsPlayers() {
-    let HTMLContent = `<table class='bigShadow'>`
+    let HTMLContent = `<div class='container'><table class='bigShadow'>`
     if (document.getElementById('checkbox_WRs_dps').checked || document.getElementById('checkbox_WRs_hp').checked) {
         assignHP()
     }
@@ -11,7 +11,7 @@ function WRsPlayers() {
     } else {
         HTMLContent += WRs()
     }
-    HTMLContent += `</table>`
+    HTMLContent += `</table></div>`
     sortCategoryIndex = -1
     sortPlayers(players)
     document.getElementById('WRs').innerHTML = HTMLContent
@@ -45,7 +45,7 @@ function getWorldRecordPlayers(categoryIndex) {
         if (run) {
             if (run.place == 1) {
                 HTMLContent += `<td>${getPlayerFlag(player, 13)}</td>`
-                HTMLContent += `<td class='clickable' style='text-align:left'>${getVideoLink(run)}${run.debug ? '*' : ''}${getPlayerName(player)}</td>`
+                HTMLContent += `<td class='clickable' style='text-align:left'>${getAnchor(getVideoLink(run))}${run.debug ? '*' : ''}${getPlayerName(player)}</td>`
             }
         }
     })
@@ -111,7 +111,7 @@ function WRsSums() {
     if (gameID == 'cuphead' && mode == 'levels') {
         HTMLContent += WRsSumsCuphead()
     } else {
-        HTMLContent += `<table>`
+        HTMLContent += `<div class='container'><table>`
         sum = 0
         categories.forEach((category, categoryIndex) => {
             const worldRecord = getWorldRecord(category)
@@ -120,7 +120,7 @@ function WRsSums() {
             HTMLContent += `<td class='${classNameLogic(category)}'>${tetrisCheck(category, worldRecord)}</td>`
             HTMLContent += `</tr>`
         })
-        HTMLContent += `</table>`
+        HTMLContent += `</table></div>`
         HTMLContent += `<div class='container' style='margin-top:20px;font-size:150%'>${secondsToHMS(sum)}</div>`
     }
     document.getElementById('WRs').innerHTML = HTMLContent
@@ -334,7 +334,7 @@ function WRsInfo(sortObject, objectReference, WRs, allWRs) {
         objectReference = null
         sortObject = WRs
     }
-    let HTMLContent = `<table>`
+    let HTMLContent = `<div class='container'><table>`
     HTMLContent += `<tr><td></td>`
     if (objectReference) {
         HTMLContent += `<td>All</td>`
@@ -375,7 +375,7 @@ function WRsInfo(sortObject, objectReference, WRs, allWRs) {
     for (const key in sortObject) {
         HTMLContent += `<td>${findStandardDeviation(sortObjectArray(sortObject[key]))}</td> `
     }
-    HTMLContent += `</table>`
+    HTMLContent += `</table></div>`
     document.getElementById('WRsInfo').innerHTML = HTMLContent
 }
 function sortObjectArray(arr) {

@@ -121,9 +121,6 @@ function cleanPlayers(thePlayers) {
             cleanPlayer.links.twitch = player.twitch.uri.split('twitch.tv/')[1]
         }
         if (player.youtube) {
-            if(player.name=='MarkinSws'){
-                console.log(player)
-            }
             cleanPlayer.links.youtube = player.youtube.uri
         }
         newPlayers.push(cleanPlayer)

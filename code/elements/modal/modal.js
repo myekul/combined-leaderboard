@@ -1,10 +1,20 @@
 function openModal(playerIndex) {
+    modalSliders = false
     let playerModal = false
     if (typeof playerIndex == 'number') {
         playerModal = true
     }
     showModal = true
-    if (mode == 'fullgameILs' || !playerModal) {
+    if (gameID == 'tetris') {
+        numModalPages = 2
+    }
+    if (mode == 'fullgameILs') {
+        numModalPages = 1
+    }
+    if (modalIndex > numModalPages) {
+        modalIndex = 0
+    }
+    if (!playerModal) {
         modalIndex = 0
     } else {
         document.getElementById('modal-pages').style.display = ''
@@ -27,14 +37,12 @@ function openModal(playerIndex) {
             sortCategoryIndex = oldIndex
             player = players[playerIndex]
         }
-        const percentage = getPercentage(player.score)
-        const grade = getLetterGrade(percentage)
         let HTMLContent = `<div class='container' style='padding-top:8px'>`
-        HTMLContent += gameID != 'tetris' ? `<div style='width:50px;height:50px;padding-right:10px'>${getPlayerIcon(player)}</div>` : ''
+        HTMLContent += gameID != 'tetris' ? `<div style='padding-right:10px'>${getPlayerIcon(player, 50)}</div>` : ''
         HTMLContent += `<div>`
         HTMLContent += `<div class='container' style='padding-bottom:2px'>`
-        HTMLContent += `<h2 style='margin:0'>${getPlayerName(player)}</h2>`
-        HTMLContent += mode != 'fullgameILs' ? `<div style='padding-left:8px'><h3 style='padding:3px;margin:0 5px;border-radius:5px' class='${grade.className}'>${grade.grade}</h3></div>` : ''
+        HTMLContent += `<div style='font-size:140%;margin:0'>${getPlayerName(player)}</div>`
+        HTMLContent += mode != 'fullgameILs' ? `<div style='padding-left:8px'>${displayLetterGrade(player.score)}</div>` : ''
         HTMLContent += `</div>`
         if (player.links) {
             HTMLContent += `<div class='container' style='gap:5px;justify-content:flex-start'>`
@@ -53,25 +61,38 @@ function openModal(playerIndex) {
         HTMLContent += boardTitle ? `<div class='modalBoardTitle' style='padding-left:20px'>${boardTitle}</div>` : ''
         HTMLContent += `</div>`
         document.getElementById('modal-player').innerHTML = HTMLContent
-        if (modalIndex == 0) {
+        let modalPageNames = ['reportCard', 'runDetails', 'gradeTable', 'scoreBreakdown']
+        if (mode == 'fullgameILs') {
+            modalPageNames.slice(0, 2)
+        }
+        if (gameID == 'tetris') {
+            modalPageNames.splice(1, 1)
+        }
+        const modalPage = modalPageNames[modalIndex]
+        if (modalPage == 'reportCard') {
             modalTitle.innerText = 'REPORT CARD'
             modalBody.innerHTML = reportCard(player, playerIndex)
-        } else if (modalIndex == 1) {
-            modalTitle.innerText = 'GRADE CALCULATOR'
-            modalBody.innerHTML = gradeCalculator(player)
-        } else if (modalIndex == 2) {
+        } else if (modalPage == 'runDetails') {
+            modalTitle.innerText = 'RUN DETAILS'
+            modalBody.innerHTML = runDetails(player)
+        } else if (modalPage == 'gradeTable') {
+            modalTitle.innerText = 'GRADE TABLE'
+            modalBody.innerHTML = gradeTable(player)
+        } else if (modalPage == 'scoreBreakdown') {
             modalTitle.innerText = 'SCORE BREAKDOWN'
             modalBody.innerHTML = scoreBreakdown(player)
         }
-        HTMLContent = `<div onclick="modalLeft()" class='${modalIndex > 0 ? 'clickable' : ''}'>&#9664</div>`;
-        for (i = 0; i < 3; i++) {
+        HTMLContent = `<div onclick="modalLeft()" class='clickable'>&#9664</div>`;
+        for (let i = 0; i <= numModalPages; i++) {
+            HTMLContent += `<div style='gap:10px'>`
             if (i == modalIndex) {
-                HTMLContent += `<div>&#9679</div>`
+                HTMLContent += `<i class="fa fa-circle"></i>`
             } else {
-                HTMLContent += `<div>&#9675</div>`
+                HTMLContent += `<i class="fa fa-circle-o"></i>`
             }
+            HTMLContent += `</div>`
         }
-        HTMLContent += `<div onclick="modalRight()" class='${modalIndex < 2 ? 'clickable' : ''}'>&#9654</div>`
+        HTMLContent += `<div onclick="modalRight()" class='clickable'>&#9654</div>`
         const modalPages = document.getElementById('modal-pages')
         modalPages.innerHTML = HTMLContent
     } else {
@@ -98,80 +119,67 @@ function closeModal() {
         modal.style.display = "none";
     }, 200);
 }
-function reportCard(player) {
-    let HTMLContent = `<table>`
-    if (gameID == 'cuphead' && mode == 'levels' && big5()) {
-        let categoryIndex = 0
-        while (categoryIndex < categories.length) {
-            const category = categories[categoryIndex]
-            const numCats = getNumCats(category)
-            for (let i = 1; i <= numCats; i++) {
-                const run = player.runs[categoryIndex]
-                const percentage = getPercentage(run?.percentage)
-                const grade = getLetterGrade(percentage)
-                const place = run?.place
-                HTMLContent += `<tr class='${getRowColor(categoryIndex)}'>`
-                if (i == 1) {
-                    const height = big5() ? '' : 21
-                    HTMLContent += `<th rowspan=${numCats} class='${category.info.id}'>${getImage(category.info.id, height)}</th>`
-                }
-                const thisCategory = categories[categoryIndex]
-                HTMLContent += `<td>${getTrophy(place)}</td>`
-                HTMLContent += `<td class='${thisCategory.difficulty}' style='text-align:left'>${difficultyILs ? trimDifficulty(thisCategory.name) : thisCategory.name}</td>`
-                if (run) {
-                    HTMLContent +=
-                        `<td class='${grade.className}' style='text-align:left'>${grade.grade}</td>
-                        <td class='${grade.className}'>${displayPercentage(percentage)}</td>`
-                }
-                categoryIndex++
-            }
-            HTMLContent += `</tr>`
-        }
-    } else {
-        categories.forEach((category, categoryIndex) => {
-            let run = player.runs[categoryIndex]
-            let percentage = run ? getPercentage(run.percentage) : ''
-            let grade = getLetterGrade(percentage)
-            let place = run ? run.place : ''
-            let image = ''
-            let className = getRowColor(categoryIndex)
-            if (category.info) {
-                image = getImage(category.info.id, 21)
-                className = category.info.id
-            }
-            HTMLContent +=
-                `<tr class='${className}'>
-                    <td class='background' style='color:white;padding-right:3px;text-align:right'>${run?.debug ? '*' : ''}${getTrophy(place)}</td>`
-            HTMLContent += image ? `<td id='modal-img'>${image}</td>` : ''
-            HTMLContent += `<td class='${category.className}' style='text-align:left'>${category.name}</td>`
-            if (run && mode != 'fullgameILs') {
-                HTMLContent +=
-                    `<td class='${grade.className}' style='text-align:left'>${grade.grade}</td>
-                    <td class='${grade.className}'>${displayPercentage(percentage)}</td>
-                    <td class='${category.className}'>${tetrisCheck(category, run.score)}</td>`
-            }
-            HTMLContent += `</tr>`
+function scoreFromGrade(category, percentage) {
+    const worldRecord = getWorldRecord(category)
+    let score = reverseScore.includes(category.name) ? worldRecord * (percentage / 100) : worldRecord / (percentage / 100)
+    if (gameID == 'cuphead' && mode == 'levels') {
+        score = category.info.time - (category.info.time - worldRecord) * (percentage / 100)
+    }
+    return score
+}
+function fetchYouTube(videoID) {
+    return fetch(`https://www.googleapis.com/youtube/v3/videos?id=${videoID}&key=${API_KEY}&part=snippet,statistics&fields=items(snippet,statistics)`)
+        .then(response => response.json())
+        .then(data => {
+            return data.items[0]
         })
-    }
-    HTMLContent += `</table>`
-    if (mode != 'fullgameILs') {
-        HTMLContent +=
-            `<table style='padding: 5px 0'><tr>
-            <td>Rank:</td>
-            <td>${player.rank}</td>
-        </tr>`
-        if (player.hasAllRuns) {
-            HTMLContent +=
-                `<tr>
-                <td>GPA:</td>
-                <td>${getGPA(player.score)}</td>
-            </tr>`
+}
+function runDetails(player) {
+    let HTMLContent = `<div class='container'><table>`
+    player.runs.forEach((run, runIndex) => {
+        if (run) {
+            HTMLContent += `<tr>`
+            const link = getVideoLink(run)
+            if (link?.includes('you')) {
+                let videoID = link.split('/')[link.split('/').length - 1].split('"')[0]
+                if (link.includes('?') && !link.includes('watch?')) {
+                    videoID = videoID.split('?')[0]
+                }
+                if (videoID.includes('=')) {
+                    videoID = videoID.split('=')[1].split('&')[0]
+                }
+                HTMLContent += `<td id='modal_title_${runIndex}' style='text-align:center;max-width:200px;white-space: normal;padding-right:15px'></td>`
+                HTMLContent += `<td>${getAnchor(link)}<img src='https://img.youtube.com/vi/${videoID}/mqdefault.jpg' class='clickable' style='width:160px;height:90px'></td>`
+                HTMLContent += `<td id='modal_stats_${runIndex}' style='text-align:right'></td>`
+                fetchYouTube(videoID).then(data => {
+                    if (data) {
+                        let innerHTMLContent = `<div class='container'><table>`
+                        const viewCount = data.statistics.viewCount
+                        innerHTMLContent += `<tr><td>${parseInt(viewCount).toLocaleString()} view${viewCount == 1 ? '' : 's'}</td></tr>`
+                        innerHTMLContent += `<tr><td>${data.statistics.likeCount} <i class='fa fa-thumbs-up'></i></td></tr>`
+                        innerHTMLContent += `<tr><td>${data.statistics.commentCount} <i class='fa fa-commenting'></i></td></tr>`
+                        innerHTMLContent += `</table></div>`
+                        document.getElementById('modal_stats_' + runIndex).innerHTML = innerHTMLContent
+                        document.getElementById('modal_title_' + runIndex).innerHTML = data.snippet.title
+                    }
+                })
+            } else if (link.includes('twitch')) {
+                HTMLContent += `<td></td>`
+                HTMLContent += `<td>${getAnchor(link)}<img src='images/twitch.png' class='clickable' style='height:91px'></td>`
+                HTMLContent += `<td></td>`
+            } else {
+                HTMLContent += `<td></td>`
+                HTMLContent += `<td class='clickable'>${getAnchor(link)}External site</td>`
+                HTMLContent += `<td></td>`
+            }
+            HTMLContent += mode != 'fullgameILs' ? `<td>${run.date}</td>` : ''
+            HTMLContent += `</tr>`
         }
-        HTMLContent += `</table>`
-    }
+    })
+    HTMLContent += `</table></div>`
     return HTMLContent
 }
-function gradeCalculator(player) {
+function gradeTable(player) {
     let HTMLContent = `<table>`
     if (bossILindex == -1) {
         HTMLContent += `<tr><td></td><td></td>`
@@ -195,11 +203,7 @@ function gradeCalculator(player) {
         HTMLContent += `<tr><td class=${grade.className} style='text-align:left'>${grade.grade}</td>
         <td>${grade.threshold}%</td>`
         categories.forEach((category, categoryIndex) => {
-            const worldRecord = getWorldRecord(category)
-            let gradeTime = reverseScore.includes(category.name) ? worldRecord * (grade.threshold / 100) : worldRecord / (grade.threshold / 100)
-            if (gameID == 'cuphead' && mode == 'levels') {
-                gradeTime = category.info.time - (category.info.time - worldRecord) * (grade.threshold / 100)
-            }
+            const gradeTime = scoreFromGrade(category, grade.threshold)
             let cellContent = tetrisCheck(category, gradeTime)
             let className = grade.className
             const playerRun = player.runs[categoryIndex]
@@ -222,7 +226,7 @@ function scoreBreakdown(player) {
     const playerCategories = []
     const playerRuns = []
     const missingCategories = []
-    let HTMLContent = `<table><tr>`
+    let HTMLContent = `<div class='container'><table><tr>`
     categories.forEach((category, categoryIndex) => {
         if (player.runs[categoryIndex]) {
             playerCategories.push(category)
@@ -263,12 +267,12 @@ function scoreBreakdown(player) {
             HTMLContent += numRuns > 1 ? `<td>=${percentageSum}</td>` : ''
         }
     })
-    HTMLContent += `</tr></table>`
+    HTMLContent += `</tr></table></div>`
     if (numRuns > 1) {
-        HTMLContent += `<p>${percentageSum} / ${numRuns} = ${displayPercentage(getPercentage(player.truePercentageSum / numRuns))}</p>`
+        HTMLContent += `<div class='container'><div>${percentageSum} / ${numRuns} = ${displayPercentage(getPercentage(player.truePercentageSum / numRuns))}</div></div>`
     }
-    HTMLContent += missingRuns ? `<h2 class='container' style='padding:10px'>Missing Runs</h2>` : ''
-    HTMLContent += `<table><tr>`
+    HTMLContent += missingRuns ? `<div class='container' style='padding:10px'>Missing Runs</div>` : ''
+    HTMLContent += `<div class='container'><table><tr>`
     missingCategories.forEach(missingCategory => {
         HTMLContent += getCategoryHeader(missingCategory)
     })
@@ -280,10 +284,9 @@ function scoreBreakdown(player) {
         })
         HTMLContent += `</tr>`
     }
-    HTMLContent += `</table>`
-    HTMLContent += `<p>${player.explanation}</p>`
-    const score = getPercentage(player.score)
-    HTMLContent += `<div class='container'><h2 class='${getLetterGrade(score).className}' style='padding:5px;border-radius:5px'>${displayPercentage(score)}</h2></div>`
+    HTMLContent += `</table></div>`
+    HTMLContent += `<div class='textBlock'>${player.explanation}</div>`
+    HTMLContent += `<div class='container'>${displayLetterScore(player.score)}</div>`
     return HTMLContent
 }
 function getCategoryHeader(category) {
@@ -301,11 +304,12 @@ function getExtraHeader(category) {
 function countryModal(countryName) {
     globalCountryName = countryName
     const country = countries[countryName]
-    let HTMLContent = `<table><tr>
-    <td>${getFlag(country.code, country.name, 25)}</td>
-    <td><h2>${countryName}</h2></td>`
-    HTMLContent += `<td class='modalBoardTitle' style='padding-left:20px'>${generateBoardTitle(1)}</td>`
-    HTMLContent += `</tr></table>`
+    let HTMLContent = `<div class='container' style='padding:10px'>
+    <div>${getFlag(country.code, country.name, 24)}</div>
+    <div style='font-size:140%;padding-left:10px'>${countryName}</div>`
+    const boardTitle = generateBoardTitle(1)
+    HTMLContent += boardTitle ? `<div class='modalBoardTitle' style='padding-left:20px'>${boardTitle}</div>` : ''
+    HTMLContent += `</div>`
     document.getElementById('modal-player').innerHTML = HTMLContent
     playersCopy = [...country.players].slice(0, 100)
     sortPlayers(playersCopy)
@@ -315,15 +319,11 @@ function modalKeyPress() {
     switch (event.key) {
         case 'ArrowLeft':
             event.preventDefault();
-            if (mode != 'fullgameILs') {
-                modalLeft();
-            }
+            modalLeft();
             break;
         case 'ArrowRight':
             event.preventDefault();
-            if (mode != 'fullgameILs') {
-                modalRight()
-            }
+            modalRight()
             break;
         case 'ArrowUp':
             event.preventDefault();
@@ -357,7 +357,7 @@ function modalLeft() {
     }
 }
 function modalRight() {
-    if (modalIndex < 2) {
+    if (modalIndex < numModalPages) {
         playSound('equip_move')
         modalIndex++
         openModal(globalPlayerIndex)

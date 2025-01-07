@@ -1,4 +1,3 @@
-const API_KEY = 'AIzaSyDg6FBho-vfAm67-UdGP-8IbVFdLV23unY'
 function loadClient() {
     gapi.client.setApiKey(API_KEY);
     return gapi.client.load("https://sheets.googleapis.com/$discovery/rest?version=v4")

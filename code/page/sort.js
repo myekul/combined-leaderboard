@@ -131,7 +131,7 @@ function sortRuns(sortRange) {
     } else {
         sortChartDiv.style.display = 'none'
     }
-    let HTMLContent = `<table class='bigShadow'>`
+    let HTMLContent = `<div class='container'><table class='bigShadow'>`
     everyRun.slice(0, getNumDisplay()).forEach((run, runIndex) => {
         if (!(sortCriteria == 'date' && !run.run.date)) {
             HTMLContent += `<tr class='${getRowColor(runIndex)}'>`
@@ -175,7 +175,7 @@ function sortRuns(sortRange) {
             HTMLContent += `</tr>`
         }
     })
-    HTMLContent += `</table>`
+    HTMLContent += `</table></div>`
     if (!showMore && everyRun.length > getNumDisplay()) {
         HTMLContent += `<div onclick="showMorePlayers()" class='button' style='margin:0 auto;margin-top:15px'>Show More</div>`
     } else {

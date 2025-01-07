@@ -101,10 +101,9 @@ function generateLeaderboard() {
         }
     }
     if (mode != 'fullgameILs' && !isolated) {
-        HTMLContent += gameID == 'tetris' ? '' : `<th>Sum</td>`
-        HTMLContent +=
-            `<th>GPA</td>
-            <th>N/A</td>`
+        HTMLContent += gameID != 'tetris' ? `<th>Sum</td>` : ''
+        HTMLContent += `<th>GPA</td>`
+        HTMLContent += mode != 'fullgame' ? `<th>N/A</td>` : ''
     }
     HTMLContent +=
         `</tr>
@@ -158,8 +157,7 @@ function parsePlayer(player, playerIndex) {
         player.sum = secondsToHMS(player.sum)
     }
     player.gpa = player.hasAllRuns ? parseFloat(getGPA(player.score).slice(0, 3)).toFixed(1) : ''
-    let percentage = getPercentage(player.score)
-    let letterGrade = getLetterGrade(percentage)
+    const letterGrade = getLetterGrade(player.score)
     HTMLContent += `<tr class='${getRowColor(playerIndex)} categoryLabel' style='height:22px'>`
     if (page == 'sort' && document.getElementById('dropdown_sortCriteria').value == 'joindate') {
         HTMLContent += `<td>${player.signup}</td>`
@@ -185,7 +183,7 @@ function parsePlayer(player, playerIndex) {
     }
     HTMLContent += page == 'map' ? `<td class='${placeClass(playerIndex + 1)}'>${playerIndex + 1}</td>` : ''
     if (mode != 'fullgameILs') {
-        HTMLContent += `<td style='font-size:75%'>${displayPercentage(percentage)}</td>`
+        HTMLContent += `<td style='font-size:75%'>${displayPercentage(player.score)}</td>`
         HTMLContent += `<td class='${letterGrade.className}' style='text-align:left'>${letterGrade.grade}</td>`
     }
     HTMLContent += getPlayerDisplay(player)
@@ -222,11 +220,10 @@ function parsePlayerRuns(player, playerIndex) {
             HTMLContent += parseRun(player, playerIndex, category, categoryIndex)
         })
         if (mode != 'fullgameILs') {
-            const gpaClass = player.gpa ? getLetterGrade(getPercentage(player.score)).className : ''
-            HTMLContent += gameID == 'tetris' ? '' : `<td>${player.sum}</td>`
-            HTMLContent +=
-                `<td class='${gpaClass}'>${player.gpa}</td>
-                <td>${categories.length - player.numRuns}</td>`
+            const gpaClass = player.gpa ? getLetterGrade(player.score).className : ''
+            HTMLContent += gameID != 'tetris' ? `<td>${player.sum}</td>` : ''
+            HTMLContent += `<td class='${gpaClass}'>${player.gpa}</td>`
+            HTMLContent += mode != 'fullgame' ? `<td>${categories.length - player.numRuns}</td>` : ''
         }
     }
     HTMLContent += `</tr>`
@@ -260,13 +257,13 @@ function parseRun(player, playerIndex, category, categoryIndex) {
     const score = run.score
     const time = gameID == 'tetris' ? score : secondsToHMS(score)
     const place = run.place
-    const percentage = getPercentage(run.percentage)
+    const percentage = getPercentage(run.percentage).toFixed(2)
     const grade = getLetterGrade(percentage)
     const thePlaceClass = placeClass(place)
     const newColorClass = thePlaceClass ? thePlaceClass : colorClass
     const percentile = run.place != '-' ? (run.place / category.runs.length * 100).toFixed(1) : '-'
     const runLink = gameID != 'tetris' ? getAnchor(run.weblink) : ''
-    const videoLink = getVideoLink(run)
+    const videoLink = getAnchor(getVideoLink(run))
     if (mode == 'fullgameILs') {
         const debug = run.debug ? '*' : ''
         HTMLContent += `<td class='${category.className} ${grayedOut} ${videoLink ? 'clickable' : ''}'>${videoLink}${getTrophy(run.place)}${debug}</td>`

@@ -233,7 +233,7 @@ const loadoutsDLC = {
         ['charge', 'converge', '', 'whetstone'],
         ['charge', 'crackshot', 'super1', 'whetstone'],
         ['charge', 'converge', 'super3', 'whetstone'],
-        ['charge', 'spread', 'super3', 'heartring'],
+        ['charge', 'crackshot', 'super3', 'whetstone'],
         ['charge', 'converge', 'super3', 'whetstone'],
         ['charge', 'spread', '', 'heartring']
     ],
@@ -259,8 +259,8 @@ const loadoutsDLC = {
         [],
         ['lobber', 'spread', '', 'astralcookie'],
         ['lobber', 'spread', '', 'astralcookie'],
-        ['charge', 'lobber', '', 'whetstone'],
-        ['charge', 'spread', '', 'astralcookie']
+        ['charge', 'lobber', '', 'astralcookie'],
+        ['charge', 'lobber', '', 'astralcookie']
     ]
 };
 const loadoutsLegacy = {

@@ -83,9 +83,9 @@ input {
     accent-color: var(--banner)
 }
 
-progress {
-    accent-color: var(--banner);
-}
+/* input[type="range"]::-webkit-slider-runnable-track {
+    background-color: var(--background);
+} */
 
 header {
     background-color: var(--banner);
@@ -102,8 +102,10 @@ footer {
     padding-bottom: 30px;
 }
 
-footer h2 {
-    padding: 0 10px
+.footerText {
+    font-size: 130%;
+    padding: 0 10px;
+    font-weight: bold;
 }
 
 h1 {
@@ -111,12 +113,9 @@ h1 {
     margin-bottom: 0;
 }
 
-p {
-    padding: 0;
-    margin-top: 0;
-    margin-bottom: 0;
-    text-align: center;
+.textBlock {
     white-space: normal;
+    max-width: 50vw
 }
 
 td {
@@ -138,7 +137,6 @@ footer img {
 }
 
 table {
-    margin: 0 auto;
     table-layout: fixed;
     background-color: var(--background);
 }
@@ -233,7 +231,8 @@ select {
 
 .boardTitleTable {
     border: 3px solid var(--banner);
-    border-radius: 5px
+    border-radius: 5px;
+    font-weight: bold
 }
 
 progress::-webkit-progress-value {
