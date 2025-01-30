@@ -53,11 +53,15 @@ let showGameSelect = false
 
 const categorySet = {
     'cuphead': cuphead['main'],
-    'sm64': sm64,
     'smb1': smb1,
     'smbtll': smbtll,
     'smb2': smb2,
-    'smb3': smb3
+    'smb3': smb3,
+    'nsmbds': nsmbds,
+    'nsmbw': nsmbw,
+    'sm64': sm64,
+    'sms': sms,
+    'smo': smo
 }
 
 const hash = window.location.hash
@@ -77,14 +81,17 @@ if (['fullgame', 'levels', 'fullgameILs'].includes(modeParam)) {
 } else {
     setMode('fullgame')
 }
+if (['cuphead', 'sm64'].includes(gameID)) {
+    document.getElementById(gameID + '_fullgameCategories').style.display = ''
+}
 let numModalPages = 3
 const SHEET_ID = gameID == 'cuphead' ? '14l1hkW337uiyCRkNz61MNq99AEoidZdqaQUIpH5FlGU' : '1ZBxkZEsfwDsUpyire4Xb16er36Covk7nhR8BN_LPodI'
-if (['tetris', 'smb1'].includes(gameID)) {
+if (['tetris', 'smb1', 'smb2', 'smb3', 'nsmbds'].includes(gameID)) {
     setMode('fullgame')
     url.searchParams.delete('mode');
     window.history.pushState({}, '', url);
 }
-if (gameID == 'titanfall_2') {
+if (['titanfall_2', 'mtpo'].includes(gameID)) {
     setMode('levels')
     url.searchParams.delete('mode');
     window.history.pushState({}, '', url);
@@ -96,11 +103,11 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 function gameTabs() {
     let HTMLContent = ''
-    const games = ['cuphead', 'sm64', 'tetris', 'titanfall_2']
+    const games = ['cuphead', 'sm64', 'tetris', 'titanfall_2', 'mtpo']
     games.forEach(game => {
         HTMLContent += `<a href='?game=${game}' class="container clickable ${game}"><img src="images/logo/${game}.png"></a>`
     })
-    const moreGames = [['smb1', 'smbtll'], ['smb2', 'smb3']]
+    const moreGames = [['smb1', 'smbtll'], ['smb2', 'smb3'], ['nsmbds', 'nsmbw'], ['sms', 'smo']]
     moreGames.forEach(gameSet => {
         HTMLContent += `<div class='container'>`
         gameSet.forEach(game => {
@@ -122,31 +129,59 @@ gameIcons.forEach(gameIcon => {
 document.documentElement.style.setProperty('--banner', getColorFromClass(gameID));
 document.documentElement.style.setProperty('--bannerText', getColorFromClass(gameID, true));
 const title = document.querySelector('title')
-if (gameID == 'cuphead') {
-    document.getElementById('fullgameILsButton').style.display = ''
-    document.getElementById('modeSelection').style.display = ''
-} else if (gameID == 'sm64') {
-    title.innerText = 'SM64 Leaderboard'
-    document.getElementById('modeSelection').style.display = ''
-} else if (gameID == 'tetris') {
-    subtitle.innerText = 'PACE ACADEMY'
-    title.innerText = 'Tetris Pace Academy'
-    document.getElementById('optionsButton').style.display = 'none'
-    document.getElementById('mapButton').style.display = 'none'
-    const github = document.getElementById('github')
-    github.style.filter = 'brightness(0) invert(1)'
-} else if (gameID == 'titanfall_2') {
-    title.innerText = 'Titanfall 2 Leaderboard'
-} else if (gameID == 'smb1') {
-    title.innerText = 'SMB Leaderboard'
-    document.getElementById('checkbox_milliseconds').checked = true
-} else if (gameID == 'smbtll') {
-    title.innerText = 'SMB:TLL Leaderboard'
-    document.getElementById('checkbox_milliseconds').checked = true
-} else if (gameID == 'smb2') {
-    title.innerText = 'SMB2 Leaderboard'
-} else if (gameID == 'smb3') {
-    title.innerText = 'SMB3 Leaderboard'
+switch (gameID) {
+    case 'cuphead':
+        document.getElementById('fullgameILsButton').style.display = '';
+        document.getElementById('modeSelection').style.display = '';
+        break;
+    case 'sm64':
+        title.innerText = 'SM64 Leaderboard';
+        document.getElementById('modeSelection').style.display = '';
+        break;
+    case 'tetris':
+        subtitle.innerText = 'PACE ACADEMY';
+        title.innerText = 'Tetris Pace Academy';
+        document.getElementById('optionsButton').style.display = 'none';
+        document.getElementById('mapButton').style.display = 'none';
+        const github = document.getElementById('github');
+        github.style.filter = 'brightness(0) invert(1)';
+        break;
+    case 'titanfall_2':
+        title.innerText = 'Titanfall 2 Leaderboard';
+        break;
+    case 'smb1':
+        title.innerText = 'SMB Leaderboard';
+        document.getElementById('checkbox_milliseconds').checked = true;
+        break;
+    case 'smbtll':
+        title.innerText = 'SMB:TLL Leaderboard';
+        document.getElementById('checkbox_milliseconds').checked = true;
+        break;
+    case 'smb2':
+        title.innerText = 'SMB2 Leaderboard';
+        break;
+    case 'smb3':
+        title.innerText = 'SMB3 Leaderboard';
+        break;
+    case 'nsmbds':
+        title.innerText = 'NSMB Leaderboard';
+        break;
+    case 'nsmbw':
+        title.innerText = 'NSMBW Leaderboard';
+        document.getElementById('modeSelection').style.display = '';
+        break;
+    case 'mtpo':
+        title.innerText = 'Punch Out!! Leaderboard';
+        break;
+    case 'sms':
+        title.innerText = 'SMS Leaderboard';
+        break;
+    case 'smo':
+        title.innerText = 'SMO Leaderboard';
+        break;
+    default:
+        console.warn('Unknown gameID:', gameID);
+        break;
 }
 if (['tetris', 'smb1', 'smbtll', 'smb2', 'smb3'].includes(gameID)) {
     document.documentElement.style.setProperty('--font', 'pressStart2P');
@@ -173,7 +208,7 @@ if (['tetris', 'smb1', 'smbtll', 'smb2', 'smb3'].includes(gameID)) {
         gameIcon.style.marginBottom = '27px'
     })
 }
-if (gameID == 'sm64') {
+if (['sm64', 'sms', 'smo', 'nsmbds', 'nsmbw'].includes(gameID)) {
     gameLogo.style.height = '80px'
     header.style.height = '130px'
 }

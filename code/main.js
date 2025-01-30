@@ -7,14 +7,41 @@ function getFullgame(categoryName) {
     disableLevelModes()
     // hideTabs()
     sortCategoryIndex = -1
-    if (categoryName) {
-        fullgameCategory = categoryName
-        categories = cuphead[categoryName]
-        buttonClick('fullgameCategories_' + categories[0].className, 'fullgameCategories', 'active')
+    if (gameID == 'cuphead') {
+        if (categoryName) {
+            if (['basegame', 'currentPatch'].includes(categoryName)) {
+                if (categoryName == 'basegame') {
+                    categories = cuphead['main'].slice(0, 3)
+                } else if (categoryName == 'currentPatch') {
+                    categories = cuphead['main'].slice(2, 5)
+                }
+                fullgameCategory = categoryName
+                buttonClick('fullgameCategories_' + categoryName, 'fullgameCategories', 'active')
+            } else {
+                fullgameCategory = categoryName
+                categories = cuphead[categoryName]
+                buttonClick('fullgameCategories_' + categories[0].className, 'fullgameCategories', 'active')
+            }
+        }
     } else {
+        categories = categorySet[gameID]
+        if (gameID == 'sm64') {
+            if (categoryName) {
+                if (categoryName == 'long') {
+                    categories = categories.slice(0, 2)
+                } else if (categoryName == 'short') {
+                    categories = categories.slice(2, 5)
+                }
+                buttonClick('fullgameCategories_' + categoryName, 'fullgameCategories', 'active')
+            }
+        }
+    }
+    if (!categoryName) {
         fullgameCategory = ''
         categories = categorySet[gameID]
-        buttonClick('fullgameCategories_main', 'fullgameCategories', 'active')
+        if (['cuphead', 'sm64'].includes(gameID)) {
+            buttonClick(gameID + '_fullgameCategories_main', 'fullgameCategories', 'active')
+        }
     }
     resetLoad()
     categories.forEach(category => {
@@ -32,9 +59,7 @@ function getLevels() {
     if (gameID == 'cuphead' && mode != 'levels') {
         allILs = true
     }
-    if (gameID != 'titanfall_2') {
-        setMode('levels')
-    }
+    setMode('levels')
     // hideTabs()
     if (gameID == 'cuphead') {
         cupheadLevelSetting()
@@ -110,7 +135,6 @@ function getOtherLevels(section) {
                 } else {
                     buttonClick('sm64ILsAll', 'ILcategories_sm64', 'active2')
                 }
-
                 categories.forEach((category) => {
                     getLeaderboard(category, `level/${category.id}/zdnq4oqd`, sm64Var) // Stage RTA
                 })
@@ -118,6 +142,15 @@ function getOtherLevels(section) {
                 categories.forEach((category, categoryIndex) => {
                     category.name = titanfall_2LevelIDs[categoryIndex].name
                     getLeaderboard(category, `level/${category.id}/ndx8z6jk`, titanfall_2VarIL) // Any%
+                })
+            } else if (gameID == 'mtpo') {
+                categories.forEach((category, categoryIndex) => {
+                    category.name = mtpoLevelIDs[categoryIndex].name
+                    getLeaderboard(category, `level/${category.id}/vdo93vdp`) // Any%
+                })
+            } else if (gameID == 'nsmbw') {
+                categories.forEach(category => {
+                    getLeaderboard(category, `level/${category.id}/02qx7zky`, '&var-' + category.var + '=' + category.worldRTA) // Any%
                 })
             }
         })
@@ -131,8 +164,9 @@ function addPlayer(player) {
     const initialSize = playerNames.size
     playerNames.add(player.name)
     if (playerNames.size > initialSize) {
-        player.runs = new Array(categories.length).fill(null)
-        players.push(player)
+        const playerCopy = { ...player }
+        playerCopy.runs = new Array(categories.length).fill(0)
+        players.push(playerCopy)
     }
 }
 function load() {
@@ -204,21 +238,24 @@ function assignRuns(category, categoryIndex) {
         }
         const worldRecord = getWorldRecord(category)
         const runTime = run.score
-        const percentage = getScore(category, worldRecord, runTime)
-        run.percentage = percentage
+        run.percentage = getScore(category, worldRecord, runTime)
         run.playerName = thePlayer.name
     })
 }
 function generateRanks() {
+    const threshold = mode == 'fullgame' ? getPercentage((categories.length - 1) / categories.length) : 0
+    // const threshold = 0
     players.forEach(player => {
         // let placeSum = 0
         player.percentageSum = 0
         player.truePercentageSum = 0
+        const good = player.runs.some(run => run?.percentage >= threshold)
         player.runs.forEach((run, runIndex) => {
             if (run) {
                 // placeSum += parseInt(run.place)
                 let category = categories[runIndex]
-                player.percentageSum += (run.percentage) * (1 / categories.length)
+                const newScore = run.percentage >= threshold || !good ? run.percentage : threshold
+                player.percentageSum += newScore * (1 / categories.length)
                 player.truePercentageSum += run.percentage
                 // NMG run in place of a 1.1 run
                 if (gameID == 'cuphead') {
@@ -228,16 +265,20 @@ function generateRanks() {
                         const onePointOneRun = player.runs[0]
                         const onePointOneWR = getWorldRecord(onePointOne)
                         runCopy.percentage = getScore(onePointOne, onePointOneWR, run.score)
-                        runCopy.place = runCopy.percentage >= 1 ? 1 : '-'
+                        runCopy.place = runCopy.percentage >= 100 ? 1 : '-'
                         runCopy.first = false
                         runCopy.untied = false
+                        const newScore = runCopy.percentage >= threshold || !good ? runCopy.percentage : threshold
                         if (!onePointOneRun) {
                             player.runs[0] = runCopy
-                            player.percentageSum += runCopy.percentage * (1 / categories.length)
+                            player.percentageSum += newScore * (1 / categories.length)
+                            player.truePercentageSum += runCopy.percentage
                         } else if (player.runs[0].score > run.score) {
                             player.runs[0] = runCopy
-                            player.percentageSum -= getScore(onePointOne, onePointOneWR, onePointOneRun.score) * (1 / categories.length)
-                            player.percentageSum += runCopy.percentage * (1 / categories.length)
+                            const oldScore = getScore(onePointOne, onePointOneWR, onePointOneRun.score)
+                            const newOldScore = oldScore >= threshold || !good ? oldScore : threshold
+                            player.percentageSum -= newOldScore * (1 / categories.length)
+                            player.percentageSum += newScore * (1 / categories.length)
                         }
                         // Highest grade in place of an Any% run
                     } else if (mode == 'levels' && big5() && runIndex % 2 == 1) {
@@ -253,6 +294,7 @@ function generateRanks() {
                         if (!anyRun) {
                             player.runs[anyIndex] = runCopy
                             player.percentageSum += runCopy.percentage * (1 / categories.length)
+                            player.truePercentageSum += runCopy.percentage
                         } else if (player.runs[anyIndex].score > run.score) {
                             player.runs[anyIndex] = runCopy
                             player.percentageSum -= getScore(any, anyWR, anyRun.score) * (1 / categories.length)
@@ -269,7 +311,7 @@ function generateRanks() {
             }
         })
         // player.averageRank = placeSum / player.runs.length
-        player.score = player.percentageSum / totalWeight * 100
+        player.score = player.percentageSum / totalWeight
         // player.averagePercentage = player.score
         player.explanation = ''
         applyPenalties(player)
@@ -287,8 +329,9 @@ function organizePlayers(categoryIndex, shh) {
         action()
     }
 }
-function sortPlayers(playersArray) {
-    if (sortCategoryIndex == -1) {
+function sortPlayers(playersArray, customCategoryIndex) {
+    const categoryIndex = customCategoryIndex != null ? customCategoryIndex : sortCategoryIndex
+    if (categoryIndex == -1) {
         let criteria = 'score'
         if (mode == 'fullgameILs') {
             criteria == 'rank'
@@ -297,10 +340,10 @@ function sortPlayers(playersArray) {
             return b[criteria] - a[criteria];
         });
     } else {
-        const isReverse = reverseScore.includes(categories[sortCategoryIndex].name);
+        const isReverse = reverseScore.includes(categories[categoryIndex].name);
         playersArray.sort((a, b) => {
-            const aRun = a.runs[sortCategoryIndex];
-            const bRun = b.runs[sortCategoryIndex];
+            const aRun = a.runs[categoryIndex];
+            const bRun = b.runs[categoryIndex];
             if (aRun && bRun) {
                 const timeDiff = aRun.score - bRun.score;
                 if (timeDiff != 0) {

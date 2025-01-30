@@ -2,6 +2,7 @@
 
 <head>
     <link rel="stylesheet" href="styles/custom.css">
+    <link rel="stylesheet" href="styles/games.css">
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="stylesheet" href="styles/grades.css">
     <link rel="stylesheet" href="styles/modal.css">
@@ -51,6 +52,8 @@
                         <img id='gameLogoButton' src="">
                     </div>
                     <div id="gameSelect" class="sticky" style="display:none"></div>
+                    <div onclick="openModal('info','up')" class="clickable" style="width:25px"><i
+                            class="fa fa-info-circle"></i></div>
                     <div id='modeSelection' class='container' style="display:none; margin:0">
                         <div id='fullgameButton' class='button' onclick="getFullgame()">Full Game</div>
                         <div id='levelsButton' class='button' onclick="getLevels()">Individual
@@ -86,31 +89,51 @@
                     <div id="progress-bar" class="progress-bar"></div>
                 </div>
             </div>
-            <!-- Cuphead Fullgame Categories -->
+            <!-- Fullgame Categories -->
             <div id="fullgameCategoriesSection" class='hide headerRow' style="display:none">
                 <div id='fullgameCategoriesButton' onclick="toggleFullgameCategories()" class='clickable container'
                     style="width:50px">&#9660</div>
                 <div id="fullgameCategories" style="display:none">
-                    <div class="container">
-                        <div id='fullgameCategories_main' onclick="getFullgame()" class="button cuphead"
-                            style="width:150px">Main Leaderboard</div>
+                    <div id="cuphead_fullgameCategories" style="display:none">
+                        <div class="container">
+                            <div id='cuphead_fullgameCategories_main' onclick="getFullgame()" class="button cuphead"
+                                style="width:150px">Main Leaderboard</div>
+                        </div>
+                        <div class="container">
+                            <div id='fullgameCategories_basegame' onclick="getFullgame('basegame')"
+                                class="button cuphead" style="width:100px">Base Game</div>
+                            <div id='fullgameCategories_currentPatch' onclick="getFullgame('currentPatch')"
+                                class="button cuphead" style="width:110px">Current Patch</div>
+                        </div>
+                        <div class="container">
+                            <div id='fullgameCategories_onePointOne' onclick="getFullgame('1.1+')"
+                                class="button onePointOne">
+                                1.1+
+                            </div>
+                            <div id='fullgameCategories_legacy' onclick="getFullgame('Legacy')" class="button legacy">
+                                Legacy
+                            </div>
+                            <div id='fullgameCategories_nmg' onclick="getFullgame('NMG')" class="button nmg">NMG</div>
+                            <div id='fullgameCategories_dlc' onclick="getFullgame('DLC')" class="button dlc">DLC</div>
+                            <div id='fullgameCategories_dlcbase' onclick="getFullgame('DLC+Base')"
+                                class="button dlcbase">
+                                DLC+Base
+                            </div>
+                        </div>
                     </div>
-                    <div class="container">
-                        <div id='fullgameCategories_onePointOne' onclick="getFullgame('1.1+')"
-                            class="button onePointOne">
-                            1.1+
-                        </div>
-                        <div id='fullgameCategories_legacy' onclick="getFullgame('Legacy')" class="button legacy">Legacy
-                        </div>
-                        <div id='fullgameCategories_nmg' onclick="getFullgame('NMG')" class="button nmg">NMG</div>
-                        <div id='fullgameCategories_dlc' onclick="getFullgame('DLC')" class="button dlc">DLC</div>
-                        <div id='fullgameCategories_dlcbase' onclick="getFullgame('DLC+Base')" class="button dlcbase">
-                            DLC+Base
+                    <div id="sm64_fullgameCategories" style="display:none">
+                        <div class="container">
+                            <div id='sm64_fullgameCategories_main' onclick="getFullgame()" class="button sm64"
+                                style="width:150px">Main Leaderboard</div>
+                            <div id='fullgameCategories_long' onclick="getFullgame('long')" class="button sm64"
+                                style="width:100px">Long</div>
+                            <div id='fullgameCategories_short' onclick="getFullgame('short')" class="button sm64"
+                                style="width:100px">Short</div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Cuphead ILs -->
+            <!-- Individual Levels -->
             <div id="ILsSection_cuphead" class='hide headerRow' style="display:none">
                 <div class="container">
                     <div id='versionTabs' class='container' style="margin:0">
@@ -409,14 +432,14 @@
 
     <script src="code/elements/modal/modal.js"></script>
     <script src="code/elements/modal/reportCard.js"></script>
+    <script src="code/elements/modal/info.js"></script>
     <script src="code/elements/boardtitle.js"></script>
 
     <script src="constants/cuphead/constants.js"></script>
     <script src="constants/cuphead/bosses.js"></script>
     <script src="constants/cuphead/bossInfo.js"></script>
     <script src="constants/sm64/constants.js"></script>
-    <script src="constants/tetris/constants.js"></script>
-    <script src="constants/titanfall_2/constants.js"></script>
+    <script src="constants/other.js"></script>
     <script src="constants/smb.js"></script>
 
     <script src="code/page/leaderboard.js"></script>

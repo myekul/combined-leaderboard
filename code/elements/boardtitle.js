@@ -72,14 +72,20 @@ function generateBoardTitle(extra, categoryIndex) {
         if (difficultyILs) {
             HTMLContent += `<td class='${levelDifficulty}'>${levelDifficulty.charAt(0).toUpperCase() + levelDifficulty.slice(1)}</td>`
         } else if (groundPlane) {
-            HTMLContent += `<th style='padding: 0 5px' class='container ${getColorClass()}'><img src='images/cuphead/${groundPlane}_${cupheadVersion}.png' style='height:42px;width:auto'></th>`
+            HTMLContent += `<th style='padding: 0 5px' class='container ${getColorClass()}'><img src='images/cuphead/${groundPlane}_${cupheadVersion == 'currentPatch' ? 'mugman' : 'cuphead'}.png' style='height:42px;width:auto'></th>`
         } else if (isleIndex > -1) {
             const isle = isles[isleIndex]
             HTMLContent += `<td class='${isle.className}'>${isle.name}</td>`
         }
     }
     if (mode == 'fullgame' && fullgameCategory) {
-        HTMLContent += `<td class='${cuphead[fullgameCategory][0].className}'>${fullgameCategory}</td>`
+        if (fullgameCategory == 'basegame') {
+            HTMLContent += `<td class='cuphead'>Base Game</td>`
+        } else if(fullgameCategory=='currentPatch'){
+            HTMLContent += `<td class='cuphead'>Current Patch</td>`
+        }else {
+            HTMLContent += `<td class='${cuphead[fullgameCategory][0].className}'>${fullgameCategory}</td>`
+        }
     }
     if (mode == 'levels' && sm64ILsSection) {
         HTMLContent += `<td class='banner'>${sm64ILsSection}</td>`

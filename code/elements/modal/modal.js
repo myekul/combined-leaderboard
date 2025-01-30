@@ -1,15 +1,23 @@
-function openModal(playerIndex) {
+function openModal(param, sound) {
+    if (sound == 'up') {
+        playSound('cardup')
+    } else if (sound == 'move') {
+        playSound('equip_move')
+    } else if (sound == 'flip') {
+        playSound('cardflip')
+    }
     modalSliders = false
     let playerModal = false
-    if (typeof playerIndex == 'number') {
+    if (typeof param == 'number') {
         playerModal = true
     }
     showModal = true
     if (gameID == 'tetris') {
         numModalPages = 2
-    }
-    if (mode == 'fullgameILs') {
+    } else if (mode == 'fullgameILs') {
         numModalPages = 1
+    } else {
+        numModalPages = 3
     }
     if (modalIndex > numModalPages) {
         modalIndex = 0
@@ -28,14 +36,14 @@ function openModal(playerIndex) {
     const modalBody = document.getElementById('modal-body')
     if (playerModal) {
         document.addEventListener("keydown", modalKeyPress);
-        globalPlayerIndex = playerIndex
-        let player = players[playerIndex]
+        globalPlayerIndex = param
+        let player = players[globalPlayerIndex]
         if (sortCategoryIndex > -1) {
             const oldIndex = sortCategoryIndex
             sortCategoryIndex = -1
             sortPlayers(players)
             sortCategoryIndex = oldIndex
-            player = players[playerIndex]
+            player = players[globalPlayerIndex]
         }
         let HTMLContent = `<div class='container' style='padding-top:8px'>`
         HTMLContent += gameID != 'tetris' ? `<div style='padding-right:10px'>${getPlayerIcon(player, 50)}</div>` : ''
@@ -71,7 +79,7 @@ function openModal(playerIndex) {
         const modalPage = modalPageNames[modalIndex]
         if (modalPage == 'reportCard') {
             modalTitle.innerText = 'REPORT CARD'
-            modalBody.innerHTML = reportCard(player, playerIndex)
+            modalBody.innerHTML = reportCard(player)
         } else if (modalPage == 'runDetails') {
             modalTitle.innerText = 'RUN DETAILS'
             modalBody.innerHTML = runDetails(player)
@@ -95,10 +103,15 @@ function openModal(playerIndex) {
         HTMLContent += `<div onclick="modalRight()" class='clickable'>&#9654</div>`
         const modalPages = document.getElementById('modal-pages')
         modalPages.innerHTML = HTMLContent
+    } else if (param == 'info') {
+        globalPlayerIndex = -1
+        modalTitle.innerText = 'INFO'
+        document.getElementById('modal-player').innerHTML = ''
+        modalBody.innerHTML = modalInfo()
     } else {
         globalPlayerIndex = -1
         modalTitle.innerText = 'COUNTRY'
-        modalBody.innerHTML = countryModal(playerIndex)
+        modalBody.innerHTML = countryModal(param)
     }
     const modal = document.getElementById("modal");
     modal.style.backgroundColor = 'rgba(0, 0, 0, 0.4)';
@@ -159,8 +172,10 @@ function runDetails(player) {
                         innerHTMLContent += `<tr><td>${data.statistics.likeCount} <i class='fa fa-thumbs-up'></i></td></tr>`
                         innerHTMLContent += `<tr><td>${data.statistics.commentCount} <i class='fa fa-commenting'></i></td></tr>`
                         innerHTMLContent += `</table></div>`
-                        document.getElementById('modal_stats_' + runIndex).innerHTML = innerHTMLContent
-                        document.getElementById('modal_title_' + runIndex).innerHTML = data.snippet.title
+                        if (modalIndex == 1) {
+                            document.getElementById('modal_stats_' + runIndex).innerHTML = innerHTMLContent
+                            document.getElementById('modal_title_' + runIndex).innerHTML = data.snippet.title
+                        }
                     }
                 })
             } else if (link.includes('twitch')) {
@@ -180,7 +195,7 @@ function runDetails(player) {
     return HTMLContent
 }
 function gradeTable(player) {
-    let HTMLContent = `<table>`
+    let HTMLContent = `<div class='container'><table>`
     if (bossILindex == -1) {
         HTMLContent += `<tr><td></td><td></td>`
         if (big4()) {
@@ -209,7 +224,7 @@ function gradeTable(player) {
             const playerRun = player.runs[categoryIndex]
             if (playerRun) {
                 const playerScore = playerRun.score
-                const matchingRun = getLetterGrade(getPercentage(playerRun.percentage)).grade == grade.grade
+                const matchingRun = getLetterGrade(playerRun.percentage).grade == grade.grade
                 className = matchingRun ? 'selected' : className
                 if (matchingRun) {
                     cellContent = tetrisCheck(category, playerScore)
@@ -219,7 +234,7 @@ function gradeTable(player) {
         })
         HTMLContent += `</tr>`
     })
-    HTMLContent += `</table>`
+    HTMLContent += `</table></div>`
     return HTMLContent
 }
 function scoreBreakdown(player) {
@@ -255,12 +270,11 @@ function scoreBreakdown(player) {
         })
         HTMLContent += `</tr>`
     }
-    const percentageSum = (player.truePercentageSum * 100).toFixed(1)
+    const percentageSum = player.truePercentageSum.toFixed(1)
     HTMLContent += `<tr>`
     playerRuns.forEach((run, runIndex) => {
-        const percentage = getPercentage(run.percentage)
-        const letterGrade = getLetterGrade(percentage)
-        HTMLContent += `<td class=${letterGrade.className}>${displayPercentage(percentage)}</td>`
+        const letterGrade = getLetterGrade(run.percentage)
+        HTMLContent += `<td class=${letterGrade.className}>${displayPercentage(run.percentage)}</td>`
         if (runIndex < playerRuns.length - 1) {
             HTMLContent += `<td>+</td>`
         } else {
@@ -269,7 +283,7 @@ function scoreBreakdown(player) {
     })
     HTMLContent += `</tr></table></div>`
     if (numRuns > 1) {
-        HTMLContent += `<div class='container'><div>${percentageSum} / ${numRuns} = ${displayPercentage(getPercentage(player.truePercentageSum / numRuns))}</div></div>`
+        HTMLContent += `<div class='container'><div>${percentageSum} / ${numRuns} = ${displayPercentage(player.truePercentageSum / numRuns)}</div></div>`
     }
     HTMLContent += missingRuns ? `<div class='container' style='padding:10px'>Missing Runs</div>` : ''
     HTMLContent += `<div class='container'><table><tr>`
@@ -328,9 +342,8 @@ function modalKeyPress() {
         case 'ArrowUp':
             event.preventDefault();
             if (globalPlayerIndex > 0 && sortCategoryIndex == -1 && page == 'leaderboard') {
-                playSound('cardflip')
                 globalPlayerIndex--
-                openModal(globalPlayerIndex)
+                openModal(globalPlayerIndex, 'flip')
             } else {
                 playSound('locked')
             }
@@ -338,9 +351,8 @@ function modalKeyPress() {
         case 'ArrowDown':
             event.preventDefault();
             if (globalPlayerIndex < 300 && globalPlayerIndex < players.length - 1 && sortCategoryIndex == -1 && page == 'leaderboard') {
-                playSound('cardflip')
                 globalPlayerIndex++
-                openModal(globalPlayerIndex)
+                openModal(globalPlayerIndex, 'flip')
             } else {
                 playSound('locked')
             }
@@ -349,18 +361,16 @@ function modalKeyPress() {
 }
 function modalLeft() {
     if (modalIndex > 0) {
-        playSound('equip_move')
         modalIndex--
-        openModal(globalPlayerIndex)
+        openModal(globalPlayerIndex, 'move')
     } else {
         playSound('locked')
     }
 }
 function modalRight() {
     if (modalIndex < numModalPages) {
-        playSound('equip_move')
         modalIndex++
-        openModal(globalPlayerIndex)
+        openModal(globalPlayerIndex, 'move')
     } else {
         playSound('locked')
     }

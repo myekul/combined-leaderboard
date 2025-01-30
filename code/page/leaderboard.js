@@ -140,15 +140,13 @@ function generateLeaderboard() {
 }
 function parsePlayer(player, playerIndex) {
     let HTMLContent = ''
-    player.hasAllRuns = true
     player.numRuns = 0
     player.runs.forEach(run => {
         if (run) {
             player.numRuns++
-        } else {
-            player.hasAllRuns = false;
         }
     })
+    player.hasAllRuns = !player.runs.some(run => run == 0)
     player.sum = player.hasAllRuns ? 0 : ''
     if (player.hasAllRuns) {
         player.runs.forEach(run => {
@@ -165,7 +163,7 @@ function parsePlayer(player, playerIndex) {
     if (mode == 'fullgameILs') {
         if (player.extra) {
             const extra = player.extra
-            const grade = getLetterGrade(getPercentage(extra.percentage))
+            const grade = getLetterGrade(extra.percentage)
             const thePlaceClass = placeClass(extra.place)
             const className = thePlaceClass ? thePlaceClass : mode == 'fullgameILs' ? fullgameILsCategory.className : sm64[0].className
             HTMLContent += `<td class='${grade.className}' style='font-size:75%;text-align:left'>${grade.grade}</td>`
@@ -178,13 +176,13 @@ function parsePlayer(player, playerIndex) {
             }
         }
     }
-    if (gameID == 'titanfall_2' || (gameID == 'sm64' && mode == 'levels')) {
+    if (['titanfall_2', 'mtpo'].includes(gameID) || (gameID == 'sm64' && mode == 'levels')) {
         HTMLContent += parseRun(player, playerIndex, extraCategory)
     }
     HTMLContent += page == 'map' ? `<td class='${placeClass(playerIndex + 1)}'>${playerIndex + 1}</td>` : ''
     if (mode != 'fullgameILs') {
         HTMLContent += `<td style='font-size:75%'>${displayPercentage(player.score)}</td>`
-        HTMLContent += `<td class='${letterGrade.className}' style='text-align:left'>${letterGrade.grade}</td>`
+        HTMLContent += `<td class='${letterGrade.className}' style='font-size:90%;text-align:left'>${letterGrade.grade}</td>`
     }
     HTMLContent += getPlayerDisplay(player)
     if (['map', 'sort'].includes(page)) {
@@ -215,6 +213,11 @@ function parsePlayerRuns(player, playerIndex) {
     let HTMLContent = `<tr class=${getRowColor(playerIndex)} style='height:22px'>`
     if (isolated) {
         HTMLContent += parseRun(player, playerIndex, categories[sortCategoryIndex], sortCategoryIndex)
+        if (player.runs[sortCategoryIndex].percentage > .9 && ['DLC', 'DLC+Base'].includes(categories[sortCategoryIndex].name)) {
+            const shot1 = chargeDLC.includes(player.name) ? 'charge' : 'lobber'
+            HTMLContent += `<td><img src='images/cuphead/inventory/weapons/${shot1}.png' class='container' style='height:20px;width:auto'></td>`
+            HTMLContent += `<td><img src='images/cuphead/inventory/weapons/spread.png' class='container' style='height:20px;width:auto'></td>`
+        }
     } else {
         categories.forEach((category, categoryIndex) => {
             HTMLContent += parseRun(player, playerIndex, category, categoryIndex)
@@ -229,6 +232,7 @@ function parsePlayerRuns(player, playerIndex) {
     HTMLContent += `</tr>`
     return HTMLContent
 }
+// 
 function parseRun(player, playerIndex, category, categoryIndex) {
     let HTMLContent = ``
     let colorClass = category.className ? category.className : ''
@@ -237,7 +241,7 @@ function parseRun(player, playerIndex, category, categoryIndex) {
     const run = categoryIndex == null ? player.extra : player.runs[categoryIndex]
     if (!run) {
         if (mode != 'fullgameILs') {
-            if (sortCategoryIndex == -1 ? playerIndex == getNumDisplay() - 1 : playerIndex == categories[sortCategoryIndex].runs.length - 1) {
+            if (playerIndex == 0) {
                 HTMLContent += displayBoolean[0] ? `<td class='hiddenText ${colorClass} ${grayedOut}' style='font-size:75%;text-align:left;'>99.9</td>` : ''
                 HTMLContent += displayBoolean[1] ? `<td class='hiddenText ${colorClass} ${grayedOut}' style='font-size:75%;text-align:left;'>100.0</td>` : ''
                 HTMLContent += displayBoolean[2] ? `<td class='hiddenText ${colorClass} ${grayedOut}' style='font-size:75%;text-align:left;'>A+</td>` : ''
@@ -257,12 +261,12 @@ function parseRun(player, playerIndex, category, categoryIndex) {
     const score = run.score
     const time = gameID == 'tetris' ? score : secondsToHMS(score)
     const place = run.place
-    const percentage = getPercentage(run.percentage).toFixed(2)
+    const percentage = run.percentage.toFixed(2)
     const grade = getLetterGrade(percentage)
     const thePlaceClass = placeClass(place)
     const newColorClass = thePlaceClass ? thePlaceClass : colorClass
     const percentile = run.place != '-' ? (run.place / category.runs.length * 100).toFixed(1) : '-'
-    const runLink = gameID != 'tetris' ? getAnchor(run.weblink) : ''
+    const runLink = gameID != 'tetris' ? getAnchor('https://www.speedrun.com/' + gameID + '/runs/' + run.id) : ''
     const videoLink = getAnchor(getVideoLink(run))
     if (mode == 'fullgameILs') {
         const debug = run.debug ? '*' : ''

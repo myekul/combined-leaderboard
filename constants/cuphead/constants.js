@@ -301,7 +301,7 @@ const fullgameILs = {
         name: 'DLC',
         tabName: 'DLC',
         className: 'dlc',
-        range: 'C:H',
+        range: 'C:I',
         index: 3,
         shot1: 'lobber',
         shot2: 'spread'
@@ -320,7 +320,7 @@ const fullgameILs = {
         name: 'DLC+Base',
         tabName: 'DLC+Base',
         className: 'dlcbase',
-        range: 'C:H',
+        range: 'C:I',
         index: 4,
         shot1: 'lobber',
         shot2: 'spread'
@@ -335,3 +335,25 @@ const fullgameILs = {
         shot2: 'spread'
     },
 }
+const chargeDLC = [
+    "myekul",
+    "Kirthar",
+    "Musically_dECLINED",
+    "Jason2890",
+    "V11GAmeR",
+    "Yuka",
+    "Kaleva",
+    "halfword",
+    "AssasinNarga",
+    "PorcoBrabo",
+    "Rookie_Gamer_Tlax",
+    "PanchoFox",
+    "2haka",
+    "ANE_MMRC",
+    "Lewzr07",
+    "nomit",
+    // DLC+Base
+    "minamikori",
+    "alex92tcordobes",
+    "Huawei",
+]

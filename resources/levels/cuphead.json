@@ -2,7 +2,6 @@
     {
         "id": "5d7vzved",
         "name": "The Root Pack",
-        "weblink": "https://www.speedrun.com/cuphead/The_Root_Pack",
         "difficultyID": "wle66vx8",
         "simple": "81wezvv1",
         "regular": "zqomk8x1",
@@ -15,7 +14,6 @@
     {
         "id": "kwj51519",
         "name": "Goopy Le Grande",
-        "weblink": "https://www.speedrun.com/cuphead/Goopy_Le_Grande",
         "difficultyID": "38doo2el",
         "simple": "0q5xy921",
         "regular": "4lx0rv4l",
@@ -28,7 +26,6 @@
     {
         "id": "owo0q03w",
         "name": "Hilda Berg",
-        "weblink": "https://www.speedrun.com/cuphead/Hilda_Berg",
         "difficultyID": "r8rggyrn",
         "simple": "z1956j8q",
         "regular": "p12or64l",
@@ -41,7 +38,6 @@
     {
         "id": "xd1787yd",
         "name": "Cagney Carnation",
-        "weblink": "https://www.speedrun.com/cuphead/Cagney_Carnation",
         "difficultyID": "5lyjj2yl",
         "simple": "xqk92gk1",
         "regular": "gq790vdl",
@@ -54,7 +50,6 @@
     {
         "id": "ewpj0j4w",
         "name": "Ribby and Croaks",
-        "weblink": "https://www.speedrun.com/cuphead/Ribby_and_Croaks",
         "difficultyID": "e8myy4x8",
         "simple": "jqzv8r8l",
         "regular": "klrjvemq",
@@ -67,7 +62,6 @@
     {
         "id": "n937y42d",
         "name": "Baroness Von Bon Bon",
-        "weblink": "https://www.speedrun.com/cuphead/Baroness_Von_Bon_Bon",
         "difficultyID": "ylq99rv8",
         "simple": "5q82jx3q",
         "regular": "4qy5dv21",
@@ -80,7 +74,6 @@
     {
         "id": "z986g7rd",
         "name": "Beppi The Clown",
-        "weblink": "https://www.speedrun.com/cuphead/Beppi_The_Clown",
         "difficultyID": "gnx007gn",
         "simple": "8100go21",
         "regular": "jq6yn9j1",
@@ -93,7 +86,6 @@
     {
         "id": "rdn02z5w",
         "name": "Djimmi The Great",
-        "weblink": "https://www.speedrun.com/cuphead/Djimmi_The_Great",
         "difficultyID": "dlomm5j8",
         "simple": "81wez4v1",
         "regular": "zqomkxx1",
@@ -106,7 +98,6 @@
     {
         "id": "ldyy8gpd",
         "name": "Grim Matchstick",
-        "weblink": "https://www.speedrun.com/cuphead/Grim_Matchstick",
         "difficultyID": "jlzkkvyl",
         "simple": "rqv6gv6l",
         "regular": "5le392kq",
@@ -119,7 +110,6 @@
     {
         "id": "gdre1xe9",
         "name": "Wally Warbles",
-        "weblink": "https://www.speedrun.com/cuphead/Wally_Warbles",
         "difficultyID": "9l733o4n",
         "simple": "4lx0r54l",
         "regular": "814k8ovl",
@@ -132,7 +122,6 @@
     {
         "id": "592znz69",
         "name": "Rumor Honeybottoms",
-        "weblink": "https://www.speedrun.com/cuphead/Rumor_Honeybottoms",
         "difficultyID": "yn2vvrd8",
         "simple": "p12orv4l",
         "regular": "81p4vy81",
@@ -145,7 +134,6 @@
     {
         "id": "29v353xw",
         "name": "Captain Brineybeard",
-        "weblink": "https://www.speedrun.com/cuphead/Captain_Brineybeard",
         "difficultyID": "6njvv6en",
         "simple": "gq7905dl",
         "regular": "21gevn8l",
@@ -158,7 +146,6 @@
     {
         "id": "xd4jrj8d",
         "name": "Sally Stageplay",
-        "weblink": "https://www.speedrun.com/cuphead/Sally_Stageplay",
         "difficultyID": "kn04457l",
         "simple": "klrjv3mq",
         "regular": "21dv9k51",
@@ -171,7 +158,6 @@
     {
         "id": "xd0g3gjw",
         "name": "Werner Werman",
-        "weblink": "https://www.speedrun.com/cuphead/Werner_Werman",
         "difficultyID": "ql6gg6v8",
         "simple": "4qy5dz21",
         "regular": "mlndp8j1",
@@ -184,7 +170,6 @@
     {
         "id": "rw64e469",
         "name": "Dr. Kahl's Robot",
-        "weblink": "https://www.speedrun.com/cuphead/Dr._Kahls_Robot",
         "difficultyID": "onv66om8",
         "simple": "9qjwv731",
         "regular": "jq6yn5j1",
@@ -197,7 +182,6 @@
     {
         "id": "n937y7rd",
         "name": "Cala Maria",
-        "weblink": "https://www.speedrun.com/cuphead/Cala_Maria",
         "difficultyID": "ylpvvddl",
         "simple": "81wez7v1",
         "regular": "zqomkjx1",
@@ -210,7 +194,6 @@
     {
         "id": "z986g61d",
         "name": "Phantom Express",
-        "weblink": "https://www.speedrun.com/cuphead/Phantom_Express",
         "difficultyID": "0nw22zxn",
         "simple": "rqv6gx6l",
         "regular": "5le39nkq",
@@ -223,7 +206,6 @@
     {
         "id": "69z3n2xd",
         "name": "King Dice",
-        "weblink": "https://www.speedrun.com/cuphead/King_Dice",
         "difficultyID": "789kk70l",
         "regular": "4lx0rg4l",
         "expert": "814k89vl",
@@ -235,7 +217,6 @@
     {
         "id": "r9g214jd",
         "name": "The Devil",
-        "weblink": "https://www.speedrun.com/cuphead/The_Devil",
         "difficultyID": "2lgzzvo8",
         "regular": "z1956x8q",
         "expert": "p12or94l",
@@ -247,7 +228,6 @@
     {
         "id": "xd4mpj2d",
         "name": "Glumstone The Giant",
-        "weblink": "https://www.speedrun.com/cuphead/Glumstone_The_Giant",
         "difficultyID": "dlo6mjel",
         "simple": "xqkvzd9l",
         "regular": "gq787wn1",
@@ -256,7 +236,6 @@
     {
         "id": "xd0jpgxw",
         "name": "Moonshine Mob",
-        "weblink": "https://www.speedrun.com/cuphead/Moonshine_Mob",
         "difficultyID": "jlzxk408",
         "simple": "jqzj0d4l",
         "regular": "klrg5m0q",
@@ -265,7 +244,6 @@
     {
         "id": "z980p6gd",
         "name": "The Howling Aces",
-        "weblink": "https://www.speedrun.com/cuphead/The_Howling_Aces",
         "difficultyID": "6njkvjjl",
         "simple": "5lm5dyyq",
         "regular": "81wyng9q",
@@ -274,7 +252,6 @@
     {
         "id": "rw6024rw",
         "name": "Mortimer Freeze",
-        "weblink": "https://www.speedrun.com/cuphead/Mortimer_Freeze",
         "difficultyID": "9l753jq8",
         "simple": "5q8ygorl",
         "regular": "4qy0nr3l",
@@ -283,7 +260,6 @@
     {
         "id": "n93pk7nd",
         "name": "Esther Winchester",
-        "weblink": "https://www.speedrun.com/cuphead/Esther_Winchester",
         "difficultyID": "yn2mvo28",
         "simple": "8104x8jl",
         "regular": "9qj3gr0l",
@@ -292,7 +268,6 @@
     {
         "id": "rdnv30q9",
         "name": "Chef Saltbaker",
-        "weblink": "https://www.speedrun.com/cuphead/Chef_Saltbaker",
         "difficultyID": "kn004ron",
         "regular": "013g20kl",
         "expert": "rqv8m751"

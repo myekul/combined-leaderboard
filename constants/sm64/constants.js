@@ -35,7 +35,6 @@ const sm64 = [
         subcat: '9qj7z0oq'
     }
 ]
-// https://www.speedrun.com/api/v1/games/o1y9wo6q/variables
 const sm64Var = `var-e8m7em86=9qj7z0oq` // Platform - N64
 const sm64LevelIDs = [
     { id: 'bob' },

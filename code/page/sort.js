@@ -19,7 +19,7 @@ function generateSort() {
     if (['player', 'joindate'].includes(sortCriteria.value)) {
         const sortChartDiv = document.getElementById('sortChartDiv')
         sortChartDiv.style.display = 'none'
-        HTMLContent += `<table class='bigShadow'>`
+        HTMLContent += `<div class='container'><table class='bigShadow'>`
         const playersCopy = [...players]
         if (sortCriteria.value == 'joindate') {
             playersCopy.sort((a, b) => {
@@ -45,7 +45,7 @@ function generateSort() {
                 }
             }
         })
-        HTMLContent += `</table>`
+        HTMLContent += `</table></div>`
     } else {
         HTMLContent += sortRuns(sortRange)
     }
@@ -158,7 +158,7 @@ function sortRuns(sortRange) {
                     HTMLContent += `<td>${months[date.getMonth()]}</td>`
                 }
             } else if (sortCriteria == 'score') {
-                const percentage = getPercentage(run.run.percentage)
+                const percentage = run.run.percentage
                 const grade = getLetterGrade(percentage)
                 HTMLContent += `<td class='${grade.className}'>${displayPercentage(percentage)}</td>`
             } else if (sortCriteria == 'dps') {
@@ -192,7 +192,7 @@ function drawSortChart(runs, sortCriteria, minDate) {
     const frequencyData = runs.reduce((acc, item) => {
         let runData
         if (sortCriteria == 'score') {
-            runData = Math.floor(getPercentage(item.run.percentage))
+            runData = Math.floor(item.run.percentage)
         } else if (sortCriteria == 'date') {
             const date = new Date(item.run.date)
             if (sortDateOptions == 'year') {

@@ -1,0 +1,64 @@
+.cuphead {
+    background-color: var(--cuphead-yellow) !important;
+    color: black
+}
+
+.sm64 {
+    background-color: dodgerblue !important;
+    color: white
+}
+
+.tetris {
+    background-color: black;
+    color: white
+}
+
+.titanfall_2 {
+    background-color: cadetblue;
+    color: azure
+}
+
+.smb1 {
+    background-color: mediumslateblue;
+    color: white
+}
+
+.smbtll {
+    background-color: slateblue;
+    color: white
+}
+
+.smb2 {
+    background-color: cornflowerblue;
+    color: white
+}
+
+.smb3 {
+    background-color: yellow;
+    color: black
+}
+
+.nsmbds {
+    background-color: aqua;
+    color: black
+}
+
+.nsmbw {
+    background-color: red;
+    color: white
+}
+
+.mtpo {
+    background-color: royalblue;
+    color: white;
+}
+
+.sms {
+    background-color: darkturquoise;
+    color: black
+}
+
+.smo {
+    background-color: #E80514;
+    color: white
+}

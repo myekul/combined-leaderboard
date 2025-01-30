@@ -86,7 +86,7 @@ function fetchCuphead() {
             categories.push({ name: boss.name, info: boss, runs: [] })
         })
         players.forEach(player => {
-            player.runs = new Array(categories.length).fill(null)
+            player.runs = new Array(categories.length).fill(0)
         })
         categories.forEach((category, categoryIndex) => {
             category.difficulty = 'regular'

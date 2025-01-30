@@ -126,7 +126,7 @@ function WRsSums() {
     document.getElementById('WRs').innerHTML = HTMLContent
 }
 function WRsSumsCuphead() {
-    let HTMLContent = `<table>`
+    let HTMLContent = `<div class='container'><table>`
     let totalSum = 0
     let categoryIndex = 0
     while (categoryIndex < categories.length) {
@@ -159,7 +159,7 @@ function WRsSumsCuphead() {
         totalSum += sum
         HTMLContent += `</tr>`
     }
-    HTMLContent += `</table>`
+    HTMLContent += `</table></div>`
     HTMLContent += `<div class='container' style='margin-top:20px;font-size:150%'>${secondsToHMS(totalSum)}</div>`
     return HTMLContent
 }

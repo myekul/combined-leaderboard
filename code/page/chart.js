@@ -66,10 +66,10 @@ function drawChart() {
             if (!fixed || (!normalized && fixed && score < maxValue) || normalized) {
                 const convertedTime = gameID == 'tetris' ? score : secondsToHMS(score)
                 if (!(!normalized && gameID == 'cuphead' && mode == 'levels' && score > 120)) {
-                    const colorClass = mode == 'fullgameILs' ? categories[sortCategoryIndex].info.id : getLetterGrade(getPercentage(run.percentage)).className
+                    const colorClass = mode == 'fullgameILs' ? categories[sortCategoryIndex].info.id : getLetterGrade(run.percentage).className
                     let rowContent = Math.round(score)
                     if (normalized) {
-                        rowContent = parseFloat(getPercentage(run.percentage))
+                        rowContent = parseFloat(run.percentage)
                     }
                     const newRun = [run.playerName, rowContent, getColorFromClass(colorClass)]
                     annotation ? newRun.push(convertedTime) : ''

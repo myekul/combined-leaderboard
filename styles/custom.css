@@ -11,44 +11,9 @@
     padding: 0
 }
 
-.cuphead {
-    background-color: var(--cuphead-yellow) !important;
-    color: black
-}
-
-.sm64 {
-    background-color: dodgerblue;
-    color: white
-}
-
-.tetris {
-    background-color: black;
-    color: white
-}
-
-.titanfall_2 {
-    background-color: cadetblue;
-    color: azure
-}
-
-.smb1 {
-    background-color: mediumslateblue;
-    color: white
-}
-
-.smbtll {
-    background-color: slateblue;
-    color: white
-}
-
-.smb2 {
-    background-color: cornflowerblue;
-    color: white
-}
-
-.smb3 {
-    background-color: yellow;
-    color: black
+.myekulColor {
+    color: #F0C03E;
+    white-space: nowrap;
 }
 
 .simple {
@@ -133,6 +98,11 @@
 
 .hell {
     background-color: darkgray;
+    color: black
+}
+
+.darker {
+    background-color: gray;
     color: black
 }
 

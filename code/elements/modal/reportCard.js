@@ -7,7 +7,7 @@ function reportCard(player) {
             const numCats = getNumCats(category)
             for (let i = 1; i <= numCats; i++) {
                 const run = player.runs[categoryIndex]
-                const percentage = getPercentage(run?.percentage)
+                const percentage = run?.percentage
                 const place = run?.place
                 HTMLContent += `<tr class='${getRowColor(categoryIndex)}'>`
                 if (i == 1) {
@@ -26,7 +26,6 @@ function reportCard(player) {
     } else {
         categories.forEach((category, categoryIndex) => {
             const run = player.runs[categoryIndex]
-            const percentage = getPercentage(run?.percentage)
             const place = run?.place
             let image = ''
             if (category.info) {
@@ -38,7 +37,7 @@ function reportCard(player) {
             HTMLContent += image ? `<td id='modal-img' class='${classNameLogic(category)}'>${image}</td>` : ''
             HTMLContent += `<td class='${classNameLogic(category)}' style='text-align:left'>${category.name}</td>`
             if (run && mode != 'fullgameILs') {
-                HTMLContent += reportCardSection(category, categoryIndex, run.score, percentage)
+                HTMLContent += reportCardSection(category, categoryIndex, run.score, run.percentage)
             }
             HTMLContent += `</tr>`
         })
@@ -51,7 +50,7 @@ function reportCard(player) {
         HTMLContent += `<div id='modal_letterScore'>${displayLetterScore(player.score)}</div>`
         HTMLContent += `<div id='modal_letterGrade' style='display:none'>${displayLetterGrade(player.score)}</div>`
         HTMLContent +=
-            `<div class='otherColor' style='border-radius:5px;padding: 3px;margin:5px'><table class='otherColor'>
+            `<div class='textBox'><table class='otherColor'>
             <tr>
                 <td>Rank:</td>
                 <td id='modal_rank'>${player.rank}</td>
@@ -105,7 +104,7 @@ function toggleSliders() {
     }
     modalPercentages = []
     players[globalPlayerIndex].runs.forEach(run => {
-        modalPercentages.push(run.percentage * 100)
+        modalPercentages.push(run.percentage)
     })
 }
 function reportCardSection(category, categoryIndex, score, percentage) {
@@ -127,7 +126,7 @@ function reportCardSection(category, categoryIndex, score, percentage) {
         <td id='modal_category_${categoryIndex}_place' class='${placeClassName}' style='display:none;font-size:75%;min-width:25px'>${place}</td>
         <td id='modal_category_${categoryIndex}_score' class='${classNameLogic(category)}'>${tetrisCheck(category, score)}</td>
         <td class='background' style='border-right:1px solid white'><div id='modal_category_${categoryIndex}_visual' class='${className}' style='color:transparent !important;width:${percentage == 100 ? 102 : normalize50(percentage)}%'>dummy</div></td>
-        <td id='modal_category_${categoryIndex}_slider_div' style='display:none'><input id='modal_category_${categoryIndex}_slider' style='width:300px;accent-color:${accentColor}' type='range' oninput='adjustGrade(${categoryIndex})' step='0.1' min='50' max='${getPercentage(category.runs[0].percentage)}' value='${Math.round(percentage)}'></td>`
+        <td id='modal_category_${categoryIndex}_slider_div' style='display:none'><input id='modal_category_${categoryIndex}_slider' style='width:300px;accent-color:${accentColor}' type='range' oninput='adjustGrade(${categoryIndex})' step='0.1' min='50' max='${category.runs[0].percentage}' value='${Math.round(percentage)}'></td>`
     return HTMLContent
 }
 function adjustGrade(categoryIndex) {
@@ -156,7 +155,7 @@ function adjustGrade(categoryIndex) {
     document.getElementById('modal_gpa').innerHTML = getGPA(newPlayerPercentage)
     let runIndex = 0
     let run = categories[categoryIndex].runs[runIndex]
-    while (newPercentage < run?.percentage * 100) {
+    while (newPercentage < run?.percentage) {
         runIndex++
         run = categories[categoryIndex].runs[runIndex]
     }
@@ -164,7 +163,7 @@ function adjustGrade(categoryIndex) {
     playerIndex = 0
     player = players[playerIndex]
     thisPlayer = false
-    while (newPlayerPercentage < player.score) {
+    while (newPlayerPercentage < player?.score) {
         playerIndex++
         player = players[playerIndex]
         if (players[globalPlayerIndex].rank == playerIndex) {

@@ -91,16 +91,17 @@ function getColorClass() {
     return gameID == 'cuphead' ? DLCnoDLC == 'dlc' ? 'dlc' : 'cuphead' : ''
 }
 function getScore(category, wrTime, runTime) {
+    let percentage = wrTime / runTime
     if (gameID == 'cuphead' && mode == 'levels') {
         if (runTime > category.info.time) {
-            return 0
+            percentage = 0
+        } else {
+            percentage = (category.info.time - runTime) / (category.info.time - wrTime);
         }
-        return (category.info.time - runTime) / (category.info.time - wrTime);
+    } else if (reverseScore.includes(category.name)) {
+        percentage = runTime / wrTime
     }
-    if (reverseScore.includes(category.name)) {
-        return runTime / wrTime
-    }
-    return wrTime / runTime
+    return getPercentage(percentage)
 }
 function getTrophy(place) {
     let placeText = ''
@@ -134,15 +135,15 @@ function showTab(tab) {
         elem.style.display = 'none'
     })
     if (gameID == 'cuphead') {
-        if (mode == 'fullgame') {
-            document.getElementById('fullgameCategoriesSection').style.display = ''
-        }
         if (mode == 'levels') {
             document.getElementById('ILsSection_cuphead').style.display = ''
         }
         if (mode == 'fullgameILs') {
             document.getElementById('fullgameILsSection').style.display = ''
         }
+    }
+    if (['cuphead', 'sm64'].includes(gameID) && mode == 'fullgame') {
+        document.getElementById('fullgameCategoriesSection').style.display = ''
     }
     if (gameID == 'sm64' && mode == 'levels') {
         document.getElementById('ILsSection_sm64').style.display = ''
@@ -232,22 +233,11 @@ function getAnchor(url) {
     return url ? `<a href="${url}" target='_blank'>` : ''
 }
 function getPlayerName(player) {
-    let colorFrom = '#FFFFFF'
-    let colorTo = '#FFFFFF'
-    if (player['name-style']) {
-        if (player['name-style'].color) {
-            colorFrom = player['name-style'].color.dark
-            colorTo = player['name-style'].color.dark
-        } else {
-            colorFrom = player['name-style']['color-from'].dark
-            colorTo = player['name-style']['color-to'].dark
-        }
-    }
     if (player.name.charAt(0) == '[') {
         const match = player.name.match(/\(([^)]+)\)/)
         player.name = match ? match[1] : player.name.slice(4)
     }
-    const HTMLContent = `<span style='background: linear-gradient(90deg, ${colorFrom}, ${colorTo});-webkit-background-clip: text;color: transparent;'>${player.name}</span>`
+    const HTMLContent = gameID != 'tetris' ? `<span style='background: linear-gradient(90deg, ${player['name-style'].color1}, ${player['name-style'].color2});-webkit-background-clip: text;color: transparent;'>${player.name}</span>` : player.name
     return HTMLContent
 }
 function getPlayerFlag(player, size) {
@@ -493,4 +483,7 @@ function normalize50(percentage) {
         return 0
     }
     return ((percentage - 50) / (100 - 50)) * 100
+}
+function getRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }

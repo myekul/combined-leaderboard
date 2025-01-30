@@ -14,8 +14,7 @@ function generateMap() {
     playersCopy.forEach(player => {
         let goated = false
         let country
-        categories.forEach((category, categoryIndex) => {
-            const run = player.runs[categoryIndex]
+        player.runs.forEach(run => {
             if (run) {
                 if (mapMode == 'WRs') {
                     if (run.place == 1) {
@@ -144,7 +143,7 @@ function countryCount() {
                 <td style='text-align:right;font-size:75%'>${displayPercentage(getPercentage(country.count / total, 1))}%</td>
                 <td>${country.count}</td>
                 <td>${getFlag(country.code, country.name, 15)}</td>
-                <td onclick="playSound('cardup');openModal('${country.name}')" class='clickable' style='text-align:left'>${country.name}</td>
+                <td onclick="openModal('${country.name}','up')" class='clickable' style='text-align:left'>${country.name}</td>
                 ${trophyCase(country)}
                 </tr>`
     })
@@ -160,7 +159,7 @@ function flagArmy() {
     HTMLContent = ''
     countriesArray.forEach(country => {
         for (i = 0; i < country.count; i++) {
-            HTMLContent += `<div onclick="playSound('cardup');openModal('${country.name}')" class='container clickable'>${getFlag(country.code, country.name, 20)}</div>`
+            HTMLContent += `<div onclick="openModal('${country.name}','up')" class='container clickable'>${getFlag(country.code, country.name, 20)}</div>`
         }
     })
     document.getElementById('flagArmy').innerHTML = HTMLContent
@@ -284,8 +283,7 @@ function createMap() {
                 })
                 .on("click", (event, d) => {
                     if (d.properties.value) {
-                        playSound('cardup');
-                        openModal(d.properties.value.name)
+                        openModal(d.properties.value.name, 'up')
                     }
                 })
         });

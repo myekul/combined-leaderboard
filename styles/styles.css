@@ -113,9 +113,27 @@ h1 {
     margin-bottom: 0;
 }
 
+.hText {
+    font-family: var(--font2);
+    font-size: 140%;
+    color: var(--bannerText);
+    padding: 0 10px;
+    background-color: var(--banner);
+    border-radius: 5px;
+}
+
 .textBlock {
     white-space: normal;
-    max-width: 50vw
+    max-width: 50vw;
+    padding-bottom: 20px
+}
+
+.textBox {
+    background-color: var(--otherColor);
+    border-radius: 5px;
+    padding: 3px;
+    margin: 5px;
+    font-size:90%
 }
 
 td {

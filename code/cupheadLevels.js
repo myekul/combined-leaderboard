@@ -77,7 +77,7 @@ function getAllLevels() {
     resetLoad()
     updateILbosses()
     if (firstTime) {
-        fetch('https://gist.githubusercontent.com/myekul/a62e824b667fd6f37b9881f397263f66/raw/b4beb2582a66c59be9d7cd16a77856c6295329b5/allLevels.json')
+        fetch('https://gist.githubusercontent.com/myekul/a62e824b667fd6f37b9881f397263f66/raw/c68dfac4c810172a21229d55b4194de090361f35/allLevels.json')
             .then(response => response.json())
             .then(data => {
                 categories = data
@@ -196,30 +196,21 @@ function toggleBasegameILs() {
 }
 function getCupheadBoss() {
     const boss = categories[bossILindex]
-    categories = []
+    let difficulties = ['simple', 'regular', 'expert']
     if (boss.info.time > 129) {
-        ['regular', 'expert'].forEach(difficulty => {
-            ['any', 'highest'].forEach(anyOrHighest => {
-                const newBoss = { ...boss }
-                newBoss.name = getCupheadCategory(anyOrHighest, difficulty)
-                newBoss.difficulty = difficulty
-                newBoss.category = ILcats[anyOrHighest + DLCnoDLC].id
-                newBoss.version = cupheadVersion
-                categories.push(newBoss)
-            })
-        })
-    } else {
-        ['simple', 'regular', 'expert'].forEach(difficulty => {
-            ['any', 'highest'].forEach(anyOrHighest => {
-                const newBoss = { ...boss }
-                newBoss.name = getCupheadCategory(anyOrHighest, difficulty)
-                newBoss.difficulty = difficulty
-                newBoss.category = ILcats[anyOrHighest + DLCnoDLC].id
-                newBoss.version = cupheadVersion
-                categories.push(newBoss)
-            })
-        })
+        difficulties = difficulties.slice(1, 3)
     }
+    categories = []
+    difficulties.forEach(difficulty => {
+        ['any', 'highest'].forEach(anyOrHighest => {
+            const newBoss = { ...boss }
+            newBoss.name = getCupheadCategory(anyOrHighest, difficulty)
+            newBoss.difficulty = difficulty
+            newBoss.category = ILcats[anyOrHighest + DLCnoDLC].id
+            newBoss.version = cupheadVersion
+            categories.push(newBoss)
+        })
+    })
 }
 function cupheadPrep(category) {
     let variables = `var-2lgzzwo8=21ge8p8l&var-${category.difficultyID}=${category[category.difficulty]}` // Players - Solo

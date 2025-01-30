@@ -30,6 +30,8 @@ function getLeaderboard(category, query, variables, extra) {
                             getLeaderboard(sm64[0], `category/${sm64[0].id}`, sm64Var, true)
                         } else if (gameID == 'titanfall_2') {
                             getLeaderboard(titanfall_2, `category/${titanfall_2.id}`, titanfall_2VarFG, true)
+                        } else if (gameID == 'mtpo') {
+                            getLeaderboard(mtpo, `category/${mtpo.id}`, '', true)
                         } else {
                             const boardTitleSrc = document.getElementById('boardTitleSrc')
                             boardTitleSrc.innerHTML = `${getAnchor(`https://www.speedrun.com/${gameID}`)}<img src='images/external/src.png' class='clickable'>`
@@ -92,7 +94,7 @@ function cleanRuns(runs) {
             player: playerContent,
             score: theRun.times.primary_t,
             videos: theRun.videos,
-            weblink: theRun.weblink
+            id: theRun.weblink.split('run/')[1]
         }
         newRuns.push(newRun)
     })
@@ -108,11 +110,21 @@ function cleanPlayers(thePlayers) {
         if (player.assets?.image.uri) {
             img = player.assets.image.uri.split('=')[1]
         }
+        let color1 = '#fff', color2 = '#fff'
+        if (player['name-style']) {
+            if (player['name-style'].color) {
+                color1 = player['name-style'].color.dark
+                color2 = color1
+            } else {
+                color1 = player['name-style']['color-from'].dark
+                color2 = player['name-style']['color-to'].dark
+            }
+        }
         const cleanPlayer =
         {
             id: player.id ? player.id : null,
             name: player.name,
-            'name-style': player['name-style'] ? player['name-style'] : null,
+            'name-style': { color1: color1, color2: color2 },
             links: { src: player.weblink ? true : false, img: img },
             location: player.location ? player.location : null,
             signup: player.signup ? player.signup.slice(0, 10) : null
