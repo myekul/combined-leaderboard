@@ -182,7 +182,7 @@ function showTab(tab) {
     } else {
         WRsCupheadILsOptions.style.display = 'none'
     }
-    if (runRecapTime == 'XX:XX') {
+    if (mode == 'fullgameILs' && runRecapTime == 'XX:XX') {
         document.getElementById('runRecap').innerHTML = modalRunRecap(true)
     }
     action()
