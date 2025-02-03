@@ -3,7 +3,7 @@
     --cuphead-green: #a0e1c0;
     --dlc-font: #433650;
     --background: #343434;
-    --otherColor: #434343;
+    --otherColor: #3C3C3C;
     --gray: dimgray;
     --font: 'cuphead-memphis';
     --font2: 'cuphead-vogue';
@@ -80,6 +80,7 @@ a {
 }
 
 input {
+    font-family: var(--font);
     accent-color: var(--banner)
 }
 
@@ -124,8 +125,8 @@ h1 {
 
 .textBlock {
     white-space: normal;
-    max-width: 50vw;
-    padding-bottom: 20px
+    max-width: 600px;
+    /* padding-bottom: 20px */
 }
 
 .textBox {
@@ -133,7 +134,7 @@ h1 {
     border-radius: 5px;
     padding: 3px;
     margin: 5px;
-    font-size:90%
+    font-size: 90%
 }
 
 td {
@@ -263,7 +264,7 @@ progress::-webkit-progress-value {
 
 .active2 {
     color: var(--bannerText);
-    background-color: var(--banner);
+    background-color: var(--banner) !important;
 }
 
 #chart {
@@ -345,11 +346,6 @@ select {
     background-color: skyblue;
     width: 40px;
     height: 40px
-}
-
-#allLevels {
-    background-color: mediumpurple;
-    color: white
 }
 
 .chartLabel {
@@ -443,7 +439,7 @@ svg {
 }
 
 #loadouts .button {
-    width: 50px
+    width: 55px
 }
 
 #loadouts img {
@@ -572,4 +568,12 @@ svg {
     width: auto;
     margin-bottom: 20px;
     padding: 0 10px
+}
+
+#runRecapBigButton {
+    width: 120px !important;
+    height: 25px;
+    border-radius: 15px;
+    position: absolute;
+    right: 40px;
 }

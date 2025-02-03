@@ -79,29 +79,32 @@ function getFullgameILs(categoryName) {
     resetLoad()
     players = []
     playerNames = new Set()
-    let category = cuphead['main'][fullgameILsCategory.index]
+    let category = fullgameILsCategory.category
     let variables = `var-${category.var}=${category.subcat}`
     if (category.var2) {
         variables += `&var-${category.var2}=${category.subcat2}`
     }
-    getLeaderboard(category, `category/${category.id}`, variables, true)
+    let altGameID = false
+    if (['DLC Expert'].includes(categoryName)) {
+        altGameID = 'cuphead_category_extensions'
+    }
+    getLeaderboard(category, `category/${category.id}`, variables, true, altGameID)
 }
 function updateLoadouts(categoryName) {
     let HTMLContent = ''
     let fullgameCategories = []
-    if (fullgameILsCategory.name == 'NMG') {
-        fullgameCategories.push('NMG', 'NMG P/S')
-    } else if (fullgameILsCategory.name == 'DLC') {
-        fullgameCategories.push('DLC', 'DLC C/S')
+    if (fullgameILsCategory.name == 'DLC') {
+        fullgameCategories.push('DLC', 'DLC C/S', 'DLC C/T', 'DLC Low%', 'DLC C-less', 'DLC Expert')
     } else if (fullgameILsCategory.name == 'DLC+Base') {
         fullgameCategories.push('DLC+Base', 'DLC+Base C/S')
     }
     fullgameCategories.forEach(category => {
-        HTMLContent +=
-            `<div onclick="playSound('category_select');getFullgameILs('${category}')" class="button ${fullgameILsCategory.className} container ${categoryName == category ? 'active' : ''}">
-            <img src="images/cuphead/inventory/weapons/${fullgameILs[category].shot1}.png">
-            <img src="images/cuphead/inventory/weapons/${fullgameILs[category].shot2}.png">
-        </div>`
+        const thisCategory = fullgameILs[category]
+        HTMLContent += `<div onclick="playSound('category_select');getFullgameILs('${category}')" class="button ${fullgameILsCategory.className} container ${categoryName == category ? 'active' : ''}">`
+        HTMLContent += thisCategory.shot1 ? `<img src="images/cuphead/inventory/weapons/${thisCategory.shot1}.png">` : ''
+        HTMLContent += thisCategory.shot2 ? `<img src="images/cuphead/inventory/weapons/${thisCategory.shot2}.png">` : ''
+        HTMLContent += thisCategory.subcat ? thisCategory.subcat : ''
+        HTMLContent += `</div>`
     })
     document.getElementById('loadouts').innerHTML = HTMLContent
 }
@@ -236,9 +239,8 @@ function assignRuns(category, categoryIndex) {
         } else {
             thePlayer.extra = run
         }
-        const worldRecord = getWorldRecord(category)
         const runTime = run.score
-        run.percentage = getScore(category, worldRecord, runTime)
+        run.percentage = getScore(category, runTime)
         run.playerName = thePlayer.name
     })
 }
@@ -263,8 +265,7 @@ function generateRanks() {
                         let runCopy = { ...run }
                         const onePointOne = categories[0]
                         const onePointOneRun = player.runs[0]
-                        const onePointOneWR = getWorldRecord(onePointOne)
-                        runCopy.percentage = getScore(onePointOne, onePointOneWR, run.score)
+                        runCopy.percentage = getScore(onePointOne, run.score)
                         runCopy.place = runCopy.percentage >= 100 ? 1 : '-'
                         runCopy.first = false
                         runCopy.untied = false
@@ -275,7 +276,7 @@ function generateRanks() {
                             player.truePercentageSum += runCopy.percentage
                         } else if (player.runs[0].score > run.score) {
                             player.runs[0] = runCopy
-                            const oldScore = getScore(onePointOne, onePointOneWR, onePointOneRun.score)
+                            const oldScore = getScore(onePointOne, onePointOneRun.score)
                             const newOldScore = oldScore >= threshold || !good ? oldScore : threshold
                             player.percentageSum -= newOldScore * (1 / categories.length)
                             player.percentageSum += newScore * (1 / categories.length)
@@ -286,9 +287,8 @@ function generateRanks() {
                         const anyIndex = runIndex - 1
                         const any = categories[anyIndex]
                         const anyRun = player.runs[anyIndex]
-                        const anyWR = getWorldRecord(any)
-                        runCopy.percentage = getScore(any, anyWR, run.score)
-                        runCopy.place = runCopy.percentage >= 1 ? 1 : '-'
+                        runCopy.percentage = getScore(any, run.score)
+                        runCopy.place = runCopy.percentage >= 100 ? 1 : '-'
                         runCopy.first = false
                         runCopy.untied = false
                         if (!anyRun) {
@@ -297,7 +297,7 @@ function generateRanks() {
                             player.truePercentageSum += runCopy.percentage
                         } else if (player.runs[anyIndex].score > run.score) {
                             player.runs[anyIndex] = runCopy
-                            player.percentageSum -= getScore(any, anyWR, anyRun.score) * (1 / categories.length)
+                            player.percentageSum -= getScore(any, anyRun.score) * (1 / categories.length)
                             player.percentageSum += runCopy.percentage * (1 / categories.length)
                         }
                     }

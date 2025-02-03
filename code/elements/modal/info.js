@@ -1,5 +1,5 @@
 function modalInfo() {
-    let HTMLContent = `<img src='images/external/myekul.png' class='container' style='height:50px;width:50px'><div class='textBlock' style='font-family:"cuphead-memphis"'>`
+    let HTMLContent = `<img src='images/external/myekul.png' class='container' style='height:50px;width:50px'><div class='textBlock' style='font-family:"cuphead-memphis";padding-bottom:20px'>`
     HTMLContent += `Hello! My name is <span class='myekulColor'>myekul</span> and I am a Cuphead speedrunner and web developer.
         This is my <span class='myekulColor'>Combined Leaderboard</span> project, which is a tool that organizes and ranks players based on their overall domination of a game's leaderboards.
         <br>
@@ -20,7 +20,9 @@ function modalInfo() {
             <div class='textBox'><i class='fa fa-exclamation-triangle myekulColor'></i> If a player has a run score worse than
             ${scoreGradeSpan(getPercentage((categories.length - 1) / categories.length))}
              (<span class='myekulColor'>[# of categories - 1] / [# of categories]</span>),
-             but they have another run greater than that, then <span class='myekulColor'>their bad score will be forgiven</span>.</div>
+             but they have another run greater than that, then <span class='myekulColor'>their bad score will be forgiven</span>.
+            This logic ensures that submitting a bad run is better than having no submission at all.
+            </div>
 
             <br>After a player's run scores are determined, the average is calculated.
             <span class='myekulColor'>If a player is missing a run, they will recieve an overall score penalty</span>.

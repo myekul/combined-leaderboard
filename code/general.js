@@ -6,7 +6,7 @@ function getLetterGrade(percentage) {
     }
     return grades[grades.length - 1]
 }
-function secondsToHMS(seconds) {
+function secondsToHMS(seconds, exception) {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const secs = Math.floor(seconds % 60);
@@ -16,7 +16,7 @@ function secondsToHMS(seconds) {
     } else {
         HTMLContent = `${minutes}:${secs.toString().padStart(2, '0')}`;
     }
-    if (milliseconds && page != 'charts') {
+    if ((milliseconds && page != 'charts') || exception) {
         const ms = Math.floor((seconds % 1) * 1000)
         if (ms) {
             HTMLContent += `.<span style='font-size:75%'>${ms.toString().padStart(3, '0')}</span>`
@@ -90,9 +90,10 @@ function getColorClass() {
     }
     return gameID == 'cuphead' ? DLCnoDLC == 'dlc' ? 'dlc' : 'cuphead' : ''
 }
-function getScore(category, wrTime, runTime) {
+function getScore(category, runTime) {
+    const wrTime = getWorldRecord(category)
     let percentage = wrTime / runTime
-    if (gameID == 'cuphead' && mode == 'levels') {
+    if ((gameID == 'cuphead' && mode == 'levels')) {
         if (runTime > category.info.time) {
             percentage = 0
         } else {
@@ -181,6 +182,9 @@ function showTab(tab) {
     } else {
         WRsCupheadILsOptions.style.display = 'none'
     }
+    if (runRecapTime == 'XX:XX') {
+        document.getElementById('runRecap').innerHTML = modalRunRecap(true)
+    }
     action()
 }
 function action() {
@@ -211,22 +215,36 @@ function action() {
     updateCategories()
 }
 function pageAction() {
+    const pageTitle = document.getElementById('pageTitle')
     switch (page) {
         case 'leaderboard':
             generateLeaderboard();
-            break;
-        case 'charts':
-            refreshCharts();
-            break;
-        case 'map':
-            generateMap();
+            pageTitle.innerHTML = ''
             break;
         case 'WRs':
             generateWRs();
+            pageTitle.innerHTML = `<i class="fa fa-trophy"></i>&nbsp;&nbsp;World Records`
+            break;
+        case 'charts':
+            refreshCharts();
+            pageTitle.innerHTML = `<i class="fa fa-bar-chart"></i>&nbsp;&nbsp;Charts`
+            break;
+        case 'map':
+            generateMap();
+            pageTitle.innerHTML = `<i class="fa fa-flag"></i>&nbsp;&nbsp;Map`
             break;
         case 'sort':
             generateSort();
+            pageTitle.innerHTML = `<i class="fa fa-sort-amount-asc"></i>&nbsp;&nbsp;Sort`
             break;
+        case 'runRecap':
+            if (mode == 'fullgameILs') {
+                updateRunRecapAction()
+                pageTitle.innerHTML = `<i class="fa fa-history"></i>&nbsp;&nbsp;Run Recap`
+            } else {
+                showTab('leaderboard')
+            }
+            break
     }
 }
 function getAnchor(url) {
@@ -237,7 +255,7 @@ function getPlayerName(player) {
         const match = player.name.match(/\(([^)]+)\)/)
         player.name = match ? match[1] : player.name.slice(4)
     }
-    const HTMLContent = gameID != 'tetris' ? `<span style='background: linear-gradient(90deg, ${player['name-style'].color1}, ${player['name-style'].color2});-webkit-background-clip: text;color: transparent;'>${player.name}</span>` : player.name
+    const HTMLContent = player['name-style'] ? `<span style='background: linear-gradient(90deg, ${player['name-style'].color1}, ${player['name-style'].color2});-webkit-background-clip: text;color: transparent;'>${player.name}</span>` : player.name
     return HTMLContent
 }
 function getPlayerFlag(player, size) {

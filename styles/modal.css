@@ -71,7 +71,7 @@
 
 #modal-pages {
     position: absolute;
-    bottom: 2vh;
+    bottom: 0;
     margin: 0 auto;
     left: 50%;
     transform: translate(-50%, -50%);

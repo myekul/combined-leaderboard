@@ -81,9 +81,9 @@ function generateBoardTitle(extra, categoryIndex) {
     if (mode == 'fullgame' && fullgameCategory) {
         if (fullgameCategory == 'basegame') {
             HTMLContent += `<td class='cuphead'>Base Game</td>`
-        } else if(fullgameCategory=='currentPatch'){
+        } else if (fullgameCategory == 'currentPatch') {
             HTMLContent += `<td class='cuphead'>Current Patch</td>`
-        }else {
+        } else {
             HTMLContent += `<td class='${cuphead[fullgameCategory][0].className}'>${fullgameCategory}</td>`
         }
     }
@@ -105,12 +105,13 @@ function generateBoardTitle(extra, categoryIndex) {
         }
     }
     if (mode == 'fullgameILs') {
+        const shotSize = categoryIndex > -1 ? imgSize : 30
         HTMLContent += `<td class=${fullgameILsCategory.className}>${fullgameILsCategory.name}</td>`
-        HTMLContent +=
-            `<th id='fullgameILsWeapons' class='container'>
-                <img src="images/cuphead/inventory/weapons/${fullgameILsCategory.shot1}.png" style='height:${imgSize}px'></img>
-                <img src="images/cuphead/inventory/weapons/${fullgameILsCategory.shot2}.png" style='height:${imgSize}px'></img>
-            </th>`
+        HTMLContent += fullgameILsCategory.shot1 ? `<th id='fullgameILsWeapons' class='container'>` : ''
+        HTMLContent += fullgameILsCategory.shot1 ? `<img src="images/cuphead/inventory/weapons/${fullgameILsCategory.shot1}.png" style='height:${shotSize}px'></img>` : ''
+        HTMLContent += fullgameILsCategory.shot2 ? `<img src="images/cuphead/inventory/weapons/${fullgameILsCategory.shot2}.png" style='height:${shotSize}px'></img>` : ''
+        HTMLContent += fullgameILsCategory.subcat ? `<td>${fullgameILsCategory.subcat}</td>` : ''
+        HTMLContent += fullgameILsCategory.shot1 ? `</th>` : ''
     }
     if (page == 'charts' && sortCategoryIndex == -1 && mode != 'fullgameILs') {
         HTMLContent += `<td class='banner'>Player Score</td>`

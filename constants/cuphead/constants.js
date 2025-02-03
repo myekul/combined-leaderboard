@@ -174,6 +174,20 @@ const cuphead = {
         }
     ]
 }
+const dlcExpert = {
+    name: 'DLC Expert',
+    className: 'dlc',
+    id: '5dwv7g5k',
+}
+const dlcLow = {
+    name: 'DLC Low%',
+    className: 'dlc',
+    id: '7kjl0wz2',
+    var: 'wl3ddqo8',
+    subcat: '8104dd5l',
+    var2: 'wl3d6vw8',
+    subcat2: '21gmr461'
+}
 const cuphead100 = [
     {
         name: 'Full Clear 1.1+',
@@ -263,8 +277,9 @@ const fullgameILs = {
         name: '1.1+',
         tabName: '1.1+',
         className: 'onePointOne',
-        range: 'C:H',
-        index: 0,
+        range: 'C:L',
+        category: cuphead['main'][0],
+        numRuns: 3,
         shot1: 'lobber',
         shot2: 'spread'
     },
@@ -272,28 +287,20 @@ const fullgameILs = {
         name: 'Legacy',
         tabName: '1.0',
         className: 'legacy',
-        range: 'C:H',
-        index: 1,
+        range: 'C:I',
+        category: cuphead['main'][1],
+        numRuns: 3,
         shot1: 'lobber',
         shot2: 'roundabout'
     },
-    // NMG
     NMG: {
         name: 'NMG',
         tabName: 'NMG',
         className: 'nmg',
-        range: 'C:H',
-        index: 2,
+        range: 'C:K',
+        category: cuphead['main'][2],
+        numRuns: 3,
         shot1: 'lobber',
-        shot2: 'spread'
-    },
-    'NMG P/S': {
-        name: 'NMG',
-        tabName: 'NMG P/S',
-        className: 'nmg',
-        range: 'C:H',
-        index: 2,
-        shot1: 'peashooter',
         shot2: 'spread'
     },
     // DLC
@@ -301,27 +308,70 @@ const fullgameILs = {
         name: 'DLC',
         tabName: 'DLC',
         className: 'dlc',
-        range: 'C:I',
-        index: 3,
+        range: 'C1:L6',
+        category: cuphead['main'][3],
+        numRuns: 3,
         shot1: 'lobber',
         shot2: 'spread'
     },
     'DLC C/S': {
         name: 'DLC',
-        tabName: 'DLC+Base C/S',
+        tabName: 'DLC C/S',
         className: 'dlc',
-        range: 'C1:H6',
-        index: 3,
+        range: 'C1:K6',
+        category: cuphead['main'][3],
+        numRuns: 3,
+        players: ['Quincely0', 'myekul', 'Kirthar'],
         shot1: 'charge',
         shot2: 'spread'
+    },
+    'DLC C/T': {
+        name: 'DLC',
+        tabName: 'DLC C/T',
+        className: 'dlc',
+        range: 'C1:I6',
+        category: cuphead['main'][3],
+        numRuns: 1,
+        players: ['myekul'],
+        shot1: 'charge',
+        shot2: 'twistup'
+    },
+    'DLC Low%': {
+        name: 'DLC',
+        tabName: 'DLC Low%',
+        className: 'dlc',
+        range: 'C1:K6',
+        category: dlcLow,
+        numRuns: 3,
+        shot1: 'peashooter'
+    },
+    'DLC C-less': {
+        name: 'DLC',
+        tabName: 'DLC C-less',
+        className: 'dlc',
+        range: 'C1:I6',
+        category: cuphead['main'][3],
+        numRuns: 1,
+        players: ['Quincely0'],
+        subcat: 'C-less'
+    },
+    'DLC Expert': {
+        name: 'DLC',
+        tabName: 'DLC E',
+        className: 'dlc',
+        range: 'C1:H6',
+        category: dlcExpert,
+        numRuns: 3,
+        subcat: 'Expert'
     },
     // DLC+Base
     'DLC+Base': {
         name: 'DLC+Base',
         tabName: 'DLC+Base',
         className: 'dlcbase',
-        range: 'C:I',
-        index: 4,
+        range: 'C:J',
+        category: cuphead['main'][4],
+        numRuns: 1,
         shot1: 'lobber',
         shot2: 'spread'
     },
@@ -329,8 +379,10 @@ const fullgameILs = {
         name: 'DLC+Base',
         tabName: 'DLC+Base C/S',
         className: 'dlcbase',
-        range: 'C:H',
-        index: 4,
+        range: 'C1:K25',
+        category: cuphead['main'][4],
+        numRuns: 3,
+        players: ['Jason2890', 'Kirthar', 'Quincely0'],
         shot1: 'charge',
         shot2: 'spread'
     },

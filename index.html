@@ -42,6 +42,10 @@
                     across each
                     category
                 </div>
+                <div id='loading' style='position:absolute;right:40px;top:85px;color:var(--bannerText)'>
+                    <div>Loading API...</div>
+                    <!-- <div id="loadingText"></div> -->
+                </div>
             </div>
         </header>
         <main>
@@ -79,10 +83,16 @@
                         <div id='sortButton' class='button' onclick="showTab('sort')"><i
                                 class="fa fa-sort-amount-asc"></i>
                         </div>
+                        <div id="runRecapSection" class='container' style="display:none">
+                            <div class='container' style='width:15px;margin:0'>&#8226;</div>
+                            <div id='runRecapButton' class='button onePointOne'
+                                onclick="if(mode!='fullgameILs'){getFullgameILs()};showTab('runRecap')"><i
+                                    class="fa fa-history"></i></div>
+                        </div>
                     </div>
-                    <div id='loading' style='position:absolute;right:40px'>
-                        <div>Loading API...</div>
-                        <!-- <div id="loadingText"></div> -->
+                    <div id='runRecapBigButton' onclick="openModal('runRecap','up')"
+                        class="clickable onePointOne container" style="display:none"><i
+                            class="fa fa-history"></i>&nbsp;Run Recap
                     </div>
                 </div>
                 <div class="progress-container bigShadow">
@@ -194,8 +204,8 @@
                         </div>
                         <div id='ground' onclick="getGroundPlane('ground')" class="button"><img id='groundimg'></div>
                         <div id='plane' onclick="getGroundPlane('plane')" class="button"><img id='planeimg'></div>
-                        <div id='allLevels' onclick="getAllLevels()" class='button gray'
-                            style="width:50px;margin-left:10px">All
+                        <div id='allLevels' onclick="getAllLevels()" class='button onePointOne'
+                            style="color:white;width:50px;margin-left:10px">All
                         </div>
                     </div>
                 </div>
@@ -229,7 +239,9 @@
                 <div id="loadouts" class="container"></div>
             </div>
             <!-- Board Title -->
-            <div id="boardTitleDiv" class="container sticky" style="margin-top:10px">
+            <div id="pageTitle" class="container" style="font-family: var(--font2);font-size:200%;padding-top:5px">
+            </div>
+            <div id="boardTitleDiv" class="container sticky">
                 <input id="checkbox_isolate" type="checkbox" style="display:none">
                 <div id="boardTitle" class="container" style="margin:0"></div>
                 <div id='closeBoardTitle' class='clickable' style='display:none;padding-left:10px'
@@ -396,6 +408,19 @@
                     </div>
                 </div>
             </div>
+            <!-- Run Recap -->
+            <div id="runRecapTab" class="tabs" style="display:none">
+                <div id="runRecapOptions" class="container options">
+                    <input id='checkbox_runRecap_harsh' onclick="action()" type="checkbox">Harsh Grading
+                </div>
+                <div id="runRecap">
+                    <div id='runRecapBigButton2' onclick="openModal('runRecap','up')"
+                        class="clickable onePointOne container" style="width: 120px !important;
+                        height: 25px;
+                        border-radius: 15px;"><i class="fa fa-history"></i>&nbsp;Run Recap
+                    </div>
+                </div>
+            </div>
             <div id="modal" class="modal">
                 <div id="modal-content">
                     <div id="modal-header">
@@ -433,6 +458,8 @@
     <script src="code/elements/modal/modal.js"></script>
     <script src="code/elements/modal/reportCard.js"></script>
     <script src="code/elements/modal/info.js"></script>
+    <script src="code/elements/modal/runRecap.js"></script>
+
     <script src="code/elements/boardtitle.js"></script>
 
     <script src="constants/cuphead/constants.js"></script>

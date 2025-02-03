@@ -410,3 +410,30 @@ const bossHP = {
     estherwinchester: [2250, 2850, 3200],
     chefsaltbaker: [0, 1500, 1700]
 };
+const bossIDs = {
+    therootpack: 6,
+    goopylegrande: 1450863107,
+    hildaberg: 1449745424,
+    cagneycarnation: 1450266910,
+    ribbyandcroaks: 7,
+    baronessvonbonbon: 1451300935,
+    beppitheclown: 1456125457,
+    djimmithegreat: 1460200177,
+    grimmatchstick: 1432722919,
+    wallywarbles: 1428495827,
+    rumorhoneybottoms: 1429976377,
+    captainbrineybeard: 2,
+    sallystageplay: 1456740288,
+    wernerwerman: 1430652919,
+    drkahlsrobot: 1452935394,
+    calamaria: 1446558823,
+    phantomexpress: 5,
+    kingdice: 1465296077,
+    thedevil: 1466688317,
+    glumstonethegiant: 1523429320,
+    moonshinemob: 1518081307,
+    thehowlingaces: 1511943573,
+    mortimerfreeze: 1527591209,
+    estherwinchester: 1530096313,
+    chefsaltbaker: 1573044456
+};

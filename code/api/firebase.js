@@ -108,7 +108,7 @@ window.firebaseUtils = {
             }
             resetAndGo()
             const categoriesCopy = [...categories]
-            console.log(JSON.stringify(categoriesCopy)) // JSON
+            // console.log(JSON.stringify(categoriesCopy)) // JSON
         } catch (error) {
             console.error("Error fetching documents: ", error)
         }

@@ -71,25 +71,24 @@ function getAllLevels() {
     sortCategoryIndex = -1
     categories = []
     disableLevelModes()
-    document.getElementById('allLevels').classList.add('selected')
     allILs = true
     buttonClick('allLevels', 'difficultyTabs', 'selected')
     resetLoad()
     updateILbosses()
-    if (firstTime) {
-        fetch('https://gist.githubusercontent.com/myekul/a62e824b667fd6f37b9881f397263f66/raw/c68dfac4c810172a21229d55b4194de090361f35/allLevels.json')
-            .then(response => response.json())
-            .then(data => {
-                categories = data
-                resetAndGo()
-                completeLoad()
-            })
-        firstTime = false;
-        const boardTitleSrc = document.getElementById('boardTitleSrc')
-        boardTitleSrc.innerHTML = `<div style='font-size:16px;padding-bottom:5px'>{ }</div>`
-    } else {
+    // if (firstTime) {
+    //     fetch('https://gist.githubusercontent.com/myekul/a62e824b667fd6f37b9881f397263f66/raw/c68dfac4c810172a21229d55b4194de090361f35/allLevels.json')
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             categories = data
+    //             resetAndGo()
+    //             completeLoad()
+    //         })
+    //     firstTime = false;
+    //     const boardTitleSrc = document.getElementById('boardTitleSrc')
+    //     boardTitleSrc.innerHTML = `<div style='font-size:16px;padding-bottom:5px'>{ }</div>`
+    // } else {
         window.firebaseUtils.firestoreRead25()
-    }
+    // }
 }
 function getDifficulty(difficulty) {
     levelDifficulty = difficulty

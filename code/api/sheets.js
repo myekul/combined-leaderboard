@@ -88,14 +88,15 @@ function fetchCuphead() {
         players.forEach(player => {
             player.runs = new Array(categories.length).fill(0)
         })
+        const numRuns = fullgameILsCategory.numRuns
         categories.forEach((category, categoryIndex) => {
             category.difficulty = 'regular'
             if (values[categoryIndex]) {
                 if (values[categoryIndex].values) {
-                    if (values[categoryIndex].values[0]) {
-                        const rawTime = values[categoryIndex].values[0].userEnteredValue?.numberValue
+                    if (values[categoryIndex].values[numRuns]) {
+                        const rawTime = values[categoryIndex].values[numRuns].userEnteredValue?.numberValue
                         const time = convertToSeconds(secondsToHMS(Math.round(rawTime * 24 * 60)))
-                        values[categoryIndex].values.slice(1).forEach(column => {
+                        values[categoryIndex].values.slice(numRuns + 1).forEach(column => {
                             // console.log(column.userEnteredValue.formulaValue)
                             let playerName = column.userEnteredValue.formulaValue.split(',')[1].trim().slice(1).split('"')[0]
                             const link = column.userEnteredValue.formulaValue.slice(12).split('"')[0]
@@ -109,9 +110,28 @@ function fetchCuphead() {
                         })
                     }
                 }
-
             }
         })
+        if (!fullgameILsCategory.runs) {
+            fullgameILsCategory.runs = new Array(numRuns).fill().map(() => [])
+            categories.forEach((category, categoryIndex) => {
+                for (let i = 0; i < numRuns; i++) {
+                    const rawTime = values[categoryIndex].values[i].userEnteredValue?.numberValue
+                    const time = convertToSeconds(secondsToHMS(Math.round(rawTime * 24 * 60)))
+                    fullgameILsCategory.runs[i].push(time)
+                }
+            })
+            fullgameILsCategory.top3 = []
+            fullgameILsCategory.humanTheory = []
+            categories.forEach((category, categoryIndex) => {
+                let levelSum = 0
+                fullgameILsCategory.runs.forEach(run => {
+                    levelSum += run[categoryIndex]
+                })
+                fullgameILsCategory.top3.push(levelSum / numRuns)
+                fullgameILsCategory.humanTheory.push((levelSum + categories[categoryIndex].runs[0].score) / (numRuns + 1))
+            })
+        }
         completeLoad()
         prepareData()
         gapi.client.sheets.spreadsheets.get({

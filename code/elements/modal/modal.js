@@ -34,6 +34,8 @@ function openModal(param, sound) {
     });
     const modalTitle = document.getElementById('modal-title')
     const modalBody = document.getElementById('modal-body')
+    const modalPlayer = document.getElementById('modal-player')
+    modalPlayer.innerHTML = ''
     if (playerModal) {
         document.addEventListener("keydown", modalKeyPress);
         globalPlayerIndex = param
@@ -68,7 +70,7 @@ function openModal(param, sound) {
         const boardTitle = generateBoardTitle(2)
         HTMLContent += boardTitle ? `<div class='modalBoardTitle' style='padding-left:20px'>${boardTitle}</div>` : ''
         HTMLContent += `</div>`
-        document.getElementById('modal-player').innerHTML = HTMLContent
+        modalPlayer.innerHTML = HTMLContent
         let modalPageNames = ['reportCard', 'runDetails', 'gradeTable', 'scoreBreakdown']
         if (mode == 'fullgameILs') {
             modalPageNames.slice(0, 2)
@@ -106,8 +108,10 @@ function openModal(param, sound) {
     } else if (param == 'info') {
         globalPlayerIndex = -1
         modalTitle.innerText = 'INFO'
-        document.getElementById('modal-player').innerHTML = ''
         modalBody.innerHTML = modalInfo()
+    } else if (param == 'runRecap') {
+        modalTitle.innerText = 'RUN RECAP'
+        modalBody.innerHTML = modalRunRecap()
     } else {
         globalPlayerIndex = -1
         modalTitle.innerText = 'COUNTRY'
@@ -300,7 +304,7 @@ function scoreBreakdown(player) {
     }
     HTMLContent += `</table></div>`
     HTMLContent += `<div class='textBlock'>${player.explanation}</div>`
-    HTMLContent += `<div class='container'>${displayLetterScore(player.score)}</div>`
+    HTMLContent += `<div class='container' style='padding-top:15px'>${displayLetterScore(player.score)}</div>`
     return HTMLContent
 }
 function getCategoryHeader(category) {

@@ -28,6 +28,9 @@ let sm64ILsSection
 let extraCategory = {}
 let countries = {}
 let globalCountryName
+let runRecapFile
+let runRecapPlayerName
+let runRecapTime = 'XX:XX'
 
 // Big 5
 let allILs = true
@@ -133,6 +136,7 @@ switch (gameID) {
     case 'cuphead':
         document.getElementById('fullgameILsButton').style.display = '';
         document.getElementById('modeSelection').style.display = '';
+        document.getElementById('runRecapBigButton').style.display = ''
         break;
     case 'sm64':
         title.innerText = 'SM64 Leaderboard';
