@@ -56,8 +56,6 @@ function sortLogic(run, sortRange) {
 }
 function sortRuns(sortRange) {
     const sortCriteria = document.getElementById('dropdown_sortCriteria').value
-    const numRuns = sortRange == 'top100' ? 100 : 300
-    const everyRun = []
     let minDate = new Date().getFullYear()
     const sortDateOptions = document.getElementById('sortDateOptions')
     if (sortCriteria == 'date') {
@@ -72,24 +70,8 @@ function sortRuns(sortRange) {
             })
         })
     }
-    players.slice(0, numRuns).forEach((player, playerIndex) => {
-        if (sortCategoryIndex == -1) {
-            player.runs.forEach((run, runIndex) => {
-                if (run) {
-                    if (sortLogic(run, sortRange)) {
-                        everyRun.push({ run: run, playerIndex: playerIndex, categoryIndex: runIndex })
-                    }
-                }
-            })
-        } else {
-            const run = player.runs[sortCategoryIndex]
-            if (run) {
-                if (sortLogic(run, sortRange)) {
-                    everyRun.push({ run: run, playerIndex: playerIndex, categoryIndex: sortCategoryIndex })
-                }
-            }
-        }
-    })
+    const numRuns = sortRange == 'top100' ? 100 : 300
+    const everyRun = getEveryRun(numRuns, sortRange)
     if (sortCriteria == 'dps') {
         assignHP()
     }
@@ -143,7 +125,7 @@ function sortRuns(sortRange) {
                 const date = new Date(run.run.date)
                 const date2 = new Date(everyRun[runIndex + 1]?.run.date)
                 if (date2?.getFullYear() > 1969) {
-                    const dateDif = (date - date2) / (100 * 60 * 60 * 24) / 10
+                    const dateDif = getDateDif(date, date2)
                     HTMLContent += `<td>${dateDif}</td>`
                 } else {
                     HTMLContent += `<td></td>`

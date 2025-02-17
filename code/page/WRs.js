@@ -66,7 +66,7 @@ function WRsCategoryDisplay(category, categoryIndex) {
     HTMLContent += `<tr class='${getRowColor(categoryIndex)}'>`
     HTMLContent += `<td class='${className}' style='text-align:left;font-weight:bold'>${category.name}</td>`
     if (category.info) {
-        HTMLContent += `<td style='padding:0' class='${className}'>${getImage(category.info.id, 21)}</td>`
+        HTMLContent += `<td style='padding:0' class='${className} container'>${getImage(category.info.id, 25)}</td>`
     }
     return HTMLContent
 }

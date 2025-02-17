@@ -7,19 +7,11 @@
     <link rel="stylesheet" href="styles/grades.css">
     <link rel="stylesheet" href="styles/modal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link id='favicon' rel="shortcut icon" href="">
-    <title>Cuphead Leaderboard</title>
+    <link id='favicon' rel="shortcut icon" href='images/external/myekul.png'>
+    <title>Combined Leaderboard</title>
     <script src="https://apis.google.com/js/api.js"></script>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <audio id="cardup" src="sfx/cardup.wav"></audio>
-    <audio id="carddown" src="sfx/carddown.wav"></audio>
-    <audio id="cardflip" src="sfx/cardflip.wav"></audio>
-    <audio id="category_select" src="sfx/category_select.wav"></audio>
-    <audio id="equip_move" src="sfx/equip_move.wav"></audio>
-    <audio id="locked" src="sfx/locked.wav"></audio>
-    <audio id="move" src="sfx/move.wav"></audio>
-    <audio id="ready" src="sfx/ready.wav"></audio>
 </head>
 
 <body>
@@ -30,19 +22,19 @@
                     <img class='gameIcon'>
                     <div>
                         <img id='gameLogo' class='container' style="height:50px;width:auto">
-                        <h1 id='gameTitle' class='container'
-                            style="position:absolute;left:50%;transform: translate(-50%, -45px)"></h1>
-                        <h1 id='subtitle' style="font-size:150%;transform: translate(0px, -20px);text-align: center;">
+                        <div id='gameTitle' class='container'
+                            style="font-size:170%;position:absolute;left:50%;transform: translate(-50%, -35px)"></div>
+                        <div id='subtitle' style="font-size:150%;text-align: center;font-family:var(--font2)">
                             COMBINED LEADERBOARD
-                        </h1>
+                        </div>
                     </div>
                     <img class='gameIcon'>
                 </div>
-                <div id='titleDesc' class='container' style="transform: translate(0px, -20px)">The best overall players
+                <div id='titleDesc' class='container' style="transform: translate(0px, -3px)">The best overall players
                     across each
                     category
                 </div>
-                <div id='loading' style='position:absolute;right:40px;top:85px;color:var(--bannerText)'>
+                <div id='loading' style='position:absolute;right:40px;top:10px;color:var(--bannerText)'>
                     <div>Loading API...</div>
                     <!-- <div id="loadingText"></div> -->
                 </div>
@@ -76,6 +68,8 @@
                         </div>
                         <div id='WRsButton' class='button' onclick="showTab('WRs')"><i class="fa fa-trophy"></i></div>
                         <div class='container' style='width:15px;margin:0'>&#8226;</div>
+                        <div id='featuredButton' class='button' onclick="showTab('featured')"><i class="fa fa-star"></i>
+                        </div>
                         <div id='chartsButton' class='button' onclick="showTab('charts')"><i
                                 class="fa fa-bar-chart"></i>
                         </div>
@@ -83,16 +77,10 @@
                         <div id='sortButton' class='button' onclick="showTab('sort')"><i
                                 class="fa fa-sort-amount-asc"></i>
                         </div>
-                        <div id="runRecapSection" class='container' style="display:none">
-                            <div class='container' style='width:15px;margin:0'>&#8226;</div>
-                            <div id='runRecapButton' class='button onePointOne'
-                                onclick="if(mode!='fullgameILs'){getFullgameILs()};showTab('runRecap')"><i
-                                    class="fa fa-history"></i></div>
+                        <div id='runRecapButton' onclick="if(mode!='fullgameILs'){getFullgameILs()};showTab('runRecap')"
+                            class="onePointOne button" style="display:none;font-size:100%"><i
+                                class="fa fa-history"></i>&nbsp;Run Recap
                         </div>
-                    </div>
-                    <div id='runRecapBigButton' onclick="openModal('runRecap','up')"
-                        class="clickable onePointOne container" style="display:none"><i
-                            class="fa fa-history"></i>&nbsp;Run Recap
                     </div>
                 </div>
                 <div class="progress-container bigShadow">
@@ -311,6 +299,10 @@
                     <div id="WRsInfo"></div>
                 </div>
             </div>
+            <!-- Featured -->
+            <div id="featuredTab" class="tabs hide" style="display:none">
+                <div id="featured"></div>
+            </div>
             <!-- Charts -->
             <div id="chartsTab" class="tabs hide" style="display:none">
                 <div id='chartOptions' class="container options" style="display:none">
@@ -413,14 +405,60 @@
                 <div id="runRecapOptions" class="container options">
                     <input id='checkbox_runRecap_harsh' onclick="action()" type="checkbox">Harsh Grading
                 </div>
-                <div id="runRecap">
-                    <div id='runRecapBigButton2' onclick="openModal('runRecap','up')"
-                        class="clickable onePointOne container" style="width: 120px !important;
-                        height: 25px;
-                        border-radius: 15px;"><i class="fa fa-history"></i>&nbsp;Run Recap
+                <div id="runRecapStart">
+                    <div class='container'>
+                        <div class='textBlock'>
+                            Welome to <span class='myekulColor'>Run Recap</span>! This tool allows you to upload a
+                            Cuphead
+                            .sav file to gain valuable insights about your recent run performance.
+                            To get started, <span class='myekulColor'>choose a category above</span> and insert your
+                            <span class='myekulColor'>run time</span> and <span class='myekulColor'>username</span>:
+                        </div>
                     </div>
+                    <br>
+                    <div class='container' style='padding-bottom:10px;gap:20px'>
+                        <input id='input_runRecap_time' type='text' placeholder='XX:XX'
+                            style='display:none;width:65px;font-size:100%'>
+                        <div id='runRecap_time' onclick="hideRunRecap('time')" class='container clickable'
+                            style='margin:0;gap:8px'>
+                            <div style='font-size:150%'>XX:XX</div>
+                            <div style='font-size:160%'><i class='fa fa-edit'></i></div>
+                        </div>
+                        <input id='input_runRecap_player' type='text' placeholder='Your SRC username'
+                            style='display:none;width:200px;font-size:100%'>
+                        <div id='runRecap_player' onclick="hideRunRecap('player')" class='container clickable'
+                            style='margin:0;gap:8px'>Your username...<div style='font-size:160%'><i
+                                    class='fa fa-edit'></i></div>
+                        </div>
+                    </div>
+                    <div class='container' style="gap:4px">
+                        <input type='file' id='runRecapInput' onchange="runRecap(event)" style='display:none'>
+                        <div id='runRecapBack' onclick="runRecapDisplay()" class='button cuphead'
+                            style="display:none;width:40px"><i class="fa fa-reply"></i>
+                        </div>
+                        <div onclick="document.getElementById('runRecapInput').click()" class='button cuphead'>Upload
+                            file
+                        </div>
+                        <div onclick="playSound('move');toggleVisibility('runRecapInfo')" class='clickable'><i
+                                class='fa fa-info-circle'></i></div>
+                    </div>
+                    <div id='runRecapInfo' style='display:none;padding-bottom:10px'>
+                        <div class='container'>
+                            <div>
+                                SAVE FILE LOCATIONS:
+                                <br>Windows: <span class='myekulColor'>C:\\Users\\<span
+                                        class='runRecapInfoName'>${playerName}</span>\\AppData\\Roaming\\Cuphead</span>
+                                <br>Mac: <span class='myekulColor'>/Users/<span
+                                        class='runRecapInfoName'>${playerName}</span>/Library/Application\\
+                                    Support/unity.Studio\\ MDHR.Cuphead/Cuphead</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id='runRecapError' style='display:none'>Error!</div>
                 </div>
+                <div id="runRecap"></div>
             </div>
+            <!-- Modal -->
             <div id="modal" class="modal">
                 <div id="modal-content">
                     <div id="modal-header">
@@ -458,7 +496,6 @@
     <script src="code/elements/modal/modal.js"></script>
     <script src="code/elements/modal/reportCard.js"></script>
     <script src="code/elements/modal/info.js"></script>
-    <script src="code/elements/modal/runRecap.js"></script>
 
     <script src="code/elements/boardtitle.js"></script>
 
@@ -470,10 +507,12 @@
     <script src="constants/smb.js"></script>
 
     <script src="code/page/leaderboard.js"></script>
+    <script src="code/page/WRs.js"></script>
+    <script src="code/page/featured.js"></script>
     <script src="code/page/chart.js"></script>
     <script src="code/page/map.js"></script>
-    <script src="code/page/WRs.js"></script>
     <script src="code/page/sort.js"></script>
+    <script src="code/page/runRecap.js"></script>
 
     <script src="code/cupheadLevels.js"></script>
 

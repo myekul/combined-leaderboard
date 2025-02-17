@@ -3,13 +3,13 @@ function modalInfo() {
     HTMLContent += `Hello! My name is <span class='myekulColor'>myekul</span> and I am a Cuphead speedrunner and web developer.
         This is my <span class='myekulColor'>Combined Leaderboard</span> project, which is a tool that organizes and ranks players based on their overall domination of a game's leaderboards.
         <br>
-    <br><div class='hText'>Controls</div>
+    ${infoTitle('Controls')}
     <br>-Use left and right arrow keys to switch between categories.
     <br>-Click on a player's name to view their report card!
     <br>-Use arrow keys to navigate between player stats.
     <br>`
     if (mode != 'fullgameILs' && !(gameID == 'cuphead' && mode == 'levels')) {
-        HTMLContent += `<br><div class='hText'>How it works</div>
+        HTMLContent += `${infoTitle('How it works')}
             <br>Each player recieves an overall score (out of 100) and a letter grade, which are determined by a few things.
             First, to calculate a given run score (0-100), <span class='myekulColor'>the world record is divided by the run time</span>.
             <br><br>
@@ -43,8 +43,11 @@ function modalInfo() {
             HTMLContent += `</div>`
         }
     }
-    HTMLContent += `<br><div class='hText'>Services Used</div>
-        ${infoExternal('src')} clickable' style='text-decoration:underline'>${getAnchor('https://github.com/speedruncomorg/api')}Speedrun.com API</a></span>&nbspis used to extract data from the SRC database.
+    HTMLContent += infoTitle('Disclaimer')
+    HTMLContent += `<br>Overall player rank calculation can be a very subjective thing. This website was made for fun, and may not reflect the actual skill levels of each player.
+    <br>`
+    HTMLContent += infoTitle('Services Used')
+    HTMLContent += `${infoExternal('src')} clickable' style='text-decoration:underline'>${getAnchor('https://github.com/speedruncomorg/api')}Speedrun.com API</a></span>&nbspis used to extract data from the SRC database.
         ${infoExternal('sheets')}'>Google Sheets API</span>&nbspis used to extract data from spreadsheets.
         ${infoExternal('firebase')}'>Firebase API</span>&nbspis used to cache and organize data from SRC.
         ${infoExternal('youtube')}'>YouTube API</span>&nbspis used to retrieve video statistics.
@@ -55,6 +58,9 @@ function modalInfo() {
         It is also ad-free, nonprofit, and costs $0 to use, host, and maintain. Enjoy!`
     HTMLContent += `</div>`
     return HTMLContent
+}
+function infoTitle(title) {
+    return `<br><div style='font-family: var(--font2);font-size: 140%;color: var(--bannerText);padding: 0 10px;background-color: var(--banner);border-radius: 5px;'>${title}</div>`
 }
 function infoExample() {
     const categoryIndex = getRandomNumber(0, categories.length - 1)
@@ -70,14 +76,10 @@ function infoExample() {
     playerIndex--
     const examplePlayer = playersCopy[getRandomNumber(1, playerIndex)]
     const exampleRun = examplePlayer.runs[categoryIndex]
-    const WRholder = playersCopy[0]
-    return `e.g. For ${category.name}, ${getPlayerName(examplePlayer)} has a ${tetrisCheck(category, exampleRun.score)} and ${getPlayerName(WRholder)} has a ${tetrisCheck(category, getWorldRecord(category))}.
+    const WRholder = getPlayerName(playersCopy[0])
+    return `e.g. For ${categorySpan(category)}, ${getPlayerName(examplePlayer)} has a ${tetrisCheck(category, exampleRun.score)} and ${WRholder} has a ${tetrisCheck(category, getWorldRecord(category))}.
     <br>The calculation would be ${tetrisCheck(category, getWorldRecord(category))} / ${tetrisCheck(category, exampleRun.score)}.
     <br>${getPlayerName(examplePlayer)} would recieve ${scoreGradeSpan(exampleRun.percentage)} for this category.`
-}
-function scoreGradeSpan(percentage) {
-    const grade = getLetterGrade(percentage)
-    return `<span class='${grade.className}' style='border-radius:5px;padding:0 5px'>${displayPercentage(percentage)}% (${grade.grade})</span>`
 }
 function generateInfoExample() {
     playSound('move')

@@ -45,6 +45,9 @@ function findMode(arr) {
             modes.push(secondsToHMS(num));
         }
     }
+    if (modes.length == arr.length) {
+        return '-'
+    }
     return modes.join(', ');
 }
 function findStandardDeviation(arr) {

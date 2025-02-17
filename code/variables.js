@@ -4,7 +4,7 @@ let playerNames = new Set()
 let players = []
 let categories = []
 
-let fullgameILsCategory
+let fullgameILsCategory = fullgameILs['1.1+']
 let modalIndex = 0
 let globalPlayerIndex = -1
 
@@ -136,61 +136,32 @@ switch (gameID) {
     case 'cuphead':
         document.getElementById('fullgameILsButton').style.display = '';
         document.getElementById('modeSelection').style.display = '';
-        document.getElementById('runRecapBigButton').style.display = ''
+        document.getElementById('runRecapButton').style.display = ''
         break;
     case 'sm64':
-        title.innerText = 'SM64 Leaderboard';
         document.getElementById('modeSelection').style.display = '';
         break;
     case 'tetris':
         subtitle.innerText = 'PACE ACADEMY';
-        title.innerText = 'Tetris Pace Academy';
         document.getElementById('optionsButton').style.display = 'none';
+        document.getElementById('featuredButton').style.display = 'none';
         document.getElementById('mapButton').style.display = 'none';
         const github = document.getElementById('github');
         github.style.filter = 'brightness(0) invert(1)';
         break;
-    case 'titanfall_2':
-        title.innerText = 'Titanfall 2 Leaderboard';
-        break;
     case 'smb1':
-        title.innerText = 'SMB Leaderboard';
         document.getElementById('checkbox_milliseconds').checked = true;
         break;
     case 'smbtll':
-        title.innerText = 'SMB:TLL Leaderboard';
         document.getElementById('checkbox_milliseconds').checked = true;
         break;
-    case 'smb2':
-        title.innerText = 'SMB2 Leaderboard';
-        break;
-    case 'smb3':
-        title.innerText = 'SMB3 Leaderboard';
-        break;
-    case 'nsmbds':
-        title.innerText = 'NSMB Leaderboard';
-        break;
     case 'nsmbw':
-        title.innerText = 'NSMBW Leaderboard';
         document.getElementById('modeSelection').style.display = '';
-        break;
-    case 'mtpo':
-        title.innerText = 'Punch Out!! Leaderboard';
-        break;
-    case 'sms':
-        title.innerText = 'SMS Leaderboard';
-        break;
-    case 'smo':
-        title.innerText = 'SMO Leaderboard';
-        break;
-    default:
-        console.warn('Unknown gameID:', gameID);
         break;
 }
 if (['tetris', 'smb1', 'smbtll', 'smb2', 'smb3'].includes(gameID)) {
-    document.documentElement.style.setProperty('--font', 'pressStart2P');
-    document.documentElement.style.setProperty('--font2', 'pressStart2P');
-    document.body.style.fontSize = '14px'
+    header.style.fontFamily = 'pressStart2P';
+    subtitle.style.fontFamily = 'pressStart2P'
     if (['smb2', 'smb3'].includes(gameID)) {
         gameLogo.src = ''
         const gameTitle = document.getElementById('gameTitle')
@@ -209,14 +180,14 @@ if (['tetris', 'smb1', 'smbtll', 'smb2', 'smb3'].includes(gameID)) {
         subtitle.style.padding = '10px 0'
     }
     gameIcons.forEach(gameIcon => {
-        gameIcon.style.marginBottom = '27px'
+        gameIcon.style.marginBottom = '8px'
     })
 }
 if (['sm64', 'sms', 'smo', 'nsmbds', 'nsmbw'].includes(gameID)) {
     gameLogo.style.height = '80px'
     header.style.height = '130px'
 }
-document.getElementById('favicon').href = `images/favicon/${gameID}.png`
+// document.getElementById('favicon').href = `images/favicon/${gameID}.png`
 const grades = [
     { grade: 'A+', className: 'grade-a-plus', threshold: 97 },
     { grade: 'A', className: 'grade-a', threshold: 93 },

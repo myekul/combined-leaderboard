@@ -1,6 +1,22 @@
 google.charts.load('current', { packages: ['corechart'] });
 document.addEventListener('DOMContentLoaded', function () {
     refreshLeaderboard()
+    let audioNames = []
+    if (gameID == 'cuphead') {
+        audioNames = ['cardup', 'carddown', 'cardflip', 'category_select', 'equip_move', 'locked', 'move', 'ready', 'win_time_loop', 'win_time_loop_end']
+    }
+    if (gameID == 'smb3') {
+        audioNames = ['cardup', 'carddown', 'locked', 'cardflip', 'equip_move']
+    }
+    if (gameID == 'sm64') {
+        audioNames = ['cardup', 'carddown']
+    }
+    audioNames.forEach(audio => {
+        const audioElement = document.createElement('audio');
+        audioElement.id = audio;
+        audioElement.src = 'sfx/' + gameID + '/' + audio + '.wav';
+        document.body.appendChild(audioElement);
+    });
 })
 function getFullgame(categoryName) {
     setMode('fullgame')
@@ -72,7 +88,7 @@ function getFullgameILs(categoryName) {
     disableLevelModes()
     // hideTabs()
     sortCategoryIndex = -1
-    categoryName = categoryName != null ? categoryName : '1.1+'
+    categoryName = categoryName != null ? categoryName : fullgameILsCategory.name
     fullgameILsCategory = fullgameILs[categoryName]
     updateLoadouts(categoryName)
     buttonClick('fullgameILs_' + fullgameILsCategory.className, 'fullgameILsVersionTabs', 'active')
@@ -183,12 +199,67 @@ function load() {
     //     loadingText.innerHTML = 'An error has occurred. Please reload the page.'
     // }
 }
+function moveObject(array, fromIndex, toIndex) {
+    const [movedObject] = array.splice(fromIndex, 1); // Remove the object from its current position
+    array.splice(toIndex, 0, movedObject); // Insert the object at the desired position
+}
 function prepareData() {
     categories.forEach((category, categoryIndex) => {
         assignRuns(category, categoryIndex)
     })
     if (mode == 'fullgameILs') {
         assignRuns(extraCategory)
+        if (gameID == 'cuphead' && mode == 'fullgameILs' && fullgameILsCategory.tabName == 'DLC C/S') {
+            const worldRecord = getWorldRecord(extraCategory)
+            players = players.filter(player => chargeDLC.includes(player.name) || extraChargeDLC.includes(player.name) || player.runs.some(run => run != 0))
+            const Quincely0 = players.find(player => player.name == 'Quincely0')
+            Quincely0.extra = {
+                date: '2024-08-07',
+                score: 650.69,
+                percentage: getPercentage(worldRecord / 650.69),
+                videos: { links: [{ uri: 'https://youtu.be/9NmKTKqQUdg' }] }
+            }
+            const GamerAttack27 = players.find(player => player.name == 'GamerAttack27')
+            GamerAttack27.extra = {
+                date: '2023-24-12',
+                score: 659.85,
+                percentage: getPercentage(worldRecord / 659.85),
+                videos: { links: [{ uri: 'https://youtu.be/AKyBN0Hhy0U' }] }
+            }
+            const Lewzr07 = players.find(player => player.name == 'Lewzr07')
+            Lewzr07.extra = {
+                date: '2025-01-17',
+                score: 696.74,
+                percentage: getPercentage(worldRecord / 696.74),
+                videos: { links: [{ uri: 'https://youtu.be/zMYtFg78rd0' }] }
+            }
+            const newPlayers = []
+            const badPlayers = []
+            players.forEach(player => {
+                if (player.extra) {
+                    newPlayers.push(player)
+                } else {
+                    badPlayers.push(player)
+                }
+            })
+            players = newPlayers
+            badPlayers.forEach(badPlayer => {
+                players.push(badPlayer)
+            })
+            players.sort((a, b) => a.extra?.score - b.extra?.score)
+            players.forEach((player, playerIndex) => {
+                if (player.extra) {
+                    player.extra.place = playerIndex + 1
+                }
+            })
+            // newRuns = []
+            // extraCategory.runs.forEach(run => {
+            //     if (chargeDLC.includes(run.playerName)) {
+            //         newRuns.push(run)
+            //     }
+            // })
+            // extraCategory.runs = newRuns
+        }
         players.forEach((player, playerIndex) => {
             player.score = -playerIndex
         })
@@ -237,7 +308,9 @@ function assignRuns(category, categoryIndex) {
         if (categoryIndex != null) {
             thePlayer.runs ? thePlayer.runs[categoryIndex] = run : ''
         } else {
-            thePlayer.extra = run
+            if (!(gameID == 'cuphead' && mode == 'fullgameILs' && fullgameILsCategory.tabName == 'DLC C/S' && !chargeDLC.includes(thePlayer.name))) {
+                thePlayer.extra = run
+            }
         }
         const runTime = run.score
         run.percentage = getScore(category, runTime)

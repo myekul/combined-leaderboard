@@ -321,7 +321,6 @@ const fullgameILs = {
         range: 'C1:K6',
         category: cuphead['main'][3],
         numRuns: 3,
-        players: ['Quincely0', 'myekul', 'Kirthar'],
         shot1: 'charge',
         shot2: 'spread'
     },
@@ -382,7 +381,7 @@ const fullgameILs = {
         range: 'C1:K25',
         category: cuphead['main'][4],
         numRuns: 3,
-        players: ['Jason2890', 'Kirthar', 'Quincely0'],
+        players: ['Kirthar', 'Jason2890', 'Quincely0'],
         shot1: 'charge',
         shot2: 'spread'
     },
@@ -402,10 +401,15 @@ const chargeDLC = [
     "PanchoFox",
     "2haka",
     "ANE_MMRC",
-    "Lewzr07",
+    "Mine_",
     "nomit",
     // DLC+Base
     "minamikori",
     "alex92tcordobes",
     "Huawei",
+]
+const extraChargeDLC = [
+    'Quincely0',
+    'GamerAttack27',
+    'Lewzr07'
 ]

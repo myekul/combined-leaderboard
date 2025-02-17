@@ -114,15 +114,6 @@ h1 {
     margin-bottom: 0;
 }
 
-.hText {
-    font-family: var(--font2);
-    font-size: 140%;
-    color: var(--bannerText);
-    padding: 0 10px;
-    background-color: var(--banner);
-    border-radius: 5px;
-}
-
 .textBlock {
     white-space: normal;
     max-width: 600px;
@@ -566,14 +557,13 @@ svg {
 .gameIcon {
     height: 30px;
     width: auto;
-    margin-bottom: 20px;
+    margin-bottom: 2px;
     padding: 0 10px
 }
 
-#runRecapBigButton {
+#runRecapButton {
     width: 120px !important;
     height: 25px;
-    border-radius: 15px;
     position: absolute;
     right: 40px;
 }

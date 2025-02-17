@@ -18,7 +18,7 @@ window.addEventListener('hashchange', () => {
 });
 document.addEventListener('keydown', function (event) {
     if (!showModal && (event.key == 'ArrowLeft' || event.key == 'ArrowRight')) {
-        if (['leaderboard', 'charts', 'map', 'sort'].includes(page)) {
+        if (['leaderboard', 'charts', 'map', 'sort'].includes(page) || (page == 'featured' && mode != 'fullgameILs')) {
             let success = false
             switch (event.key) {
                 case 'ArrowLeft':

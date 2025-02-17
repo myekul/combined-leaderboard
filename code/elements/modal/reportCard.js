@@ -47,8 +47,6 @@ function reportCard(player) {
     HTMLContent += `</div>`
     if (mode != 'fullgameILs') {
         HTMLContent += `<div class='container'>`
-        HTMLContent += `<div id='modal_letterScore'>${displayLetterScore(player.score)}</div>`
-        HTMLContent += `<div id='modal_letterGrade' style='display:none'>${displayLetterGrade(player.score)}</div>`
         HTMLContent +=
             `<div class='textBox'><table class='otherColor'>
             <tr>
@@ -62,11 +60,12 @@ function reportCard(player) {
                     <td id='modal_gpa'>${getGPA(player.score)}</td>
                 </tr>`
         }
+        HTMLContent += `<td colspan=2 id='modal_scoreGradeSpan'>${scoreGradeSpan(player.score)}</td>`
         HTMLContent += `</table></div>`
-        HTMLContent += `<div id='modal_refresh' onclick="toggleSliders();toggleSliders()" class='clickable' style='display:none;padding-left:10px'><i class='fa fa-refresh'></i></div>`
+        HTMLContent += `<div id='modal_refresh' onclick="toggleSliders();toggleSliders()" class='clickable' style='display:none;padding-left:10px'>${fontAwesome('refresh')}</div>`
         HTMLContent += `</div>`
         if (player.hasAllRuns) {
-            HTMLContent += `<div id='modal_sliders' onclick="toggleSliders()" class='container clickable' style='width:50px'><i class="fa fa-sliders"></i></div>`
+            HTMLContent += `<div id='modal_sliders' onclick="toggleSliders()" class='container clickable' style='width:50px'>${fontAwesome('sliders')}</div>`
         }
     }
     return HTMLContent
@@ -98,7 +97,7 @@ function toggleSliders() {
             document.getElementById('modal_category_' + i + '_slider_div').style.display = ''
             document.getElementById('modal_category_' + i + '_place').style.display = ''
         }
-        document.getElementById('modal_letterGrade').style.display = ''
+        document.getElementById('modal_scoreGradeSpan').style.display = ''
         // document.getElementById('modal_rankComparison').style.display = ''
         modalSliders = true
     }
@@ -175,7 +174,6 @@ function adjustGrade(categoryIndex) {
     }
     playerIndex++
     document.getElementById('modal_rank').innerHTML = playerIndex
-    document.getElementById('modal_letterScore').innerHTML = displayLetterScore(newPlayerPercentage)
-    document.getElementById('modal_letterGrade').innerHTML = displayLetterGrade(newPlayerPercentage)
+    document.getElementById('modal_scoreGradeSpan').innerHTML = scoreGradeSpan(newPlayerPercentage)
     // document.getElementById('modal_rankComparison').innerHTML = rankComparison(playerIndex)
 }

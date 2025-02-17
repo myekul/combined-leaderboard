@@ -70,12 +70,19 @@ function placeClass(place) {
     return null
 }
 function playSound(sfx) {
-    if (gameID == 'cuphead') {
+    if (['cuphead', 'smb3', 'sm64'].includes(gameID)) {
         const sound = document.getElementById(sfx)
-        sound.currentTime = 0
-        sound.volume = 0.2
-        sound.play()
+        if (sound) {
+            sound.currentTime = 0
+            sound.volume = 0.2
+            sound.play()
+        }
     }
+}
+function stopSound(sfx) {
+    const sound = document.getElementById(sfx)
+    sound.pause()
+    sound.currentTime = 0
 }
 function getImage(image, heightParam) {
     const height = heightParam ? heightParam : 42
@@ -162,7 +169,7 @@ function showTab(tab) {
         isolated = false
     }
     const optionsButton = document.getElementById('optionsButton')
-    if (['sort'].includes(page) && gameID != 'tetris' && !(page == 'sort' && mode == 'fullgameILs')) {
+    if (['sort', 'featured'].includes(page) && gameID != 'tetris' && !(page == 'sort' && mode == 'fullgameILs')) {
         optionsOn(true)
         optionsButton.style.display = 'none'
     } else {
@@ -182,9 +189,6 @@ function showTab(tab) {
     } else {
         WRsCupheadILsOptions.style.display = 'none'
     }
-    if (mode == 'fullgameILs' && runRecapTime == 'XX:XX') {
-        document.getElementById('runRecap').innerHTML = modalRunRecap(true)
-    }
     action()
 }
 function action() {
@@ -201,7 +205,7 @@ function action() {
         document.getElementById('world-map').innerHTML = ''
     }
     const categoriesSection = document.getElementById('categoriesSection')
-    if (['charts', 'map', 'sort'].includes(page) || isolated) {
+    if (['charts', 'map', 'sort'].includes(page) || (isolated && !(mode == 'fullgameILs' && sortCategoryIndex == -1)) || (page == 'featured' && mode != 'fullgameILs')) {
         categoriesSection.style.display = ''
         if (sortCategoryIndex == -1) {
             categoriesSection.classList.remove('sticky')
@@ -223,29 +227,39 @@ function pageAction() {
             break;
         case 'WRs':
             generateWRs();
-            pageTitle.innerHTML = `<i class="fa fa-trophy"></i>&nbsp;&nbsp;World Records`
+            pageTitle.innerHTML = fontAwesomeText('trophy', 'World Records')
+            break;
+        case 'featured':
+            generateFeatured();
+            pageTitle.innerHTML = fontAwesomeText('star', 'Featured')
             break;
         case 'charts':
             refreshCharts();
-            pageTitle.innerHTML = `<i class="fa fa-bar-chart"></i>&nbsp;&nbsp;Charts`
+            pageTitle.innerHTML = fontAwesomeText('bar-chart', 'Charts')
             break;
         case 'map':
             generateMap();
-            pageTitle.innerHTML = `<i class="fa fa-flag"></i>&nbsp;&nbsp;Map`
+            pageTitle.innerHTML = fontAwesome('flag') + `&nbsp;&nbsp;Map`
             break;
         case 'sort':
             generateSort();
-            pageTitle.innerHTML = `<i class="fa fa-sort-amount-asc"></i>&nbsp;&nbsp;Sort`
+            pageTitle.innerHTML = fontAwesome('sort-amount-asc') + `&nbsp;&nbsp;Sort`
             break;
         case 'runRecap':
             if (mode == 'fullgameILs') {
                 updateRunRecapAction()
-                pageTitle.innerHTML = `<i class="fa fa-history"></i>&nbsp;&nbsp;Run Recap`
+                pageTitle.innerHTML = fontAwesome('history') + `&nbsp;&nbsp;Run Recap`
             } else {
                 showTab('leaderboard')
             }
             break
     }
+}
+function fontAwesome(icon) {
+    return `<i class="fa fa-${icon}"></i>`
+}
+function fontAwesomeText(icon, text) {
+    return fontAwesome(icon) + `&nbsp;&nbsp;` + text
 }
 function getAnchor(url) {
     return url ? `<a href="${url}" target='_blank'>` : ''
@@ -406,7 +420,7 @@ function big5() {
 }
 function tetrisCheck(category, score) {
     if (score) {
-        return gameID == 'tetris' ? reverseScore.includes(category.name) ? Math.round(score) : (score / 1).toFixed(2) : secondsToHMS(score)
+        return gameID == 'tetris' ? reverseScore.includes(category.name) ? Math.round(score).toLocaleString() : (score / 1).toFixed(2) : secondsToHMS(score)
     }
     return ''
 }
@@ -504,4 +518,36 @@ function normalize50(percentage) {
 }
 function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function getEveryRun(numRuns, sortRange) {
+    const everyRun = []
+    players.slice(0, numRuns).forEach((player, playerIndex) => {
+        if (sortCategoryIndex == -1) {
+            player.runs.forEach((run, runIndex) => {
+                if (run) {
+                    if ((sortRange && sortLogic(run, sortRange)) || !sortRange) {
+                        everyRun.push({ run: run, playerIndex: playerIndex, categoryIndex: runIndex })
+                    }
+                }
+            })
+        } else {
+            const run = player.runs[sortCategoryIndex]
+            if (run) {
+                if ((sortRange && sortLogic(run, sortRange)) || !sortRange) {
+                    everyRun.push({ run: run, playerIndex: playerIndex, categoryIndex: sortCategoryIndex })
+                }
+            }
+        }
+    })
+    return everyRun
+}
+function categorySpan(category) {
+    return `<span class='${category.className}' ${category.className ? "style='border-radius:5px;padding:0 3px'" : ''}>${category.name}</span>`
+}
+function scoreGradeSpan(percentage) {
+    const grade = getLetterGrade(percentage)
+    return `<span class='${grade.className}' style='border-radius:5px;padding:0 5px'>${displayPercentage(percentage)}% ${grade.grade}</span>`
+}
+function getDateDif(date1, date2) {
+    return (date1 - date2) / (100 * 60 * 60 * 24) / 10
 }

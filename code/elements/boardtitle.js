@@ -7,8 +7,18 @@ function setBoardTitle() {
         }
         closeBoardTitle.style.display = ''
     } else {
-        checkbox_isolate.style.display = 'none'
+        if (mode != 'fullgameILs') {
+            checkbox_isolate.style.display = 'none'
+        }
         closeBoardTitle.style.display = 'none'
+    }
+    if (mode == 'fullgameILs') {
+        if (page == 'leaderboard') {
+            checkbox_isolate.style.display = ''
+        } else {
+            checkbox_isolate.style.display = 'none'
+        }
+
     }
     let HTMLContent = generateBoardTitle()
     const boardTitle = document.getElementById('boardTitle')

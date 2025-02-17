@@ -7,14 +7,14 @@ function parseCheckboxes() {
     isolated = document.getElementById('checkbox_isolate').checked
     displayNumRuns = document.getElementById('checkbox_numRuns').checked
     milliseconds = document.getElementById('checkbox_milliseconds').checked
-    if (isolated && sortCategoryIndex == -1) {
-        sortCategoryIndex = 0
-        organizePlayers(sortCategoryIndex, true)
-    }
+    // if (isolated && sortCategoryIndex == -1) {
+    //     sortCategoryIndex = 0
+    //     organizePlayers(sortCategoryIndex, true)
+    // }
 }
 function playersTable(playersArray) {
     let HTMLContent = `<div class='bigShadow' style='align-self: flex-end;'><div style='overflow-x:scroll;'><table>`
-    if (page != 'map') {
+    if (page != 'map' && !(mode == 'fullgameILs' && sortCategoryIndex == -1 && isolated)) {
         HTMLContent +=
             `<tr style='${getHeaderSize()}'>
         <th colspan=10 class='clickable gray ${!(sortCategoryIndex > -1 || isolated) ? 'selected' : ''}' onclick="showDefault()">Player</th>
@@ -25,7 +25,9 @@ function playersTable(playersArray) {
     }
     playersArray.forEach((player, playerIndex) => {
         if (sortCategoryIndex == -1 || player.runs[sortCategoryIndex]) {
-            HTMLContent += parsePlayer(player, playerIndex)
+            if (!(mode == 'fullgameILs' && sortCategoryIndex == -1 && isolated && !player.extra)) {
+                HTMLContent += parsePlayer(player, playerIndex)
+            }
         }
     })
     HTMLContent += `</table></div></div>`
@@ -72,60 +74,64 @@ function generateLeaderboard() {
     playersCopy = [...players].slice(0, getNumDisplay())
     let HTMLContent = `<div class="container">`
     HTMLContent += playersTable(playersCopy)
-    HTMLContent +=
-        `<div id='leaderboardContainer' class='bigShadow'>
+    if (!(mode == 'fullgameILs' && sortCategoryIndex == -1 && isolated)) {
+        HTMLContent +=
+            `<div id='leaderboardContainer' class='bigShadow'>
         <table>`
-    if (displayNumRuns) {
-        categories.forEach(category => {
-            let numRuns = category.runs.length
-            let runs = numRuns > 1 ? 'runs' : 'run'
-            if (numRuns == 300) {
-                numRuns += '+'
-            }
-            HTMLContent += `<th colspan=${getNumCols()}>${numRuns} ${runs}</th>`
-        })
-    }
-    HTMLContent += `</tr>`
-    const numCols = getNumCols()
-    if (!isolated) {
-        HTMLContent += fancyHeader(numCols)
-    }
-    if (numCols) {
-        HTMLContent += `<tr style='${getHeaderSize()}'>`
-        if (isolated) {
-            HTMLContent += generateHeader(categories[sortCategoryIndex], sortCategoryIndex)
-        } else {
-            categories.forEach((category, categoryIndex) => {
-                HTMLContent += generateHeader(category, categoryIndex)
-            })
-        }
-    }
-    if (mode != 'fullgameILs' && !isolated) {
-        HTMLContent += gameID != 'tetris' ? `<th>Sum</td>` : ''
-        HTMLContent += `<th>GPA</td>`
-        HTMLContent += mode != 'fullgame' ? `<th>N/A</td>` : ''
-    }
-    HTMLContent +=
-        `</tr>
-        <tbody>`
-    if (mode == 'fullgameILs') {
-        HTMLContent += `<tr>`
-        if (isolated) {
-            const category = categories[sortCategoryIndex]
-            HTMLContent += category.runs[0] ? `<td colspan=${numCols} class='first'>${secondsToHMS(getWorldRecord(category))}</td>` : `<td></td>`
-        } else {
-            categories.forEach((category, categoryIndex) => {
-                HTMLContent += category.runs[0] ? `<td colspan=${numCols} class='first ${isSelected(categoryIndex)}'>${secondsToHMS(getWorldRecord(category))}</td>` : `<td></td>`
+        if (displayNumRuns) {
+            categories.forEach(category => {
+                let numRuns = category.runs.length
+                let runs = numRuns > 1 ? 'runs' : 'run'
+                if (numRuns == 300) {
+                    numRuns += '+'
+                }
+                HTMLContent += `<th colspan=${getNumCols()}>${numRuns} ${runs}</th>`
             })
         }
         HTMLContent += `</tr>`
-    }
-    players.slice(0, getNumDisplay()).forEach((player, playerIndex) => {
-        if (sortCategoryIndex == -1 || player.runs[sortCategoryIndex]) {
-            HTMLContent += parsePlayerRuns(player, playerIndex)
+        const numCols = getNumCols()
+        if (!isolated) {
+            HTMLContent += fancyHeader(numCols)
         }
-    })
-    HTMLContent += `</tbody></table></div></div>`
+        if (numCols) {
+            HTMLContent += `<tr style='${getHeaderSize()}'>`
+            if (isolated) {
+                HTMLContent += generateHeader(categories[sortCategoryIndex], sortCategoryIndex)
+            } else {
+                categories.forEach((category, categoryIndex) => {
+                    HTMLContent += generateHeader(category, categoryIndex)
+                })
+            }
+        }
+        if (mode != 'fullgameILs' && !isolated) {
+            HTMLContent += gameID != 'tetris' ? `<th>Sum</td>` : ''
+            HTMLContent += `<th>GPA</td>`
+            HTMLContent += mode != 'fullgame' ? `<th>N/A</td>` : ''
+        }
+        HTMLContent +=
+            `</tr>
+        <tbody>`
+        if (mode == 'fullgameILs') {
+            HTMLContent += `<tr>`
+            if (isolated) {
+                const category = categories[sortCategoryIndex]
+                HTMLContent += category.runs[0] ? `<td colspan=${numCols} class='first'>${secondsToHMS(getWorldRecord(category))}</td>` : `<td></td>`
+            } else {
+                categories.forEach((category, categoryIndex) => {
+                    HTMLContent += category.runs[0] ? `<td colspan=${numCols} class='first ${isSelected(categoryIndex)}'>${secondsToHMS(getWorldRecord(category))}</td>` : `<td></td>`
+                })
+            }
+            HTMLContent += `</tr>`
+        }
+        players.slice(0, getNumDisplay()).forEach((player, playerIndex) => {
+            if (sortCategoryIndex == -1 || player.runs[sortCategoryIndex]) {
+                HTMLContent += parsePlayerRuns(player, playerIndex)
+            }
+        })
+        HTMLContent += `</tbody></table></div>`
+    }
+
+    HTMLContent += `</div>`
     if (!showMore && (sortCategoryIndex == -1 ? players.length > getNumDisplay() : categories[sortCategoryIndex].runs.length > getNumDisplay())) {
         HTMLContent += `<div onclick="showMorePlayers()" class='button' style='margin:0 auto;margin-top:15px'>Show More</div>`
     } else {
@@ -136,7 +142,9 @@ function generateLeaderboard() {
     const leaderboard = document.getElementById('leaderboard')
     leaderboard.innerHTML = HTMLContent
     leaderboardContainer = document.getElementById('leaderboardContainer')
-    leaderboardContainer.scrollLeft = scrollLeft;
+    if (leaderboardContainer) {
+        leaderboardContainer.scrollLeft = scrollLeft;
+    }
 }
 function parsePlayer(player, playerIndex) {
     let HTMLContent = ''
@@ -224,7 +232,7 @@ function parseRun(player, playerIndex, category, categoryIndex, exception) {
     const run = categoryIndex == null ? player.extra : player.runs[categoryIndex]
     if (!run) {
         if (mode != 'fullgameILs' || exception) {
-            if (playerIndex == 0) {
+            if (mode != 'fullgameILs' && playerIndex == 0) {
                 HTMLContent += displayBoolean[0] ? `<td class='hiddenText ${colorClass} ${grayedOut}' style='font-size:75%;text-align:left;'>99.9</td>` : ''
                 HTMLContent += displayBoolean[1] ? `<td class='hiddenText ${colorClass} ${grayedOut}' style='font-size:75%;text-align:left;'>100.0</td>` : ''
                 HTMLContent += displayBoolean[2] ? `<td class='hiddenText ${colorClass} ${grayedOut}' style='font-size:75%;text-align:left;'>A+</td>` : ''
@@ -244,7 +252,7 @@ function parseRun(player, playerIndex, category, categoryIndex, exception) {
         return HTMLContent
     }
     const score = run.score
-    const time = gameID == 'tetris' ? score : secondsToHMS(score)
+    const time = tetrisCheck(category, score)
     const place = run.place
     const percentage = run.percentage.toFixed(2)
     const grade = getLetterGrade(percentage)

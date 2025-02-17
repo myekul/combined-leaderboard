@@ -52,7 +52,6 @@ function openModal(param, sound) {
         HTMLContent += `<div>`
         HTMLContent += `<div class='container' style='padding-bottom:2px'>`
         HTMLContent += `<div style='font-size:140%;margin:0'>${getPlayerName(player)}</div>`
-        HTMLContent += mode != 'fullgameILs' ? `<div style='padding-left:8px'>${displayLetterGrade(player.score)}</div>` : ''
         HTMLContent += `</div>`
         if (player.links) {
             HTMLContent += `<div class='container' style='gap:5px;justify-content:flex-start'>`
@@ -109,9 +108,6 @@ function openModal(param, sound) {
         globalPlayerIndex = -1
         modalTitle.innerText = 'INFO'
         modalBody.innerHTML = modalInfo()
-    } else if (param == 'runRecap') {
-        modalTitle.innerText = 'RUN RECAP'
-        modalBody.innerHTML = modalRunRecap()
     } else {
         globalPlayerIndex = -1
         modalTitle.innerText = 'COUNTRY'
@@ -151,6 +147,20 @@ function fetchYouTube(videoID) {
             return data.items[0]
         })
 }
+function getYouTubeID(link) {
+    let videoID = link.split('/')[link.split('/').length - 1].split('"')[0]
+    if (link.includes('?') && !link.includes('watch?')) {
+        videoID = videoID.split('?')[0]
+    }
+    if (videoID.includes('=')) {
+        videoID = videoID.split('=')[1].split('&')[0]
+    }
+    return videoID
+}
+function getThumbnail(link, videoID) {
+    const src = link.includes('twitch') ? 'images/twitch.png' : `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`
+    return getAnchor(link) + `<img src='${src}' class='clickable' style='width:160px;height:90px'></img></a>`
+}
 function runDetails(player) {
     let HTMLContent = `<div class='container'><table>`
     player.runs.forEach((run, runIndex) => {
@@ -158,15 +168,9 @@ function runDetails(player) {
             HTMLContent += `<tr>`
             const link = getVideoLink(run)
             if (link?.includes('you')) {
-                let videoID = link.split('/')[link.split('/').length - 1].split('"')[0]
-                if (link.includes('?') && !link.includes('watch?')) {
-                    videoID = videoID.split('?')[0]
-                }
-                if (videoID.includes('=')) {
-                    videoID = videoID.split('=')[1].split('&')[0]
-                }
+                const videoID = getYouTubeID(link)
                 HTMLContent += `<td id='modal_title_${runIndex}' style='text-align:center;max-width:200px;white-space: normal;padding-right:15px'></td>`
-                HTMLContent += `<td>${getAnchor(link)}<img src='https://img.youtube.com/vi/${videoID}/mqdefault.jpg' class='clickable' style='width:160px;height:90px'></td>`
+                HTMLContent += `<td>${getThumbnail(link, videoID)}</td>`
                 HTMLContent += `<td id='modal_stats_${runIndex}' style='text-align:right'></td>`
                 fetchYouTube(videoID).then(data => {
                     if (data) {
@@ -182,13 +186,9 @@ function runDetails(player) {
                         }
                     }
                 })
-            } else if (link.includes('twitch')) {
-                HTMLContent += `<td></td>`
-                HTMLContent += `<td>${getAnchor(link)}<img src='images/twitch.png' class='clickable' style='height:91px'></td>`
-                HTMLContent += `<td></td>`
             } else {
                 HTMLContent += `<td></td>`
-                HTMLContent += `<td class='clickable'>${getAnchor(link)}External site</td>`
+                HTMLContent += `<td>${getThumbnail(link)}</td>`
                 HTMLContent += `<td></td>`
             }
             HTMLContent += mode != 'fullgameILs' ? `<td>${run.date}</td>` : ''
@@ -304,7 +304,7 @@ function scoreBreakdown(player) {
     }
     HTMLContent += `</table></div>`
     HTMLContent += `<div class='textBlock'>${player.explanation}</div>`
-    HTMLContent += `<div class='container' style='padding-top:15px'>${displayLetterScore(player.score)}</div>`
+    HTMLContent += `<div class='container' style='padding-top:15px'>${scoreGradeSpan(player.score)}</div>`
     return HTMLContent
 }
 function getCategoryHeader(category) {

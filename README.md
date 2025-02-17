@@ -27,9 +27,6 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 ### Sort
 - Sort players or runs by rank, score, time, etc.
 
-## Disclaimer
-Admittedley, player rank calculation can be a very subjective thing. I tried to make it as fair as possible, but I don't expect these rankings to be taken seriously. I just thought it would be a fun way to compare speedrunners with other players of similar caliber.
-
 ## Planned features
 - Missing run penalty explanation
 - Convert bosses array to a set?
@@ -39,6 +36,7 @@ Admittedley, player rank calculation can be a very subjective thing. I tried to 
 - Logic explanations
 - Cuphead one gun?
 - 1.1 ILs (Goopy, Sally, Werner)
+- C/S DLC+Base board
 
 ## Known bugs
 - Leaderboard squish and stretch

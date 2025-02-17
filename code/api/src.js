@@ -52,6 +52,7 @@ function getLeaderboard(category, query, variables, extra, altGameID) {
                 extraCategory.runs = cleanRuns(data.data.runs)
                 if (gameID == 'cuphead') {
                     extraCategory.players = cleanPlayers(data.data.players.data)
+                    extraCategory.className = fullgameILsCategory.className
                     getPlayers(extraCategory)
                     gapi.load("client", loadClient);
                 } else {
