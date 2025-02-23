@@ -104,8 +104,8 @@ function generateLeaderboard() {
             }
         }
         if (mode != 'fullgameILs' && !isolated) {
-            HTMLContent += gameID != 'tetris' ? `<th>Sum</td>` : ''
-            HTMLContent += `<th>GPA</td>`
+            HTMLContent += !['tetris', 'mtpo'].includes(gameID) ? `<th>Sum</td>` : ''
+            HTMLContent += gameID != 'mtpo' ? `<th>GPA</td>` : ''
             HTMLContent += mode != 'fullgame' ? `<th>N/A</td>` : ''
         }
         HTMLContent +=
@@ -162,7 +162,7 @@ function parsePlayer(player, playerIndex) {
         })
         player.sum = secondsToHMS(player.sum)
     }
-    player.gpa = player.hasAllRuns ? parseFloat(getGPA(player.score).slice(0, 3)).toFixed(1) : ''
+    player.gpa = player.hasAllRuns ? getGPA(player.score) : ''
     const letterGrade = getLetterGrade(player.score)
     HTMLContent += `<tr class='${getRowColor(playerIndex)} categoryLabel' style='height:22px'>`
     if (page == 'sort' && document.getElementById('dropdown_sortCriteria').value == 'joindate') {
@@ -173,8 +173,14 @@ function parsePlayer(player, playerIndex) {
     }
     HTMLContent += page == 'map' ? `<td class='${placeClass(playerIndex + 1)}'>${playerIndex + 1}</td>` : ''
     if (mode != 'fullgameILs') {
-        HTMLContent += `<td style='font-size:75%'>${displayPercentage(player.score)}</td>`
+        if (gameID != 'mtpo') {
+            HTMLContent += `<td style='font-size:75%'>${displayPercentage(player.score)}</td>`
+        }
         HTMLContent += `<td class='${letterGrade.className}' style='font-size:90%;text-align:left'>${letterGrade.grade}</td>`
+        if (gameID == 'mtpo') {
+            HTMLContent += player.hasAllRuns ? `<td class='${letterGrade.className}'>${getGPA(player.score)}</td>` : `<td></td>`
+            HTMLContent += player.sum ? `<td>${player.sum}</td>` : `<td></td>`
+        }
     }
     HTMLContent += getPlayerDisplay(player)
     if (['map', 'sort'].includes(page)) {
@@ -216,8 +222,8 @@ function parsePlayerRuns(player, playerIndex) {
         })
         if (mode != 'fullgameILs') {
             const gpaClass = player.gpa ? getLetterGrade(player.score).className : ''
-            HTMLContent += gameID != 'tetris' ? `<td>${player.sum}</td>` : ''
-            HTMLContent += `<td class='${gpaClass}'>${player.gpa}</td>`
+            HTMLContent += !['tetris', 'mtpo'].includes(gameID) ? `<td>${player.sum}</td>` : ''
+            HTMLContent += gameID != 'mtpo' ? `<td class='${gpaClass}'>${player.gpa}</td>` : ''
             HTMLContent += mode != 'fullgame' ? `<td>${categories.length - player.numRuns}</td>` : ''
         }
     }
@@ -241,7 +247,7 @@ function parseRun(player, playerIndex, category, categoryIndex, exception) {
                 HTMLContent += displayBoolean[5] ? `<td class='hiddenText ${colorClass} ${grayedOut}'>9999</td>` : ''
             } else {
                 displayBoolean.forEach((boolean, booleanIndex) => {
-                    if ((mode == 'fullgameILs' && booleanIndex != 3) || mode != 'fullgameILs') {
+                    if (((mode == 'fullgameILs' && booleanIndex != 3) || mode != 'fullgameILs') && !(gameID == 'mtpo' && categoryIndex == null && booleanIndex == 2)) {
                         HTMLContent += boolean ? `<td class='${colorClass} ${grayedOut}'></td>` : ''
                     }
                 })
@@ -267,9 +273,9 @@ function parseRun(player, playerIndex, category, categoryIndex, exception) {
     } else {
         HTMLContent += displayBoolean[0] ? `<td style='font-size:75%;text-align:left;' class='${newColorClass} ${grayedOut} ${grade.className}'>${percentile}</td>` : ''
         HTMLContent += displayBoolean[1] ? `<td style='font-size:75%;text-align:left;' class='${newColorClass} ${grayedOut} ${grade.className}'>${percentage}</td>` : ''
-        HTMLContent += displayBoolean[2] ? `<td style='font-size:75%;text-align:left;' class='${newColorClass} ${grayedOut} ${grade.className}'>${grade.grade}</td>` : ''
+        HTMLContent += displayBoolean[2] && !(gameID == 'mtpo' && categoryIndex == null) ? `<td style='font-size:75%;text-align:left;' class='${newColorClass} ${grayedOut} ${grade.className}'>${grade.grade}</td>` : ''
         HTMLContent += displayBoolean[3] && mode != 'fullgameILs' ? `<td style='font-size:75%;' class='${page != 'sort' ? newColorClass : thePlaceClass} ${grayedOut} ${runLink ? 'clickable' : ''}'>${runLink}${place}</td>` : ''
-        HTMLContent += displayBoolean[4] ? `<td class='${page != 'sort' ? newColorClass : colorClass} ${grayedOut} ${videoLink ? 'clickable' : ''}'>${videoLink}${time}</td>` : ''
+        HTMLContent += displayBoolean[4] ? `<td ${gameID == 'mtpo' ? "style='text-align:left'" : ''} class='${page != 'sort' ? newColorClass : colorClass} ${grayedOut} ${videoLink ? 'clickable' : ''}'>${videoLink}${time}</td>` : ''
         HTMLContent += displayBoolean[5] ? `<td class='${newColorClass} ${grayedOut}'>${new Date(run.date).getFullYear()}</td>` : ''
     }
     return HTMLContent

@@ -40,15 +40,26 @@ function getWorldRecordPlayers(categoryIndex) {
     }
     const className = mode == 'fullgame' ? 'first' : classNameLogic(category)
     HTMLContent += `<td class='${className}'>${tetrisCheck(category, worldRecord)}</td>`
-    playersCopy.forEach(player => {
-        const run = player.runs[sortCategoryIndex]
-        if (run) {
-            if (run.place == 1) {
-                HTMLContent += `<td>${getPlayerFlag(player, 13)}</td>`
-                HTMLContent += `<td class='clickable' style='text-align:left'>${getAnchor(getVideoLink(run))}${run.debug ? '*' : ''}${getPlayerName(player)}</td>`
-            }
+    let count = 0
+    category.runs.forEach(run => {
+        if (run.place == 1) {
+            count++
         }
     })
+    if (count > 7) {
+        HTMLContent += `<td></td><td style='text-align:left'>Various</td>`
+    } else {
+        playersCopy.forEach(player => {
+            const run = player.runs[sortCategoryIndex]
+            if (run) {
+                if (run.place == 1) {
+                    // HTMLContent += `<td>${getPlayerFlag(player, 12)}</td>`
+                    HTMLContent += `<td>${getPlayerIcon(player, 18)}</td>`
+                    HTMLContent += `<td class='clickable' style='text-align:left'>${getAnchor(getVideoLink(run))}${run.debug ? '*' : ''}${getPlayerName(player)}</td>`
+                }
+            }
+        })
+    }
     return HTMLContent
 }
 function WRs() {

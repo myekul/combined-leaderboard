@@ -34,7 +34,7 @@ function getLeaderboard(category, query, variables, extra, altGameID) {
                             getLeaderboard(mtpo, `category/${mtpo.id}`, '', true)
                         } else {
                             const boardTitleSrc = document.getElementById('boardTitleSrc')
-                            boardTitleSrc.innerHTML = `${getAnchor(`https://www.speedrun.com/${gameID}`)}<img src='images/external/src.png' class='clickable'>`
+                            boardTitleSrc.innerHTML = getSRCicon()
                             if (bossILindex > -1) {
                                 const boss = bosses[bossILindex]
                                 console.log(boss.name + ' loaded')
@@ -62,7 +62,7 @@ function getLeaderboard(category, query, variables, extra, altGameID) {
                     assignRuns(extraCategory)
                     prepareData()
                     const boardTitleSrc = document.getElementById('boardTitleSrc')
-                    boardTitleSrc.innerHTML = `${getAnchor(`https://www.speedrun.com/${gameID}`)}<img src='images/external/src.png' class='clickable'>`
+                    boardTitleSrc.innerHTML = getSRCicon()
                 }
             }
         })
@@ -139,4 +139,7 @@ function cleanPlayers(thePlayers) {
         newPlayers.push(cleanPlayer)
     })
     return newPlayers
+}
+function getSRCicon() {
+    return getAnchor('https://www.speedrun.com/' + gameID) + `<img src='images/external/src.png' class='clickable'>`
 }

@@ -225,6 +225,12 @@
                     </div>
                 </div>
                 <div id="loadouts" class="container"></div>
+                <div id='fullgameILsOptionsButton' class='container clickable'
+                    onclick="toggleOptionsNew('fullgameILsOptions')" style="width:50px;text-align:center"><i
+                        class="fa fa-ellipsis-h"></i></div>
+                <div id="fullgameILsOptions" class='container' style="display:none">
+                    <input id="checkbox_viable" type="checkbox" checked>Run viable
+                </div>
             </div>
             <!-- Board Title -->
             <div id="pageTitle" class="container" style="font-family: var(--font2);font-size:200%;padding-top:5px">
@@ -233,7 +239,7 @@
                 <input id="checkbox_isolate" type="checkbox" style="display:none">
                 <div id="boardTitle" class="container" style="margin:0"></div>
                 <div id='closeBoardTitle' class='clickable' style='display:none;padding-left:10px'
-                    onclick="showDefault()">&#10005
+                    onclick="showDefault()"><i class="fa fa-close"></i>
                 </div>
             </div>
             <div id='categoriesSection' class="container hide" style="display:none">
@@ -461,6 +467,8 @@
             <!-- Modal -->
             <div id="modal" class="modal">
                 <div id="modal-content">
+                    <span id="close-modal" class="clickable" onclick="closeModal()" style="position: absolute;
+                    right: 5px;font-size: 120%;color: var(--bannerText)"><i class="fa fa-close"></i></span>
                     <div id="modal-header">
                         <h1 id="modal-title" class="container"></h1>
                     </div>
@@ -475,14 +483,17 @@
                 <a href="https://www.speedrun.com/users/myekul" target="_blank">
                     <img src="images/external/src.png" class="clickable">
                 </a>
+                <a href="https://www.twitch.tv/myekul" target="_blank">
+                    <img src="images/external/twitch.png" class="clickable">
+                </a>
                 <a href="https://www.youtube.com/@myekul/videos" target="_blank">
                     <img src="images/external/youtube.png" class="clickable">
                 </a>
-                <a href="https://github.com/myekul/combined-leaderboard" target="_blank">
+                <a href="https://www.github.com/myekul/combined-leaderboard" target="_blank">
                     <img id='github' src="images/external/github.png" class="clickable">
                 </a>
                 <div class="footerText">myekul</div>
-                <a href="https://github.com/myekul" target="_blank">
+                <a href="https://www.github.com/myekul" target="_blank">
                     <img class='myekul' src="images/external/myekul.png" class="clickable">
                 </a>
                 <div class="footerText">2024-2025</div>

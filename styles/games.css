@@ -49,7 +49,7 @@
 }
 
 .mtpo {
-    background-color: royalblue;
+    background-color: var(--mtpo);
     color: white;
 }
 

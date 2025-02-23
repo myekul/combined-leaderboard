@@ -401,6 +401,7 @@ const chargeDLC = [
     "PanchoFox",
     "2haka",
     "ANE_MMRC",
+    'Lewzr07',
     "Mine_",
     "nomit",
     // DLC+Base
@@ -410,6 +411,27 @@ const chargeDLC = [
 ]
 const extraChargeDLC = [
     'Quincely0',
-    'GamerAttack27',
-    'Lewzr07'
+    'GamerAttack27'
 ]
+function cupheadGods(name) {
+    return `<br><br>In my headcanon, ${name} is one of the 4 OG Cuphead gods (Grondious, Jason2890, Kirthar, SBDWolf).`
+}
+function cupheadProdigies(name) {
+    return `<br><br>In my headcanon, ${name} is one of the 3 Cuphead prodigies (GamerAttack27, Quincely0, ExclamationMarkYT).`
+}
+const myekulSays = {
+    ClipBoardGuy: `ClipBoardGuy is a BEAST at 1.1+. He has also exercised his 1.1+ skills in All Flags, getting some incredible times there as well. ClipBoardGuy is also a top Titanfall 2 runner!`,
+    ExclamationMarkYT: `ExclamationMarkYT is an accomplished multi-category runner who made an absolute TEAR in DLC, being a former world record holder and one of the early pioneers of the Saltimate Jutsu. He has also been the host of several Cuphead tournaments over the past few years. Shoutouts to him!` + cupheadProdigies('ExclamationMarkYT'),
+    fabix531: `fabix531 is an excellent runner whose expertise shines in base game categories. He is also an accomplished Expert and All Flags runner.`,
+    GamerAttack27: `GamerAttack27 has been playing Cuphead since he was in the womb and it shows. This kid is insane. A former world record holder in DLC and a masterful runner in many other categories, there's a reason he's at the top of the CL.` + cupheadProdigies('GamerAttack27'),
+    Grondious: `Does he even need an introduction? Grondious is the undisputed champion of 1.1+. He is leagues ahead of the competition, boasting unparalleled wisdom of the game's inner workings and mechanics. He is also one of the early pioneers of DLC Any% and the Saltimate Jutsu. Also, ever heard of a G-swap? The G stands for Grondious.` + cupheadGods('Grondious'),
+    Jason2890: `Jason2890 is a cornerstone of the Cuphead speedrunning community, having been around since the very beginning. He currently holds the 300% world record, and has held world records in some of the most popular categories. Also just a great guy!` + cupheadGods('Jason2890'),
+    Kaleva:`Ever heard of a Kaleva swap? Yup, this is THAT Kaleva. Kaleva is an all-around spectacular runner, putting up excellent times in all the main categories.`,
+    Kirthar: `Kirthar is one of the undisputed all-time greats, with some of his accomplishments dating back to 2018! Very impressive, considering he's still active and improving his times. He is also a top Low% runner. Kirthar instantly earns my respect for being a DLC Charge/Spread main.` + cupheadGods('Kirthar'),
+    Quincely0: `Quink&mdash;I mean, Quincely0 is a relatively new runner who very quickly mastered the game and climbed his way to the top of the leaderboards. He is also a top Charge/Spread DLC runner. Respect!` + cupheadProdigies('Quincely0'),
+    MarkinSws: 'MarkinSws is an UNSTOPPABLE force in current patch categories, sweeping the competition in NMG, DLC, and DLC+Base. He also holds the NMG All Flags and Full Clear world records. Incredible! An inspiration for many, myself included.',
+    Misterbutter444: `Misterbutter444 is the underdog of 1.1+, somehow clawing his way to the big leagues despite having a brain the size of a sandwich. Inspiring!`,
+    Musically_dECLINED: `Goon`,
+    myekul: `myekul is a decorated IL runner, known for his unrivaled prowess in Whetstone categories. In fact, he holds every ground boss IL world record (108/108). He also holds fullgame world records in various Charge-centric categories, such as DLC Charge/Spread, DLC Expert, OG Charge, and DLC OG Charge. myekul is also the inventor of the Chargimate Jutsu. What a neat guy!`,
+    SBDWolf: `SBDWolf is one of those people who decides they want to learn a speedrun, spends hours studying and practicing the optimal strats, and then DOMINATES the competition in a matter of weeks. His Legacy and 1.1+ runs are great examples of this. He also runs some other awesome games, like Castlevania, DKC2, and Gimmick!` + cupheadGods('SBDWolf')
+}

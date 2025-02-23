@@ -68,7 +68,18 @@ function reportCard(player) {
             HTMLContent += `<div id='modal_sliders' onclick="toggleSliders()" class='container clickable' style='width:50px'>${fontAwesome('sliders')}</div>`
         }
     }
+    const myekulSaysCheck = mode != 'levels' && myekulSays[player.name]
+    HTMLContent += myekulSaysCheck ? `<div id='myekulSaysButton' class='clickable' onclick="myekulSaysAction()" style='position:absolute;left:8px;bottom:3px'><img src='images/external/myekul.png' style='height:24px;width:auto'></div>` : ''
+    HTMLContent += myekulSaysCheck ? `<div id='myekulSays' style='display:none'>
+        <div class='container clickable' onclick="myekulSaysAction()" style='justify-content:left;padding-left:10px'><img src='images/external/myekul.png' style='height:30px;width:auto;padding-right:5px'><div style='font-size:110%'><span class='myekulColor'>myekul</span> says...</div></div>
+        <div class='container textBlock' style='font-size:80%;max-width:275px;padding-bottom:15px'>${myekulSaysCheck}</div>
+        </div>` : ''
     return HTMLContent
+}
+function myekulSaysAction() {
+    playSound('move')
+    toggleVisibility('myekulSays')
+    toggleVisibility('myekulSaysButton')
 }
 // function rankComparison(rank) {
 //     let HTMLContent = '<table>'
@@ -92,7 +103,7 @@ function toggleSliders() {
     if (modalSliders) {
         openModal(globalPlayerIndex)
     } else {
-        document.getElementById('modal_sliders').innerHTML = '&#10005'
+        document.getElementById('modal_sliders').innerHTML = fontAwesome('close')
         for (let i = 0; i < categories.length; i++) {
             document.getElementById('modal_category_' + i + '_slider_div').style.display = ''
             document.getElementById('modal_category_' + i + '_place').style.display = ''

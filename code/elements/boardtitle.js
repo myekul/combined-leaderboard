@@ -67,7 +67,7 @@ function generateBoardTitle(extra, categoryIndex) {
         if (cellContent) {
             cellContent = `<span id='boardLevel'>${cellContent}</span>`
         }
-        if ((gameID == 'cuphead' && bossILindex == -1) || gameID == 'sm64') {
+        if ((gameID == 'cuphead' && bossILindex == -1) || ['sm64', 'mtpo'].includes(gameID)) {
             HTMLContent += `<th class='container ${className}'>${image}${cellContent}</th>`
         } else {
             HTMLContent += `<td class='${category.difficulty}'>${category.name}</td>`

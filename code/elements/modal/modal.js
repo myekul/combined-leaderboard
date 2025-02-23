@@ -95,9 +95,9 @@ function openModal(param, sound) {
         for (let i = 0; i <= numModalPages; i++) {
             HTMLContent += `<div style='gap:10px'>`
             if (i == modalIndex) {
-                HTMLContent += `<i class="fa fa-circle"></i>`
+                HTMLContent += fontAwesome('circle')
             } else {
-                HTMLContent += `<i class="fa fa-circle-o"></i>`
+                HTMLContent += fontAwesome('circle-o')
             }
             HTMLContent += `</div>`
         }
@@ -164,7 +164,7 @@ function getThumbnail(link, videoID) {
 function runDetails(player) {
     let HTMLContent = `<div class='container'><table>`
     player.runs.forEach((run, runIndex) => {
-        if (run) {
+        if (run && !(gameID == 'mtpo' && runIndex == 0)) {
             HTMLContent += `<tr>`
             const link = getVideoLink(run)
             if (link?.includes('you')) {
@@ -177,8 +177,8 @@ function runDetails(player) {
                         let innerHTMLContent = `<div class='container'><table>`
                         const viewCount = data.statistics.viewCount
                         innerHTMLContent += `<tr><td>${parseInt(viewCount).toLocaleString()} view${viewCount == 1 ? '' : 's'}</td></tr>`
-                        innerHTMLContent += `<tr><td>${data.statistics.likeCount} <i class='fa fa-thumbs-up'></i></td></tr>`
-                        innerHTMLContent += `<tr><td>${data.statistics.commentCount} <i class='fa fa-commenting'></i></td></tr>`
+                        innerHTMLContent += `<tr><td>${data.statistics.likeCount} ${fontAwesome('thumbs-up')}</td></tr>`
+                        innerHTMLContent += `<tr><td>${data.statistics.commentCount} ${fontAwesome('commenting')}</td></tr>`
                         innerHTMLContent += `</table></div>`
                         if (modalIndex == 1) {
                             document.getElementById('modal_stats_' + runIndex).innerHTML = innerHTMLContent

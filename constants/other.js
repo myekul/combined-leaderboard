@@ -51,19 +51,19 @@ const mtpo = {
     id: '5dw9qn2g'
 }
 const mtpoLevelIDs = [
-    { name: 'Von Kaiser' },
-    { name: 'Honda 1' },
-    { name: 'Don 1' },
-    { name: 'Hippo' },
-    { name: 'Tiger' },
-    { name: 'Bull 1' },
-    { name: 'Honda 2' },
-    { name: 'Soda' },
-    { name: 'Bull 2' },
-    { name: 'Don 2' },
-    { name: 'Sandman' },
-    { name: 'Macho' },
-    { name: 'Tyson' }
+    { id: 'vonkaiser' },
+    { id: 'pistonhonda' },
+    { id: 'donflamenco' },
+    { id: 'kinghippo' },
+    { id: 'greattiger' },
+    { id: 'baldbull' },
+    { id: 'pistonhonda' },
+    { id: 'sodapopinski' },
+    { id: 'baldbull' },
+    { id: 'donflamenco' },
+    { id: 'mrsandman' },
+    { id: 'supermachoman' },
+    { id: 'miketyson' }
 ]
 // SMS
 const sms = [

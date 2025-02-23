@@ -98,8 +98,6 @@ const commBestText = "Community best ILs with run viable strats"
 function runRecapAction() {
     if (players[0]) {
         const score = getScore(extraCategory, convertToSeconds(runRecapTime))
-        const top3 = score > players[2].extra.percentage
-        const agrade = (score > 90) && !top3
         let HTMLContent = ''
         HTMLContent += `<div class='container clickable' onclick="runRecapRestart()" style='margin:0;gap:15px;padding-bottom:8px'>
         <div style='font-size:150%'>${runRecapTime}</div>
@@ -110,9 +108,9 @@ function runRecapAction() {
                 &Delta;
                 <select id="dropdown_runRecapComparison" onchange="playSound('cardflip');updateRunRecapComparison()">
                     <optgroup label="Custom">
-                        <option value="top3" title="${top3Text}" ${!agrade && !top3 ? 'selected' : ''}>Top 3 Average</option>
-                        <option value="humanTheory" title="${humanTheoryText}" ${agrade ? 'selected' : ''}>Human Theory</option>
-                        <option value="commBest" title="${commBestText}" ${top3 ? 'selected' : ''}>Comm Best (Viable)</option>
+                        <option value="top3" title="${top3Text}" selected>Top 3 Average</option>
+                        <option value="humanTheory" title="${humanTheoryText}">Human Theory</option>
+                        <option value="commBest" title="${commBestText}">Comm Best (Viable)</option>
                     </optgroup>
                     <optgroup label="Players">`
         for (let i = 0; i < fullgameILsCategory.numRuns; i++) {
@@ -152,14 +150,6 @@ function updateComparisonInfo() {
 }
 function fullgamePlayer(playerIndex) {
     return fullgameILsCategory.players ? fullgameILsCategory.players[playerIndex] : players[playerIndex].name
-}
-function toggleVisibility(elem) {
-    const element = document.getElementById(elem)
-    if (element.style.display == '') {
-        element.style.display = 'none'
-    } else {
-        element.style.display = ''
-    }
 }
 function runRecapRestart() {
     playSound('category_select')
@@ -218,19 +208,19 @@ function runRecapComparison() {
         }
     })
     HTMLContent += `</table>`
-    HTMLContent += `<table>`
-    isles.forEach(isle => {
-        if (isle.sum) {
-            const score = isle.sum / isle.numBosses
-            const grade = getLetterGrade(score)
-            HTMLContent += `<tr>
-                <td class=${isle.className}>${isle.name}</td>
-                <td class=${grade.className}>${grade.grade}</td>
-                <td class=${grade.className}>${displayPercentage(score)}</td>
-                </tr>`
-        }
-    })
-    HTMLContent += `</table>`
+    // HTMLContent += `<table>`
+    // isles.forEach(isle => {
+    //     if (isle.sum) {
+    //         const score = isle.sum / isle.numBosses
+    //         const grade = getLetterGrade(score)
+    //         HTMLContent += `<tr>
+    //             <td class=${isle.className}>${isle.name}</td>
+    //             <td class=${grade.className}>${grade.grade}</td>
+    //             <td class=${grade.className}>${displayPercentage(score)}</td>
+    //             </tr>`
+    //     }
+    // })
+    // HTMLContent += `</table>`
     HTMLContent += `</div>`
     return HTMLContent
 }

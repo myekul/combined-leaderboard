@@ -10,26 +10,34 @@ function secondsToHMS(seconds, exception) {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const secs = Math.floor(seconds % 60);
-    let HTMLContent = ''
+    let value = ''
     if (hours > 0) {
         HTMLContent = `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
     } else {
         HTMLContent = `${minutes}:${secs.toString().padStart(2, '0')}`;
     }
     if ((milliseconds && page != 'charts') || exception) {
-        const ms = Math.floor((seconds % 1) * 1000)
-        if (ms) {
-            HTMLContent += `.<span style='font-size:75%'>${ms.toString().padStart(3, '0')}</span>`
-        }
+        HTMLContent += displayDecimals(seconds)
     }
     return HTMLContent
+}
+function displayDecimals(value, exception) {
+    let ms = Math.round((value % 1) * 1000)
+    if (ms) {
+        ms = gameID == 'mtpo' || exception ? ms / 10 : ms
+        const padding = gameID == 'mtpo' || exception ? 2 : 3
+        return `.<span style='font-size:75%'>${ms.toString().padStart(padding, '0')}</span>`
+    }
+    return ''
 }
 function convertToSeconds(time) {
     const [minutes, seconds] = time.split(":").map(Number);
     return minutes * 60 + seconds;
 }
 function getGPA(value) {
-    return (value / 100 * 4).toString().slice(0, 4)
+    const gpa = (value / 100 * 4).toString().slice(0, 4)
+    console.log(gpa)
+    return Math.floor(gpa) + displayDecimals(gpa, true)
 }
 function getPercentage(value) {
     if (value) {
@@ -158,9 +166,6 @@ function showTab(tab) {
     }
     document.getElementById(page + 'Tab').style.display = ''
     buttonClick(page + 'Button', 'tabs', 'active2')
-    // if (tab == 'leaderboard' && sortCategoryIndex > -1 && !isolated) {
-    //     document.getElementById('checkbox_isolate').checked = true
-    // }
     if (gameID == 'cuphead' && mode == 'levels' || mode == 'fullgameILs') {
         document.getElementById('checkbox_hp').checked = true
     }
@@ -173,7 +178,7 @@ function showTab(tab) {
         optionsOn(true)
         optionsButton.style.display = 'none'
     } else {
-        if (mode == 'fullgameILs' && ['WRs', 'sort'].includes(page)) {
+        if (mode == 'fullgameILs' && ['leaderboard', 'WRs', 'sort'].includes(page)) {
             if (page == 'sort') {
                 document.getElementById('dropdown_sortCriteria').value = 'player'
             }
@@ -319,7 +324,7 @@ function optionsOn(shh) {
         optionsElem.forEach(elem => {
             elem.style.display = ''
         })
-        optionsButton.innerHTML = '&#10005'
+        optionsButton.innerHTML = fontAwesome('close')
     } else {
         playSound('locked')
     }
@@ -331,7 +336,7 @@ function optionsOff() {
     optionsElem.forEach(elem => {
         elem.style.display = 'none'
     })
-    optionsButton.innerHTML = `<i class="fa fa-ellipsis-h"></i>`
+    optionsButton.innerHTML = fontAwesome('ellipsis-h')
 }
 function setMode(newMode) {
     mode = newMode
@@ -550,4 +555,19 @@ function scoreGradeSpan(percentage) {
 }
 function getDateDif(date1, date2) {
     return (date1 - date2) / (100 * 60 * 60 * 24) / 10
+}
+function toggleOptionsNew(name) {
+    playSound('move')
+    const visible = toggleVisibility(name)
+    const button = document.getElementById(name + 'Button')
+    button.innerHTML = visible ? fontAwesome('close') : fontAwesome('ellipsis-h')
+}
+function toggleVisibility(elem) {
+    const element = document.getElementById(elem)
+    if (element.style.display == '') {
+        element.style.display = 'none'
+    } else {
+        element.style.display = ''
+        return 1
+    }
 }

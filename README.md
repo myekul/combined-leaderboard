@@ -28,12 +28,10 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Sort players or runs by rank, score, time, etc.
 
 ## Planned features
-- Missing run penalty explanation
 - Convert bosses array to a set?
 - Linear color scale for dates
 - Categories for date charts
 - Score chart should be grades, not 0-100?
-- Logic explanations
 - Cuphead one gun?
 - 1.1 ILs (Goopy, Sally, Werner)
 - C/S DLC+Base board
@@ -47,3 +45,4 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Map color logic is weird
 - Some YouTube channel links are broken (SRC fault)
 - Date sort is off by 1 day
+- MTPO grade table is bugged

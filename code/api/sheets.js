@@ -67,6 +67,7 @@ function fetchCuphead() {
         fields: 'sheets(data(rowData(values(userEnteredValue,textFormatRuns))))'
     }).then(response => {
         const values = response.result.sheets[0].data[0].rowData;
+        console.log(values)
         categories = []
         bossesCopy = [...bosses]
         if (fullgameILsCategory.name == 'DLC') {
@@ -147,7 +148,7 @@ function fetchCuphead() {
             const url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/edit?gid=' + tabMap[fullgameILsCategory.tabName]
             const boardTitleSrc = document.getElementById('boardTitleSrc')
             boardTitleSrc.innerHTML = `<div class='clickable'>${getAnchor(url)}<img src='images/external/sheets.png'></div>`
-            boardTitleSrc.innerHTML += `<div style='margin-left:5px' class='clickable'>${getAnchor('https://www.speedrun.com/cuphead')}<img src='images/external/src.png'></div>`
+            boardTitleSrc.innerHTML += `<div style='margin-left:5px'>${getSRCicon()}</div>`
         });
     }, (err) => console.error("Execute error", err));
 }

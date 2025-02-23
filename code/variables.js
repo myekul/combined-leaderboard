@@ -149,15 +149,12 @@ switch (gameID) {
         const github = document.getElementById('github');
         github.style.filter = 'brightness(0) invert(1)';
         break;
-    case 'smb1':
-        document.getElementById('checkbox_milliseconds').checked = true;
-        break;
-    case 'smbtll':
-        document.getElementById('checkbox_milliseconds').checked = true;
-        break;
     case 'nsmbw':
         document.getElementById('modeSelection').style.display = '';
         break;
+}
+if (['smb1', 'smbtll', 'mtpo'].includes(gameID)) {
+    document.getElementById('checkbox_milliseconds').checked = true;
 }
 if (['tetris', 'smb1', 'smbtll', 'smb2', 'smb3'].includes(gameID)) {
     header.style.fontFamily = 'pressStart2P';

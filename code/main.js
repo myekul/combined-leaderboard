@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function () {
 function getFullgame(categoryName) {
     setMode('fullgame')
     disableLevelModes()
-    // hideTabs()
     sortCategoryIndex = -1
     if (gameID == 'cuphead') {
         if (categoryName) {
@@ -76,7 +75,6 @@ function getLevels() {
         allILs = true
     }
     setMode('levels')
-    // hideTabs()
     if (gameID == 'cuphead') {
         cupheadLevelSetting()
     } else {
@@ -86,7 +84,6 @@ function getLevels() {
 function getFullgameILs(categoryName) {
     setMode('fullgameILs')
     disableLevelModes()
-    // hideTabs()
     sortCategoryIndex = -1
     categoryName = categoryName != null ? categoryName : fullgameILsCategory.name
     fullgameILsCategory = fullgameILs[categoryName]
@@ -164,7 +161,7 @@ function getOtherLevels(section) {
                 })
             } else if (gameID == 'mtpo') {
                 categories.forEach((category, categoryIndex) => {
-                    category.name = mtpoLevelIDs[categoryIndex].name
+                    category.info = mtpoLevelIDs[categoryIndex]
                     getLeaderboard(category, `level/${category.id}/vdo93vdp`) // Any%
                 })
             } else if (gameID == 'nsmbw') {
@@ -226,13 +223,6 @@ function prepareData() {
                 percentage: getPercentage(worldRecord / 659.85),
                 videos: { links: [{ uri: 'https://youtu.be/AKyBN0Hhy0U' }] }
             }
-            const Lewzr07 = players.find(player => player.name == 'Lewzr07')
-            Lewzr07.extra = {
-                date: '2025-01-17',
-                score: 696.74,
-                percentage: getPercentage(worldRecord / 696.74),
-                videos: { links: [{ uri: 'https://youtu.be/zMYtFg78rd0' }] }
-            }
             const newPlayers = []
             const badPlayers = []
             players.forEach(player => {
@@ -264,6 +254,15 @@ function prepareData() {
             player.score = -playerIndex
         })
     } else {
+        if (gameID == 'mtpo') {
+            const dummyRuns = []
+            players.forEach(player => {
+                const dummyRun = { score: 42, percentage: 100, place: 1, playerName: player.name }
+                player.runs = [dummyRun, ...player.runs]
+                dummyRuns.push(dummyRun)
+            })
+            categories = [{ name: 'Glass Joe', info: { id: 'glassjoe' }, players: players, runs: dummyRuns }, ...categories]
+        }
         generateRanks()
         sortCategoryIndex = -1
         sortPlayers(players)
@@ -276,9 +275,6 @@ function prepareData() {
         elem.style.display = ''
     })
     document.getElementById('loading').style.display = 'none'
-    // if (bossILindex > -1) {
-    //     ILcategoriesOn()
-    // }
     showTab(page)
 }
 function assignRuns(category, categoryIndex) {
