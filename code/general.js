@@ -10,7 +10,7 @@ function secondsToHMS(seconds, exception) {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const secs = Math.floor(seconds % 60);
-    let value = ''
+    let HTMLContent = ''
     if (hours > 0) {
         HTMLContent = `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
     } else {
@@ -36,7 +36,6 @@ function convertToSeconds(time) {
 }
 function getGPA(value) {
     const gpa = (value / 100 * 4).toString().slice(0, 4)
-    console.log(gpa)
     return Math.floor(gpa) + displayDecimals(gpa, true)
 }
 function getPercentage(value) {
@@ -142,8 +141,9 @@ function trophyCase(object) {
     HTMLContent += object.count3 > 0 ? `<td class='trophyCase' style='text-align:left'>${getTrophy(3)}<span>${object.count3 > 1 ? object.count3 : ''}</span></td>` : '<td></td>'
     return HTMLContent
 }
-function showTab(tab) {
-    page = tab
+function showTab(newPage) {
+    page = newPage
+    window.firebaseUtils.screenView()
     window.history.pushState(null, null, '#' + page);
     hideTabs()
     tooltipStyle?.remove()

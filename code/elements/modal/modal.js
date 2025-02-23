@@ -37,8 +37,9 @@ function openModal(param, sound) {
     const modalPlayer = document.getElementById('modal-player')
     modalPlayer.innerHTML = ''
     if (playerModal) {
-        document.addEventListener("keydown", modalKeyPress);
         globalPlayerIndex = param
+        window.firebaseUtils.lastCheckedUser()
+        document.addEventListener("keydown", modalKeyPress);
         let player = players[globalPlayerIndex]
         if (sortCategoryIndex > -1) {
             const oldIndex = sortCategoryIndex

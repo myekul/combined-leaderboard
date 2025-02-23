@@ -9,9 +9,12 @@ const firebaseConfig = {
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
 import { getFirestore, doc, setDoc, getDocs, getDoc, collection, query, limit, where } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+import { getAnalytics, logEvent, setUserProperties } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-analytics.js"
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
+const analytics = getAnalytics(app)
+logEvent(analytics, 'page_view')
 
 function getCollection() {
     return cupheadVersion + DLCnoDLC
@@ -107,11 +110,20 @@ window.firebaseUtils = {
                 });
             }
             resetAndGo()
-            const categoriesCopy = [...categories]
+            // const categoriesCopy = [...categories]
             // console.log(JSON.stringify(categoriesCopy)) // JSON
         } catch (error) {
             console.error("Error fetching documents: ", error)
         }
+    },
+    screenView: () => {
+        logEvent(analytics, 'screen_view', {
+            firebase_screen: page,
+            firebase_screen_class: gameID + '_' + mode
+        })
+    },
+    lastCheckedUser: () => {
+        setUserProperties(analytics, { last_checked_user: players[globalPlayerIndex].name });
     }
 }
 function firebaseReadSuccess() {
