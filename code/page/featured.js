@@ -10,11 +10,10 @@ function generateFeatured() {
         HTMLContent += `<tr class='${getRowColor(runIndex)}'>`
         if (mode != 'fullgameILs') {
             const date = run.run.date
-            const dateDif = Math.floor(getDateDif(new Date(), new Date(date)))
-            const dateDifDisplay = dateDif == 0 ? 'Today' : dateDif + ` day${dateDif == 1 ? '' : 's'} ago`
+            const dateDif = daysAgo(getDateDif(new Date(), new Date(date)))
             HTMLContent += `<td style='padding:0 5px'>
             <div style='font-size:90%'>${date}</div>
-            <div style='font-size:70%'>${dateDifDisplay}</div>
+            <div style='font-size:70%'>${dateDif}</div>
             </td>`
         }
         const category = categories[run.categoryIndex]

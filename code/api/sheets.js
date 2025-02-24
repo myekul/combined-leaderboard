@@ -77,10 +77,10 @@ function fetchCuphead() {
         }
         bossesCopy.sort((a, b) => (a.order || 0) - (b.order || 0));
         if (fullgameILsCategory.tabName == 'DLC+Base') {
-            let elementsToMove = bossesCopy.slice(0, 6);
+            const elementsToMove = bossesCopy.slice(0, 6);
             bossesCopy.splice(0, 6);
             bossesCopy.splice(8, 0, ...elementsToMove);
-            let elem = bossesCopy.splice(2, 1)[0];
+            const elem = bossesCopy.splice(2, 1)[0];
             bossesCopy.unshift(elem);
         }
         bossesCopy.forEach(boss => {
@@ -89,25 +89,41 @@ function fetchCuphead() {
         players.forEach(player => {
             player.runs = new Array(categories.length).fill(0)
         })
-        const numRuns = fullgameILsCategory.numRuns
+        let ILindex = 0
+        values[0].values.forEach((value, valueIndex) => {
+            if (value.userEnteredValue?.formulaValue?.includes('=INDEX')) {
+                ILindex = valueIndex
+            }
+        })
+        const viable = new Array(categories.length).fill(true)
         categories.forEach((category, categoryIndex) => {
+            if (values[categoryIndex].values[ILindex+1]) {
+                viable[categoryIndex] = false
+            }
+        })
+        const numRuns = fullgameILsCategory.numRuns
+        const checkbox_viable = document.getElementById('checkbox_viable').checked
+        categories.forEach((category, categoryIndex) => {
+            const viableCheck=!checkbox_viable && !viable[categoryIndex]
             category.difficulty = 'regular'
             if (values[categoryIndex]) {
                 if (values[categoryIndex].values) {
                     if (values[categoryIndex].values[numRuns]) {
-                        const rawTime = values[categoryIndex].values[numRuns].userEnteredValue?.numberValue
+                        const rawTime = values[categoryIndex].values[viableCheck ? ILindex+1 : numRuns].userEnteredValue?.numberValue
                         const time = convertToSeconds(secondsToHMS(Math.round(rawTime * 24 * 60)))
-                        values[categoryIndex].values.slice(numRuns + 1).forEach(column => {
-                            // console.log(column.userEnteredValue.formulaValue)
-                            let playerName = column.userEnteredValue.formulaValue.split(',')[1].trim().slice(1).split('"')[0]
-                            const link = column.userEnteredValue.formulaValue.slice(12).split('"')[0]
-                            let debug = false
-                            if (playerName.startsWith("*")) {
-                                playerName = playerName.slice(1);
-                                debug = true
+                        const runs = viableCheck ? values[categoryIndex].values.slice(ILindex + 2) : values[categoryIndex].values.slice(numRuns + 1, ILindex)
+                        runs.forEach(column => {
+                            if (column.userEnteredValue) {
+                                let playerName = column.userEnteredValue.formulaValue.split(',')[1].trim().slice(1).split('"')[0]
+                                const link = column.userEnteredValue.formulaValue.slice(12).split('"')[0]
+                                let debug = false
+                                if (playerName.startsWith("*")) {
+                                    playerName = playerName.slice(1);
+                                    debug = true
+                                }
+                                addPlayer({ name: playerName })
+                                category.runs.push({ place: 1, debug: debug, player: { name: playerName }, score: time, date: category.runs.length, videos: { links: [{ uri: link }] } })
                             }
-                            addPlayer({ name: playerName })
-                            category.runs.push({ place: 1, debug: debug, player: { name: playerName }, score: time, date: category.runs.length, videos: { links: [{ uri: link }] } })
                         })
                     }
                 }

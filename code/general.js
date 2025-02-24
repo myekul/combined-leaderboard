@@ -554,7 +554,7 @@ function scoreGradeSpan(percentage) {
     return `<span class='${grade.className}' style='border-radius:5px;padding:0 5px'>${displayPercentage(percentage)}% ${grade.grade}</span>`
 }
 function getDateDif(date1, date2) {
-    return (date1 - date2) / (100 * 60 * 60 * 24) / 10
+    return Math.floor((date1 - date2) / (100 * 60 * 60 * 24) / 10)
 }
 function toggleOptionsNew(name) {
     playSound('move')
@@ -570,4 +570,7 @@ function toggleVisibility(elem) {
         element.style.display = ''
         return 1
     }
+}
+function daysAgo(dateDif) {
+    return dateDif == 0 ? 'Today' : dateDif + ` day${dateDif == 1 ? '' : 's'} ago`
 }

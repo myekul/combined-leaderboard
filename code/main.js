@@ -85,7 +85,7 @@ function getFullgameILs(categoryName) {
     setMode('fullgameILs')
     disableLevelModes()
     sortCategoryIndex = -1
-    categoryName = categoryName != null ? categoryName : fullgameILsCategory.name
+    categoryName = categoryName != null ? categoryName : fullgameILsCategory.tabName
     fullgameILsCategory = fullgameILs[categoryName]
     updateLoadouts(categoryName)
     buttonClick('fullgameILs_' + fullgameILsCategory.className, 'fullgameILsVersionTabs', 'active')

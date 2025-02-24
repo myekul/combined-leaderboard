@@ -122,14 +122,17 @@ function sortRuns(sortRange) {
             const category = categories[run.categoryIndex]
             const className = big5() ? category.difficulty : classNameLogic(category)
             if (sortCriteria == 'date') {
-                const date = new Date(run.run.date)
-                const date2 = new Date(everyRun[runIndex + 1]?.run.date)
-                if (date2?.getFullYear() > 1969) {
-                    const dateDif = getDateDif(date, date2)
-                    HTMLContent += `<td>${dateDif}</td>`
-                } else {
-                    HTMLContent += `<td></td>`
-                }
+                // const date = new Date(run.run.date)
+                // const date2 = new Date(everyRun[runIndex + 1]?.run.date)
+                // if (date2?.getFullYear() > 1969) {
+                //     const dateDif = getDateDif(date, date2)
+                //     HTMLContent += `<td>${dateDif}</td>`
+                // } else {
+                //     HTMLContent += `<td></td>`
+                // }
+                const date = new Date()
+                const date2 = new Date(run.run.date)
+                HTMLContent += `<td>${daysAgo(getDateDif(date, date2))}</td>`
                 HTMLContent += `<td>${run.run.date}</td>`
                 if (sortDateOptions.value == 'dayofweek') {
                     HTMLContent += `<td>${daysOfWeek[date.getDay()]}</td>`

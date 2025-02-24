@@ -93,8 +93,8 @@ function refreshRunRecap() {
     document.getElementById('runRecapBoardTitle').innerHTML = generateBoardTitle(2)
 }
 const top3Text = "Average of top 3 players' boss times in their PBs"
-const humanTheoryText = "Top 3 players' PB boss times averaged with run viable comm best ILs"
-const commBestText = "Community best ILs with run viable strats"
+const humanTheoryText = "Top 3 players' PB boss times averaged with comm best ILs"
+const commBestText = "Community best ILs"
 function runRecapAction() {
     if (players[0]) {
         const score = getScore(extraCategory, convertToSeconds(runRecapTime))
@@ -110,7 +110,7 @@ function runRecapAction() {
                     <optgroup label="Custom">
                         <option value="top3" title="${top3Text}" selected>Top 3 Average</option>
                         <option value="humanTheory" title="${humanTheoryText}">Human Theory</option>
-                        <option value="commBest" title="${commBestText}">Comm Best (Viable)</option>
+                        <option value="commBest" title="${commBestText}">Comm Best${document.getElementById('checkbox_viable').checked ? ' (Viable)' : ''}</option>
                     </optgroup>
                     <optgroup label="Players">`
         for (let i = 0; i < fullgameILsCategory.numRuns; i++) {
