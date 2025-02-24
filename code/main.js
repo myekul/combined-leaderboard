@@ -40,21 +40,26 @@ function getFullgame(categoryName) {
         }
     } else {
         categories = categorySet[gameID]
-        if (gameID == 'sm64') {
-            if (categoryName) {
+        if (categoryName) {
+            if (gameID == 'sm64') {
                 if (categoryName == 'long') {
                     categories = categories.slice(0, 2)
                 } else if (categoryName == 'short') {
                     categories = categories.slice(2, 5)
                 }
-                buttonClick('fullgameCategories_' + categoryName, 'fullgameCategories', 'active')
             }
+            if (gameID == 'nsmbw') {
+                if (categoryName == 'allSolo') {
+                    categories = [...categories, ...nsmbwAll]
+                }
+            }
+            buttonClick('fullgameCategories_' + categoryName, 'fullgameCategories', 'active')
         }
     }
     if (!categoryName) {
         fullgameCategory = ''
         categories = categorySet[gameID]
-        if (['cuphead', 'sm64'].includes(gameID)) {
+        if (['cuphead', 'sm64', 'nsmbw'].includes(gameID)) {
             buttonClick(gameID + '_fullgameCategories_main', 'fullgameCategories', 'active')
         }
     }

@@ -158,7 +158,7 @@ function showTab(newPage) {
             document.getElementById('fullgameILsSection').style.display = ''
         }
     }
-    if (['cuphead', 'sm64'].includes(gameID) && mode == 'fullgame') {
+    if (['cuphead', 'sm64', 'nsmbw'].includes(gameID) && mode == 'fullgame') {
         document.getElementById('fullgameCategoriesSection').style.display = ''
     }
     if (gameID == 'sm64' && mode == 'levels') {

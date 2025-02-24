@@ -84,7 +84,7 @@ if (['fullgame', 'levels', 'fullgameILs'].includes(modeParam)) {
 } else {
     setMode('fullgame')
 }
-if (['cuphead', 'sm64'].includes(gameID)) {
+if (['cuphead', 'sm64', 'nsmbw'].includes(gameID)) {
     document.getElementById(gameID + '_fullgameCategories').style.display = ''
 }
 let numModalPages = 3

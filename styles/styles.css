@@ -18,8 +18,8 @@
 }
 
 .banner {
-    background-color: var(--banner);
-    color: var(--bannerText)
+    background-color: var(--banner) !important;
+    color: var(--bannerText) !important
 }
 
 .gray {

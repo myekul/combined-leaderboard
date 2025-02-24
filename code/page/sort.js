@@ -132,7 +132,7 @@ function sortRuns(sortRange) {
                 // }
                 const date = new Date()
                 const date2 = new Date(run.run.date)
-                HTMLContent += `<td>${daysAgo(getDateDif(date, date2))}</td>`
+                HTMLContent += `<td style='font-size:80%'>${daysAgo(getDateDif(date, date2))}</td>`
                 HTMLContent += `<td>${run.run.date}</td>`
                 if (sortDateOptions.value == 'dayofweek') {
                     HTMLContent += `<td>${daysOfWeek[date.getDay()]}</td>`

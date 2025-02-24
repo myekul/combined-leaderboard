@@ -180,3 +180,26 @@ const nsmbw = [
         subcat: '814g9yj1'
     }
 ]
+const nsmbwAll = [
+    {
+        name: 'Any% No W5',
+        className: 'dlc',
+        id: '7kjr9nx2',
+        var: 'wledqkxn',
+        subcat: '814g9yj1'
+    },
+    {
+        name: 'Low%',
+        className: 'dlcbase',
+        id: 'z277vqg2',
+        var: 'wledqkxn',
+        subcat: '814g9yj1'
+    },
+    {
+        name: 'All Regular Exits',
+        className: 'mrsandman',
+        id: 'q2541n8d',
+        var: 'wledqkxn',
+        subcat: '814g9yj1'
+    }
+]

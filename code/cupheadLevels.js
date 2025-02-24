@@ -164,7 +164,7 @@ function toggleFullgameCategories() {
     } else {
         showFullgameCategories = true
         fullgameCategoriesElem.style.display = ''
-        fullgameCategoriesButton.innerHTML = '&#10005'
+        fullgameCategoriesButton.innerHTML = fontAwesome('close')
     }
 }
 function toggleILcategories() {
@@ -178,7 +178,7 @@ function toggleILcategories() {
     } else {
         ILcategories = true
         ILcategoriesElem.style.display = ''
-        ILcategoriesButton.innerHTML = '&#10005'
+        ILcategoriesButton.innerHTML = fontAwesome('close')
     }
 }
 function toggleBasegameILs() {
