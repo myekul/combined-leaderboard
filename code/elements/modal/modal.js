@@ -13,11 +13,11 @@ function openModal(param, sound) {
     }
     showModal = true
     if (gameID == 'tetris') {
-        numModalPages = 2
+        numModalPages = 1
     } else if (mode == 'fullgameILs') {
         numModalPages = 1
     } else {
-        numModalPages = 3
+        numModalPages = 2
     }
     if (modalIndex > numModalPages) {
         modalIndex = 0
@@ -71,7 +71,7 @@ function openModal(param, sound) {
         HTMLContent += boardTitle ? `<div class='modalBoardTitle' style='padding-left:20px'>${boardTitle}</div>` : ''
         HTMLContent += `</div>`
         modalPlayer.innerHTML = HTMLContent
-        let modalPageNames = ['reportCard', 'runDetails', 'gradeTable', 'scoreBreakdown']
+        let modalPageNames = ['reportCard', 'videoCollection', 'gradeTable']
         if (mode == 'fullgameILs') {
             modalPageNames.slice(0, 2)
         }
@@ -82,15 +82,12 @@ function openModal(param, sound) {
         if (modalPage == 'reportCard') {
             modalTitle.innerText = 'REPORT CARD'
             modalBody.innerHTML = reportCard(player)
-        } else if (modalPage == 'runDetails') {
-            modalTitle.innerText = 'RUN DETAILS'
-            modalBody.innerHTML = runDetails(player)
+        } else if (modalPage == 'videoCollection') {
+            modalTitle.innerText = 'VIDEO COLLECTION'
+            modalBody.innerHTML = videoCollection(player)
         } else if (modalPage == 'gradeTable') {
             modalTitle.innerText = 'GRADE TABLE'
             modalBody.innerHTML = gradeTable(player)
-        } else if (modalPage == 'scoreBreakdown') {
-            modalTitle.innerText = 'SCORE BREAKDOWN'
-            modalBody.innerHTML = scoreBreakdown(player)
         }
         HTMLContent = `<div onclick="modalLeft()" class='clickable'>&#9664</div>`;
         for (let i = 0; i <= numModalPages; i++) {
@@ -162,7 +159,7 @@ function getThumbnail(link, videoID) {
     const src = link.includes('twitch') ? 'images/twitch.png' : `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`
     return getAnchor(link) + `<img src='${src}' class='clickable' style='width:160px;height:90px'></img></a>`
 }
-function runDetails(player) {
+function videoCollection(player) {
     let HTMLContent = `<div class='container'><table>`
     player.runs.forEach((run, runIndex) => {
         if (run && !(gameID == 'mtpo' && runIndex == 0)) {
@@ -256,47 +253,15 @@ function scoreBreakdown(player) {
         }
     })
     const missingRuns = missingCategories.length > 0
-    const numRuns = categories.length - missingCategories.length
-    playerCategories.forEach((category, categoryIndex) => {
-        HTMLContent += getCategoryHeader(category)
-        if (categoryIndex < numRuns) {
-            HTMLContent += `<th></th>`
-        }
-    })
     HTMLContent += `</tr>`
-    const extra = mode == 'levels' && big5()
-    if (extra) {
-        HTMLContent += `<tr>`
-        playerCategories.forEach((category, categoryIndex) => {
-            HTMLContent += getExtraHeader(category)
-            if (categoryIndex < numRuns) {
-                HTMLContent += `<th></th>`
-            }
-        })
-        HTMLContent += `</tr>`
-    }
-    const percentageSum = player.truePercentageSum.toFixed(1)
-    HTMLContent += `<tr>`
-    playerRuns.forEach((run, runIndex) => {
-        const letterGrade = getLetterGrade(run.percentage)
-        HTMLContent += `<td class=${letterGrade.className}>${displayPercentage(run.percentage)}</td>`
-        if (runIndex < playerRuns.length - 1) {
-            HTMLContent += `<td>+</td>`
-        } else {
-            HTMLContent += numRuns > 1 ? `<td>=${percentageSum}</td>` : ''
-        }
-    })
     HTMLContent += `</tr></table></div>`
-    if (numRuns > 1) {
-        HTMLContent += `<div class='container'><div>${percentageSum} / ${numRuns} = ${displayPercentage(player.truePercentageSum / numRuns)}</div></div>`
-    }
     HTMLContent += missingRuns ? `<div class='container' style='padding:10px'>Missing Runs</div>` : ''
     HTMLContent += `<div class='container'><table><tr>`
     missingCategories.forEach(missingCategory => {
         HTMLContent += getCategoryHeader(missingCategory)
     })
     HTMLContent += `</tr>`
-    if (extra) {
+    if (mode == 'levels' && big5()) {
         HTMLContent += `<tr>`
         missingCategories.forEach(missingCategory => {
             HTMLContent += getExtraHeader(missingCategory)

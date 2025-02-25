@@ -64,15 +64,24 @@ function reportCard(player) {
         HTMLContent += `</table></div>`
         HTMLContent += `<div id='modal_refresh' onclick="toggleSliders();toggleSliders()" class='clickable' style='display:none;padding-left:10px'>${fontAwesome('refresh')}</div>`
         HTMLContent += `</div>`
-        if (player.hasAllRuns) {
-            HTMLContent += `<div id='modal_sliders' onclick="toggleSliders()" class='container clickable' style='width:50px'>${fontAwesome('sliders')}</div>`
-        }
     }
     const myekulSaysCheck = mode != 'levels' && myekulSays[player.name]
-    HTMLContent += myekulSaysCheck ? `<div id='myekulSaysButton' class='clickable' onclick="myekulSaysAction()" style='position:absolute;left:8px;bottom:3px'><img src='images/external/myekul.png' style='height:24px;width:auto'></div>` : ''
+    const iconSize = 26
+    HTMLContent += `<div class='container' style='align-items:center'>`
+    HTMLContent += myekulSaysCheck ? `<div id='myekulSaysButton' class='clickable' onclick="myekulSaysAction()"><img src='images/external/myekul.png' style='width:${iconSize}px;height:auto'></div>` : `<div style='width:${iconSize}px;height:${iconSize}px'></div>`
+    HTMLContent += myekulSaysCheck ? `<div id='myekulSaysEmpty' style='display:none;width:${iconSize}px;height:auto'></div>` : ''
+    if (mode != 'fullgameILs' && player.hasAllRuns) {
+        HTMLContent += `<div id='modal_sliders' onclick="toggleSliders()" class='container clickable' style='width:50px'>${fontAwesome('sliders')}</div>`
+    } else {
+        HTMLContent += `<div class='container' style=''></div>`
+    }
+    HTMLContent += player.explanation ? `<div id='modal_sliders' onclick="scoreBreakdownInfo()" class='clickable' style='width:${iconSize}px'>${fontAwesome('info-circle')}</div>` : `<div style='width:${iconSize}px;height:${iconSize}px'></div>`
+    HTMLContent += `</div>`
+    const textStyle = 'font-size:80%;max-width:275px;padding-bottom:15px'
+    HTMLContent += player.explanation ? `<div id='playerExplanation' class='container textBlock' style='display:none;${textStyle}'>${player.explanation}</div>` : ''
     HTMLContent += myekulSaysCheck ? `<div id='myekulSays' style='display:none'>
         <div class='container clickable' onclick="myekulSaysAction()" style='justify-content:left;padding-left:10px'><img src='images/external/myekul.png' style='height:30px;width:auto;padding-right:5px'><div style='font-size:110%'><span class='myekulColor'>myekul</span> says...</div></div>
-        <div class='container textBlock' style='font-size:80%;max-width:275px;padding-bottom:15px'>${myekulSaysCheck}</div>
+        <div class='container textBlock' style='${textStyle}'>${myekulSaysCheck}</div>
         </div>` : ''
     return HTMLContent
 }
@@ -80,6 +89,11 @@ function myekulSaysAction() {
     playSound('move')
     toggleVisibility('myekulSays')
     toggleVisibility('myekulSaysButton')
+    toggleVisibility('myekulSaysEmpty')
+}
+function scoreBreakdownInfo() {
+    playSound('move')
+    toggleVisibility('playerExplanation')
 }
 // function rankComparison(rank) {
 //     let HTMLContent = '<table>'

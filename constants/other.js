@@ -178,9 +178,7 @@ const nsmbw = [
         id: 'wkp1wwkr',
         var: 'wledqkxn',
         subcat: '814g9yj1'
-    }
-]
-const nsmbwAll = [
+    },
     {
         name: 'Any% No W5',
         className: 'dlc',

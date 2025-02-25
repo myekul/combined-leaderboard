@@ -17,28 +17,27 @@ function modalInfo() {
             <div onclick='generateInfoExample()' class='clickable' style='width:25px;text-align:center;padding-right:3px'><i class='fa fa-refresh'></i></div>
             <div id='infoExample'>${infoExample()}</div></div>
 
-            <div class='textBox'><i class='fa fa-exclamation-triangle myekulColor'></i> If a player has a run score worse than
+            <div class='textBox'><i class='fa fa-exclamation-triangle myekulColor'></i> If a player has a run score worse than the average of their best score and
             ${scoreGradeSpan(getPercentage((categories.length - 1) / categories.length))}
              (<span class='myekulColor'>[# of categories - 1] / [# of categories]</span>),
              but they have another run greater than that, then <span class='myekulColor'>their bad score will be forgiven</span>.
             This logic ensures that submitting a bad run is better than having no submission at all.
             </div>
 
-            <br>After a player's run scores are determined, the average is calculated.
+            <br>After a player's run scores are determined, missing runs are taken into consideration.
             <span class='myekulColor'>If a player is missing a run, they will recieve an overall score penalty</span>.
-            The leaderboard strongly favors players with more category variety.
-            <br><br>The default penalty is <span class='myekulColor'>score * (1 / [# of categories]^2)</span>.
-            <br>The level penalty is <span class='myekulColor'>score * (1 / [# of categories])</span>.
+            <br><br>For each missing run, the player will recieve a placeholder score to be used in overall score calculation.
+            The default placeholder is <span class='myekulColor'>([Player's best score] + ((1 / [# of categories]) / [# of categories]) / 2</span>.
             <br>`
         if (['cuphead', 'sm64'].includes(gameID)) {
             HTMLContent += `<br><div class='textBox'><i class='fa fa-exclamation-triangle myekulColor'></i> In some cases, the missing run penalty will be reduced if the player has another run in a similar category.`
             if (gameID == 'cuphead') {
                 HTMLContent += `<br><br>-If a player has an NMG run but no submitted 1.1+ run, their NMG run will be used in 1.1+ score calculation.
-                    <br>-If a player has a 1.1+ run but no NMG run, their NMG penalty will be halved.
-                    <br>-If a player has a 1.1+ and/or NMG run and a DLC run but no DLC+Base run, their DLC+Base penalty will be halved.
-                    <br>-If a player has a DLC+Base run but no DLC run, their DLC penalty will be halved.`
+                    <br>-If a player has a 1.1+ run but no NMG run, their NMG penalty will be reduced.
+                    <br>-If a player has a 1.1+ and/or NMG run and a DLC run but no DLC+Base run, their DLC+Base penalty will be reduced.
+                    <br>-If a player has a DLC+Base run but no DLC run, their DLC penalty will be reduced.`
             } else if (gameID == 'sm64') {
-                HTMLContent += `<br><br>-If a player has a 0-Star run but no 1-Star run, their 1-Star penalty will be halved.`
+                HTMLContent += `<br><br>-If a player has a 0-Star run but no 1-Star run, their 1-Star penalty will be reduced.`
             }
             HTMLContent += `</div>`
         }
