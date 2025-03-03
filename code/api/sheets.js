@@ -67,7 +67,7 @@ function fetchCuphead() {
         fields: 'sheets(data(rowData(values(userEnteredValue,textFormatRuns))))'
     }).then(response => {
         const values = response.result.sheets[0].data[0].rowData;
-        console.log(values)
+        // console.log(values)
         categories = []
         bossesCopy = [...bosses]
         if (fullgameILsCategory.name == 'DLC') {
@@ -90,26 +90,31 @@ function fetchCuphead() {
             player.runs = new Array(categories.length).fill(0)
         })
         let ILindex = 0
+        let lastIndex = 0
         values[0].values.forEach((value, valueIndex) => {
             if (value.userEnteredValue?.formulaValue?.includes('=INDEX')) {
                 ILindex = valueIndex
             }
+            lastIndex = valueIndex
         })
+        if (!ILindex) {
+            ILindex = lastIndex + 1
+        }
         const viable = new Array(categories.length).fill(true)
         categories.forEach((category, categoryIndex) => {
-            if (values[categoryIndex].values[ILindex+1]) {
+            if (values[categoryIndex].values[ILindex + 1]) {
                 viable[categoryIndex] = false
             }
         })
         const numRuns = fullgameILsCategory.numRuns
         const checkbox_viable = document.getElementById('checkbox_viable').checked
         categories.forEach((category, categoryIndex) => {
-            const viableCheck=!checkbox_viable && !viable[categoryIndex]
+            const viableCheck = !checkbox_viable && !viable[categoryIndex]
             category.difficulty = 'regular'
             if (values[categoryIndex]) {
                 if (values[categoryIndex].values) {
                     if (values[categoryIndex].values[numRuns]) {
-                        const rawTime = values[categoryIndex].values[viableCheck ? ILindex+1 : numRuns].userEnteredValue?.numberValue
+                        const rawTime = values[categoryIndex].values[viableCheck ? ILindex + 1 : numRuns].userEnteredValue?.numberValue
                         const time = convertToSeconds(secondsToHMS(Math.round(rawTime * 24 * 60)))
                         const runs = viableCheck ? values[categoryIndex].values.slice(ILindex + 2) : values[categoryIndex].values.slice(numRuns + 1, ILindex)
                         runs.forEach(column => {

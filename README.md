@@ -17,6 +17,9 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 ### World records
 - Displays the world records for each category
 
+### Featured
+- Shows the 5 most recent runs with an A- or better
+
 ### Chart
 - Visualizes the competition 
 - Compares player scores and run scores
@@ -35,6 +38,7 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Cuphead one gun?
 - 1.1 ILs (Goopy, Sally, Werner)
 - C/S DLC+Base board
+- Run recap insert your own times
 
 ## Known bugs
 - Leaderboard squish and stretch

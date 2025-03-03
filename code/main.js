@@ -1,23 +1,3 @@
-google.charts.load('current', { packages: ['corechart'] });
-document.addEventListener('DOMContentLoaded', function () {
-    refreshLeaderboard()
-    let audioNames = []
-    if (gameID == 'cuphead') {
-        audioNames = ['cardup', 'carddown', 'cardflip', 'category_select', 'equip_move', 'locked', 'move', 'ready', 'win_time_loop', 'win_time_loop_end']
-    }
-    if (gameID == 'smb3') {
-        audioNames = ['cardup', 'carddown', 'locked', 'cardflip', 'equip_move']
-    }
-    if (gameID == 'sm64') {
-        audioNames = ['cardup', 'carddown']
-    }
-    audioNames.forEach(audio => {
-        const audioElement = document.createElement('audio');
-        audioElement.id = audio;
-        audioElement.src = 'sfx/' + gameID + '/' + audio + '.wav';
-        document.body.appendChild(audioElement);
-    });
-})
 function getFullgame(categoryName) {
     setMode('fullgame')
     disableLevelModes()
@@ -330,6 +310,7 @@ function generateRanks() {
     const threshold = mode == 'fullgame' ? minimum : 0
     // const threshold = 0
     players.forEach(player => {
+        player.truePercentages = new Array(categories.length).fill(0)
         const ideal = (minimum + player.bestScore) / 2
         player.percentageSum = 0
         const missingRuns = []
@@ -337,47 +318,22 @@ function generateRanks() {
         player.runs.forEach((run, runIndex) => {
             const category = categories[runIndex]
             if (run) {
-                const newScore = run.percentage >= ideal || !good ? run.percentage : ideal
+                const newScore = goodRunCheck(run)
                 player.percentageSum += newScore
-                if (gameID == 'cuphead') {
-                    // Highest grade in place of an Any% run
-                    // } else if (mode == 'levels' && big5() && runIndex % 2 == 0) {
-                    //     let runCopy = { ...run }
-                    //     const anyIndex = runIndex - 1
-                    //     const any = categories[anyIndex]
-                    //     const anyRun = player.runs[anyIndex]
-                    //     runCopy.percentage = getScore(any, run.score)
-                    //     runCopy.place = runCopy.percentage >= 100 ? 1 : '-'
-                    //     runCopy.first = false
-                    //     runCopy.untied = false
-                    //     if (!anyRun) {
-                    //         player.runs[anyIndex] = runCopy
-                    //         player.percentageSum += runCopy.percentage
-                    //     } else if (player.runs[anyIndex].score > run.score) {
-                    //         player.runs[anyIndex] = runCopy
-                    //         player.percentageSum -= getScore(any, anyRun.score)
-                    //         player.percentageSum += runCopy.percentage
-                    //     }
-                    // }
-                }
+                player.truePercentages[runIndex] = newScore
             } else {
                 // NMG run in place of a 1.1 run
                 if ((category.name == '1.1+' || category.name == 'Full Clear 1.1+') && player.runs[2]) {
-                    const runCopy = { ...player.runs[2] }
-                    const onePointOne = categories[0]
-                    runCopy.percentage = getScore(onePointOne, runCopy.score)
-                    runCopy.place = runCopy.percentage >= 100 ? 1 : '-'
-                    runCopy.first = false
-                    runCopy.untied = false
-                    const newScore = runCopy.percentage >= ideal || !good ? runCopy.percentage : ideal
-                    player.runs[0] = runCopy
-                    player.percentageSum += newScore
+                    placeholderRun(player, good, ideal, 2, 0)
+
                     // } else if (player.runs[0].score > run.score) {
                     //     player.runs[0] = runCopy
                     //     const oldScore = getScore(onePointOne, onePointOneRun.score)
                     //     const newOldScore = oldScore >= threshold || !good ? oldScore : ideal
                     //     player.percentageSum -= newOldScore
                     //     player.percentageSum += newScore
+                } else if (mode == 'levels' && big5() && runIndex % 2 == 0 && (player.runs[runIndex + 1])) {
+                    placeholderRun(player, good, ideal, runIndex + 1, runIndex)
                 } else {
                     missingRuns.push(runIndex)
                 }
@@ -385,11 +341,28 @@ function generateRanks() {
         })
         player.explanation = ''
         missingRuns.forEach(runIndex => {
-            const penalty = applyPenalty(player, runIndex, minimum)
-            player.percentageSum += mode == 'fullgame' ? penalty ? penalty : ideal : 75
+            const penalty = ''
+            // const penalty = applyPenalty(player, runIndex, minimum)
+            const placeholder = mode == 'fullgame' ? penalty ? penalty : ideal : 80
+            player.percentageSum += placeholder
+            player.truePercentages[runIndex] = placeholder
         })
         player.score = player.percentageSum / categories.length
     })
+}
+function goodRunCheck(run, good, ideal) {
+    return run.percentage >= ideal || !good ? run.percentage : ideal
+}
+function placeholderRun(player, good, ideal, copyIndex, pasteIndex) {
+    const runCopy = { ...player.runs[copyIndex] }
+    runCopy.percentage = getScore(categories[pasteIndex], runCopy.score)
+    runCopy.place = runCopy.percentage >= 100 ? 1 : '-'
+    runCopy.first = false
+    runCopy.untied = false
+    const newScore = goodRunCheck(runCopy, good, ideal)
+    player.runs[pasteIndex] = runCopy
+    player.percentageSum += newScore
+    player.truePercentages[pasteIndex] = newScore
 }
 function organizePlayers(categoryIndex, shh) {
     if (categoryIndex > categories.length - 1 || categoryIndex < 0) {

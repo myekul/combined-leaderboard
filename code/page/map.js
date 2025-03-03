@@ -135,7 +135,7 @@ function countryCount() {
         })
     })
     let HTMLContent = ''
-    HTMLContent += `<div class='container'>${generateBoardTitle(1)}</div>`
+    HTMLContent += `<div style='margin:0'><div class='container'>${generateBoardTitle(1)}</div>`
     HTMLContent += `<table class='bigShadow'>`
     countriesArray.forEach((country, countryIndex) => {
         HTMLContent +=
@@ -147,7 +147,7 @@ function countryCount() {
                 ${trophyCase(country)}
                 </tr>`
     })
-    HTMLContent += `</table>`
+    HTMLContent += `</table></div>`
     return HTMLContent
 }
 function flagArmy() {

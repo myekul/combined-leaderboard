@@ -16,9 +16,7 @@ function reportCard(player) {
                 const thisCategory = categories[categoryIndex]
                 HTMLContent += `<td>${getTrophy(place)}</td>`
                 HTMLContent += `<td class='${thisCategory.difficulty}' style='text-align:left'>${difficultyILs ? trimDifficulty(thisCategory.name) : thisCategory.name}</td>`
-                if (run) {
-                    HTMLContent += reportCardSection(category, categoryIndex, run.score, percentage)
-                }
+                HTMLContent += reportCardSection(category, categoryIndex, run.score, percentage)
                 categoryIndex++
             }
             HTMLContent += `</tr>`
@@ -36,9 +34,10 @@ function reportCard(player) {
                     <td style='color:white;padding-right:3px;text-align:right'>${run?.debug ? '*' : ''}${getTrophy(place)}</td>`
             HTMLContent += image ? `<td id='modal-img' class='${classNameLogic(category)}'>${image}</td>` : ''
             HTMLContent += `<td class='${classNameLogic(category)}' style='text-align:left'>${category.name}</td>`
-            if (run && mode != 'fullgameILs') {
+            if (mode != 'fullgameILs') {
                 HTMLContent += reportCardSection(category, categoryIndex, run.score, run.percentage)
             }
+
             HTMLContent += `</tr>`
         })
     }
@@ -65,7 +64,7 @@ function reportCard(player) {
         HTMLContent += `<div id='modal_refresh' onclick="toggleSliders();toggleSliders()" class='clickable' style='display:none;padding-left:10px'>${fontAwesome('refresh')}</div>`
         HTMLContent += `</div>`
     }
-    const myekulSaysCheck = mode != 'levels' && myekulSays[player.name]
+    const myekulSaysCheck = myekulSays[player.name]
     const iconSize = 26
     HTMLContent += `<div class='container' style='align-items:center'>`
     HTMLContent += myekulSaysCheck ? `<div id='myekulSaysButton' class='clickable' onclick="myekulSaysAction()"><img src='images/external/myekul.png' style='width:${iconSize}px;height:auto'></div>` : `<div style='width:${iconSize}px;height:${iconSize}px'></div>`
@@ -75,7 +74,7 @@ function reportCard(player) {
     } else {
         HTMLContent += `<div class='container' style=''></div>`
     }
-    HTMLContent += player.explanation ? `<div id='modal_sliders' onclick="scoreBreakdownInfo()" class='clickable' style='width:${iconSize}px'>${fontAwesome('info-circle')}</div>` : `<div style='width:${iconSize}px;height:${iconSize}px'></div>`
+    HTMLContent += mode != 'fullgameILs' ? `<div id='modal_sliders' onclick="scoreBreakdownInfo()" class='clickable ${player.explanation ? 'myekulColor' : ''}' style='width:${iconSize}px'>${fontAwesome('info-circle')}</div>` : `<div style='width:${iconSize}px;height:${iconSize}px'></div>`
     HTMLContent += `</div>`
     const textStyle = 'font-size:80%;max-width:275px;padding-bottom:15px'
     HTMLContent += player.explanation ? `<div id='playerExplanation' class='container textBlock' style='display:none;${textStyle}'>${player.explanation}</div>` : ''
@@ -93,7 +92,10 @@ function myekulSaysAction() {
 }
 function scoreBreakdownInfo() {
     playSound('move')
-    toggleVisibility('playerExplanation')
+    players[globalPlayerIndex].explanation ? toggleVisibility('playerExplanation') : ''
+    for (let i = 0; i < categories.length; i++) {
+        toggleVisibility('modal_category_' + i + '_truePercentage')
+    }
 }
 // function rankComparison(rank) {
 //     let HTMLContent = '<table>'
@@ -119,8 +121,8 @@ function toggleSliders() {
     } else {
         document.getElementById('modal_sliders').innerHTML = fontAwesome('close')
         for (let i = 0; i < categories.length; i++) {
-            document.getElementById('modal_category_' + i + '_slider_div').style.display = ''
-            document.getElementById('modal_category_' + i + '_place').style.display = ''
+            toggleVisibility('modal_category_' + i + '_slider_div')
+            toggleVisibility('modal_category_' + i + '_place')
         }
         document.getElementById('modal_scoreGradeSpan').style.display = ''
         // document.getElementById('modal_rankComparison').style.display = ''
@@ -132,26 +134,35 @@ function toggleSliders() {
     })
 }
 function reportCardSection(category, categoryIndex, score, percentage) {
-    const grade = getLetterGrade(percentage)
-    const accentColor = ''
-    // const accentColor=getColorFromClass(classNameLogic(category))
-    let className = classNameLogic(category)
-    if (!className) {
-        className = 'banner'
-    }
-    const place = players[globalPlayerIndex].runs[categoryIndex].place
-    let placeClassName = placeClass(place)
-    if (!placeClassName) {
-        placeClassName = classNameLogic(category)
-    }
-    const HTMLContent =
-        `<td id='modal_category_${categoryIndex}_grade' class='${grade.className}' style='text-align:left;min-width:25px'>${grade.grade}</td>
+    let HTMLContent = ''
+    if (score) {
+        const grade = getLetterGrade(percentage)
+        const accentColor = ''
+        // const accentColor=getColorFromClass(classNameLogic(category))
+        let className = classNameLogic(category)
+        if (!className) {
+            className = 'banner'
+        }
+        const place = players[globalPlayerIndex].runs[categoryIndex].place
+        HTMLContent =
+            `<td id='modal_category_${categoryIndex}_grade' class='${grade.className}' style='text-align:left;min-width:25px'>${grade.grade}</td>
         <td id='modal_category_${categoryIndex}_percentage' class='${grade.className}' style='min-width:45px'>${displayPercentage(percentage)}</td>
-        <td id='modal_category_${categoryIndex}_place' class='${placeClassName}' style='display:none;font-size:75%;min-width:25px'>${place}</td>
+        ${truePercentage(categoryIndex)}
+        <td id='modal_category_${categoryIndex}_place' class='${classNameLogic(category)}' style='display:none;font-size:75%;min-width:25px'>${place}</td>
         <td id='modal_category_${categoryIndex}_score' class='${classNameLogic(category)}'>${tetrisCheck(category, score)}</td>
         <td class='background' style='border-right:1px solid white'><div id='modal_category_${categoryIndex}_visual' class='${className}' style='color:transparent !important;width:${percentage == 100 ? 102 : normalize50(percentage)}%'>dummy</div></td>
         <td id='modal_category_${categoryIndex}_slider_div' style='display:none'><input id='modal_category_${categoryIndex}_slider' style='width:300px;accent-color:${accentColor}' type='range' oninput='adjustGrade(${categoryIndex})' step='0.1' min='50' max='${category.runs[0].percentage}' value='${Math.round(percentage)}'></td>`
+    } else {
+        HTMLContent += `<td></td><td></td>${truePercentage(categoryIndex)}`
+    }
     return HTMLContent
+}
+function truePercentage(categoryIndex) {
+    const player = players[globalPlayerIndex]
+    const fakePercentage = player.runs[categoryIndex]?.percentage
+    const truePercentage = player.truePercentages[categoryIndex]
+    const grade = getLetterGrade(truePercentage)
+    return `<td id='modal_category_${categoryIndex}_truePercentage' class='${fakePercentage != truePercentage ? grade.className : ''}' style='display:none;min-width:30px;font-size:80%'>${displayPercentage(truePercentage)}</td>`
 }
 function adjustGrade(categoryIndex) {
     document.getElementById('modal_refresh').style.display = ''

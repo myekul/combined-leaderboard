@@ -6,7 +6,7 @@ function modalInfo() {
     ${infoTitle('Controls')}
     <br>-Use left and right arrow keys to switch between categories.
     <br>-Click on a player's name to view their report card!
-    <br>-Use arrow keys to navigate between player stats.
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;-Use arrow keys to navigate between player stats.
     <br>`
     if (mode != 'fullgameILs' && !(gameID == 'cuphead' && mode == 'levels')) {
         HTMLContent += `${infoTitle('How it works')}
@@ -27,20 +27,20 @@ function modalInfo() {
             <br>After a player's run scores are determined, missing runs are taken into consideration.
             <span class='myekulColor'>If a player is missing a run, they will recieve an overall score penalty</span>.
             <br><br>For each missing run, the player will recieve a placeholder score to be used in overall score calculation.
-            The default placeholder is <span class='myekulColor'>([Player's best score] + ((1 / [# of categories]) / [# of categories]) / 2</span>.
-            <br>`
-        if (['cuphead', 'sm64'].includes(gameID)) {
-            HTMLContent += `<br><div class='textBox'><i class='fa fa-exclamation-triangle myekulColor'></i> In some cases, the missing run penalty will be reduced if the player has another run in a similar category.`
-            if (gameID == 'cuphead') {
-                HTMLContent += `<br><br>-If a player has an NMG run but no submitted 1.1+ run, their NMG run will be used in 1.1+ score calculation.
-                    <br>-If a player has a 1.1+ run but no NMG run, their NMG penalty will be reduced.
-                    <br>-If a player has a 1.1+ and/or NMG run and a DLC run but no DLC+Base run, their DLC+Base penalty will be reduced.
-                    <br>-If a player has a DLC+Base run but no DLC run, their DLC penalty will be reduced.`
-            } else if (gameID == 'sm64') {
-                HTMLContent += `<br><br>-If a player has a 0-Star run but no 1-Star run, their 1-Star penalty will be reduced.`
-            }
-            HTMLContent += `</div>`
-        }
+            The default placeholder is <span class='myekulColor'>([Player's best score] + (100 * ((1 / [# of categories]) / [# of categories])) / 2</span>.
+            <br>To view a player's calculation scores, press the ${fontAwesome('info-circle')} button in the bottom right of their report card.<br>`
+        // if (['cuphead', 'sm64'].includes(gameID)) {
+        //     HTMLContent += `<br><div class='textBox'><i class='fa fa-exclamation-triangle myekulColor'></i> In some cases, the missing run penalty will be reduced if the player has another run in a similar category.`
+        //     if (gameID == 'cuphead') {
+        //         HTMLContent += `<br><br>-If a player has an NMG run but no submitted 1.1+ run, their NMG run will be used in 1.1+ score calculation.
+        //             <br>-If a player has a 1.1+ run but no NMG run, their NMG penalty will be reduced.
+        //             <br>-If a player has a 1.1+ and/or NMG run and a DLC run but no DLC+Base run, their DLC+Base penalty will be reduced.
+        //             <br>-If a player has a DLC+Base run but no DLC run, their DLC penalty will be reduced.`
+        //     } else if (gameID == 'sm64') {
+        //         HTMLContent += `<br><br>-If a player has a 0-Star run but no 1-Star run, their 1-Star penalty will be reduced.`
+        //     }
+        //     HTMLContent += `</div>`
+        // }
     }
     HTMLContent += infoTitle('Disclaimer')
     HTMLContent += `<br>Overall player rank calculation can be a very subjective thing. This website was made for fun, and may not reflect the actual skill levels of each player.

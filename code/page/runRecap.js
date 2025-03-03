@@ -57,9 +57,6 @@ function runRecapPlayer() {
     return HTMLContent
 }
 function runRecap(event) {
-    categories.forEach(category => {
-        category.info.levelID = bossIDs[category.info.id]
-    })
     const fileInput = event.target
     const file = fileInput.files[0];
     if (file) {
@@ -68,7 +65,6 @@ function runRecap(event) {
         reader.onload = function (e) {
             const content = e.target.result;
             runRecapFile = JSON.parse(content)
-            document.getElementById('runRecapBack').style.display = ''
             showTab('runRecap')
             playSound('ready')
             const checkbox_runRecap_harsh = document.getElementById('checkbox_runRecap_harsh')
@@ -85,6 +81,15 @@ function runRecap(event) {
     }
     fileInput.value = ''
 }
+function processSavFile() {
+    fetch('resources/cupheadSav.json')
+        .then(response => response.json())
+        .then(data => {
+            runRecapFile = data
+            runRecapDisplay()
+            runRecapAction()
+        })
+}
 function refreshRunRecap() {
     const dropdown_runRecap = document.getElementById('dropdown_runRecap')
     dropdown_runRecap.classList.remove(fullgameILsCategory.className)
@@ -96,6 +101,10 @@ const top3Text = "Average of top 3 players' boss times in their PBs"
 const humanTheoryText = "Top 3 players' PB boss times averaged with comm best ILs"
 const commBestText = "Community best ILs"
 function runRecapAction() {
+    document.getElementById('runRecapBack').style.display = ''
+    categories.forEach(category => {
+        category.info.levelID = bossIDs[category.info.id]
+    })
     if (players[0]) {
         const score = getScore(extraCategory, convertToSeconds(runRecapTime))
         let HTMLContent = ''
@@ -121,10 +130,26 @@ function runRecapAction() {
         HTMLContent += `</div>`
         HTMLContent += `<div id='comparisonInfo' class='textBlock container' style='display:none;font-size:75%'></div>`
         HTMLContent += `<div id='comparisonChart'>${runRecapComparison()}</div>`
-        HTMLContent += `<div class='container' style='padding-top:20px'><div class='button cuphead' onclick="runRecapRestart()">Restart</div></div>`
+        HTMLContent += `<div class='container' style='padding-top:20px'>
+        <div class='button cuphead' onclick="runRecapRestart()" style='width:100px'>${fontAwesome('reply')}&nbsp;Restart</div>
+        <div class='divider'></div>
+        <div class='button cuphead' onclick="runRecapDownload()" style='width:100px'>${fontAwesome('download')}&nbsp;Save file</div>
+        </div>`
         document.getElementById('runRecap').innerHTML = HTMLContent
         updateComparisonInfo()
     }
+}
+function runRecapDownload() {
+    const jsonStr = JSON.stringify(runRecapFile, null, 2)
+    const blob = new Blob([jsonStr], { type: "application/json" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url;
+    a.download = 'cuphead_player_data_vi_slot_0.sav';
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
 }
 function updateComparisonInfo() {
     const comparison = document.getElementById('dropdown_runRecapComparison')?.value
@@ -171,43 +196,32 @@ function updateRunRecapAction() {
 }
 function runRecapComparison() {
     let HTMLContent = ''
-    const dropdown_runRecapComparison = document.getElementById('dropdown_runRecapComparison')
-    const comparison = dropdown_runRecapComparison ? dropdown_runRecapComparison.value : 'top3'
     updateComparisonInfo()
     isles.forEach(isle => {
         isle.sum = 0
     })
-    HTMLContent += `<div class='container' style='padding-top:10px'><table>`
-    categories.forEach((category, categoryIndex) => {
-        let runTime = runRecapFile.levelDataManager.levelObjects.find(level => level.levelID == category.info.levelID)?.bestTime
-        if (runTime) {
-            let comparisonTime
-            if (comparison == 'top3') {
-                comparisonTime = fullgameILsCategory.top3[categoryIndex]
-            } else if (comparison == 'humanTheory') {
-                comparisonTime = fullgameILsCategory.humanTheory[categoryIndex]
-            } else if (comparison == 'commBest') {
-                comparisonTime = getWorldRecord(category)
-            } else if (comparison.split('_')[0] == 'player') {
-                comparisonTime = fullgameILsCategory.runs[parseInt(comparison.split('_')[1])][categoryIndex]
-            }
-            const delta = Math.floor(runTime) - Math.floor(comparisonTime)
-            let score = 100 - delta
-            if (document.getElementById('checkbox_runRecap_harsh').checked) {
-                score = 100 - delta * 2
-            }
-            isles[category.info.isle - 1].sum += score
-            const grade = getLetterGrade(score)
-            HTMLContent += `<tr class='${getRowColor(categoryIndex)}'>
-        <td style='font-size:80%'>${secondsToHMS(comparisonTime)}</td>
-        <td class='${grade.className}'>${delta < 0 ? '' : '+'}${delta}s</td>
-        <td class='container ${category.info.id}'>${getImage(category.info.id, 21)}</td>
-        <td>${secondsToHMS(runTime, true)}</td>
-        <td class='${grade.className}' style='text-align:left'>${grade.grade}</td>
-        </tr>`
-        }
+    HTMLContent += `<div class='container' style='padding-top:10px;gap:30px'>`
+    isles.forEach(isle => {
+        isle.runRecapCategories = []
     })
-    HTMLContent += `</table>`
+    categories.forEach((category, categoryIndex) => {
+        isles[category.info.isle - 1].runRecapCategories.push([category, categoryIndex])
+    })
+    if (['DLC', 'DLC+Base'].includes(fullgameILsCategory.name)) {
+        const isle = isles[4]
+        HTMLContent += isleHeader(isle)
+        isle.runRecapCategories.forEach(object => {
+            HTMLContent += runRecapCategory(object)
+        })
+        HTMLContent += `</table>`
+    }
+    isles.slice(0, 4).forEach(isle => {
+        HTMLContent += isle.runRecapCategories.length ? isleHeader(isle) : ''
+        isle.runRecapCategories.forEach(object => {
+            HTMLContent += runRecapCategory(object)
+        })
+        HTMLContent += `</table>`
+    })
     // HTMLContent += `<table>`
     // isles.forEach(isle => {
     //     if (isle.sum) {
@@ -223,4 +237,79 @@ function runRecapComparison() {
     // HTMLContent += `</table>`
     HTMLContent += `</div>`
     return HTMLContent
+}
+function isleHeader(isle) {
+    return `<table class='bigShadow'><tr><td colspan=10 class='${isle.className}'>${isle.name}</td></td>`
+}
+function runRecapCategory(object) {
+    const dropdown_runRecapComparison = document.getElementById('dropdown_runRecapComparison')
+    const comparison = dropdown_runRecapComparison ? dropdown_runRecapComparison.value : 'top3'
+    const category = object[0]
+    const categoryIndex = object[1]
+    const level = runRecapFile.levelDataManager.levelObjects.find(level => level.levelID == category.info.levelID)
+    const runTime = level?.bestTime
+    let HTMLContent = ''
+    const done = runTime && runTime != nullTime
+    let comparisonTime
+    if (comparison == 'top3') {
+        comparisonTime = fullgameILsCategory.top3[categoryIndex]
+    } else if (comparison == 'humanTheory') {
+        comparisonTime = fullgameILsCategory.humanTheory[categoryIndex]
+    } else if (comparison == 'commBest') {
+        comparisonTime = getWorldRecord(category)
+    } else if (comparison.split('_')[0] == 'player') {
+        comparisonTime = fullgameILsCategory.runs[parseInt(comparison.split('_')[1])][categoryIndex]
+    }
+    const delta = Math.floor(runTime) - Math.floor(comparisonTime)
+    let score = 100 - delta
+    if (document.getElementById('checkbox_runRecap_harsh').checked) {
+        // const playerScore = getScore(extraCategory, convertToSeconds(runRecapTime))
+        // if (playerScore < 90) {
+            score = 100 - (delta * 3)
+        // } else {
+        //     score = 100 - (delta * ((playerScore - 90) / 2))
+        // }
+    }
+    isles[category.info.isle - 1].sum += score
+    const grade = getLetterGrade(score)
+    HTMLContent += `<tr class='${getRowColor(categoryIndex)}'>`
+    HTMLContent += done ? `<td style='font-size:80%'>${secondsToHMS(comparisonTime)}</td>` : `<td></td>`
+    HTMLContent += done ? `<td class='${grade.className}'>${delta < 0 ? '' : '+'}${delta}s</td>` : `<td></td>`
+    HTMLContent += `<td class='container ${category.info.id}'>${getImage(category.info.id, 42)}</td>`
+    HTMLContent += `<td id='runRecap_${categoryIndex}' class='${category.info.id}' style='padding:0 5px'>${done ? runRecapIL(runTime, categoryIndex) : runRecapInput(categoryIndex)}</td>`
+    HTMLContent += done ? `<td class='${grade.className}' style='text-align:left'>${grade.grade}</td>` : `<td></td>`
+    HTMLContent += `</tr>`
+    return HTMLContent
+}
+function updateRunRecapIL(categoryIndex) {
+    playSound('category_select')
+    const category = categories[categoryIndex]
+    const level = runRecapFile.levelDataManager.levelObjects.find(level => level.levelID == category.info.levelID)
+    let userInput = document.getElementById('input_runRecapIL_' + categoryIndex).value
+    if (userInput.includes(':')) {
+        userInput = convertToSeconds(userInput)
+    }
+    if (!userInput) {
+        userInput = nullTime
+        level.completed = false
+        level.played = false
+    } else {
+        level.completed = true
+        level.played = true
+    }
+    level.bestTime = userInput
+    runRecapAction()
+}
+function runRecapIL(runTime, categoryIndex) {
+    return `<div class='clickable' onclick="runRecapPlaceholder('${runTime}',${categoryIndex})" style='font-size:135%'>${secondsToHMS(runTime, true)}</div>`
+}
+function runRecapPlaceholder(runTime, categoryIndex) {
+    document.getElementById('runRecap_' + categoryIndex).innerHTML = runRecapInput(categoryIndex, runTime)
+    const input = document.getElementById('input_runRecapIL_' + categoryIndex)
+    input.focus()
+    input.setSelectionRange(0, input.value.length)
+}
+function runRecapInput(categoryIndex, value) {
+    value = value ? value : ''
+    return `<input id='input_runRecapIL_${categoryIndex}' type='text' placeholder='X:XX' value='${value}' style='font-size:100%;width:45px' onchange="updateRunRecapIL(${categoryIndex})" onblur="updateRunRecapIL(${categoryIndex})">`
 }

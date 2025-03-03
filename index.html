@@ -360,7 +360,7 @@
                         <div id="flagArmy"></div>
                         <!-- <div id="countryChart"></div> -->
                     </div>
-                    <div class='container' style="width:50%">
+                    <div class='container' style="width:50%;margin:0">
                         <div id="countryTable"></div>
                     </div>
                 </div>
@@ -445,26 +445,40 @@
                                     class='fa fa-edit'></i></div>
                         </div>
                     </div>
-                    <div class='container' style="gap:4px">
-                        <input type='file' id='runRecapInput' onchange="runRecap(event)" style='display:none'>
-                        <div id='runRecapBack' onclick="runRecapDisplay()" class='button cuphead'
-                            style="display:none;width:40px"><i class="fa fa-reply"></i>
+                    <br>
+                    <div class='container'>
+                        <div class='textBlock'>
+                            You can either upload an existing .sav file to automatically retrieve IL times, or create a
+                            new file and insert IL times manually.
                         </div>
-                        <div onclick="document.getElementById('runRecapInput').click()" class='button cuphead'>Upload
-                            file
+                    </div>
+                    <br>
+                    <div class='container' style="gap:4px">
+                        <div id="runRecapBack" class="container" style="display:none;margin:0">
+                            <div onclick="runRecapDisplay()" class='button cuphead' style="width:100px"><i
+                                    class="fa fa-reply"></i>&nbsp;Go back
+                            </div>
+                            <div class="divider"></div>
+                        </div>
+                        <input type='file' id='runRecapInput' onchange="runRecap(event)" style='display:none'>
+                        <div onclick="document.getElementById('runRecapInput').click()" class='button cuphead'><i
+                                class="fa fa-upload"></i>&nbsp;Upload file
                         </div>
                         <div onclick="playSound('move');toggleVisibility('runRecapInfo')" class='clickable'><i
                                 class='fa fa-info-circle'></i></div>
+                        <div class='divider'></div>
+                        <div onclick='processSavFile()' class="button cuphead" style="width:100px"><i
+                                class="fa fa-plus"></i>&nbsp;New file</div>
                     </div>
                     <div id='runRecapInfo' style='display:none;padding-bottom:10px'>
                         <div class='container'>
                             <div>
                                 SAVE FILE LOCATIONS:
-                                <br>Windows: <span class='myekulColor'>C:\\Users\\<span
-                                        class='runRecapInfoName'>${playerName}</span>\\AppData\\Roaming\\Cuphead</span>
+                                <br>Windows: <span class='myekulColor'>C:\Users\<span
+                                        class='runRecapInfoName'>${playerName}</span>\AppData\Roaming\Cuphead</span>
                                 <br>Mac: <span class='myekulColor'>/Users/<span
-                                        class='runRecapInfoName'>${playerName}</span>/Library/Application\\
-                                    Support/unity.Studio\\ MDHR.Cuphead/Cuphead</span>
+                                        class='runRecapInfoName'>${playerName}</span>/Library/Application\
+                                    Support/unity.Studio\ MDHR.Cuphead/Cuphead</span>
                             </div>
                         </div>
                     </div>
@@ -540,6 +554,7 @@
     <script src="code/penalty.js"></script>
 
     <script src="code/variables.js"></script>
+    <script src="code/startup.js"></script>
 
     <script src="code/eventListeners.js"></script>
 

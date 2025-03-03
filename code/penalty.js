@@ -1,6 +1,6 @@
 function applyPenalty(player, runIndex, minimum) {
     const ideal = (player.bestScore + minimum) / 2
-    const reduced = (player.bestScore + ideal) / 2
+    const reduced = null
     if (mode == 'fullgame') {
         if (categories[0].name == '1.1+' || categories[0].name == 'Full Clear 1.1+') {
             if (runIndex == 2 && player.runs[0]) {

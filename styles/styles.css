@@ -568,3 +568,9 @@ svg {
     position: absolute;
     right: 40px;
 }
+
+.divider {
+    margin: 0 15px;
+    border-left: 2px solid white;
+    height: 40px;
+}
