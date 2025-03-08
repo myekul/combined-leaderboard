@@ -87,7 +87,7 @@ function getAllLevels() {
     //     const boardTitleSrc = document.getElementById('boardTitleSrc')
     //     boardTitleSrc.innerHTML = `<div style='font-size:16px;padding-bottom:5px'>{ }</div>`
     // } else {
-        window.firebaseUtils.firestoreRead25()
+    window.firebaseUtils.firestoreRead25()
     // }
 }
 function getDifficulty(difficulty) {
@@ -156,14 +156,13 @@ function getBossIL(bossName) {
 function toggleFullgameCategories() {
     playSound('move')
     const fullgameCategoriesButton = document.getElementById('fullgameCategoriesButton')
-    const fullgameCategoriesElem = document.getElementById('fullgameCategories')
     if (showFullgameCategories) {
         showFullgameCategories = false
-        fullgameCategoriesElem.style.display = 'none'
+        hide('fullgameCategories')
         fullgameCategoriesButton.innerHTML = '&#9660'
     } else {
         showFullgameCategories = true
-        fullgameCategoriesElem.style.display = ''
+        show('fullgameCategories')
         fullgameCategoriesButton.innerHTML = fontAwesome('close')
     }
 }
@@ -173,11 +172,11 @@ function toggleILcategories() {
     const ILcategoriesElem = document.getElementById('ILcategories_' + gameID)
     if (ILcategories) {
         ILcategories = false
-        ILcategoriesElem.style.display = 'none'
+        hide(ILcategoriesElem)
         ILcategoriesButton.innerHTML = '&#9660'
     } else {
         ILcategories = true
-        ILcategoriesElem.style.display = ''
+        show(ILcategoriesElem)
         ILcategoriesButton.innerHTML = fontAwesome('close')
     }
 }

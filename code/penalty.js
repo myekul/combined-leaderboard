@@ -1,6 +1,6 @@
 function applyPenalty(player, runIndex, minimum) {
     const ideal = (player.bestScore + minimum) / 2
-    const reduced = null
+    const reduced = ideal
     if (mode == 'fullgame') {
         if (categories[0].name == '1.1+' || categories[0].name == 'Full Clear 1.1+') {
             if (runIndex == 2 && player.runs[0]) {
@@ -39,74 +39,75 @@ function applyPenalty(player, runIndex, minimum) {
         return null
     } else {
         if (bossILindex > -1) {
-            player.score -= penalty(player)
+            return null
         } else if (allILs || isleIndex > -1 || groundPlane) {
             const category = categories[runIndex]
-            if (category.name == 'Simple Any%' && (player.runs[runIndex + 1] || player.runs[runIndex + 2] || player.runs[runIndex + 3] || player.runs[runIndex + 4] || player.runs[runIndex + 5])) {
-                player.score -= penalty(player)
-            } else if (category.name == 'Simple B+' && (player.runs[runIndex - 1] || player.runs[runIndex + 1] || player.runs[runIndex + 2] || player.runs[runIndex + 3] || player.runs[runIndex + 4])) {
-                player.score -= penalty(player)
-            } else if (category.name == 'Regular Any%' && (player.runs[runIndex - 2] || player.runs[runIndex - 1] || player.runs[runIndex + 1] || player.runs[runIndex + 2] || player.runs[runIndex + 3])) {
-                if (category.info.time == 129) {
-                    player.score -= penalty(player)
-                } else {
-                    if (player.runs[runIndex + 1] || player.runs[runIndex + 2] || player.runs[runIndex + 3]) {
-                        player.score -= penalty(player)
-                    } else {
-                        player.score -= levelPenalty(player)
-                    }
-                }
-            } else if (category.name == 'Regular A+' && (player.runs[runIndex - 3] || player.runs[runIndex - 2] || player.runs[runIndex - 1] || player.runs[runIndex + 1] || player.runs[runIndex + 2])) {
-                if (category.info.time == 129) {
-                    player.score -= penalty(player)
-                } else {
-                    if (player.runs[runIndex - 1] || player.runs[runIndex + 1] || player.runs[runIndex + 2]) {
-                        player.score -= penalty(player)
-                    } else {
-                        player.score -= levelPenalty(player)
-                    }
-                }
-            } else if (category.name == 'Expert Any%' && (player.runs[runIndex - 4] || player.runs[runIndex - 3] || player.runs[runIndex - 2] || player.runs[runIndex - 1] || player.runs[runIndex + 1])) {
-                if (category.info.time == 129) {
-                    player.score -= penalty(player)
-                } else {
-                    if (player.runs[runIndex - 2] || player.runs[runIndex - 1] || player.runs[runIndex + 1]) {
-                        player.score -= penalty(player)
-                    } else {
-                        player.score -= levelPenalty(player)
-                    }
-                }
-            } else if (category.name == 'S-Rank' && (player.runs[runIndex - 5] || player.runs[runIndex - 4] || player.runs[runIndex - 3] || player.runs[runIndex - 2] || player.runs[runIndex - 1])) {
-                if (category.info.time == 129) {
-                    player.score -= penalty(player)
-                } else {
-                    if (player.runs[runIndex - 3] || player.runs[runIndex - 2] || player.runs[runIndex - 1]) {
-                        player.score -= penalty(player)
-                    } else {
-                        player.score -= levelPenalty(player)
-                    }
-                }
-            } else {
-                player.score -= levelPenalty(player)
+            let startOffset, endOffset;
+            switch (category.name) {
+                case 'Simple Any%':
+                    startOffset = 1;
+                    endOffset = 5;
+                    break;
+                case 'Simple B+':
+                    startOffset = -1;
+                    endOffset = 4;
+                    break;
+                case 'Regular Any%':
+                    startOffset = category.info.time == 129 ? -2 : 1;
+                    endOffset = category.info.time == 129 ? 3 : 3;
+                    break;
+                case 'Regular A+':
+                    startOffset = category.info.time == 129 ? -3 : -1;
+                    endOffset = category.info.time == 129 ? 2 : 2;
+                    break;
+                case 'Expert Any%':
+                    startOffset = category.info.time == 129 ? -4 : -2;
+                    endOffset = category.info.time == 129 ? 1 : 1;
+                    break;
+                case 'S-Rank':
+                    startOffset = category.info.time == 129 ? -5 : -3;
+                    endOffset = category.info.time == 129 ? -1 : -1;
+                    break;
+                default:
+                    return null;
             }
+            const numCats = cupheadNumCats(category)
+            const minim = 100 * (numCats - 1) / numCats
+            const maxScore = adjacentRunsMax(player, runIndex, startOffset, endOffset);
+            if (maxScore) {
+                if (maxScore > minim) {
+                    return (maxScore + minim) / 2;
+                }
+                return minim
+            }
+            return null;
         } else if (difficultyILs) {
             if (runIndex % 2 == 0) {
                 if (player.runs[runIndex + 1]) {
-                    player.score -= penalty(player)
+                    return reduced
                 } else {
-                    player.score -= levelPenalty(player)
+                    return null
                 }
             } else {
                 if (player.runs[runIndex - 1]) {
-                    player.score -= penalty(player)
+                    return reduced
                 } else {
-                    player.score -= levelPenalty(player)
+                    return null
                 }
             }
-        } else {
-            player.score -= levelPenalty(player)
+        }
+        return null
+    }
+}
+function adjacentRunsMax(player, runIndex, startOffset, endOffset) {
+    let max = 0
+    for (let i = startOffset; i <= endOffset; i++) {
+        const adjacentRun = player.runs[runIndex + i]
+        if (adjacentRun?.percentage > max) {
+            max = adjacentRun.percentage
         }
     }
+    return max ? max : null
 }
 function penalty(player) {
     return 1 / ((player.bestScore * ((categories.length - 1) / categories.length)))

@@ -66,18 +66,18 @@ function getLevels() {
         getOtherLevels()
     }
 }
-function getFullgameILs(categoryName) {
-    setMode('fullgameILs')
+function getCommBestILs(categoryName) {
+    setMode('commBestILs')
     disableLevelModes()
     sortCategoryIndex = -1
-    categoryName = categoryName != null ? categoryName : fullgameILsCategory.tabName
-    fullgameILsCategory = fullgameILs[categoryName]
+    categoryName = categoryName != null ? categoryName : commBestILsCategory.tabName
+    commBestILsCategory = commBestILs[categoryName]
     updateLoadouts(categoryName)
-    buttonClick('fullgameILs_' + fullgameILsCategory.className, 'fullgameILsVersionTabs', 'active')
+    buttonClick('commBestILs_' + commBestILsCategory.className, 'commBestILsVersionTabs', 'active')
     resetLoad()
     players = []
     playerNames = new Set()
-    let category = fullgameILsCategory.category
+    let category = commBestILsCategory.category
     let variables = `var-${category.var}=${category.subcat}`
     if (category.var2) {
         variables += `&var-${category.var2}=${category.subcat2}`
@@ -91,14 +91,14 @@ function getFullgameILs(categoryName) {
 function updateLoadouts(categoryName) {
     let HTMLContent = ''
     let fullgameCategories = []
-    if (fullgameILsCategory.name == 'DLC') {
+    if (commBestILsCategory.name == 'DLC') {
         fullgameCategories.push('DLC', 'DLC C/S', 'DLC C/T', 'DLC Low%', 'DLC C-less', 'DLC Expert')
-    } else if (fullgameILsCategory.name == 'DLC+Base') {
+    } else if (commBestILsCategory.name == 'DLC+Base') {
         fullgameCategories.push('DLC+Base', 'DLC+Base C/S')
     }
     fullgameCategories.forEach(category => {
-        const thisCategory = fullgameILs[category]
-        HTMLContent += `<div onclick="playSound('category_select');getFullgameILs('${category}')" class="button ${fullgameILsCategory.className} container ${categoryName == category ? 'active' : ''}">`
+        const thisCategory = commBestILs[category]
+        HTMLContent += `<div onclick="playSound('category_select');getCommBestILs('${category}')" class="button ${commBestILsCategory.className} container ${categoryName == category ? 'active' : ''}">`
         HTMLContent += thisCategory.shot1 ? `<img src="images/cuphead/inventory/weapons/${thisCategory.shot1}.png">` : ''
         HTMLContent += thisCategory.shot2 ? `<img src="images/cuphead/inventory/weapons/${thisCategory.shot2}.png">` : ''
         HTMLContent += thisCategory.subcat ? thisCategory.subcat : ''
@@ -189,25 +189,22 @@ function prepareData() {
     categories.forEach((category, categoryIndex) => {
         assignRuns(category, categoryIndex)
     })
-    if (mode == 'fullgameILs') {
+    if (mode == 'commBestILs') {
         assignRuns(extraCategory)
-        if (gameID == 'cuphead' && mode == 'fullgameILs' && fullgameILsCategory.tabName == 'DLC C/S') {
+        const categoryName = commBestILsCategory.tabName
+        if (commBestExtra.includes(categoryName)) {
+            const morePlayers = []
+            commBestILsCategory.extraRuns.forEach(run => {
+                morePlayers.push(run.playerName)
+            })
+            players = players.filter(player => commBestILsCategory.extraPlayers?.includes(player.name) || morePlayers.includes(player.name) || player.runs.some(run => run != 0))
             const worldRecord = getWorldRecord(extraCategory)
-            players = players.filter(player => chargeDLC.includes(player.name) || extraChargeDLC.includes(player.name) || player.runs.some(run => run != 0))
-            const Quincely0 = players.find(player => player.name == 'Quincely0')
-            Quincely0.extra = {
-                date: '2024-08-07',
-                score: 650.69,
-                percentage: getPercentage(worldRecord / 650.69),
-                videos: { links: [{ uri: 'https://youtu.be/9NmKTKqQUdg' }] }
-            }
-            const GamerAttack27 = players.find(player => player.name == 'GamerAttack27')
-            GamerAttack27.extra = {
-                date: '2023-24-12',
-                score: 659.85,
-                percentage: getPercentage(worldRecord / 659.85),
-                videos: { links: [{ uri: 'https://youtu.be/AKyBN0Hhy0U' }] }
-            }
+            commBestILsCategory.extraRuns.forEach(run => {
+                const player = players.find(player => player.name == run.playerName)
+                run.score = run.score > 0 ? run.score : convertToSeconds(run.score)
+                run.percentage = getPercentage(worldRecord / run.score)
+                player.extra = run
+            })
             const newPlayers = []
             const badPlayers = []
             players.forEach(player => {
@@ -257,9 +254,9 @@ function prepareData() {
     })
     const tabs = document.querySelectorAll('.tabs')
     tabs.forEach(elem => {
-        elem.style.display = ''
+        show(elem)
     })
-    document.getElementById('loading').style.display = 'none'
+    hide('loading')
     showTab(page)
 }
 function assignRuns(category, categoryIndex) {
@@ -289,7 +286,7 @@ function assignRuns(category, categoryIndex) {
         if (categoryIndex != null) {
             thePlayer.runs ? thePlayer.runs[categoryIndex] = run : ''
         } else {
-            if (!(gameID == 'cuphead' && mode == 'fullgameILs' && fullgameILsCategory.tabName == 'DLC C/S' && !chargeDLC.includes(thePlayer.name))) {
+            if (!(mode == 'commBestILs' && commBestExtra.includes(commBestILsCategory.tabName) && !commBestILsCategory.extraPlayers?.includes(thePlayer.name))) {
                 thePlayer.extra = run
             }
         }
@@ -306,8 +303,8 @@ function assignRuns(category, categoryIndex) {
     })
 }
 function generateRanks() {
-    const minimum = getPercentage((categories.length - 1) / categories.length)
-    const threshold = mode == 'fullgame' ? minimum : 0
+    const minimum = mode == 'fullgame' ? getPercentage((categories.length - 1) / categories.length) : 80
+    const threshold = minimum
     // const threshold = 0
     players.forEach(player => {
         player.truePercentages = new Array(categories.length).fill(0)
@@ -318,7 +315,7 @@ function generateRanks() {
         player.runs.forEach((run, runIndex) => {
             const category = categories[runIndex]
             if (run) {
-                const newScore = goodRunCheck(run)
+                const newScore = goodRunCheck(run, good, ideal)
                 player.percentageSum += newScore
                 player.truePercentages[runIndex] = newScore
             } else {
@@ -341,9 +338,9 @@ function generateRanks() {
         })
         player.explanation = ''
         missingRuns.forEach(runIndex => {
-            const penalty = ''
-            // const penalty = applyPenalty(player, runIndex, minimum)
-            const placeholder = mode == 'fullgame' ? penalty ? penalty : ideal : 80
+            const penalty = gameID == 'cuphead' && mode == 'levels' ? applyPenalty(player, runIndex, minimum) : ''
+            const numCats = cupheadNumCats(categories[runIndex])
+            const placeholder = penalty ? penalty : big4() ? 100 * ((numCats - 1) / numCats) : categories.length > 6 ? 80 : ideal
             player.percentageSum += placeholder
             player.truePercentages[runIndex] = placeholder
         })
@@ -380,7 +377,7 @@ function sortPlayers(playersArray, customCategoryIndex) {
     const categoryIndex = customCategoryIndex != null ? customCategoryIndex : sortCategoryIndex
     if (categoryIndex == -1) {
         let criteria = 'score'
-        if (mode == 'fullgameILs') {
+        if (mode == 'commBestILs') {
             criteria == 'rank'
         }
         playersArray.sort((a, b) => {
@@ -416,8 +413,8 @@ function refreshLeaderboard() {
             getFullgame()
         } else if (mode == 'levels') {
             getLevels()
-        } else if (mode == 'fullgameILs') {
-            getFullgameILs()
+        } else if (mode == 'commBestILs') {
+            getCommBestILs()
         }
     }
 }
@@ -428,7 +425,7 @@ function resetLoad() {
     stopLeaderboards = false
     document.getElementById('boardTitleSrc').innerHTML = `<div class='loader'></div>`
     document.getElementById('progress-bar').style.width = 0;
-    document.getElementById('loading').style.display = ''
+    show('loading')
 }
 function completeLoad() {
     document.getElementById('progress-bar').style.width = '100%';
@@ -436,7 +433,7 @@ function completeLoad() {
 function hideTabs() {
     const tabs = document.querySelectorAll('.tabs')
     tabs.forEach(elem => {
-        elem.style.display = 'none'
+        hide(elem)
     })
 }
 function resetAndGo() {

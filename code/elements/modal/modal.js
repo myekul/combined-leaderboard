@@ -14,7 +14,7 @@ function openModal(param, sound) {
     showModal = true
     if (gameID == 'tetris') {
         numModalPages = 1
-    } else if (mode == 'fullgameILs') {
+    } else if (mode == 'commBestILs') {
         numModalPages = 1
     } else {
         numModalPages = 2
@@ -25,7 +25,7 @@ function openModal(param, sound) {
     if (!playerModal) {
         modalIndex = 0
     } else {
-        document.getElementById('modal-pages').style.display = ''
+        show('modal-pages')
     }
     document.addEventListener('keydown', function (event) {
         if (event.key == 'Escape' && showModal) {
@@ -72,7 +72,7 @@ function openModal(param, sound) {
         HTMLContent += `</div>`
         modalPlayer.innerHTML = HTMLContent
         let modalPageNames = ['reportCard', 'videoCollection', 'gradeTable']
-        if (mode == 'fullgameILs') {
+        if (mode == 'commBestILs') {
             modalPageNames.slice(0, 2)
         }
         if (gameID == 'tetris') {
@@ -125,9 +125,9 @@ function closeModal() {
     modal.style.backgroundColor = 'rgba(0, 0, 0, 0)';
     const modalContent = document.getElementById('modal-content')
     modalContent.style.animation = 'slideDown 0.25s ease-out forwards';
-    document.getElementById('modal-pages').style.display = 'none'
+    hide('modal-pages')
     setTimeout(() => {
-        modal.style.display = "none";
+        hide(modal)
     }, 200);
 }
 function scoreFromGrade(category, percentage) {
@@ -189,7 +189,7 @@ function videoCollection(player) {
                 HTMLContent += `<td>${getThumbnail(link)}</td>`
                 HTMLContent += `<td></td>`
             }
-            HTMLContent += mode != 'fullgameILs' ? `<td>${run.date}</td>` : ''
+            HTMLContent += mode != 'commBestILs' ? `<td>${run.date}</td>` : ''
             HTMLContent += `</tr>`
         }
     })

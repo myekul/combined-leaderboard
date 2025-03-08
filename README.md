@@ -37,15 +37,14 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Score chart should be grades, not 0-100?
 - Cuphead one gun?
 - 1.1 ILs (Goopy, Sally, Werner)
-- C/S DLC+Base board
-- Run recap insert your own times
+- Video collection page updates
 
 ## Known bugs
 - Leaderboard squish and stretch
 - Chart time format oddities
 - Modal scrolling oddities
 - Legacy IL loadouts are unfinished
-- Legacy IL boss HP is inaccurate
+- Boss HP is inaccurate
 - Map color logic is weird
 - Some YouTube channel links are broken (SRC fault)
 - Date sort is off by 1 day

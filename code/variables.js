@@ -4,7 +4,7 @@ let playerNames = new Set()
 let players = []
 let categories = []
 
-let fullgameILsCategory = fullgameILs['1.1+']
+let commBestILsCategory = commBestILs['1.1+']
 let modalIndex = 0
 let globalPlayerIndex = -1
 

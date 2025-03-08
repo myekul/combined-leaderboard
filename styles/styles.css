@@ -235,11 +235,6 @@ select {
     font-size: 110%
 }
 
-#boardTitleDiv {
-    top: 40px;
-    max-width: 50%;
-}
-
 .boardTitleTable {
     border: 3px solid var(--banner);
     border-radius: 5px;
@@ -293,11 +288,11 @@ select {
 #fullgameCategories .button,
 #ILcategories_sm64 .button,
 #WRsTabs .button,
-#fullgameILsVersionTabs div {
+#commBestILsVersionTabs div {
     width: 85px
 }
 
-#fullgameILsWeapons img {
+#commBestILsWeapons img {
     height: 36px;
     padding: 0 2px
 }
@@ -377,10 +372,6 @@ select {
     margin-top: 10px
 }
 
-#categoriesSection {
-    top: 95px
-}
-
 #categoriesElem {
     max-width: 80%;
     overflow-x: scroll
@@ -396,7 +387,9 @@ select {
 }
 
 .options {
-    padding: 4px 0
+    padding: 2px 0;
+    width: 50px;
+    text-align: center
 }
 
 #flagArmy {
@@ -560,13 +553,6 @@ svg {
     width: auto;
     margin-bottom: 2px;
     padding: 0 10px
-}
-
-#runRecapButton {
-    width: 120px !important;
-    height: 25px;
-    position: absolute;
-    right: 40px;
 }
 
 .divider {

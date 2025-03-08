@@ -4,7 +4,7 @@ function reportCard(player) {
         let categoryIndex = 0
         while (categoryIndex < categories.length) {
             const category = categories[categoryIndex]
-            const numCats = getNumCats(category)
+            const numCats = cupheadNumCats(category)
             for (let i = 1; i <= numCats; i++) {
                 const run = player.runs[categoryIndex]
                 const percentage = run?.percentage
@@ -34,7 +34,7 @@ function reportCard(player) {
                     <td style='color:white;padding-right:3px;text-align:right'>${run?.debug ? '*' : ''}${getTrophy(place)}</td>`
             HTMLContent += image ? `<td id='modal-img' class='${classNameLogic(category)}'>${image}</td>` : ''
             HTMLContent += `<td class='${classNameLogic(category)}' style='text-align:left'>${category.name}</td>`
-            if (mode != 'fullgameILs') {
+            if (mode != 'commBestILs') {
                 HTMLContent += reportCardSection(category, categoryIndex, run.score, run.percentage)
             }
 
@@ -44,13 +44,13 @@ function reportCard(player) {
     HTMLContent += `</table>`
     // HTMLContent += `<div><div id='modal_rankComparison' style='min-width:70px'>${rankComparison(player.rank)}</div></div>`
     HTMLContent += `</div>`
-    if (mode != 'fullgameILs') {
+    if (mode != 'commBestILs') {
         HTMLContent += `<div class='container'>`
         HTMLContent +=
             `<div class='textBox'><table class='otherColor'>
             <tr>
                 <td>Rank:</td>
-                <td id='modal_rank'>${player.rank}</td>
+                <td id='modal_rank' style='padding:0 5px'>${player.rank}</td>
             </tr>`
         if (player.hasAllRuns) {
             HTMLContent +=
@@ -69,12 +69,12 @@ function reportCard(player) {
     HTMLContent += `<div class='container' style='align-items:center'>`
     HTMLContent += myekulSaysCheck ? `<div id='myekulSaysButton' class='clickable' onclick="myekulSaysAction()"><img src='images/external/myekul.png' style='width:${iconSize}px;height:auto'></div>` : `<div style='width:${iconSize}px;height:${iconSize}px'></div>`
     HTMLContent += myekulSaysCheck ? `<div id='myekulSaysEmpty' style='display:none;width:${iconSize}px;height:auto'></div>` : ''
-    if (mode != 'fullgameILs' && player.hasAllRuns) {
+    if (mode != 'commBestILs' && player.hasAllRuns) {
         HTMLContent += `<div id='modal_sliders' onclick="toggleSliders()" class='container clickable' style='width:50px'>${fontAwesome('sliders')}</div>`
     } else {
         HTMLContent += `<div class='container' style=''></div>`
     }
-    HTMLContent += mode != 'fullgameILs' ? `<div id='modal_sliders' onclick="scoreBreakdownInfo()" class='clickable ${player.explanation ? 'myekulColor' : ''}' style='width:${iconSize}px'>${fontAwesome('info-circle')}</div>` : `<div style='width:${iconSize}px;height:${iconSize}px'></div>`
+    HTMLContent += mode != 'commBestILs' ? `<div id='modal_sliders' onclick="scoreBreakdownInfo()" class='clickable ${player.explanation ? 'myekulColor' : ''}' style='width:${iconSize}px'>${fontAwesome('info-circle')}</div>` : `<div style='width:${iconSize}px;height:${iconSize}px'></div>`
     HTMLContent += `</div>`
     const textStyle = 'font-size:80%;max-width:275px;padding-bottom:15px'
     HTMLContent += player.explanation ? `<div id='playerExplanation' class='container textBlock' style='display:none;${textStyle}'>${player.explanation}</div>` : ''
@@ -124,8 +124,7 @@ function toggleSliders() {
             toggleVisibility('modal_category_' + i + '_slider_div')
             toggleVisibility('modal_category_' + i + '_place')
         }
-        document.getElementById('modal_scoreGradeSpan').style.display = ''
-        // document.getElementById('modal_rankComparison').style.display = ''
+        // show('modal_rankComparison')
         modalSliders = true
     }
     modalPercentages = []
@@ -165,7 +164,7 @@ function truePercentage(categoryIndex) {
     return `<td id='modal_category_${categoryIndex}_truePercentage' class='${fakePercentage != truePercentage ? grade.className : ''}' style='display:none;min-width:30px;font-size:80%'>${displayPercentage(truePercentage)}</td>`
 }
 function adjustGrade(categoryIndex) {
-    document.getElementById('modal_refresh').style.display = ''
+    show('modal_refresh')
     const newPercentage = parseFloat(document.getElementById('modal_category_' + categoryIndex + '_slider').value)
     const gradeElem = document.getElementById('modal_category_' + categoryIndex + '_grade')
     const newLetterGrade = getLetterGrade(newPercentage)

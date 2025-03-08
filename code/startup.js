@@ -10,13 +10,13 @@ if (!gameParam) {
 }
 const gameID = gameParam;
 let modeParam = params.get('mode')
-if (['fullgame', 'levels', 'fullgameILs'].includes(modeParam)) {
+if (['fullgame', 'levels', 'commBestILs'].includes(modeParam)) {
     setMode(modeParam)
 } else {
     setMode('fullgame')
 }
 if (['cuphead', 'sm64', 'nsmbw'].includes(gameID)) {
-    document.getElementById(gameID + '_fullgameCategories').style.display = ''
+    show(gameID + '_fullgameCategories')
 }
 let numModalPages = 3
 const SHEET_ID = gameID == 'cuphead' ? '14l1hkW337uiyCRkNz61MNq99AEoidZdqaQUIpH5FlGU' : '1ZBxkZEsfwDsUpyire4Xb16er36Covk7nhR8BN_LPodI'
@@ -33,7 +33,7 @@ if (['titanfall_2', 'mtpo'].includes(gameID)) {
 // Stylization
 document.addEventListener('DOMContentLoaded', function () {
     gameTabs()
-    document.getElementById('bodyContent').style.display = ''
+    show('bodyContent')
 })
 function gameTabs() {
     let HTMLContent = ''
@@ -65,23 +65,23 @@ document.documentElement.style.setProperty('--bannerText', getColorFromClass(gam
 const title = document.querySelector('title')
 switch (gameID) {
     case 'cuphead':
-        document.getElementById('fullgameILsButton').style.display = '';
-        document.getElementById('modeSelection').style.display = '';
-        document.getElementById('runRecapButton').style.display = ''
+        show('commBestILsButton')
+        show('modeSelection')
+        show('runRecapButton')
         break;
     case 'sm64':
-        document.getElementById('modeSelection').style.display = '';
+        show('modeSelection')
         break;
     case 'tetris':
         subtitle.innerText = 'PACE ACADEMY';
-        document.getElementById('optionsButton').style.display = 'none';
-        document.getElementById('featuredButton').style.display = 'none';
-        document.getElementById('mapButton').style.display = 'none';
+        document.querySelectorAll('.options').forEach(elem => hide(elem))
+        hide('featuredButton')
+        hide('mapButton')
         const github = document.getElementById('github');
         github.style.filter = 'brightness(0) invert(1)';
         break;
     case 'nsmbw':
-        document.getElementById('modeSelection').style.display = '';
+        show('modeSelection')
         break;
 }
 if (['smb1', 'smbtll', 'mtpo'].includes(gameID)) {
@@ -135,4 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
         audioElement.src = 'sfx/' + gameID + '/' + audio + '.wav';
         document.body.appendChild(audioElement);
     });
+})
+document.querySelectorAll('.options').forEach(elem => {
+    elem.innerHTML = fontAwesome('ellipsis-h')
 })

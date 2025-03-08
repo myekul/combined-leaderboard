@@ -1,30 +1,25 @@
 function setBoardTitle() {
-    const checkbox_isolate = document.getElementById('checkbox_isolate')
-    const closeBoardTitle = document.getElementById('closeBoardTitle')
     if (sortCategoryIndex > -1) {
         if (page == 'leaderboard') {
-            checkbox_isolate.style.display = ''
+            show('checkbox_isolate')
         }
-        closeBoardTitle.style.display = ''
+        show('closeBoardTitle')
     } else {
-        if (mode != 'fullgameILs') {
-            checkbox_isolate.style.display = 'none'
+        if (mode != 'commBestILs') {
+            hide('checkbox_isolate')
         }
-        closeBoardTitle.style.display = 'none'
+        hide('closeBoardTitle')
     }
-    if (mode == 'fullgameILs') {
+    if (mode == 'commBestILs') {
         if (page == 'leaderboard') {
-            checkbox_isolate.style.display = ''
+            show('checkbox_isolate')
         } else {
-            checkbox_isolate.style.display = 'none'
+            hide('checkbox_isolate')
         }
-
     }
     let HTMLContent = generateBoardTitle()
     const boardTitle = document.getElementById('boardTitle')
     boardTitle.innerHTML = HTMLContent
-    const boardTitleDiv = document.getElementById('boardTitleDiv')
-    boardTitleDiv.style.display = ''
 }
 function generateBoardTitle(extra, categoryIndex) {
     let worldRecord
@@ -114,16 +109,16 @@ function generateBoardTitle(extra, categoryIndex) {
             HTMLContent += `<td class='cuphead'>Base Game</td>`
         }
     }
-    if (mode == 'fullgameILs') {
+    if (mode == 'commBestILs') {
         const shotSize = categoryIndex > -1 ? imgSize : 30
-        HTMLContent += `<td class=${fullgameILsCategory.className}>${fullgameILsCategory.name}</td>`
-        HTMLContent += fullgameILsCategory.shot1 ? `<th id='fullgameILsWeapons' class='container'>` : ''
-        HTMLContent += fullgameILsCategory.shot1 ? `<img src="images/cuphead/inventory/weapons/${fullgameILsCategory.shot1}.png" style='height:${shotSize}px'></img>` : ''
-        HTMLContent += fullgameILsCategory.shot2 ? `<img src="images/cuphead/inventory/weapons/${fullgameILsCategory.shot2}.png" style='height:${shotSize}px'></img>` : ''
-        HTMLContent += fullgameILsCategory.subcat ? `<td>${fullgameILsCategory.subcat}</td>` : ''
-        HTMLContent += fullgameILsCategory.shot1 ? `</th>` : ''
+        HTMLContent += `<td class=${commBestILsCategory.className}>${commBestILsCategory.name}</td>`
+        HTMLContent += commBestILsCategory.shot1 ? `<th id='commBestILsWeapons' class='container'>` : ''
+        HTMLContent += commBestILsCategory.shot1 ? `<img src="images/cuphead/inventory/weapons/${commBestILsCategory.shot1}.png" style='height:${shotSize}px'></img>` : ''
+        HTMLContent += commBestILsCategory.shot2 ? `<img src="images/cuphead/inventory/weapons/${commBestILsCategory.shot2}.png" style='height:${shotSize}px'></img>` : ''
+        HTMLContent += commBestILsCategory.subcat ? `<td>${commBestILsCategory.subcat}</td>` : ''
+        HTMLContent += commBestILsCategory.shot1 ? `</th>` : ''
     }
-    if (page == 'charts' && sortCategoryIndex == -1 && mode != 'fullgameILs') {
+    if (page == 'charts' && sortCategoryIndex == -1 && mode != 'commBestILs') {
         HTMLContent += `<td class='banner'>Player Score</td>`
     }
     HTMLContent += `</tr></table></div>`

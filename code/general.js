@@ -58,14 +58,6 @@ function displayPercentage(percentage) {
     }
     return ''
 }
-function displayLetterGrade(percentage) {
-    const grade = getLetterGrade(percentage)
-    return `<div style='padding:4px;margin:0 5px;border-radius:5px;min-width:20px;text-align:center' class='${grade.className}'>${grade.grade}</div>`
-}
-function displayLetterScore(percentage) {
-    const grade = getLetterGrade(percentage)
-    return `<div style='font-size:120%;padding:3px;margin:0 5px;border-radius:5px;min-width:50px;text-align:center' class='${grade.className}'>${displayPercentage(percentage)}</div>`
-}
 function placeClass(place) {
     if (place == 1) {
         return 'first'
@@ -96,8 +88,8 @@ function getImage(image, heightParam) {
     return `<img src='images/${gameID}/levels/${image}.png' style='height:${height}px;width:auto'>`
 }
 function getColorClass() {
-    if (mode == 'fullgameILs') {
-        return fullgameILsCategory.className
+    if (mode == 'commBestILs') {
+        return commBestILsCategory.className
     }
     if (cupheadVersion == 'legacy') {
         return 'legacy'
@@ -148,51 +140,58 @@ function showTab(newPage) {
     hideTabs()
     tooltipStyle?.remove()
     document.querySelectorAll('.hide').forEach(elem => {
-        elem.style.display = 'none'
+        hide(elem)
     })
     if (gameID == 'cuphead') {
         if (mode == 'levels') {
-            document.getElementById('ILsSection_cuphead').style.display = ''
+            show('ILsSection_cuphead')
         }
-        if (mode == 'fullgameILs') {
-            document.getElementById('fullgameILsSection').style.display = ''
+        if (mode == 'commBestILs') {
+            show('commBestILsSection')
         }
     }
     if (['cuphead', 'sm64', 'nsmbw'].includes(gameID) && mode == 'fullgame') {
-        document.getElementById('fullgameCategoriesSection').style.display = ''
+        show('fullgameCategoriesSection')
     }
     if (gameID == 'sm64' && mode == 'levels') {
-        document.getElementById('ILsSection_sm64').style.display = ''
+        show('ILsSection_sm64')
     }
-    document.getElementById(page + 'Tab').style.display = ''
+    show(page + 'Tab')
     buttonClick(page + 'Button', 'tabs', 'active2')
-    if (gameID == 'cuphead' && mode == 'levels' || mode == 'fullgameILs') {
+    if (gameID == 'cuphead' && mode == 'levels' || mode == 'commBestILs') {
         document.getElementById('checkbox_hp').checked = true
     }
     if (page != 'leaderboard') {
         document.getElementById('checkbox_isolate').checked = false
         isolated = false
     }
-    const optionsButton = document.getElementById('optionsButton')
-    if (['sort', 'featured'].includes(page) && gameID != 'tetris' && !(page == 'sort' && mode == 'fullgameILs')) {
-        optionsOn(true)
-        optionsButton.style.display = 'none'
+    const dropdown_sortCriteria = document.getElementById('dropdown_sortCriteria')
+    const sort_options = document.getElementById('sort_options')
+    if (mode == 'commBestILs' && page == 'sort') {
+        dropdown_sortCriteria.value = 'player'
+        hide(sort_options)
+    } else if (gameID == 'tetris') {
+        dropdown_sortCriteria.value = 'score'
+        hide(sort_options)
     } else {
-        if (mode == 'fullgameILs' && ['leaderboard', 'WRs', 'sort'].includes(page)) {
-            if (page == 'sort') {
-                document.getElementById('dropdown_sortCriteria').value = 'player'
-            }
-            optionsButton.style.display = 'none'
-        } else {
-            optionsButton.style.display = ''
-        }
-        optionsOff()
+        show(sort_options)
     }
-    const WRsCupheadILsOptions = document.getElementById('WRsCupheadILsOptions')
-    if (gameID == 'cuphead' && mode == 'levels' || mode == 'fullgameILs') {
-        WRsCupheadILsOptions.style.display = ''
+    const WRs_cupheadILs_options = document.getElementById('WRs_cupheadILs_options')
+    if (gameID == 'cuphead' && mode == 'levels' || mode == 'commBestILs') {
+        show(WRs_cupheadILs_options)
     } else {
-        WRsCupheadILsOptions.style.display = 'none'
+        hide(WRs_cupheadILs_options)
+    }
+    const runRecap_details = document.getElementById('runRecap_details')
+    const runRecap_welcome = document.getElementById('runRecap_welcome')
+    if (page == 'runRecap') {
+        if (!runRecapFile) {
+            show(runRecap_welcome)
+        }
+        show(runRecap_details)
+    } else {
+        hide(runRecap_welcome)
+        hide(runRecap_details)
     }
     action()
 }
@@ -210,15 +209,15 @@ function action() {
         document.getElementById('world-map').innerHTML = ''
     }
     const categoriesSection = document.getElementById('categoriesSection')
-    if (['charts', 'map', 'sort'].includes(page) || (isolated && !(mode == 'fullgameILs' && sortCategoryIndex == -1)) || (page == 'featured' && mode != 'fullgameILs')) {
-        categoriesSection.style.display = ''
+    if (['featured', 'charts', 'map', 'sort'].includes(page) || (isolated && !(mode == 'commBestILs' && sortCategoryIndex == -1))) {
+        show(categoriesSection)
         if (sortCategoryIndex == -1) {
             categoriesSection.classList.remove('sticky')
         } else {
             categoriesSection.classList.add('sticky')
         }
     } else {
-        categoriesSection.style.display = 'none'
+        hide(categoriesSection)
     }
     setBoardTitle()
     updateCategories()
@@ -251,7 +250,7 @@ function pageAction() {
             pageTitle.innerHTML = fontAwesome('sort-amount-asc') + `&nbsp;&nbsp;Sort`
             break;
         case 'runRecap':
-            if (mode == 'fullgameILs') {
+            if (mode == 'commBestILs') {
                 updateRunRecapAction()
                 pageTitle.innerHTML = fontAwesome('history') + `&nbsp;&nbsp;Run Recap`
             } else {
@@ -305,38 +304,13 @@ function buttonClick(pressed, unpressed, className) {
 function getWorldRecord(category) {
     return category.runs[0]?.score
 }
-function toggleOptions() {
-    if (options) {
-        playSound('move')
-        optionsOff()
-    } else {
-        optionsOn()
-    }
-}
-function optionsOn(shh) {
-    if (!((mode == 'fullgameILs' && ['leaderboard', 'WRs', 'sort'].includes(page)) || ['WRs', 'sort'].includes(page) && gameID == 'tetris')) {
-        if (!shh) {
-            playSound('move')
-        }
-        options = true
-        const optionsElem = document.querySelectorAll('.options')
-        const optionsButton = document.getElementById('optionsButton')
-        optionsElem.forEach(elem => {
-            elem.style.display = ''
-        })
-        optionsButton.innerHTML = fontAwesome('close')
-    } else {
-        playSound('locked')
-    }
-}
-function optionsOff() {
-    options = false
-    const optionsElem = document.querySelectorAll('.options')
-    const optionsButton = document.getElementById('optionsButton')
-    optionsElem.forEach(elem => {
-        elem.style.display = 'none'
-    })
-    optionsButton.innerHTML = fontAwesome('ellipsis-h')
+function toggleOptions(name) {
+    let elemName = name ? name : page
+    elemName += '_options'
+    playSound('move')
+    const visible = toggleVisibility(elemName)
+    const button = document.getElementById(elemName + '_button')
+    button.innerHTML = visible ? fontAwesome('close') : fontAwesome('ellipsis-h')
 }
 function setMode(newMode) {
     mode = newMode
@@ -388,7 +362,7 @@ function getNumCols() {
             numCols++
         }
     })
-    if (mode == 'fullgameILs') {
+    if (mode == 'commBestILs') {
         numCols = 1
     }
     return numCols
@@ -414,7 +388,7 @@ function getVideoLink(run) {
 function trimDifficulty(difficulty) {
     return difficulty.split(' ')[difficulty.split(' ').length - 1]
 }
-function getNumCats(category) {
+function cupheadNumCats(category) {
     return big5() ? difficultyILs ? 2 : category.info.time > 129 ? 4 : 6 : 1
 }
 function big4() {
@@ -455,13 +429,13 @@ function toggleGameSelect() {
         showGameSelect = false
         gameSelect.classList.add('hidden')
         setTimeout(() => {
-            gameSelect.style.display = "none";
+            hide(gameSelect)
         }, 200);
         playSound('carddown')
     } else {
         showGameSelect = true
         gameSelect.classList.remove('hidden')
-        gameSelect.style.display = ''
+        show(gameSelect)
         playSound('cardup')
     }
 }
@@ -484,7 +458,7 @@ function getFont() {
     return rootStyles.getPropertyValue('--font')
 }
 function getDPS(category, score) {
-    return Math.round(category.hp / score)
+    return Math.round(category.hp / (score - 4))
 }
 function getSeason(month) {
     if (month < 2 || month === 11) {
@@ -547,7 +521,8 @@ function getEveryRun(numRuns, sortRange) {
     return everyRun
 }
 function categorySpan(category) {
-    return `<span class='${category.className}' ${category.className ? "style='border-radius:5px;padding:0 3px'" : ''}>${category.name}</span>`
+    const className = big5() ? category.difficulty : classNameLogic(category)
+    return `<span class='${className}' ${className ? "style='border-radius:5px;padding:0 3px'" : ''}>${category.name}</span>`
 }
 function scoreGradeSpan(percentage) {
     const grade = getLetterGrade(percentage)
@@ -556,21 +531,26 @@ function scoreGradeSpan(percentage) {
 function getDateDif(date1, date2) {
     return Math.floor((date1 - date2) / (100 * 60 * 60 * 24) / 10)
 }
-function toggleOptionsNew(name) {
-    playSound('move')
-    const visible = toggleVisibility(name)
-    const button = document.getElementById(name + 'Button')
-    button.innerHTML = visible ? fontAwesome('close') : fontAwesome('ellipsis-h')
-}
 function toggleVisibility(elem) {
-    const element = document.getElementById(elem)
-    if (element.style.display == '') {
-        element.style.display = 'none'
+    if (document.getElementById(elem).style.display == '') {
+        hide(elem)
     } else {
-        element.style.display = ''
+        show(elem)
         return 1
     }
 }
 function daysAgo(dateDif) {
     return dateDif == 0 ? 'Today' : dateDif + ` day${dateDif == 1 ? '' : 's'} ago`
+}
+function show(elem) {
+    if (typeof (elem) == 'string') {
+        elem = document.getElementById(elem)
+    }
+    elem.style.display = ''
+}
+function hide(elem) {
+    if (typeof (elem) == 'string') {
+        elem = document.getElementById(elem)
+    }
+    elem.style.display = 'none'
 }

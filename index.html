@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <div id="bodyContent" style="display: none">
+    <div id="bodyContent" style="display:none">
         <header>
             <div>
                 <div class="container" style="align-items: flex-end;">
@@ -54,8 +54,8 @@
                         <div id='fullgameButton' class='button' onclick="getFullgame()">Full Game</div>
                         <div id='levelsButton' class='button' onclick="getLevels()">Individual
                             Levels</div>
-                        <div id='fullgameILsButton' class='button' style='display:none' onclick="getFullgameILs()">Full
-                            Game
+                        <div id='commBestILsButton' class='button' style='display:none' onclick="getCommBestILs()">Comm
+                            Best
                             ILs
                         </div>
                     </div>
@@ -77,9 +77,9 @@
                         <div id='sortButton' class='button' onclick="showTab('sort')"><i
                                 class="fa fa-sort-amount-asc"></i>
                         </div>
-                        <div id='runRecapButton' onclick="if(mode!='fullgameILs'){getFullgameILs()};showTab('runRecap')"
-                            class="onePointOne button" style="display:none;font-size:100%"><i
-                                class="fa fa-history"></i>&nbsp;Run Recap
+                        <div id='runRecapButton' onclick="if(mode!='commBestILs'){getCommBestILs()};showTab('runRecap')"
+                            class="onePointOne button" style="display:none;font-size:100%;width:120px;
+                            height: 25px;position: absolute;right: 40px;"><i class="fa fa-history"></i>&nbsp;Run Recap
                         </div>
                     </div>
                 </div>
@@ -221,49 +221,80 @@
                     </div>
                 </div>
             </div>
-            <!-- Cuphead Fullgame ILs -->
-            <div id="fullgameILsSection" class='hide headerRow' style="display:none">
-                <div id="fullgameILsVersionTabs" class="container">
-                    <div id='fullgameILs_onePointOne' onclick="getFullgameILs('1.1+')" class="button onePointOne">1.1+
+            <!-- Cuphead Comm Best ILs -->
+            <div id="commBestILsSection" class='hide headerRow' style="display:none">
+                <div id="commBestILsVersionTabs" class="container">
+                    <div id='commBestILs_onePointOne' onclick="getCommBestILs('1.1+')" class="button onePointOne">1.1+
                     </div>
-                    <div id='fullgameILs_legacy' onclick="getFullgameILs('Legacy')" class="button legacy">Legacy</div>
-                    <div id='fullgameILs_nmg' onclick="getFullgameILs('NMG')" class="button nmg">NMG</div>
-                    <div id='fullgameILs_dlc' onclick="getFullgameILs('DLC')" class="button dlc">DLC</div>
-                    <div id='fullgameILs_dlcbase' onclick="getFullgameILs('DLC+Base')" class="button dlcbase">DLC+Base
+                    <div id='commBestILs_legacy' onclick="getCommBestILs('Legacy')" class="button legacy">Legacy</div>
+                    <div id='commBestILs_nmg' onclick="getCommBestILs('NMG')" class="button nmg">NMG</div>
+                    <div id='commBestILs_dlc' onclick="getCommBestILs('DLC')" class="button dlc">DLC</div>
+                    <div id='commBestILs_dlcbase' onclick="getCommBestILs('DLC+Base')" class="button dlcbase">DLC+Base
                     </div>
                 </div>
                 <div id="loadouts" class="container"></div>
-                <div id='fullgameILsOptionsButton' class='container clickable'
-                    onclick="toggleOptionsNew('fullgameILsOptions')" style="width:50px;text-align:center"><i
-                        class="fa fa-ellipsis-h"></i></div>
-                <div id="fullgameILsOptions" class='container' style="display:none">
-                    <input id="checkbox_viable" onchange="getFullgameILs()" type="checkbox" checked>Run viable
+                <div id='commBestILs_options_button' class='container clickable' onclick="toggleOptions('commBestILs')"
+                    style="width:50px;text-align:center"><i class="fa fa-ellipsis-h"></i></div>
+                <div id="commBestILs_options" class='container' style="display:none">
+                    <input id="checkbox_viable" onchange="getCommBestILs()" type="checkbox" checked>Run viable
                 </div>
             </div>
             <!-- Board Title -->
             <div id="pageTitle" class="container" style="font-family: var(--font2);font-size:200%;padding-top:5px">
             </div>
-            <div id="boardTitleDiv" class="container sticky">
-                <input id="checkbox_isolate" type="checkbox" style="display:none">
-                <div id="boardTitle" class="container" style="margin:0"></div>
-                <div id='closeBoardTitle' class='clickable' style='display:none;padding-left:10px'
-                    onclick="showDefault()"><i class="fa fa-close"></i>
+            <div id="boardTitleDiv" class="sticky" style="top: 42px;">
+                <div id='runRecap_welcome' style="display:none">
+                    <div class="container" style="padding-top:25px">
+                        <div class='textBlock'>
+                            Welome to <span class='myekulColor'>Run Recap</span>! This tool allows you to upload a
+                            Cuphead
+                            .sav file to gain valuable insights about your recent run performance.
+                            To get started, <span class='myekulColor'>choose a category above</span> and insert your
+                            <span class='myekulColor'>run time</span> and <span class='myekulColor'>username</span>.
+                        </div>
+                    </div>
+                    <br>
+                </div>
+                <div class="container">
+                    <div class="container" style="margin:0">
+                        <input id="checkbox_isolate" type="checkbox" onclick='action()' style="display:none">
+                        <div id="boardTitle" class="container" style="margin:0"></div>
+                        <div id='closeBoardTitle' class='clickable' style='display:none;padding-left:10px'
+                            onclick="showDefault()"><i class="fa fa-close"></i>
+                        </div>
+                    </div>
+                    <div id='runRecap_details' class='container'
+                        style='display:none;padding-left:25px;margin:0;gap:20px'>
+                        <input id='input_runRecap_time' type='text' placeholder='XX:XX'
+                            style='display:none;width:65px;font-size:100%'>
+                        <div id='runRecap_time' onclick="hideRunRecap('time')" class='container clickable'
+                            style='margin:0;gap:8px'>
+                            <div style='font-size:150%'>XX:XX</div>
+                            <div style='font-size:160%'><i class='fa fa-edit'></i></div>
+                        </div>
+                        <div id="runRecap_grade"></div>
+                        <input id='input_runRecap_player' type='text' placeholder='Your SRC username'
+                            style='display:none;width:200px;font-size:100%'>
+                        <div id='runRecap_player' onclick="hideRunRecap('player')" class='container clickable'
+                            style='margin:0;gap:8px'>Your username...<div style='font-size:160%'><i
+                                    class='fa fa-edit'></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div id='categoriesSection' class="container hide" style="display:none">
+            <div id='categoriesSection' class="container hide" style="display:none;top:95px">
                 <div class="clickable" onclick="organizePlayers(sortCategoryIndex-1)"><i class="fa fa-caret-left"></i>
                 </div>
                 <div id="categoriesElem"></div>
                 <div class="clickable" onclick="organizePlayers(sortCategoryIndex+1)"><i class="fa fa-caret-right"></i>
                 </div>
             </div>
-            <div class="container">
-                <div id='optionsButton' class='clickable hide' onclick="toggleOptions()"
-                    style="width:50px;text-align:center"><i class="fa fa-ellipsis-h"></i></div>
-            </div>
             <!-- Leaderboard -->
             <div id="leaderboardTab" class="tabs" style="display:none">
-                <div id='leaderboardOptions' class="options" style="display:none">
+                <div id='leaderboard_options_button' class='clickable container options' onclick="toggleOptions()">
+                </div>
+                <div id='leaderboard_options' style="display:none">
                     <div class="container">
                         <input id="checkbox_numRuns" type="checkbox"># of Runs
                         <input id="checkbox_milliseconds" type="checkbox">Milliseconds
@@ -273,7 +304,6 @@
                         <input id="checkbox_icons" type="checkbox" checked>Icons
                     </div>
                     <div class="container">
-                        <input id="checkbox_percentile" type="checkbox">Percentile
                         <input id="checkbox_percentage" type="checkbox">Score
                         <input id="checkbox_grade" type="checkbox" checked>Grade
                         <input id="checkbox_place" type="checkbox" checked>Place
@@ -290,9 +320,10 @@
                     <div id='WRs_sums' onclick="showWRsTab('sums')" class="button">Sums</div>
                     <div id='WRs_chart' onclick="showWRsTab('chart')" class="button">Times</div>
                 </div>
-                <div id='WRsOptions' class="container options" style="display:none">
+                <div id='WRs_options_button' class='clickable container options' onclick="toggleOptions()"></div>
+                <div id='WRs_options' class="container" style="display:none">
                     <input id='checkbox_WRs_date' onclick="action()" type="checkbox">Date
-                    <div id="WRsCupheadILsOptions">
+                    <div id="WRs_cupheadILs_options">
                         <input id='checkbox_WRs_loadouts' onclick="action()" type="checkbox" checked>Loadouts
                         <input id='checkbox_WRs_dps' onclick="action()" type="checkbox">DPS
                         <input id='checkbox_WRs_hp' onclick="action()" type="checkbox">HP
@@ -300,7 +331,7 @@
                 </div>
                 <div id="WRs"></div>
                 <div id="WRsChartSection">
-                    <div id="WRsChartOptions" class="container">
+                    <div id="WRsChart_options" class="container">
                         <select id="dropdown_WRsChart" onchange="action()">
                             <option value="default" selected>Default</option>
                             <option value="isle">Isle</option>
@@ -314,12 +345,13 @@
                 </div>
             </div>
             <!-- Featured -->
-            <div id="featuredTab" class="tabs hide" style="display:none">
+            <div id="featuredTab" class="tabs" style="display:none">
                 <div id="featured"></div>
             </div>
             <!-- Charts -->
-            <div id="chartsTab" class="tabs hide" style="display:none">
-                <div id='chartOptions' class="container options" style="display:none">
+            <div id="chartsTab" class="tabs" style="display:none">
+                <div id='charts_options_button' class='clickable container options' onclick="toggleOptions()"></div>
+                <div id='charts_options' class="container" style="display:none">
                     <select id="dropdown_top" onchange="action()">
                         <option value="30" selected>Top 30</option>
                         <option value="100">Top 100</option>
@@ -335,7 +367,8 @@
             </div>
             <!-- Map -->
             <div id="mapTab" class="tabs" style="display:none">
-                <div id='mapOptions' class="container options" style="display:none">
+                <div id='map_options_button' class='clickable container options' onclick="toggleOptions()"></div>
+                <div id='map_options' class="container" style="display:none">
                     <div>
                         <input id='checkbox_map_color' onclick="action()" type="checkbox">Color
                     </div>
@@ -370,7 +403,7 @@
             </div>
             <!-- Sort -->
             <div id="sortTab" class="tabs" style="display:none">
-                <div id='sortOptions' class="container options">
+                <div id='sort_options' class="container">
                     <select id="dropdown_sortCriteria" onchange="action()">
                         <optgroup label="Runs">
                             <option value="score" selected>Score</option>
@@ -416,39 +449,12 @@
             </div>
             <!-- Run Recap -->
             <div id="runRecapTab" class="tabs" style="display:none">
-                <div id="runRecapOptions" class="container options">
-                    <input id='checkbox_runRecap_harsh' onclick="action()" type="checkbox">Harsh Grading
-                </div>
-                <div id="runRecapStart">
-                    <div class='container'>
-                        <div class='textBlock'>
-                            Welome to <span class='myekulColor'>Run Recap</span>! This tool allows you to upload a
-                            Cuphead
-                            .sav file to gain valuable insights about your recent run performance.
-                            To get started, <span class='myekulColor'>choose a category above</span> and insert your
-                            <span class='myekulColor'>run time</span> and <span class='myekulColor'>username</span>:
-                        </div>
-                    </div>
-                    <br>
-                    <div class='container' style='padding-bottom:10px;gap:20px'>
-                        <input id='input_runRecap_time' type='text' placeholder='XX:XX'
-                            style='display:none;width:65px;font-size:100%'>
-                        <div id='runRecap_time' onclick="hideRunRecap('time')" class='container clickable'
-                            style='margin:0;gap:8px'>
-                            <div style='font-size:150%'>XX:XX</div>
-                            <div style='font-size:160%'><i class='fa fa-edit'></i></div>
-                        </div>
-                        <input id='input_runRecap_player' type='text' placeholder='Your SRC username'
-                            style='display:none;width:200px;font-size:100%'>
-                        <div id='runRecap_player' onclick="hideRunRecap('player')" class='container clickable'
-                            style='margin:0;gap:8px'>Your username...<div style='font-size:160%'><i
-                                    class='fa fa-edit'></i></div>
-                        </div>
-                    </div>
+                <div id="runRecap_controls">
                     <br>
                     <div class='container'>
                         <div class='textBlock'>
-                            You can either upload an existing .sav file to automatically retrieve IL times, or create a
+                            You can either upload an existing .sav file to automatically retrieve IL times, or
+                            create a
                             new file and insert IL times manually.
                         </div>
                     </div>
@@ -483,6 +489,13 @@
                         </div>
                     </div>
                     <div id='runRecapError' style='display:none'>Error!</div>
+                </div>
+                <div id="runRecap_options_elem" style="display:none">
+                    <div id='runRecap_options_button' class='clickable container options' onclick="toggleOptions()">
+                    </div>
+                    <div id="runRecap_options" class="container" style="display:none">
+                        <input id='checkbox_runRecap_harsh' onclick="action()" type="checkbox">Harsh Grading
+                    </div>
                 </div>
                 <div id="runRecap"></div>
             </div>
@@ -533,6 +546,7 @@
     <script src="code/elements/boardtitle.js"></script>
 
     <script src="constants/cuphead/constants.js"></script>
+    <script src="constants/cuphead/commBest.js"></script>
     <script src="constants/cuphead/bosses.js"></script>
     <script src="constants/cuphead/bossInfo.js"></script>
     <script src="constants/sm64/constants.js"></script>

@@ -4,11 +4,11 @@ function drawChart() {
     let fixed = document.getElementById('checkbox_charts_fixed').checked
     let maxValue = 0
     if (gameID == 'tetris') {
-        document.getElementById('fixedDiv').style.display = 'none'
+        hide('fixedDiv')
         fixed = false
     } else if (fixed) {
         if (sortCategoryIndex == -1) {
-            maxValue = mode == 'fullgameILs' ? categories.length : 100
+            maxValue = mode == 'commBestILs' ? categories.length : 100
         } else if (gameID == 'cuphead') {
             maxValue = mode == 'fullgame' ? 3600 : 120
         } else if (gameID == 'sm64') {
@@ -23,7 +23,7 @@ function drawChart() {
             maxValue = 3600
         }
     }
-    if (mode == 'fullgameILs') {
+    if (mode == 'commBestILs') {
         normalized = false
     }
     if (normalized) {
@@ -33,7 +33,7 @@ function drawChart() {
     const annotation = numBars <= 30
     const rows = []
     if (sortCategoryIndex == -1) {
-        const annotationName = mode == 'fullgameILs' ? 'Runs' : 'Score'
+        const annotationName = mode == 'commBestILs' ? 'Runs' : 'Score'
         rows.push(['Player', annotationName, { role: 'style' }])
     } else {
         rows.push(['Player', 'PB', { role: 'style' }])
@@ -41,14 +41,14 @@ function drawChart() {
     annotation ? rows[0].push({ role: 'annotation' }) : ''
     if (sortCategoryIndex == -1) {
         players.slice(0, numBars).forEach(player => {
-            if (mode == 'fullgameILs') {
+            if (mode == 'commBestILs') {
                 numRuns = 0
                 player.runs.forEach(run => {
                     if (run) {
                         numRuns++
                     }
                 })
-                const color = mode == 'fullgameILs' ? getColorFromClass(fullgameILsCategory.className) : getColorFromClass(getColorClass())
+                const color = mode == 'commBestILs' ? getColorFromClass(commBestILsCategory.className) : getColorFromClass(getColorClass())
                 const newPlayer = [player.name, numRuns, color]
                 annotation ? newPlayer.push(numRuns) : ''
                 rows.push(newPlayer)
@@ -66,7 +66,7 @@ function drawChart() {
             if (!fixed || (!normalized && fixed && score < maxValue) || normalized) {
                 const convertedTime = gameID == 'tetris' ? score : secondsToHMS(score)
                 if (!(!normalized && gameID == 'cuphead' && mode == 'levels' && score > 120)) {
-                    const colorClass = mode == 'fullgameILs' ? categories[sortCategoryIndex].info.id : getLetterGrade(run.percentage).className
+                    const colorClass = mode == 'commBestILs' ? categories[sortCategoryIndex].info.id : getLetterGrade(run.percentage).className
                     let rowContent = Math.round(score)
                     if (normalized) {
                         rowContent = parseFloat(run.percentage)
@@ -104,7 +104,7 @@ function drawChart() {
             // },
             // color: getBackgroundColor(),
             // position: 'none',
-            minValue: document.getElementById('checkbox_charts_50').checked && mode != 'fullgameILs' ? 50 : 0,
+            minValue: document.getElementById('checkbox_charts_50').checked && mode != 'commBestILs' ? 50 : 0,
             maxValue: maxValue
         },
         vAxis: {

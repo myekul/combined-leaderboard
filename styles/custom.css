@@ -52,7 +52,7 @@
 }
 
 .second {
-    background-color: lightgray !important;
+    background-color: silver !important;
     color: black
 }
 
@@ -107,7 +107,7 @@
 }
 
 .therootpack {
-    background-color: var(--cuphead-yellow);
+    background-color: #E1A136;
     color: black
 }
 

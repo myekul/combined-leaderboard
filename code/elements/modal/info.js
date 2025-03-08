@@ -1,5 +1,5 @@
 function modalInfo() {
-    let HTMLContent = `<img src='images/external/myekul.png' class='container' style='height:50px;width:50px'><div class='textBlock' style='font-family:"cuphead-memphis";padding-bottom:20px'>`
+    let HTMLContent = `<img src='images/external/myekul.png' class='container' style='height:50px;width:50px'><div class='textBlock' style='font-family:"cuphead-memphis"'>`
     HTMLContent += `Hello! My name is <span class='myekulColor'>myekul</span> and I am a Cuphead speedrunner and web developer.
         This is my <span class='myekulColor'>Combined Leaderboard</span> project, a tool that organizes and ranks players based on their overall domination of a game's leaderboards.
         <br>
@@ -8,7 +8,7 @@ function modalInfo() {
     <br>-Click on a player's name to view their report card!
     <br>&nbsp;&nbsp;&nbsp;&nbsp;-Use arrow keys to navigate between player stats.
     <br>`
-    if (mode != 'fullgameILs' && !(gameID == 'cuphead' && mode == 'levels')) {
+    if (mode != 'commBestILs' && !(gameID == 'cuphead' && mode == 'levels')) {
         HTMLContent += `${infoTitle('How it works')}
             <br>Each player recieves an overall score (out of 100) and a letter grade, which are determined by a few things.
             First, to calculate a given run score (0-100), <span class='myekulColor'>the world record is divided by the run time</span>.
@@ -53,9 +53,9 @@ function modalInfo() {
         ${infoExternal('github')}'>GitHub Pages</span>&nbspis used to host this site.
         <br><br>Additionally, <span class='myekulColor'>Google Charts</span> and <span class='myekulColor'>D3.js</span> are used for data visualizations.
         <br><br>This is a static site written entirely in raw HTML / CSS / JavaScript, which makes it extremely lightweight and efficient.
-        It was created from scratch specifically for the speedrunning community.
+        It was created from scratch, and made specifically for the speedrunning community.
         It is also open source, ad-free, nonprofit, and costs $0 to use, host, and maintain. Enjoy!`
-    HTMLContent += `</div>`
+    HTMLContent += `</div><img src='images/external/myekul.png' class='container' style='height:50px;width:50px;padding:10px 0'>`
     return HTMLContent
 }
 function infoTitle(title) {

@@ -1,24 +1,22 @@
 function generateSort() {
     const sortCriteria = document.getElementById('dropdown_sortCriteria')
     const sortRange = document.getElementById('dropdown_sortRange').value
-    const extraSortCriteria = document.getElementById('extraSortCriteria')
-    if (gameID == 'cuphead' && mode == 'levels' || mode == 'fullgameILs') {
-        extraSortCriteria.style.display = ''
+    if (gameID == 'cuphead' && mode == 'levels' || mode == 'commBestILs') {
+        show('extraSortCriteria')
     } else {
-        extraSortCriteria.style.display = 'none'
+        hide('extraSortCriteria')
         if (sortCriteria.value == 'dps') {
             sortCriteria.value = 'score'
         }
     }
     if (sortCriteria.value == 'date') {
-        sortDateOptions.style.display = ''
+        show('sortDateOptions')
     } else {
-        sortDateOptions.style.display = 'none'
+        hide('sortDateOptions')
     }
     HTMLContent = ''
     if (['player', 'joindate'].includes(sortCriteria.value)) {
-        const sortChartDiv = document.getElementById('sortChartDiv')
-        sortChartDiv.style.display = 'none'
+        hide('sortChartDiv')
         HTMLContent += `<div class='container'><table class='bigShadow'>`
         const playersCopy = [...players]
         if (sortCriteria.value == 'joindate') {
@@ -104,14 +102,13 @@ function sortRuns(sortRange) {
         if (bRun) return 1;
         return 0;
     });
-    const sortChartDiv = document.getElementById('sortChartDiv')
     if (['score', 'date'].includes(sortCriteria)) {
         google.charts.setOnLoadCallback(function () {
             drawSortChart(everyRun, sortCriteria, minDate)
         });
-        sortChartDiv.style.display = ''
+        show('sortChartDiv')
     } else {
-        sortChartDiv.style.display = 'none'
+        hide('sortChartDiv')
     }
     let HTMLContent = `<div class='container'><table class='bigShadow'>`
     everyRun.slice(0, getNumDisplay()).forEach((run, runIndex) => {
@@ -148,7 +145,7 @@ function sortRuns(sortRange) {
                 HTMLContent += `<td class='${grade.className}'>${displayPercentage(percentage)}</td>`
             } else if (sortCriteria == 'dps') {
                 const categoryHP = categories[run.categoryIndex].hp
-                HTMLContent += `<td style='text-align:right'>${Math.round(categoryHP / run.run.score)} DPS</td>`
+                HTMLContent += `<td style='text-align:right'>${getDPS(category, run.run.score)} DPS</td>`
                 HTMLContent += `<td style='text-align:right;font-size:75%'>${categoryHP} HP</td>`
             }
             if (sortCategoryIndex == -1) {
@@ -235,11 +232,11 @@ function drawSortChart(runs, sortCriteria, minDate) {
     const chartData = [labels, ...fullData]
     const sortPieChart = document.getElementById('sortPieChart')
     if (sortCriteria == 'date' && ['season', 'month', 'dayofweek'].includes(sortDateOptions)) {
-        sortPieChart.style.display = ''
+        show(sortPieChart)
         drawSortPieChart(chartData)
     } else {
         sortPieChart.innerHTML = ''
-        sortPieChart.style.display = 'none'
+        hide(sortPieChart)
     }
     var data = google.visualization.arrayToDataTable(chartData);
     var options = {

@@ -63,20 +63,20 @@ function fetchTetris(category, categoryIndex) {
 function fetchCuphead() {
     return gapi.client.sheets.spreadsheets.get({
         spreadsheetId: SHEET_ID,
-        ranges: [`'${fullgameILsCategory.tabName}'!${fullgameILsCategory.range}`],
+        ranges: [`'${commBestILsCategory.tabName}'!${commBestILsCategory.range}`],
         fields: 'sheets(data(rowData(values(userEnteredValue,textFormatRuns))))'
     }).then(response => {
         const values = response.result.sheets[0].data[0].rowData;
         // console.log(values)
         categories = []
         bossesCopy = [...bosses]
-        if (fullgameILsCategory.name == 'DLC') {
+        if (commBestILsCategory.name == 'DLC') {
             bossesCopy = bossesCopy.slice(19, 25)
-        } else if (fullgameILsCategory.name != 'DLC+Base') {
+        } else if (commBestILsCategory.name != 'DLC+Base') {
             bossesCopy = bossesCopy.slice(0, 19)
         }
         bossesCopy.sort((a, b) => (a.order || 0) - (b.order || 0));
-        if (fullgameILsCategory.tabName == 'DLC+Base') {
+        if (commBestILsCategory.tabName == 'DLC+Base') {
             const elementsToMove = bossesCopy.slice(0, 6);
             bossesCopy.splice(0, 6);
             bossesCopy.splice(8, 0, ...elementsToMove);
@@ -106,7 +106,7 @@ function fetchCuphead() {
                 viable[categoryIndex] = false
             }
         })
-        const numRuns = fullgameILsCategory.numRuns
+        const numRuns = commBestILsCategory.numRuns
         const checkbox_viable = document.getElementById('checkbox_viable').checked
         categories.forEach((category, categoryIndex) => {
             const viableCheck = !checkbox_viable && !viable[categoryIndex]
@@ -134,24 +134,24 @@ function fetchCuphead() {
                 }
             }
         })
-        if (!fullgameILsCategory.runs) {
-            fullgameILsCategory.runs = new Array(numRuns).fill().map(() => [])
+        if (!commBestILsCategory.runs) {
+            commBestILsCategory.runs = new Array(numRuns).fill().map(() => [])
             categories.forEach((category, categoryIndex) => {
                 for (let i = 0; i < numRuns; i++) {
                     const rawTime = values[categoryIndex].values[i].userEnteredValue?.numberValue
                     const time = convertToSeconds(secondsToHMS(Math.round(rawTime * 24 * 60)))
-                    fullgameILsCategory.runs[i].push(time)
+                    commBestILsCategory.runs[i].push(time)
                 }
             })
-            fullgameILsCategory.top3 = []
-            fullgameILsCategory.humanTheory = []
+            commBestILsCategory.top3 = []
+            commBestILsCategory.humanTheory = []
             categories.forEach((category, categoryIndex) => {
                 let levelSum = 0
-                fullgameILsCategory.runs.forEach(run => {
+                commBestILsCategory.runs.forEach(run => {
                     levelSum += run[categoryIndex]
                 })
-                fullgameILsCategory.top3.push(levelSum / numRuns)
-                fullgameILsCategory.humanTheory.push((levelSum + categories[categoryIndex].runs[0].score) / (numRuns + 1))
+                commBestILsCategory.top3.push(levelSum / numRuns)
+                commBestILsCategory.humanTheory.push((levelSum + categories[categoryIndex].runs[0].score) / (numRuns + 1))
             })
         }
         completeLoad()
@@ -166,7 +166,7 @@ function fetchCuphead() {
                 const gid = sheet.properties.sheetId;
                 tabMap[name] = gid;
             });
-            const url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/edit?gid=' + tabMap[fullgameILsCategory.tabName]
+            const url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/edit?gid=' + tabMap[commBestILsCategory.tabName]
             const boardTitleSrc = document.getElementById('boardTitleSrc')
             boardTitleSrc.innerHTML = `<div class='clickable'>${getAnchor(url)}<img src='images/external/sheets.png'></div>`
             boardTitleSrc.innerHTML += `<div style='margin-left:5px'>${getSRCicon()}</div>`

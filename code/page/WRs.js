@@ -21,7 +21,7 @@ function getWorldRecordPlayers(categoryIndex) {
     sortCategoryIndex = categoryIndex
     const playersCopy = [...players]
     sortPlayers(playersCopy)
-    // if (['levels', 'fullgameILs'].includes(mode)) {
+    // if (['levels', 'commBestILs'].includes(mode)) {
     //     HTMLContent += `<td>${getImage(categories[categoryIndex].info.id)}</td>`
     // }
     const category = categories[categoryIndex]
@@ -30,7 +30,7 @@ function getWorldRecordPlayers(categoryIndex) {
         worldRecord = ''
     }
     if (document.getElementById('checkbox_WRs_date').checked) {
-        HTMLContent += gameID != 'tetris' && mode != 'fullgameILs' ? `<td>${playersCopy[0].runs[sortCategoryIndex].date}</td>` : ''
+        HTMLContent += gameID != 'tetris' && mode != 'commBestILs' ? `<td>${playersCopy[0].runs[sortCategoryIndex].date}</td>` : ''
     }
     if (document.getElementById('checkbox_WRs_dps').checked) {
         HTMLContent += `<td>${getDPS(category, worldRecord)} DPS</td>`
@@ -90,7 +90,7 @@ function cupheadLevelWRs() {
     }
     while (categoryIndex < categories.length) {
         const category = categories[categoryIndex]
-        const numCats = getNumCats(category)
+        const numCats = cupheadNumCats(category)
         for (let i = 1; i <= numCats; i++) {
             HTMLContent += `<tr class='${getRowColor(categoryIndex)}'>`
             if (i == 1) {
@@ -142,7 +142,7 @@ function WRsSumsCuphead() {
     let categoryIndex = 0
     while (categoryIndex < categories.length) {
         const category = categories[categoryIndex]
-        const numCats = getNumCats(category)
+        const numCats = cupheadNumCats(category)
         if (categoryIndex == 0 && big5()) {
             HTMLContent += `<tr><td></td><td></td>`
             for (let i = 0; i < numCats; i++) {
@@ -297,7 +297,7 @@ function WRsChart() {
                 fontSize: 12
             },
             minValue: 0,
-            maxValue: gameID == 'cuphead' && mode == 'levels' || mode == 'fullgameILs' ? 120 : max
+            maxValue: gameID == 'cuphead' && mode == 'levels' || mode == 'commBestILs' ? 120 : max
         },
         vAxis: {
             title: checkbox_hp ? 'HP' : '# of WRs',
@@ -396,23 +396,21 @@ function showWRsTab(tab) {
     WRsTab = tab
     buttonClick('WRs_' + WRsTab, 'WRsTabs', 'active2')
     document.getElementById('WRsChart').innerHTML = ''
-    const WRsChartSection = document.getElementById('WRsChartSection')
-    const WRsChartOptions = document.getElementById('WRsChartOptions')
     if (WRsTab == 'chart') {
-        WRsChartSection.style.display = ''
-        if ((gameID == 'cuphead' && mode == 'levels' || mode == 'fullgameILs')) {
-            WRsChartOptions.style.display = ''
+        show('WRsChartSection')
+        if ((gameID == 'cuphead' && mode == 'levels' || mode == 'commBestILs')) {
+            show('WRsChart_options')
         } else {
             document.getElementById('dropdown_WRsChart').value = 'default'
             document.getElementById('checkbox_hp').checked = false
-            WRsChartOptions.style.display = 'none'
+            hide('WRsChart_options')
         }
     } else {
-        WRsChartSection.style.display = 'none'
-        WRsChartOptions.style.display = 'none'
+        hide('WRsChartSection')
+        hide('WRsChart_options')
     }
     if (gameID == 'tetris') {
-        document.getElementById('WRsTabs').style.display = 'none'
+        hide('WRsTabs')
     }
     if (WRsTab == 'players') {
         WRsPlayers()
@@ -426,7 +424,7 @@ function assignLoadouts() {
     let categoryIndex = 0
     while (categoryIndex < categories.length) {
         const category = categories[categoryIndex]
-        const numCats = getNumCats(category)
+        const numCats = cupheadNumCats(category)
         for (let i = 1; i <= numCats; i++) {
             let loadout = cupheadVersion == 'legacy' ? loadoutsLegacy[category.info.id] : DLCnoDLC == 'nodlc' ? loadouts[category.info.id] : loadoutsDLC[category.info.id]
             if (difficultyILs && loadout.length > 1) {

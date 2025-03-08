@@ -1,6 +1,6 @@
 function runRecapStart() {
-    if (mode != 'fullgameILs') {
-        getFullgameILs()
+    if (mode != 'commBestILs') {
+        getCommBestILs()
     }
 }
 function updateRunRecapInfo() {
@@ -12,9 +12,9 @@ function updateRunRecapInfo() {
 }
 function hideRunRecap(elem) {
     playSound('move')
-    document.getElementById('runRecap_' + elem).style.display = 'none'
+    hide('runRecap_' + elem)
     const input_runRecapElem = document.getElementById('input_runRecap_' + elem)
-    input_runRecapElem.style.display = ''
+    show(input_runRecapElem)
     input_runRecapElem.focus()
     input_runRecapElem.select()
     if (elem == 'time') {
@@ -30,7 +30,7 @@ function hideRunRecap(elem) {
 function runRecapStartElem(elem) {
     const input_runRecapElem = document.getElementById('input_runRecap_' + elem)
     const input = input_runRecapElem.value
-    input_runRecapElem.style.display = 'none'
+    hide(input_runRecapElem)
     if (elem == 'player') {
         playSound('category_select');
         runRecapPlayerName = input.trim() ? input : runRecapPlayerName
@@ -39,10 +39,12 @@ function runRecapStartElem(elem) {
         stopSound('win_time_loop')
         playSound('win_time_loop_end')
         runRecapTime = input.trim() ? input : runRecapTime
+        const score = getScore(extraCategory, convertToSeconds(runRecapTime))
+        document.getElementById('runRecap_grade').innerHTML = scoreGradeSpan(score)
     }
     const runRecapStartElem = document.getElementById('runRecap_' + elem)
     runRecapStartElem.innerHTML = elem == 'player' ? runRecapPlayer() : `<div style='font-size:150%'>${runRecapTime}</div>`
-    runRecapStartElem.style.display = ''
+    show(runRecapStartElem)
     updateRunRecapAction()
 }
 function runRecapPlayer() {
@@ -77,7 +79,7 @@ function runRecap(event) {
         };
         reader.readAsText(file);
     } else {
-        document.getElementById('runRecapError').style.display = ''
+        show('runRecapError')
     }
     fileInput.value = ''
 }
@@ -92,27 +94,23 @@ function processSavFile() {
 }
 function refreshRunRecap() {
     const dropdown_runRecap = document.getElementById('dropdown_runRecap')
-    dropdown_runRecap.classList.remove(fullgameILsCategory.className)
-    getFullgameILs(dropdown_runRecap.value)
-    dropdown_runRecap.classList.add(fullgameILsCategory.className)
+    dropdown_runRecap.classList.remove(commBestILsCategory.className)
+    getCommBestILs(dropdown_runRecap.value)
+    dropdown_runRecap.classList.add(commBestILsCategory.className)
     document.getElementById('runRecapBoardTitle').innerHTML = generateBoardTitle(2)
 }
 const top3Text = "Average of top 3 players' boss times in their PBs"
 const humanTheoryText = "Top 3 players' PB boss times averaged with comm best ILs"
 const commBestText = "Community best ILs"
 function runRecapAction() {
-    document.getElementById('runRecapBack').style.display = ''
+    const score = getScore(extraCategory, convertToSeconds(runRecapTime))
+    document.getElementById('runRecap_grade').innerHTML = scoreGradeSpan(score)
+    show('runRecapBack')
     categories.forEach(category => {
         category.info.levelID = bossIDs[category.info.id]
     })
     if (players[0]) {
-        const score = getScore(extraCategory, convertToSeconds(runRecapTime))
         let HTMLContent = ''
-        HTMLContent += `<div class='container clickable' onclick="runRecapRestart()" style='margin:0;gap:15px;padding-bottom:8px'>
-        <div style='font-size:150%'>${runRecapTime}</div>
-        ${scoreGradeSpan(score)}
-        ${runRecapPlayer()}
-        </div>`
         HTMLContent += `<div class="container" style='padding-bottom:3px'>
                 &Delta;
                 <select id="dropdown_runRecapComparison" onchange="playSound('cardflip');updateRunRecapComparison()">
@@ -122,7 +120,7 @@ function runRecapAction() {
                         <option value="commBest" title="${commBestText}">Comm Best${document.getElementById('checkbox_viable').checked ? ' (Viable)' : ''}</option>
                     </optgroup>
                     <optgroup label="Players">`
-        for (let i = 0; i < fullgameILsCategory.numRuns; i++) {
+        for (let i = 0; i < commBestILsCategory.numRuns; i++) {
             HTMLContent += `<option value="player_${i}">${i + 1}. ${fullgamePlayer(i)}</option>`
         }
         HTMLContent += `</optgroup></select>`
@@ -145,7 +143,7 @@ function runRecapDownload() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement("a")
     a.href = url;
-    a.download = 'cuphead_player_data_vi_slot_0.sav';
+    a.download = 'cuphead_player_data_v1_slot_0.sav';
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
@@ -166,7 +164,7 @@ function updateComparisonInfo() {
                 comparisonInfo.innerHTML = commBestText
                 break
             default:
-                if (!fullgameILsCategory.players) {
+                if (!commBestILsCategory.players) {
                     const player = players[parseInt(comparison.split('_')[1])]
                     comparisonInfo.innerHTML = 'Boss times in&nbsp;' + getPlayerName(player) + "'s " + secondsToHMS(player.extra.score)
                 }
@@ -174,16 +172,26 @@ function updateComparisonInfo() {
     }
 }
 function fullgamePlayer(playerIndex) {
-    return fullgameILsCategory.players ? fullgameILsCategory.players[playerIndex] : players[playerIndex].name
+    return commBestILsCategory.players ? commBestILsCategory.players[playerIndex] : players[playerIndex].name
 }
+const runRecapElems = ['welcome', 'controls']
+const runRecapDisplayElems = ['runRecap', 'runRecap_options_elem']
 function runRecapRestart() {
     playSound('category_select')
-    document.getElementById('runRecapStart').style.display = ''
-    document.getElementById('runRecap').style.display = 'none'
+    runRecapElems.forEach(elem => {
+        show('runRecap_' + elem)
+    })
+    runRecapDisplayElems.forEach(elem => {
+        hide(elem)
+    })
 }
 function runRecapDisplay() {
-    document.getElementById('runRecapStart').style.display = 'none'
-    document.getElementById('runRecap').style.display = ''
+    runRecapElems.forEach(elem => {
+        hide('runRecap_' + elem)
+    })
+    runRecapDisplayElems.forEach(elem => {
+        show(elem)
+    })
 }
 function updateRunRecapComparison() {
     document.getElementById('comparisonChart').innerHTML = runRecapComparison()
@@ -207,7 +215,7 @@ function runRecapComparison() {
     categories.forEach((category, categoryIndex) => {
         isles[category.info.isle - 1].runRecapCategories.push([category, categoryIndex])
     })
-    if (['DLC', 'DLC+Base'].includes(fullgameILsCategory.name)) {
+    if (['DLC', 'DLC+Base'].includes(commBestILsCategory.name)) {
         const isle = isles[4]
         HTMLContent += isleHeader(isle)
         isle.runRecapCategories.forEach(object => {
@@ -252,20 +260,20 @@ function runRecapCategory(object) {
     const done = runTime && runTime != nullTime
     let comparisonTime
     if (comparison == 'top3') {
-        comparisonTime = fullgameILsCategory.top3[categoryIndex]
+        comparisonTime = commBestILsCategory.top3[categoryIndex]
     } else if (comparison == 'humanTheory') {
-        comparisonTime = fullgameILsCategory.humanTheory[categoryIndex]
+        comparisonTime = commBestILsCategory.humanTheory[categoryIndex]
     } else if (comparison == 'commBest') {
         comparisonTime = getWorldRecord(category)
     } else if (comparison.split('_')[0] == 'player') {
-        comparisonTime = fullgameILsCategory.runs[parseInt(comparison.split('_')[1])][categoryIndex]
+        comparisonTime = commBestILsCategory.runs[parseInt(comparison.split('_')[1])][categoryIndex]
     }
     const delta = Math.floor(runTime) - Math.floor(comparisonTime)
     let score = 100 - delta
     if (document.getElementById('checkbox_runRecap_harsh').checked) {
         // const playerScore = getScore(extraCategory, convertToSeconds(runRecapTime))
         // if (playerScore < 90) {
-            score = 100 - (delta * 3)
+        score = 100 - (delta * 3)
         // } else {
         //     score = 100 - (delta * ((playerScore - 90) / 2))
         // }
