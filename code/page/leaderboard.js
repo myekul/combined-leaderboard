@@ -168,8 +168,20 @@ function parsePlayer(player, playerIndex) {
     if (page == 'sort' && document.getElementById('dropdown_sortCriteria').value == 'joindate') {
         HTMLContent += `<td>${player.signup}</td>`
     }
-    if ((gameID == 'cuphead' && mode == 'commBestILs') || ['titanfall_2', 'mtpo'].includes(gameID) || (gameID == 'sm64' && mode == 'levels')) {
+    if (mode == 'commBestILs' || ['titanfall_2', 'mtpo'].includes(gameID) || (gameID == 'sm64' && mode == 'levels')) {
+        if (mode == 'commBestILs') {
+            if (['DLC', 'DLC+Base'].includes(commBestILsCategory.tabName)) {
+                if (player.extra.percentage >= 90) {
+                    const shot1 = commBestILs[commBestILsCategory.name + ' C/S'].extraPlayers.includes(player.name) ? 'charge' : 'lobber'
+                    HTMLContent += `<td>${cupheadShot(shot1, 20, true)}</td>`
+                    HTMLContent += `<td>${cupheadShot('spread', 20, true)}</td>`
+                } else {
+                    HTMLContent += `<td></td><td></td>`
+                }
+            }
+        }
         HTMLContent += parseRun(player, playerIndex, extraCategory, null, true)
+        HTMLContent += mode != 'commBestILs' ? `<td style='padding:0 15px'></td>` : ''
     }
     HTMLContent += page == 'map' ? `<td class='${placeClass(playerIndex + 1)}'>${playerIndex + 1}</td>` : ''
     if (mode != 'commBestILs') {
@@ -214,8 +226,8 @@ function parsePlayerRuns(player, playerIndex) {
         const categoryName = categories[sortCategoryIndex].name
         if (player.runs[sortCategoryIndex].percentage > 90 && ['DLC', 'DLC+Base'].includes(categoryName)) {
             const shot1 = commBestILs[categoryName + ' C/S'].extraPlayers.includes(player.name) ? 'charge' : 'lobber'
-            HTMLContent += `<td><img src='images/cuphead/inventory/weapons/${shot1}.png' class='container' style='height:20px;width:auto'></td>`
-            HTMLContent += `<td><img src='images/cuphead/inventory/weapons/spread.png' class='container' style='height:20px;width:auto'></td>`
+            HTMLContent += `<td>${cupheadShot(shot1, 20, true)}</td>`
+            HTMLContent += `<td>${cupheadShot('spread', 20, true)}</td>`
         }
     } else {
         categories.forEach((category, categoryIndex) => {
@@ -247,8 +259,12 @@ function parseRun(player, playerIndex, category, categoryIndex, exception) {
                 HTMLContent += displayBoolean[4] ? `<td class='hiddenText ${colorClass} ${grayedOut}'>9999</td>` : ''
             } else {
                 displayBoolean.forEach((boolean, booleanIndex) => {
-                    if (((mode == 'commBestILs' && booleanIndex != 2) || mode != 'commBestILs') && !(gameID == 'mtpo' && categoryIndex == null && booleanIndex == 1)) {
-                        HTMLContent += boolean ? `<td class='${colorClass} ${grayedOut}'></td>` : ''
+                    if (booleanIndex == 2) {
+                        HTMLContent += boolean ? `<td class='${colorClass} ${grayedOut}' style='padding:0 10px'></td>` : ''
+                    } else {
+                        if (!(gameID == 'mtpo' && categoryIndex == null && booleanIndex == 1)) {
+                            HTMLContent += boolean ? `<td class='${colorClass} ${grayedOut}'></td>` : ''
+                        }
                     }
                 })
             }
@@ -260,20 +276,21 @@ function parseRun(player, playerIndex, category, categoryIndex, exception) {
     const score = run.score
     const time = tetrisCheck(category, score)
     const place = run.place
+    const trophy = getTrophy(place)
     const percentage = run.percentage.toFixed(2)
     const grade = getLetterGrade(percentage)
     const thePlaceClass = placeClass(place)
     const newColorClass = thePlaceClass ? thePlaceClass : colorClass
-    const runLink = gameID != 'tetris' ? getAnchor('https://www.speedrun.com/' + gameID + '/runs/' + run.id) : ''
+    const runLink = gameID != 'tetris' && run.id ? getAnchor('https://www.speedrun.com/' + gameID + '/runs/' + run.id) : ''
     const videoLink = getAnchor(getVideoLink(run))
     if (mode == 'commBestILs' && !exception) {
         const debug = run.debug ? '*' : ''
         HTMLContent += `<td class='${category.className} ${grayedOut} ${videoLink ? 'clickable' : ''}'>${videoLink}${getTrophy(run.place)}${debug}</td>`
     } else {
-        HTMLContent += displayBoolean[0] ? `<td style='font-size:75%;text-align:left;' class='${newColorClass} ${grayedOut} ${grade.className}'>${percentage}</td>` : ''
+        HTMLContent += displayBoolean[0] ? `<td style='font-size:75%;text-align:left' class='${newColorClass} ${grayedOut} ${grade.className}'>${percentage}</td>` : ''
         HTMLContent += displayBoolean[1] && !(gameID == 'mtpo' && categoryIndex == null) ? `<td style='font-size:75%;text-align:left;' class='${newColorClass} ${grayedOut} ${grade.className}'>${grade.grade}</td>` : ''
-        HTMLContent += displayBoolean[2] && mode != 'commBestILs' ? `<td style='font-size:75%;' class='${page != 'sort' ? newColorClass : thePlaceClass} ${grayedOut} ${runLink ? 'clickable' : ''}'>${runLink}${place}</td>` : ''
-        HTMLContent += displayBoolean[3] ? `<td ${gameID == 'mtpo' ? "style='text-align:left'" : ''} class='${page != 'sort' ? newColorClass : colorClass} ${grayedOut} ${videoLink ? 'clickable' : ''}'>${videoLink}${time}</td>` : ''
+        HTMLContent += displayBoolean[2] ? `<td style='font-size:75%;padding:0 1px' class='${page != 'sort' ? newColorClass : thePlaceClass} ${grayedOut} ${runLink ? 'clickable' : ''}'>${runLink}${trophy ? `<div class='container trophy'>${trophy}` : place}</td>` : ''
+        HTMLContent += displayBoolean[3] ? `<td style='padding:0 3px;${gameID == 'mtpo' ? "text-align:left" : ""}' class='${page != 'sort' ? newColorClass : colorClass} ${grayedOut} ${videoLink ? 'clickable' : ''}'>${videoLink}${time}</td>` : ''
         HTMLContent += displayBoolean[4] ? `<td class='${newColorClass} ${grayedOut}'>${new Date(run.date).getFullYear()}</td>` : ''
     }
     return HTMLContent

@@ -62,12 +62,6 @@ const commBestILs = {
                 score: '10:59.85',
                 playerName: 'GamerAttack27',
                 videos: { links: [{ uri: 'https://youtu.be/AKyBN0Hhy0U' }] }
-            },
-            {
-                date: '2025-02-19',
-                score: '11:32.85',
-                playerName: 'Lewzr07',
-                videos: { links: [{ uri: 'https://youtu.be/Opq3XN9TWOQ' }] }
             }
         ],
         extraPlayers: [
@@ -84,10 +78,8 @@ const commBestILs = {
             "Rookie_Gamer_Tlax",
             "PanchoFox",
             "2haka",
-            "ANE_MMRC",
-            "Mine_",
-            "nomit",
-            'Pizzarolli'
+            'Pizzarolli',
+            'Lewzr'
         ]
     },
     'DLC C/T': {
@@ -101,10 +93,10 @@ const commBestILs = {
         shot2: 'twistup',
         extraRuns: [
             {
-                date: '2025-01-15',
-                score: '11:10.33',
+                date: '2025-03-08',
+                score: '10:59.66',
                 playerName: 'myekul',
-                videos: { links: [{ uri: 'https://youtu.be/icrWBVHPUI4' }] }
+                videos: { links: [{ uri: 'https://youtu.be/HRwuUPAstSc' }] }
             }
         ]
     },
@@ -191,7 +183,7 @@ const commBestILs = {
             "Rookie_Gamer_Tlax",
             "minamikori",
             "alex92Tcordobes",
-            "Huawai",
+            "Huawai"
         ]
     },
 }

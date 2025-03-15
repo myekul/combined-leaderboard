@@ -2,9 +2,11 @@ function generateWRs() {
     showWRsTab(WRsTab)
 }
 function WRsPlayers() {
-    let HTMLContent = `<div class='container'><table class='bigShadow'>`
-    if (document.getElementById('checkbox_WRs_dps').checked || document.getElementById('checkbox_WRs_hp').checked) {
-        assignHP()
+    let HTMLContent = `<div class='container'><table class='bigShadow' style='${mode == 'fullgame'&&gameID != 'tetris' ? 'border-collapse:collapse' : ''}'>`
+    if (gameID == 'cuphead' && mode != 'fullgame') {
+        if (document.getElementById('checkbox_WRs_dps').checked || document.getElementById('checkbox_WRs_hp').checked) {
+            assignHP()
+        }
     }
     if (gameID == 'cuphead' && mode == 'levels') {
         HTMLContent += cupheadLevelWRs()
@@ -32,11 +34,13 @@ function getWorldRecordPlayers(categoryIndex) {
     if (document.getElementById('checkbox_WRs_date').checked) {
         HTMLContent += gameID != 'tetris' && mode != 'commBestILs' ? `<td>${playersCopy[0].runs[sortCategoryIndex].date}</td>` : ''
     }
-    if (document.getElementById('checkbox_WRs_dps').checked) {
-        HTMLContent += `<td>${getDPS(category, worldRecord)} DPS</td>`
-    }
-    if (document.getElementById('checkbox_WRs_hp').checked) {
-        HTMLContent += `<td style='font-size:75%'>${category.hp} HP</td>`
+    if (gameID == 'cuphead' && mode != 'fullgame') {
+        if (document.getElementById('checkbox_WRs_dps').checked) {
+            HTMLContent += `<td>${getDPS(category, worldRecord)} DPS</td>`
+        }
+        if (document.getElementById('checkbox_WRs_hp').checked) {
+            HTMLContent += `<td style='font-size:75%'>${category.hp} HP</td>`
+        }
     }
     const className = mode == 'fullgame' ? 'first' : classNameLogic(category)
     HTMLContent += `<td class='${className}'>${tetrisCheck(category, worldRecord)}</td>`
@@ -51,12 +55,10 @@ function getWorldRecordPlayers(categoryIndex) {
     } else {
         playersCopy.forEach(player => {
             const run = player.runs[sortCategoryIndex]
-            if (run) {
-                if (run.place == 1) {
-                    // HTMLContent += `<td>${getPlayerFlag(player, 12)}</td>`
-                    HTMLContent += `<td>${getPlayerIcon(player, 18)}</td>`
-                    HTMLContent += `<td class='clickable' style='text-align:left'>${getAnchor(getVideoLink(run))}${run.debug ? '*' : ''}${getPlayerName(player)}</td>`
-                }
+            if (run?.place == 1) {
+                // HTMLContent += `<td>${getPlayerFlag(player, 12)}</td>`
+                HTMLContent += `<td>${getPlayerIcon(player, 18)}</td>`
+                HTMLContent += `<td class='clickable' style='text-align:left'>${getAnchor(getVideoLink(run))}${run.debug ? '*' : ''}${getPlayerName(player)}</td>`
             }
         })
     }
@@ -65,8 +67,18 @@ function getWorldRecordPlayers(categoryIndex) {
 function WRs() {
     let HTMLContent = ''
     categories.forEach((category, categoryIndex) => {
-        HTMLContent += WRsCategoryDisplay(category, categoryIndex)
-        HTMLContent += getWorldRecordPlayers(categoryIndex)
+        if (mode == 'fullgame' && gameID != 'tetris') {
+            HTMLContent += `<tr class='${getRowColor(categoryIndex)}'>`
+            HTMLContent += fancyRun(category.runs[0], categoryIndex, true)
+            players.some((player, playerIndex) => {
+                if (player.runs[categoryIndex].place == 1) {
+                    HTMLContent += fancyPlayer(playerIndex)
+                }
+            })
+        } else {
+            HTMLContent += WRsCategoryDisplay(category, categoryIndex)
+            HTMLContent += getWorldRecordPlayers(categoryIndex)
+        }
         HTMLContent += `</tr>`
     })
     return HTMLContent

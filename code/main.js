@@ -99,8 +99,8 @@ function updateLoadouts(categoryName) {
     fullgameCategories.forEach(category => {
         const thisCategory = commBestILs[category]
         HTMLContent += `<div onclick="playSound('category_select');getCommBestILs('${category}')" class="button ${commBestILsCategory.className} container ${categoryName == category ? 'active' : ''}">`
-        HTMLContent += thisCategory.shot1 ? `<img src="images/cuphead/inventory/weapons/${thisCategory.shot1}.png">` : ''
-        HTMLContent += thisCategory.shot2 ? `<img src="images/cuphead/inventory/weapons/${thisCategory.shot2}.png">` : ''
+        HTMLContent += thisCategory.shot1 ? cupheadShot(thisCategory.shot1) : ''
+        HTMLContent += thisCategory.shot2 ? cupheadShot(thisCategory.shot2) : ''
         HTMLContent += thisCategory.subcat ? thisCategory.subcat : ''
         HTMLContent += `</div>`
     })

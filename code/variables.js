@@ -62,6 +62,8 @@ const categorySet = {
     'smb3': smb3,
     'nsmbds': nsmbds,
     'nsmbw': nsmbw,
+    'nsmbu': nsmbu,
+    'nslu': nslu,
     'sm64': sm64,
     'sms': sms,
     'smo': smo

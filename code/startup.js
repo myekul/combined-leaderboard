@@ -41,7 +41,7 @@ function gameTabs() {
     games.forEach(game => {
         HTMLContent += `<a href='?game=${game}' class="container clickable ${game}"><img src="images/logo/${game}.png"></a>`
     })
-    const moreGames = [['smb1', 'smbtll'], ['smb2', 'smb3'], ['nsmbds', 'nsmbw'], ['sms', 'smo']]
+    const moreGames = [['smb1', 'smbtll'], ['smb2', 'smb3'], ['nsmbds', 'nsmbw'], ['nsmbu', 'nslu'], ['sms', 'smo']]
     moreGames.forEach(gameSet => {
         HTMLContent += `<div class='container'>`
         gameSet.forEach(game => {
@@ -111,7 +111,7 @@ if (['tetris', 'smb1', 'smbtll', 'smb2', 'smb3'].includes(gameID)) {
         gameIcon.style.marginBottom = '8px'
     })
 }
-if (['sm64', 'sms', 'smo', 'nsmbds', 'nsmbw'].includes(gameID)) {
+if (['sm64', 'sms', 'smo', 'nsmbds', 'nsmbw', 'nsmbu', 'nslu'].includes(gameID)) {
     gameLogo.style.height = '80px'
     header.style.height = '130px'
 }

@@ -139,7 +139,8 @@ function scoreFromGrade(category, percentage) {
     return score
 }
 function fetchYouTube(videoID) {
-    return fetch(`https://www.googleapis.com/youtube/v3/videos?id=${videoID}&key=${API_KEY}&part=snippet,statistics&fields=items(snippet,statistics)`)
+    // return fetch(`https://www.googleapis.com/youtube/v3/videos?id=${videoID}&key=${API_KEY}&part=snippet,statistics&fields=items(snippet,statistics)`)
+    return fetch(`https://www.googleapis.com/youtube/v3/videos?id=${videoID}&key=${API_KEY}&part=statistics&fields=items(statistics)`)
         .then(response => response.json())
         .then(data => {
             return data.items[0]
@@ -160,37 +161,38 @@ function getThumbnail(link, videoID) {
     return getAnchor(link) + `<img src='${src}' class='clickable' style='width:160px;height:90px'></img></a>`
 }
 function videoCollection(player) {
-    let HTMLContent = `<div class='container'><table>`
+    let HTMLContent = `<div class='container'><table style='border-collapse:collapse'>`
+    let runCount = 0
     player.runs.forEach((run, runIndex) => {
         if (run && !(gameID == 'mtpo' && runIndex == 0)) {
-            HTMLContent += `<tr>`
+            HTMLContent += `<tr class='${getRowColor(runCount)}'>`
             const link = getVideoLink(run)
+            HTMLContent += fancyRun(run, runIndex)
             if (link?.includes('you')) {
                 const videoID = getYouTubeID(link)
-                HTMLContent += `<td id='modal_title_${runIndex}' style='text-align:center;max-width:200px;white-space: normal;padding-right:15px'></td>`
-                HTMLContent += `<td>${getThumbnail(link, videoID)}</td>`
-                HTMLContent += `<td id='modal_stats_${runIndex}' style='text-align:right'></td>`
+                // HTMLContent += `<td id='modal_title_${runIndex}' style='text-align:center;max-width:200px;white-space: normal;padding-right:15px'></td>`
+                HTMLContent += `<td id='modal_stats_${runIndex}' style='text-align:right;padding:0 5px'></td>`
                 fetchYouTube(videoID).then(data => {
                     if (data) {
-                        let innerHTMLContent = `<div class='container'><table>`
+                        // console.log(data)
+                        let innerHTMLContent = `<div id='videoCollection'>`
                         const viewCount = data.statistics.viewCount
-                        innerHTMLContent += `<tr><td>${parseInt(viewCount).toLocaleString()} view${viewCount == 1 ? '' : 's'}</td></tr>`
-                        innerHTMLContent += `<tr><td>${data.statistics.likeCount} ${fontAwesome('thumbs-up')}</td></tr>`
-                        innerHTMLContent += `<tr><td>${data.statistics.commentCount} ${fontAwesome('commenting')}</td></tr>`
-                        innerHTMLContent += `</table></div>`
+                        innerHTMLContent += `<div>${parseInt(viewCount).toLocaleString()} view${viewCount == 1 ? '' : 's'}</div>`
+                        innerHTMLContent += `<div>${parseInt(data.statistics.likeCount).toLocaleString()}&nbsp;${fontAwesome('thumbs-up')}</div>`
+                        innerHTMLContent += `<div>${parseInt(data.statistics.commentCount).toLocaleString()}&nbsp;${fontAwesome('commenting')}</div>`
+                        innerHTMLContent += `</div>`
                         if (modalIndex == 1) {
                             document.getElementById('modal_stats_' + runIndex).innerHTML = innerHTMLContent
-                            document.getElementById('modal_title_' + runIndex).innerHTML = data.snippet.title
+                            // document.getElementById('modal_title_' + runIndex).innerHTML = data.snippet.title
                         }
                     }
                 })
             } else {
                 HTMLContent += `<td></td>`
-                HTMLContent += `<td>${getThumbnail(link)}</td>`
-                HTMLContent += `<td></td>`
             }
-            HTMLContent += mode != 'commBestILs' ? `<td>${run.date}</td>` : ''
+            // HTMLContent += mode != 'commBestILs' ? `<td>${run.date}</td>` : ''
             HTMLContent += `</tr>`
+            runCount++
         }
     })
     HTMLContent += `</table></div>`

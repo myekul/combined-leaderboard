@@ -128,16 +128,16 @@ function sortRuns(sortRange) {
                 //     HTMLContent += `<td></td>`
                 // }
                 const date = new Date()
-                const date2 = new Date(run.run.date)
-                HTMLContent += `<td style='font-size:80%'>${daysAgo(getDateDif(date, date2))}</td>`
+                const runDate = new Date(run.run.date)
+                HTMLContent += `<td style='font-size:80%'>${daysAgo(getDateDif(date, runDate))}</td>`
                 HTMLContent += `<td>${run.run.date}</td>`
                 if (sortDateOptions.value == 'dayofweek') {
-                    HTMLContent += `<td>${daysOfWeek[date.getDay()]}</td>`
+                    HTMLContent += `<td>${daysOfWeek[runDate.getDay()]}</td>`
                 } else if (sortDateOptions.value == 'season') {
-                    const season = seasons[getSeason(date.getMonth())]
+                    const season = seasons[getSeason(runDate.getMonth())]
                     HTMLContent += `<td style='background-color:${season.color}'>${season.name}</td>`
                 } else if (sortDateOptions.value == 'month') {
-                    HTMLContent += `<td>${months[date.getMonth()]}</td>`
+                    HTMLContent += `<td>${months[runDate.getMonth()]}</td>`
                 }
             } else if (sortCriteria == 'score') {
                 const percentage = run.run.percentage

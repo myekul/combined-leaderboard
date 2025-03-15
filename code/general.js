@@ -26,7 +26,7 @@ function displayDecimals(value, exception) {
     if (ms) {
         ms = gameID == 'mtpo' || exception ? ms / 10 : ms
         const padding = gameID == 'mtpo' || exception ? 2 : 3
-        return `.<span style='font-size:75%'>${ms.toString().padStart(padding, '0')}</span>`
+        return `.<span style='font-size:75%'>${Math.round(ms).toString().padStart(padding, '0')}</span>`
     }
     return ''
 }
@@ -405,7 +405,7 @@ function tetrisCheck(category, score) {
 }
 function getPlayerDisplay(player) {
     let HTMLContent = ''
-    HTMLContent += `<td class='${placeClass(player.rank)}'>${player.rank}</td>`
+    HTMLContent += mode != 'commBestILs' ? `<td class='${placeClass(player.rank)}'>${player.rank}</td>` : ''
     if (gameID != 'tetris') {
         if (document.getElementById('checkbox_flags').checked) {
             HTMLContent += `<td>${getPlayerFlag(player, 12)}</td>`
@@ -553,4 +553,7 @@ function hide(elem) {
         elem = document.getElementById(elem)
     }
     elem.style.display = 'none'
+}
+function cupheadShot(shot, size, extra) {
+    return `<img src="images/cuphead/inventory/weapons/${shot}.png" ${extra ? `class='container'` : ''} ${size ? `style='height:${size}px'` : ''}></img>`
 }

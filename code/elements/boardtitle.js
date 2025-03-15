@@ -113,8 +113,8 @@ function generateBoardTitle(extra, categoryIndex) {
         const shotSize = categoryIndex > -1 ? imgSize : 30
         HTMLContent += `<td class=${commBestILsCategory.className}>${commBestILsCategory.name}</td>`
         HTMLContent += commBestILsCategory.shot1 ? `<th id='commBestILsWeapons' class='container'>` : ''
-        HTMLContent += commBestILsCategory.shot1 ? `<img src="images/cuphead/inventory/weapons/${commBestILsCategory.shot1}.png" style='height:${shotSize}px'></img>` : ''
-        HTMLContent += commBestILsCategory.shot2 ? `<img src="images/cuphead/inventory/weapons/${commBestILsCategory.shot2}.png" style='height:${shotSize}px'></img>` : ''
+        HTMLContent += commBestILsCategory.shot1 ? cupheadShot(commBestILsCategory.shot1, shotSize) : ''
+        HTMLContent += commBestILsCategory.shot2 ? cupheadShot(commBestILsCategory.shot2, shotSize) : ''
         HTMLContent += commBestILsCategory.subcat ? `<td>${commBestILsCategory.subcat}</td>` : ''
         HTMLContent += commBestILsCategory.shot1 ? `</th>` : ''
     }

@@ -201,3 +201,43 @@ const nsmbw = [
         subcat: '814g9yj1'
     }
 ]
+const nsmbu = [
+    {
+        name: 'Any%',
+        className: 'onePointOne',
+        id: 'rkl9nqkn'
+    },
+    {
+        name: 'All Castles',
+        className: 'legacy',
+        id: 'wkpj438k'
+    },
+    {
+        name: '100%',
+        className: 'nmg',
+        id: 'ndxen1kq'
+    }
+]
+const nslu = [
+    {
+        name: 'Any%',
+        className: 'onePointOne',
+        id: 'w208nvdn',
+        var: '0nwpwd8q',
+        subcat: '4lx22212'
+    },
+    {
+        name: 'All Castles',
+        className: 'legacy',
+        id: 'zdnwj8xd',
+        var: '9l752z81',
+        subcat: '9qj3w0l4'
+    },
+    {
+        name: '100%',
+        className: 'nmg',
+        id: 'wdm9rxkq',
+        var: 'jlzxe782',
+        subcat: 'mlnxd6qp'
+    }
+]

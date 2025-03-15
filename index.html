@@ -242,7 +242,7 @@
             <!-- Board Title -->
             <div id="pageTitle" class="container" style="font-family: var(--font2);font-size:200%;padding-top:5px">
             </div>
-            <div id="boardTitleDiv" class="sticky" style="top: 42px;">
+            <div id="boardTitleDiv" class="sticky" style="top:42px;max-width: 50%;margin:0 auto">
                 <div id='runRecap_welcome' style="display:none">
                     <div class="container" style="padding-top:25px">
                         <div class='textBlock'>
@@ -255,7 +255,7 @@
                     </div>
                     <br>
                 </div>
-                <div class="container">
+                <div class="container" style="max-width:50%">
                     <div class="container" style="margin:0">
                         <input id="checkbox_isolate" type="checkbox" onclick='action()' style="display:none">
                         <div id="boardTitle" class="container" style="margin:0"></div>
@@ -432,7 +432,7 @@
                 <div>
                     <select id="sortDateOptions" class="container" onchange="action()">
                         <option value="year" selected>Year</option>
-                        <option value="season">Season</option>
+                        <!-- <option value="season">Season</option> -->
                         <option value="month">Month</option>
                         <option value="dayofyear">Day of Year</option>
                         <option value="dayofmonth">Day of Month</option>

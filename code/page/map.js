@@ -73,6 +73,10 @@ function getLocation(player, countriesObject) {
         if (['England', 'Northern Ireland', 'Scotland', 'Wales'].includes(countryName)) {
             countryName = 'United Kingdom'
         }
+        // if (['Québec'].includes(countryName)) {
+        //     countryName = 'Canada'
+        //     code = 'ca'
+        // }
         if (countryName == 'Puerto Rico') {
             countryName = 'United States'
             code = 'us'

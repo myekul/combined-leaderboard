@@ -560,3 +560,14 @@ svg {
     border-left: 2px solid white;
     height: 40px;
 }
+
+#videoCollection div {
+    display: flex;
+    margin: auto;
+    justify-content: center;
+}
+
+.trophy {
+    filter: drop-shadow(0.5px 1px 0.5px black);
+    padding: 0 3px
+}

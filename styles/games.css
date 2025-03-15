@@ -47,6 +47,12 @@
     background-color: #F10101;
     color: white
 }
+.nsmbu{
+    background-color: steelblue;
+}
+.nslu{
+    background-color: limegreen;
+}
 
 .mtpo {
     background-color: var(--mtpo);
