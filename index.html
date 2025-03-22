@@ -30,9 +30,8 @@
                     </div>
                     <img class='gameIcon'>
                 </div>
-                <div id='titleDesc' class='container' style="transform: translate(0px, -3px)">The best overall players
-                    across each
-                    category
+                <div id='titleDesc' class='container' style="transform: translate(0px, -3px);font-size:90%">
+                    The best overall players across each category
                 </div>
                 <div id='loading' style='position:absolute;right:40px;top:10px;color:var(--bannerText)'>
                     <div>Loading API...</div>
@@ -78,8 +77,8 @@
                                 class="fa fa-sort-amount-asc"></i>
                         </div>
                         <div id='runRecapButton' onclick="if(mode!='commBestILs'){getCommBestILs()};showTab('runRecap')"
-                            class="onePointOne button" style="display:none;font-size:100%;width:120px;
-                            height: 25px;position: absolute;right: 40px;"><i class="fa fa-history"></i>&nbsp;Run Recap
+                            class="onePointOne button" style="display:none;font-size:90%;width:120px;
+                            height: 24px;position: absolute;right: 40px;"><i class="fa fa-history"></i>&nbsp;Run Recap
                         </div>
                     </div>
                 </div>
@@ -101,7 +100,7 @@
                             <div id='fullgameCategories_basegame' onclick="getFullgame('basegame')"
                                 class="button cuphead" style="width:100px">Base Game</div>
                             <div id='fullgameCategories_currentPatch' onclick="getFullgame('currentPatch')"
-                                class="button cuphead" style="width:110px">Current Patch</div>
+                                class="button cuphead" style="width:120px">Current Patch</div>
                         </div>
                         <div class="container">
                             <div id='fullgameCategories_onePointOne' onclick="getFullgame('1.1+')"
@@ -240,7 +239,16 @@
                 </div>
             </div>
             <!-- Board Title -->
-            <div id="pageTitle" class="container" style="font-family: var(--font2);font-size:200%;padding-top:5px">
+            <div id="pageTitle" class="container" style="font-family: var(--font2);font-size:200%;padding-top:15px">
+            </div>
+            <div id='categoriesSection' class="container hide" style="display:none">
+                <div class="clickable" onclick="organizePlayers(sortCategoryIndex-1)"><i class="fa fa-caret-left"
+                        style="font-size:150%"></i>
+                </div>
+                <div id="categoriesElem"></div>
+                <div class="clickable" onclick="organizePlayers(sortCategoryIndex+1)"><i class="fa fa-caret-right"
+                        style="font-size:150%"></i>
+                </div>
             </div>
             <div id="boardTitleDiv" class="sticky" style="top:42px;max-width: 50%;margin:0 auto">
                 <div id='runRecap_welcome' style="display:none">
@@ -272,7 +280,7 @@
                             <div style='font-size:150%'>XX:XX</div>
                             <div style='font-size:160%'><i class='fa fa-edit'></i></div>
                         </div>
-                        <div id="runRecap_grade"></div>
+                        <!-- <div id="runRecap_grade"></div> -->
                         <input id='input_runRecap_player' type='text' placeholder='Your SRC username'
                             style='display:none;width:200px;font-size:100%'>
                         <div id='runRecap_player' onclick="hideRunRecap('player')" class='container clickable'
@@ -281,13 +289,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div id='categoriesSection' class="container hide" style="display:none;top:95px">
-                <div class="clickable" onclick="organizePlayers(sortCategoryIndex-1)"><i class="fa fa-caret-left"></i>
-                </div>
-                <div id="categoriesElem"></div>
-                <div class="clickable" onclick="organizePlayers(sortCategoryIndex+1)"><i class="fa fa-caret-right"></i>
                 </div>
             </div>
             <!-- Leaderboard -->
@@ -476,28 +477,60 @@
                         <div onclick='processSavFile()' class="button cuphead" style="width:100px"><i
                                 class="fa fa-plus"></i>&nbsp;New file</div>
                     </div>
-                    <div id='runRecapInfo' style='display:none;padding-bottom:10px'>
+                    <div id='runRecapInfo' style='display:none;'>
                         <div class='container'>
                             <div>
                                 SAVE FILE LOCATIONS:
                                 <br>Windows: <span class='myekulColor'>C:\Users\<span
-                                        class='runRecapInfoName'>${playerName}</span>\AppData\Roaming\Cuphead</span>
+                                        class='runRecapInfoName'>USERNAME</span>\AppData\Roaming\Cuphead</span>
                                 <br>Mac: <span class='myekulColor'>/Users/<span
-                                        class='runRecapInfoName'>${playerName}</span>/Library/Application\
+                                        class='runRecapInfoName'>USERNAME</span>/Library/Application\
                                     Support/unity.Studio\ MDHR.Cuphead/Cuphead</span>
                             </div>
                         </div>
                     </div>
+                    <div class="container" style="padding:40px 0">
+                        <div style="padding-right:30px">View Example:</div>
+                        <div id="runRecap_examples"></div>
+                    </div>
                     <div id='runRecapError' style='display:none'>Error!</div>
                 </div>
-                <div id="runRecap_options_elem" style="display:none">
+                <div id="runRecapSection" style="display:none">
                     <div id='runRecap_options_button' class='clickable container options' onclick="toggleOptions()">
                     </div>
                     <div id="runRecap_options" class="container" style="display:none">
-                        <input id='checkbox_runRecap_harsh' onclick="action()" type="checkbox">Harsh Grading
+                        <input id='checkbox_runRecap_harsh' onclick="action()" type="checkbox" checked>Harsh Grading
+                    </div>
+                    <div class="container" style='padding-bottom:3px'>
+                        &Delta;
+                        <select id="dropdown_runRecapComparison"
+                            onchange="playSound('cardflip');showRunRecapTab()">
+                            <optgroup label="Custom">
+                                <option value="top3" selected>Top 3 Average</option>
+                                <option value="humanTheory">Human Theory</option>
+                                <option value="commBest">Comm Best</option>
+                            </optgroup>
+                            <optgroup id='runRecap_optgroup' label="Players"></optgroup>
+                        </select>
+                        <i class='fa fa-info-circle clickable'
+                            onclick="playSound('move');toggleVisibility('comparisonInfo')" style='padding-left:5px'></i>
+                        <div class="divider"></div>
+                        <div id='runRecapTabs' class="container" style="margin:0">
+                            <div id='runRecap_times' class="button" style="width:70px" onclick="showRunRecapTab('times')">Times</div>
+                            <div id='runRecap_sums' class="button" style="width:70px" onclick="showRunRecapTab('sums')">Sums</div>
+                        </div>
+                    </div>
+                    <div id='comparisonInfo' class='textBlock container' style='display:none;font-size:75%'></div>
+                    <div id='runRecap' style="padding:10px 0"></div>
+                    <div class='container' style='padding-top:20px'>
+                        <div class='button cuphead' onclick="runRecapRestart()" style='width:100px'>
+                            <i class="fa fa-reply"></i>&nbsp;Restart
+                        </div>
+                        <div class='divider'></div>
+                        <div class='button cuphead' onclick="runRecapDownload()" style='width:100px'><i
+                                class="fa fa-download"></i>&nbsp;Save file</div>
                     </div>
                 </div>
-                <div id="runRecap"></div>
             </div>
             <!-- Modal -->
             <div id="modal" class="modal">
@@ -507,8 +540,10 @@
                     <div id="modal-header">
                         <h1 id="modal-title" class="container"></h1>
                     </div>
-                    <div id="modal-player" style="padding:0 40px"></div>
-                    <div id="modal-body" style="padding-top:8px"></div>
+                    <div id="modal-subtitle" style="padding:0 40px;padding-bottom:8px;"></div>
+                    <div id="modal-more">
+                        <div id="modal-body"></div>
+                    </div>
                 </div>
                 <div id='modal-pages' class="container" style="display:none"></div>
             </div>

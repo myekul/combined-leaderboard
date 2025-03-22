@@ -40,7 +40,6 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 
 ## Known bugs
 - Leaderboard squish and stretch
-- Modal scrolling oddities
 - Legacy IL loadouts are unfinished
 - Boss HP is inaccurate
 - Map color logic is weird

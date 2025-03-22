@@ -26,11 +26,14 @@ let WRsTab = 'players'
 let fullgameCategory
 let sm64ILsSection
 let extraCategory = {}
+
 let countries = {}
 let globalCountryName
+
 let runRecapFile
 let runRecapPlayerName
 let runRecapTime = 'XX:XX'
+let runRecapTab = 'times'
 
 // Big 5
 let allILs = true

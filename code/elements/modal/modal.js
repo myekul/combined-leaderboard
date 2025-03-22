@@ -34,8 +34,8 @@ function openModal(param, sound) {
     });
     const modalTitle = document.getElementById('modal-title')
     const modalBody = document.getElementById('modal-body')
-    const modalPlayer = document.getElementById('modal-player')
-    modalPlayer.innerHTML = ''
+    const modalSubtitle = document.getElementById('modal-subtitle')
+    modalSubtitle.innerHTML = ''
     if (playerModal) {
         globalPlayerIndex = param
         window.firebaseUtils.lastCheckedUser()
@@ -70,7 +70,7 @@ function openModal(param, sound) {
         const boardTitle = generateBoardTitle(2)
         HTMLContent += boardTitle ? `<div class='modalBoardTitle' style='padding-left:20px'>${boardTitle}</div>` : ''
         HTMLContent += `</div>`
-        modalPlayer.innerHTML = HTMLContent
+        modalSubtitle.innerHTML = HTMLContent
         let modalPageNames = ['reportCard', 'videoCollection', 'gradeTable']
         if (mode == 'commBestILs') {
             modalPageNames.slice(0, 2)
@@ -199,7 +199,7 @@ function videoCollection(player) {
     return HTMLContent
 }
 function gradeTable(player) {
-    let HTMLContent = `<div class='container'><table>`
+    let HTMLContent = `<table style='margin:0 auto'>`
     if (bossILindex == -1) {
         HTMLContent += `<tr><td></td><td></td>`
         if (big4()) {
@@ -238,7 +238,7 @@ function gradeTable(player) {
         })
         HTMLContent += `</tr>`
     })
-    HTMLContent += `</table></div>`
+    HTMLContent += `</table>`
     return HTMLContent
 }
 function scoreBreakdown(player) {
@@ -290,13 +290,13 @@ function getExtraHeader(category) {
 function countryModal(countryName) {
     globalCountryName = countryName
     const country = countries[countryName]
-    let HTMLContent = `<div class='container' style='padding:10px'>
+    let HTMLContent = `<div class='container' style='padding-top:10px'>
     <div>${getFlag(country.code, country.name, 24)}</div>
     <div style='font-size:140%;padding-left:10px'>${countryName}</div>`
     const boardTitle = generateBoardTitle(1)
     HTMLContent += boardTitle ? `<div class='modalBoardTitle' style='padding-left:20px'>${boardTitle}</div>` : ''
     HTMLContent += `</div>`
-    document.getElementById('modal-player').innerHTML = HTMLContent
+    document.getElementById('modal-subtitle').innerHTML = HTMLContent
     playersCopy = [...country.players].slice(0, 100)
     sortPlayers(playersCopy)
     return `<div class='container'>${playersTable(playersCopy)}</div>`

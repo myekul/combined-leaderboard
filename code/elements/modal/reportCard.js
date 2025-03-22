@@ -144,11 +144,11 @@ function reportCardSection(category, categoryIndex, score, percentage) {
         }
         const place = players[globalPlayerIndex].runs[categoryIndex].place
         HTMLContent =
-            `<td id='modal_category_${categoryIndex}_grade' class='${grade.className}' style='text-align:left;min-width:25px'>${grade.grade}</td>
-        <td id='modal_category_${categoryIndex}_percentage' class='${grade.className}' style='min-width:45px'>${displayPercentage(percentage)}</td>
+            `<td id='modal_category_${categoryIndex}_grade' class='${grade.className}' style='font-size:90%;text-align:left;min-width:25px'>${grade.grade}</td>
+        <td id='modal_category_${categoryIndex}_percentage' class='${grade.className}' style='font-size:90%;min-width:40px'>${displayPercentage(percentage)}</td>
         ${truePercentage(categoryIndex)}
         <td id='modal_category_${categoryIndex}_place' class='${classNameLogic(category)}' style='display:none;font-size:75%;min-width:25px'>${place}</td>
-        <td id='modal_category_${categoryIndex}_score' class='${classNameLogic(category)}'>${tetrisCheck(category, score)}</td>
+        <td id='modal_category_${categoryIndex}_score' class='${classNameLogic(category)}' style='padding:0 3px'>${tetrisCheck(category, score)}</td>
         <td class='background' style='border-right:1px solid white'><div id='modal_category_${categoryIndex}_visual' class='${className}' style='color:transparent !important;width:${percentage == 100 ? 102 : normalize50(percentage)}%'>dummy</div></td>
         <td id='modal_category_${categoryIndex}_slider_div' style='display:none'><input id='modal_category_${categoryIndex}_slider' style='width:300px;accent-color:${accentColor}' type='range' oninput='adjustGrade(${categoryIndex})' step='0.1' min='50' max='${category.runs[0].percentage}' value='${Math.round(percentage)}'></td>`
     } else {

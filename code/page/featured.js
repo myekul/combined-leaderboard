@@ -33,7 +33,7 @@ function fancyRun(run, categoryIndex, extra) {
         </td>`
     }
     if (sortCategoryIndex == -1 && mode != 'fullgame') {
-        HTMLContent += `<td style='padding:0 2px'>`
+        HTMLContent += `<td style='padding:0 5px'>`
         HTMLContent += category.info?.id && bossILindex == -1 ? `<div class='container ${category.info.id}' style='border-radius:5px;width:50px;height:50px'>${getImage(category.info.id)}</div>` : ''
         HTMLContent += sortCategoryIndex == -1 && mode != 'commBestILs' ? categorySpan(category) : ''
         HTMLContent += `</td>`

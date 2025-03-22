@@ -44,8 +44,14 @@
     transform: translateX(-50%);
     border: 2px solid var(--gray);
     border-radius: 8px;
-    overflow-y: auto;
     max-height: 80vh;
+
+}
+
+#modal-more {
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 60vh
 }
 
 #modal-header {

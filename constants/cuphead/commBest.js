@@ -41,6 +41,42 @@ const commBestILs = {
         // shot2: 'spread'
         subcat: 'Any%'
     },
+    'DLC L/S': {
+        name: 'DLC',
+        tabName: 'DLC',
+        className: 'dlc',
+        range: 'C1:Z6',
+        category: cuphead['main'][3],
+        numRuns: 3,
+        shot1: 'lobber',
+        shot2: 'spread',
+        extraRuns: [
+            {
+                date: '2024-03-14',
+                score: '10:55.08',
+                playerName: 'myekul',
+                videos: { links: [{ uri: 'https://youtu.be/uB7fOkPIMDc' }] }
+            }
+        ],
+        extraPlayers: [
+            'BlackTower',
+            'ExclamationMarkYT',
+            'GamerAttack27',
+            'Grondious',
+            'HappyWolf',
+            'holrre',
+            'jaan_971',
+            'JimiconNeedsYT',
+            'KalaveritaTV',
+            'KO_Kiss_087',
+            'Lewzr',
+            'MarkinSws',
+            'Quincely0',
+            'Rapho',
+            'SBDWolf',
+            'TitoOscarXxYT'
+        ]
+    },
     'DLC C/S': {
         name: 'DLC',
         tabName: 'DLC C/S',
@@ -62,6 +98,18 @@ const commBestILs = {
                 score: '10:59.85',
                 playerName: 'GamerAttack27',
                 videos: { links: [{ uri: 'https://youtu.be/AKyBN0Hhy0U' }] }
+            },
+            {
+                date: '2022-08-25',
+                score: '11:10.13',
+                playerName: 'MarkinSws',
+                videos: { links: [{ uri: 'https://youtu.be/1I2Ltq9eqtA' }] }
+            },
+            {
+                date: '2025-03-13',
+                score: '11:21.34',
+                playerName: 'Lewzr',
+                videos: { links: [{ uri: 'https://youtu.be/qg0WE1i9UkU' }] }
             }
         ],
         extraPlayers: [
@@ -78,8 +126,7 @@ const commBestILs = {
             "Rookie_Gamer_Tlax",
             "PanchoFox",
             "2haka",
-            'Pizzarolli',
-            'Lewzr'
+            'Pizzarolli'
         ]
     },
     'DLC C/T': {
@@ -187,4 +234,3 @@ const commBestILs = {
         ]
     },
 }
-const commBestExtra = ['DLC C/S', 'DLC C/T', 'DLC C-less', 'DLC+Base C/S']

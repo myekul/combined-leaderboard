@@ -92,7 +92,7 @@ function updateLoadouts(categoryName) {
     let HTMLContent = ''
     let fullgameCategories = []
     if (commBestILsCategory.name == 'DLC') {
-        fullgameCategories.push('DLC', 'DLC C/S', 'DLC C/T', 'DLC Low%', 'DLC C-less', 'DLC Expert')
+        fullgameCategories.push('DLC', 'DLC L/S', 'DLC C/S', 'DLC C/T', 'DLC Low%', 'DLC C-less', 'DLC Expert')
     } else if (commBestILsCategory.name == 'DLC+Base') {
         fullgameCategories.push('DLC+Base', 'DLC+Base C/S')
     }
@@ -191,8 +191,7 @@ function prepareData() {
     })
     if (mode == 'commBestILs') {
         assignRuns(extraCategory)
-        const categoryName = commBestILsCategory.tabName
-        if (commBestExtra.includes(categoryName)) {
+        if (commBestILsCategory.extraRuns || commBestILsCategory.extraPlayers) {
             const morePlayers = []
             commBestILsCategory.extraRuns.forEach(run => {
                 morePlayers.push(run.playerName)
@@ -286,7 +285,7 @@ function assignRuns(category, categoryIndex) {
         if (categoryIndex != null) {
             thePlayer.runs ? thePlayer.runs[categoryIndex] = run : ''
         } else {
-            if (!(mode == 'commBestILs' && commBestExtra.includes(commBestILsCategory.tabName) && !commBestILsCategory.extraPlayers?.includes(thePlayer.name))) {
+            if (!(mode == 'commBestILs' && commBestILsCategory.extraRuns && !commBestILsCategory.extraPlayers?.includes(thePlayer.name))) {
                 thePlayer.extra = run
             }
         }

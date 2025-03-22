@@ -2,7 +2,7 @@ function generateWRs() {
     showWRsTab(WRsTab)
 }
 function WRsPlayers() {
-    let HTMLContent = `<div class='container'><table class='bigShadow' style='${mode == 'fullgame'&&gameID != 'tetris' ? 'border-collapse:collapse' : ''}'>`
+    let HTMLContent = `<div class='container'><table class='bigShadow' style='${mode == 'fullgame' && gameID != 'tetris' ? 'border-collapse:collapse' : ''}'>`
     if (gameID == 'cuphead' && mode != 'fullgame') {
         if (document.getElementById('checkbox_WRs_dps').checked || document.getElementById('checkbox_WRs_hp').checked) {
             assignHP()
@@ -183,8 +183,11 @@ function WRsSumsCuphead() {
         HTMLContent += `</tr>`
     }
     HTMLContent += `</table></div>`
-    HTMLContent += `<div class='container' style='margin-top:20px;font-size:150%'>${secondsToHMS(totalSum)}</div>`
+    HTMLContent += bigTextDisplay(secondsToHMS(totalSum))
     return HTMLContent
+}
+function bigTextDisplay(text) {
+    return `<div class='container' style='margin-top:20px;font-size:150%'>${text}</div>`
 }
 function WRsChart() {
     const allWRs = []

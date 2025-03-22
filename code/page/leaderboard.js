@@ -164,13 +164,13 @@ function parsePlayer(player, playerIndex) {
     }
     player.gpa = player.hasAllRuns ? getGPA(player.score) : ''
     const letterGrade = getLetterGrade(player.score)
-    HTMLContent += `<tr class='${getRowColor(playerIndex)} categoryLabel' style='height:22px'>`
+    HTMLContent += `<tr class='${getRowColor(playerIndex)} categoryLabel' style='height:23px'>`
     if (page == 'sort' && document.getElementById('dropdown_sortCriteria').value == 'joindate') {
         HTMLContent += `<td>${player.signup}</td>`
     }
     if (mode == 'commBestILs' || ['titanfall_2', 'mtpo'].includes(gameID) || (gameID == 'sm64' && mode == 'levels')) {
         if (mode == 'commBestILs') {
-            if (['DLC', 'DLC+Base'].includes(commBestILsCategory.tabName)) {
+            if (['DLC', 'DLC+Base'].includes(commBestILsCategory.tabName) && !commBestILsCategory.extraPlayers) {
                 if (player.extra.percentage >= 90) {
                     const shot1 = commBestILs[commBestILsCategory.name + ' C/S'].extraPlayers.includes(player.name) ? 'charge' : 'lobber'
                     HTMLContent += `<td>${cupheadShot(shot1, 20, true)}</td>`
@@ -188,7 +188,7 @@ function parsePlayer(player, playerIndex) {
         if (gameID != 'mtpo') {
             HTMLContent += `<td style='font-size:75%'>${displayPercentage(player.score)}</td>`
         }
-        HTMLContent += `<td class='${letterGrade.className}' style='font-size:90%;text-align:left'>${letterGrade.grade}</td>`
+        HTMLContent += `<td class='${letterGrade.className}' style='font-size:80%;text-align:left'>${letterGrade.grade}</td>`
         if (gameID == 'mtpo') {
             HTMLContent += player.hasAllRuns ? `<td class='${letterGrade.className}'>${getGPA(player.score)}</td>` : `<td></td>`
             HTMLContent += player.sum ? `<td>${player.sum}</td>` : `<td></td>`
@@ -220,7 +220,7 @@ function parsePlayer(player, playerIndex) {
     return HTMLContent
 }
 function parsePlayerRuns(player, playerIndex) {
-    let HTMLContent = `<tr class=${getRowColor(playerIndex)} style='height:22px'>`
+    let HTMLContent = `<tr class=${getRowColor(playerIndex)} style='height:23px'>`
     if (isolated) {
         HTMLContent += parseRun(player, playerIndex, categories[sortCategoryIndex], sortCategoryIndex)
         const categoryName = categories[sortCategoryIndex].name

@@ -52,10 +52,12 @@
 
 body {
     font-family: var(--font);
+    font-size: 17px;
     color: white;
     margin: 0;
     overscroll-behavior: none;
     overflow-x: hidden;
+    overflow-y: scroll;
     white-space: nowrap;
     /* background-color: var(--background); */
     background: repeating-linear-gradient(45deg,
@@ -117,7 +119,7 @@ h1 {
 
 .textBlock {
     white-space: normal;
-    max-width: 600px;
+    max-width: 700px;
     /* padding-bottom: 20px */
 }
 
@@ -189,7 +191,7 @@ th {
 .button {
     width: 140px;
     height: 22px;
-    font-size: 85%;
+    font-size: 80%;
     font-family: var(--font);
     cursor: pointer;
     border-radius: 15px;
@@ -424,7 +426,7 @@ svg {
 }
 
 #loadouts .button {
-    width: 55px
+    width: 60px
 }
 
 #loadouts img {
@@ -558,7 +560,7 @@ svg {
 .divider {
     margin: 0 15px;
     border-left: 2px solid white;
-    height: 40px;
+    height: 35px;
 }
 
 #videoCollection div {
@@ -568,6 +570,6 @@ svg {
 }
 
 .trophy {
-    filter: drop-shadow(0.5px 1px 0.5px black);
+    filter: drop-shadow(0.5px 1px 0 black) drop-shadow(-0.5px -0.5px 0 black);
     padding: 0 3px
 }

@@ -39,7 +39,7 @@ function getGPA(value) {
     return Math.floor(gpa) + displayDecimals(gpa, true)
 }
 function getPercentage(value) {
-    if (value) {
+    if (value || value == 0) {
         return value * 100
     }
     return ''
@@ -211,11 +211,6 @@ function action() {
     const categoriesSection = document.getElementById('categoriesSection')
     if (['featured', 'charts', 'map', 'sort'].includes(page) || (isolated && !(mode == 'commBestILs' && sortCategoryIndex == -1))) {
         show(categoriesSection)
-        if (sortCategoryIndex == -1) {
-            categoriesSection.classList.remove('sticky')
-        } else {
-            categoriesSection.classList.add('sticky')
-        }
     } else {
         hide(categoriesSection)
     }
@@ -291,7 +286,7 @@ function getPlayerIcon(player, size) {
     return `<div style='width:${size}px;height:${size}px'><img src='${src}' style='width:100%;height:100%;border-radius: 50%;object-fit: cover;object-position:center' title='${player.name}'></img></div>`
 }
 function getFlag(countryCode, countryName, size) {
-    let HTMLContent = `<img src="https://www.speedrun.com/images/flags/${countryCode}.png" class='container' style="height:${size}px" title="${countryName}" alt=''></img>`
+    let HTMLContent = `<img src="https://www.speedrun.com/images/flags/${countryCode}.png" style="height:${size}px" title="${countryName}" alt=''></img>`
     return HTMLContent
 }
 function buttonClick(pressed, unpressed, className) {
@@ -405,13 +400,13 @@ function tetrisCheck(category, score) {
 }
 function getPlayerDisplay(player) {
     let HTMLContent = ''
-    HTMLContent += mode != 'commBestILs' ? `<td class='${placeClass(player.rank)}'>${player.rank}</td>` : ''
+    HTMLContent += mode != 'commBestILs' ? `<td class='${placeClass(player.rank)}' style='font-size:90%'>${player.rank}</td>` : ''
     if (gameID != 'tetris') {
         if (document.getElementById('checkbox_flags').checked) {
             HTMLContent += `<td>${getPlayerFlag(player, 12)}</td>`
         }
         if (document.getElementById('checkbox_icons').checked) {
-            HTMLContent += `<td>${getPlayerIcon(player, 18)}</td>`
+            HTMLContent += `<td>${getPlayerIcon(player, 19)}</td>`
         }
     }
     HTMLContent += `<td onclick="playSound('cardup');openModal(${player.rank - 1})" class='clickable' style='text-align:left;font-weight: bold;padding-right:5px'>${getPlayerName(player)}</td>`
