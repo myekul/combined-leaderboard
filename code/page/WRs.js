@@ -87,9 +87,9 @@ function WRsCategoryDisplay(category, categoryIndex) {
     let HTMLContent = ''
     const className = classNameLogic(category)
     HTMLContent += `<tr class='${getRowColor(categoryIndex)}'>`
-    HTMLContent += `<td class='${className}' style='text-align:left;font-weight:bold'>${category.name}</td>`
+    HTMLContent += `<td class='${className}' style='text-align:left;font-weight:bold;padding:0 3px'>${category.name}</td>`
     if (category.info) {
-        HTMLContent += `<td style='padding:0' class='${className} container'>${getImage(category.info.id, 25)}</td>`
+        HTMLContent += `<td style='padding:0' class='${className} container'>${getImage(category.info.id, 24)}</td>`
     }
     return HTMLContent
 }
@@ -140,7 +140,7 @@ function WRsSums() {
             const worldRecord = getWorldRecord(category)
             sum += worldRecord
             HTMLContent += WRsCategoryDisplay(category, categoryIndex)
-            HTMLContent += `<td class='${classNameLogic(category)}'>${tetrisCheck(category, worldRecord)}</td>`
+            HTMLContent += `<td class='${classNameLogic(category)}' style='padding:0 3px'>${tetrisCheck(category, worldRecord)}</td>`
             HTMLContent += `</tr>`
         })
         HTMLContent += `</table></div>`
@@ -164,7 +164,7 @@ function WRsSumsCuphead() {
             HTMLContent += `</tr>`
         }
         HTMLContent += `<tr class='${getRowColor(categoryIndex)}'>`
-        HTMLContent += `<td class='${category.info.id}'>${category.info.name}</td>`
+        HTMLContent += `<td class='${category.info.id}' style='text-align:right'>${category.info.name}</td>`
         HTMLContent += `<th class='${category.info.id} container'>${getImage(category.info.id, 21)}</th>`
         if (numCats == 4) {
             HTMLContent += `<td></td><td></td>`
@@ -174,7 +174,7 @@ function WRsSumsCuphead() {
         for (let i = 1; i <= numCats; i++) {
             thisCategory = categories[categoryIndex]
             const worldRecord = getWorldRecord(thisCategory)
-            HTMLContent += `<td class='${category.info.id}'>${secondsToHMS(worldRecord)}</td>`
+            HTMLContent += `<td class='${category.info.id}' style='padding:0 4px'>${secondsToHMS(worldRecord)}</td>`
             sum += worldRecord
             categoryIndex++
         }
@@ -372,35 +372,15 @@ function WRsInfo(sortObject, objectReference, WRs, allWRs) {
             }
         })
     }
-    HTMLContent += `</tr><tr class='otherColor'><td>Mean</td>`
-    if (objectReference) {
-        HTMLContent += `<td>${findMean(allWRs)}</td>`
-    }
-    for (const key in sortObject) {
-        sortObject[key]
-        HTMLContent += `<td>${findMean(sortObjectArray(sortObject[key]))}</td> `
-    }
-    HTMLContent += `</tr><tr><td>Median</td>`
-    if (objectReference) {
-        HTMLContent += `<td>${findMedian(allWRs)}</td>`
-    }
-    for (const key in sortObject) {
-        HTMLContent += `<td>${findMedian(sortObjectArray(sortObject[key]))}</td> `
-    }
-    HTMLContent += `</tr><tr class='otherColor'><td>Mode</td>`
-    if (objectReference) {
-        HTMLContent += `<td>${findMode(allWRs)}</td>`
-    }
-    for (const key in sortObject) {
-        HTMLContent += `<td>${findMode(sortObjectArray(sortObject[key]))}</td> `
-    }
-    HTMLContent += `</tr><tr><td>Std. dev</td>`
-    if (objectReference) {
-        HTMLContent += `<td>${findStandardDeviation(allWRs)}</td>`
-    }
-    for (const key in sortObject) {
-        HTMLContent += `<td>${findStandardDeviation(sortObjectArray(sortObject[key]))}</td> `
-    }
+    statTypes.forEach((statType, index) => {
+        HTMLContent += `</tr><tr class='${getRowColor(index)}'><td>${statType.label}</td>`
+        if (objectReference) {
+            HTMLContent += `<td>${statType.func(allWRs)}</td>`
+        }
+        for (const key in sortObject) {
+            HTMLContent += `<td>${statType.func(sortObjectArray(sortObject[key]))}</td> `
+        }
+    })
     HTMLContent += `</table></div>`
     document.getElementById('WRsInfo').innerHTML = HTMLContent
 }

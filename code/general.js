@@ -406,7 +406,7 @@ function getPlayerDisplay(player) {
             HTMLContent += `<td>${getPlayerFlag(player, 12)}</td>`
         }
         if (document.getElementById('checkbox_icons').checked) {
-            HTMLContent += `<td>${getPlayerIcon(player, 19)}</td>`
+            HTMLContent += `<td>${getPlayerIcon(player, 18)}</td>`
         }
     }
     HTMLContent += `<td onclick="playSound('cardup');openModal(${player.rank - 1})" class='clickable' style='text-align:left;font-weight: bold;padding-right:5px'>${getPlayerName(player)}</td>`

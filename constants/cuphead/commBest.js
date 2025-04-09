@@ -69,7 +69,6 @@ const commBestILs = {
             'JimiconNeedsYT',
             'KalaveritaTV',
             'KO_Kiss_087',
-            'Lewzr',
             'MarkinSws',
             'Quincely0',
             'Rapho',
@@ -104,12 +103,6 @@ const commBestILs = {
                 score: '11:10.13',
                 playerName: 'MarkinSws',
                 videos: { links: [{ uri: 'https://youtu.be/1I2Ltq9eqtA' }] }
-            },
-            {
-                date: '2025-03-13',
-                score: '11:21.34',
-                playerName: 'Lewzr',
-                videos: { links: [{ uri: 'https://youtu.be/qg0WE1i9UkU' }] }
             }
         ],
         extraPlayers: [
@@ -126,7 +119,10 @@ const commBestILs = {
             "Rookie_Gamer_Tlax",
             "PanchoFox",
             "2haka",
-            'Pizzarolli'
+            'Pizzarolli',
+            'Lewzr',
+            'SrPancho',
+            'WoskiBoy'
         ]
     },
     'DLC C/T': {
@@ -156,23 +152,23 @@ const commBestILs = {
         numRuns: 3,
         shot1: 'peashooter'
     },
-    'DLC C-less': {
-        name: 'DLC',
-        tabName: 'DLC C-less',
-        className: 'dlc',
-        range: 'C1:Z6',
-        category: cuphead['main'][3],
-        numRuns: 1,
-        subcat: 'C-less',
-        extraRuns: [
-            {
-                date: '2023-05-15',
-                score: '11:41.29',
-                playerName: 'Quincely0',
-                videos: { links: [{ uri: 'https://youtu.be/D8th-Wm4W0o' }] }
-            }
-        ]
-    },
+    // 'DLC C-less': {
+    //     name: 'DLC',
+    //     tabName: 'DLC C-less',
+    //     className: 'dlc',
+    //     range: 'C1:Z6',
+    //     category: cuphead['main'][3],
+    //     numRuns: 1,
+    //     subcat: 'C-less',
+    //     extraRuns: [
+    //         {
+    //             date: '2023-05-15',
+    //             score: '11:41.29',
+    //             playerName: 'Quincely0',
+    //             videos: { links: [{ uri: 'https://youtu.be/D8th-Wm4W0o' }] }
+    //         }
+    //     ]
+    // },
     'DLC Expert': {
         name: 'DLC',
         tabName: 'DLC E',

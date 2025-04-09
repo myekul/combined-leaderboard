@@ -20,6 +20,10 @@ function getFullgame(categoryName) {
         }
     } else {
         categories = categorySet[gameID]
+        if (!categories) {
+            console.log('hi')
+            categories = generateCategories(gameID)
+        }
         if (categoryName) {
             if (gameID == 'sm64') {
                 if (categoryName == 'long') {
@@ -92,7 +96,7 @@ function updateLoadouts(categoryName) {
     let HTMLContent = ''
     let fullgameCategories = []
     if (commBestILsCategory.name == 'DLC') {
-        fullgameCategories.push('DLC', 'DLC L/S', 'DLC C/S', 'DLC C/T', 'DLC Low%', 'DLC C-less', 'DLC Expert')
+        fullgameCategories.push('DLC', 'DLC L/S', 'DLC C/S', 'DLC C/T', 'DLC Low%', 'DLC Expert')
     } else if (commBestILsCategory.name == 'DLC+Base') {
         fullgameCategories.push('DLC+Base', 'DLC+Base C/S')
     }
@@ -407,6 +411,8 @@ function refreshLeaderboard() {
     if (gameID == 'tetris') {
         categories = tetris
         gapi.load("client", loadClient);
+    } else if (!categorySet[gameID]) {
+        generateCategories(gameID)
     } else {
         if (mode == 'fullgame') {
             getFullgame()

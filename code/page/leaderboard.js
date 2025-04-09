@@ -162,7 +162,6 @@ function parsePlayer(player, playerIndex) {
         })
         player.sum = secondsToHMS(player.sum)
     }
-    player.gpa = player.hasAllRuns ? getGPA(player.score) : ''
     const letterGrade = getLetterGrade(player.score)
     HTMLContent += `<tr class='${getRowColor(playerIndex)} categoryLabel' style='height:23px'>`
     if (page == 'sort' && document.getElementById('dropdown_sortCriteria').value == 'joindate') {
@@ -171,7 +170,7 @@ function parsePlayer(player, playerIndex) {
     if (mode == 'commBestILs' || ['titanfall_2', 'mtpo'].includes(gameID) || (gameID == 'sm64' && mode == 'levels')) {
         if (mode == 'commBestILs') {
             if (['DLC', 'DLC+Base'].includes(commBestILsCategory.tabName) && !commBestILsCategory.extraPlayers) {
-                if (player.extra.percentage >= 90) {
+                if (player.extra?.percentage >= 90) {
                     const shot1 = commBestILs[commBestILsCategory.name + ' C/S'].extraPlayers.includes(player.name) ? 'charge' : 'lobber'
                     HTMLContent += `<td>${cupheadShot(shot1, 20, true)}</td>`
                     HTMLContent += `<td>${cupheadShot('spread', 20, true)}</td>`
@@ -234,9 +233,9 @@ function parsePlayerRuns(player, playerIndex) {
             HTMLContent += parseRun(player, playerIndex, category, categoryIndex)
         })
         if (mode != 'commBestILs') {
-            const gpaClass = player.gpa ? getLetterGrade(player.score).className : ''
+            const gpaClass = player.hasAllRuns ? getLetterGrade(player.score).className : ''
             HTMLContent += !['tetris', 'mtpo'].includes(gameID) ? `<td>${player.sum}</td>` : ''
-            HTMLContent += gameID != 'mtpo' ? `<td class='${gpaClass}'>${player.gpa}</td>` : ''
+            HTMLContent += player.hasAllRuns && gameID != 'mtpo' ? `<td class='${gpaClass}'>${getGPA(player.score)}</td>` : '<td></td>'
             HTMLContent += mode != 'fullgame' ? `<td>${categories.length - player.numRuns}</td>` : ''
         }
     }

@@ -3,8 +3,10 @@ function generateSort() {
     const sortRange = document.getElementById('dropdown_sortRange').value
     if (gameID == 'cuphead' && mode == 'levels' || mode == 'commBestILs') {
         show('extraSortCriteria')
+        show('sortDPS')
     } else {
         hide('extraSortCriteria')
+        hide('sortDPS')
         if (sortCriteria.value == 'dps') {
             sortCriteria.value = 'score'
         }
@@ -15,7 +17,7 @@ function generateSort() {
         hide('sortDateOptions')
     }
     HTMLContent = ''
-    if (['player', 'joindate'].includes(sortCriteria.value)) {
+    if (['player', 'joindate', 'bestScore'].includes(sortCriteria.value)) {
         hide('sortChartDiv')
         HTMLContent += `<div class='container'><table class='bigShadow'>`
         const playersCopy = [...players]
@@ -24,6 +26,10 @@ function generateSort() {
                 const aDate = new Date(a.signup);
                 const bDate = new Date(b.signup);
                 return bDate - aDate;
+            })
+        } else if (sortCriteria.value == 'bestScore') {
+            playersCopy.sort((a, b) => {
+                return b.bestScore - a.bestScore;
             })
         }
         playersCopy.forEach((player, playerIndex) => {
@@ -150,7 +156,7 @@ function sortRuns(sortRange) {
             }
             if (sortCategoryIndex == -1) {
                 HTMLContent += `<td class='${className}'>${category.name}</td>`
-                HTMLContent += category.info ? `<td class='container ${category.info.id}'>${getImage(category.info.id, 20)}</td>` : ''
+                HTMLContent += category.info ? `<td class='${category.info.id}'><div class='container'>${getImage(category.info.id, 20)}</div></td>` : ''
             }
             HTMLContent += parseRun(player, run.playerIndex, category, run.categoryIndex)
             HTMLContent += getPlayerDisplay(player)

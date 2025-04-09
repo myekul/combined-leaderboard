@@ -47,10 +47,12 @@
     background-color: #F10101;
     color: white
 }
-.nsmbu{
+
+.nsmbu {
     background-color: steelblue;
 }
-.nslu{
+
+.nslu {
     background-color: limegreen;
 }
 
@@ -66,5 +68,10 @@
 
 .smo {
     background-color: #E80514;
+    color: white
+}
+
+.facade {
+    background-color: gray;
     color: white
 }

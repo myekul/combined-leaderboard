@@ -68,9 +68,23 @@
 //         })
 //         .catch(error => console.error('Error fetching leaderboard:', error));
 // }
-// function cleanCategory(category) {
-//     delete category.links
-//     delete category.rules
-//     delete category.weblink
-//     return category
-// }
+function cleanCategory(category) {
+    delete category.links
+    delete category.rules
+    delete category.weblink
+    return category
+}
+// generateCategories('facade')
+function generateCategories(gameID) {
+    const url = `https://www.speedrun.com/api/v1/games/${gameID}/categories`
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const catties = []
+            data.data.forEach(category => {
+                catties.push({ name: category.name, id: category.id })
+            })
+            categorySet[gameID] = catties
+            refreshLeaderboard()
+        })
+}

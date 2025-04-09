@@ -12,6 +12,7 @@
     <script src="https://apis.google.com/js/api.js"></script>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
 </head>
 
 <body>
@@ -349,6 +350,10 @@
             <div id="featuredTab" class="tabs" style="display:none">
                 <div id="featured"></div>
             </div>
+            <!-- Players -->
+            <div id="playersTab" class="tabs" style="display:none">
+                <div id="players"></div>
+            </div>
             <!-- Charts -->
             <div id="chartsTab" class="tabs" style="display:none">
                 <div id='charts_options_button' class='clickable container options' onclick="toggleOptions()"></div>
@@ -416,9 +421,10 @@
                         <optgroup label="Player">
                             <option value="player">Player</option>
                             <option value="joindate">Join Date</option>
+                            <option value="bestScore">Best Score</option>
                         </optgroup>
                         <optgroup id="extraSortCriteria" label="Extra">
-                            <option value="dps">DPS</option>
+                            <option id='sortDPS' value="dps">DPS</option>
                         </optgroup>
                     </select>
                     <select id="dropdown_sortRange" onchange="action()">
@@ -503,8 +509,7 @@
                     </div>
                     <div class="container" style='padding-bottom:3px'>
                         &Delta;
-                        <select id="dropdown_runRecapComparison"
-                            onchange="playSound('cardflip');showRunRecapTab()">
+                        <select id="dropdown_runRecapComparison" onchange="playSound('cardflip');showRunRecapTab()">
                             <optgroup label="Custom">
                                 <option value="top3" selected>Top 3 Average</option>
                                 <option value="humanTheory">Human Theory</option>
@@ -516,8 +521,10 @@
                             onclick="playSound('move');toggleVisibility('comparisonInfo')" style='padding-left:5px'></i>
                         <div class="divider"></div>
                         <div id='runRecapTabs' class="container" style="margin:0">
-                            <div id='runRecap_times' class="button" style="width:70px" onclick="showRunRecapTab('times')">Times</div>
-                            <div id='runRecap_sums' class="button" style="width:70px" onclick="showRunRecapTab('sums')">Sums</div>
+                            <div id='runRecap_times' class="button" style="width:70px"
+                                onclick="showRunRecapTab('times')">Times</div>
+                            <div id='runRecap_sums' class="button" style="width:70px" onclick="showRunRecapTab('sums')">
+                                Sums</div>
                         </div>
                     </div>
                     <div id='comparisonInfo' class='textBlock container' style='display:none;font-size:75%'></div>
@@ -602,12 +609,12 @@
     <script src="code/general.js"></script>
     <script src="code/penalty.js"></script>
 
+    <script src="code/generation.js"></script>
+
     <script src="code/variables.js"></script>
     <script src="code/startup.js"></script>
 
     <script src="code/eventListeners.js"></script>
-
-    <script src="code/generation.js"></script>
 
     <script src="code/main.js"></script>
 </body>

@@ -76,7 +76,7 @@ function infoExample() {
     const examplePlayer = playersCopy[getRandomNumber(1, playerIndex)]
     const exampleRun = examplePlayer.runs[categoryIndex]
     const WRholder = getPlayerName(playersCopy[0])
-    return `e.g. For ${categorySpan(category)}, ${getPlayerName(examplePlayer)} has a ${tetrisCheck(category, exampleRun.score)} and ${WRholder} has a ${tetrisCheck(category, getWorldRecord(category))}.
+    return `e.g. For ${categorySpan(category)}, ${getPlayerName(examplePlayer)} has a ${tetrisCheck(category, exampleRun.score)} and the world record is ${tetrisCheck(category, getWorldRecord(category))} by ${WRholder}.
     <br>The calculation would be ${tetrisCheck(category, getWorldRecord(category))} / ${tetrisCheck(category, exampleRun.score)}.
     <br>${getPlayerName(examplePlayer)} would recieve ${scoreGradeSpan(exampleRun.percentage)} for this category.`
 }

@@ -56,10 +56,12 @@ gameLogo.src = `images/logo/${gameID}.png`
 document.getElementById('gameLogoButton').src = `images/logo/${gameID}.png`
 const subtitle = document.getElementById('subtitle')
 const header = document.querySelector('header')
-const gameIcons = document.querySelectorAll('.gameIcon')
-gameIcons.forEach(gameIcon => {
-    gameIcon.src = `images/favicon/${gameID}.png`
-})
+if (gameID == 'tetris' || categorySet[gameID]) {
+    const gameIcons = document.querySelectorAll('.gameIcon')
+    gameIcons.forEach(gameIcon => {
+        gameIcon.src = `images/favicon/${gameID}.png`
+    })
+}
 document.documentElement.style.setProperty('--banner', getColorFromClass(gameID));
 document.documentElement.style.setProperty('--bannerText', getColorFromClass(gameID, true));
 const title = document.querySelector('title')
@@ -101,11 +103,11 @@ if (['tetris', 'smb1', 'smbtll', 'smb2', 'smb3'].includes(gameID)) {
             gameTitle.style.color = 'royalblue'
             gameTitle.style.textShadow = '-2px 2px 0px red'
         }
-        subtitle.style.padding = '6px 0'
+        subtitle.style.padding = '4px 0'
     } else {
         gameLogo.style.height = '80px'
         header.style.height = '140px'
-        subtitle.style.padding = '10px 0'
+        subtitle.style.padding = '8px 0'
     }
     gameIcons.forEach(gameIcon => {
         gameIcon.style.marginBottom = '8px'
