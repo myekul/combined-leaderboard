@@ -164,8 +164,15 @@ function parsePlayer(player, playerIndex) {
     }
     const letterGrade = getLetterGrade(player.score)
     HTMLContent += `<tr class='${getRowColor(playerIndex)} categoryLabel' style='height:23px'>`
-    if (page == 'sort' && document.getElementById('dropdown_sortCriteria').value == 'joindate') {
-        HTMLContent += `<td>${player.signup}</td>`
+    if (page == 'sort') {
+        const sortCriteria = document.getElementById('dropdown_sortCriteria').value
+        if (sortCriteria == 'joindate') {
+            HTMLContent += `<td>${player.signup}</td>`
+        } else if (sortCriteria == 'bestScore') {
+            const runIndex = player.runs.findIndex(run => run.percentage == player.bestScore)
+            HTMLContent += parseRun(player, playerIndex, categories[runIndex], runIndex)
+            HTMLContent += `<td style='padding:0 10px'></td>`
+        }
     }
     if (mode == 'commBestILs' || ['titanfall_2', 'mtpo'].includes(gameID) || (gameID == 'sm64' && mode == 'levels')) {
         if (mode == 'commBestILs') {
@@ -187,7 +194,7 @@ function parsePlayer(player, playerIndex) {
         if (gameID != 'mtpo') {
             HTMLContent += `<td style='font-size:75%'>${displayPercentage(player.score)}</td>`
         }
-        HTMLContent += `<td class='${letterGrade.className}' style='font-size:80%;text-align:left'>${letterGrade.grade}</td>`
+        HTMLContent += `<td class='${letterGrade.className}' style='font-size:75%;text-align:left'>${letterGrade.grade}</td>`
         if (gameID == 'mtpo') {
             HTMLContent += player.hasAllRuns ? `<td class='${letterGrade.className}'>${getGPA(player.score)}</td>` : `<td></td>`
             HTMLContent += player.sum ? `<td>${player.sum}</td>` : `<td></td>`

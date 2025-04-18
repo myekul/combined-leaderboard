@@ -409,7 +409,7 @@ function getPlayerDisplay(player) {
             HTMLContent += `<td>${getPlayerIcon(player, 18)}</td>`
         }
     }
-    HTMLContent += `<td onclick="playSound('cardup');openModal(${player.rank - 1})" class='clickable' style='text-align:left;font-weight: bold;padding-right:5px'>${getPlayerName(player)}</td>`
+    HTMLContent += `<td onclick="playSound('cardup');openModal(${player.rank - 1})" class='clickable' style='text-align:left;font-weight: bold;font-size:90%;padding-right:5px'>${getPlayerName(player)}</td>`
     return HTMLContent
 }
 function getNumDisplay() {

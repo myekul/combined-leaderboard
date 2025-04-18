@@ -1,7 +1,7 @@
 function modalInfo() {
     let HTMLContent = `<img src='images/external/myekul.png' class='container' style='height:50px;width:50px'><div class='textBlock' style='font-family:"cuphead-memphis"'>`
-    HTMLContent += `Hello! My name is <span class='myekulColor'>myekul</span> and I am a Cuphead speedrunner and web developer.
-        This is my <span class='myekulColor'>Combined Leaderboard</span> project, a tool that organizes and ranks players based on their overall domination of a game's leaderboards.
+    HTMLContent += `Hello! My name is ${myekulColor(`myekul`)} and I am a Cuphead speedrunner and web developer.
+        This is my ${myekulColor(`Combined Leaderboard`)} project, a tool that organizes and ranks players based on their overall domination of a game's leaderboards.
         <br>
     ${infoTitle('Controls')}
     <br>-Use left and right arrow keys to switch between categories.
@@ -11,7 +11,7 @@ function modalInfo() {
     if (mode != 'commBestILs' && !(gameID == 'cuphead' && mode == 'levels')) {
         HTMLContent += `${infoTitle('How it works')}
             <br>Each player recieves an overall score (out of 100) and a letter grade, which are determined by a few things.
-            First, to calculate a given run score (0-100), <span class='myekulColor'>the world record is divided by the run time</span>.
+            First, to calculate a given run score (0-100), ${myekulColor(`the world record is divided by the run time`)}.
             <br><br>
             <div class='container textBox' style='justify-content:left'>
             <div onclick='generateInfoExample()' class='clickable' style='width:25px;text-align:center;padding-right:3px'><i class='fa fa-refresh'></i></div>
@@ -19,8 +19,8 @@ function modalInfo() {
 
             <div class='textBox'><i class='fa fa-exclamation-triangle myekulColor'></i> If a player has a run score worse than the average of their best score and
             ${scoreGradeSpan(getPercentage((categories.length - 1) / categories.length))}
-             (<span class='myekulColor'>[# of categories - 1] / [# of categories]</span>),
-             but they have another run greater than that, then <span class='myekulColor'>their bad score will be forgiven</span>.
+             (${myekulColor(`[# of categories - 1] / [# of categories]`)}),
+             but they have another run greater than that, then ${myekulColor(`their bad score will be forgiven`)}.
             This logic ensures that submitting a bad run is better than having no submission at all.
             </div>
 
@@ -43,7 +43,11 @@ function modalInfo() {
         // }
     }
     HTMLContent += infoTitle('Disclaimer')
-    HTMLContent += `<br>Overall player rank calculation can be a very subjective thing. This website was made for fun, and may not reflect the actual skill levels of each player.
+    HTMLContent += `<br>Overall player rank calculation can be a very subjective thing.
+    I made this website as a fun hobby project, and it may not reflect the actual skill levels of each player.
+    <br><br>
+    Personally, I like to think of it as an "overall player relevancy" ranking as opposed to a "player skill" ranking,
+    but I encourage you to make your own conclusions.
     <br>`
     HTMLContent += infoTitle('Services Used')
     HTMLContent += `${infoExternal('src')} clickable' style='text-decoration:underline'>${getAnchor('https://github.com/speedruncomorg/api')}Speedrun.com API</a></span>&nbspis used to extract data from the SRC database.
@@ -57,6 +61,9 @@ function modalInfo() {
         It is also open source, ad-free, nonprofit, and costs $0 to use, host, and maintain. Enjoy!`
     HTMLContent += `</div><img src='images/external/myekul.png' class='container' style='height:50px;width:50px;padding:10px 0'>`
     return HTMLContent
+}
+function myekulColor(content) {
+    return `<span class='myekulColor'>${content}</span>`
 }
 function infoTitle(title) {
     return `<br><div style='font-family: var(--font2);font-size: 140%;color: var(--bannerText);padding: 0 10px;background-color: var(--banner);border-radius: 5px;'>${title}</div>`
