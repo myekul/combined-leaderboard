@@ -89,7 +89,7 @@ function openModal(param, sound) {
             modalTitle.innerText = 'GRADE TABLE'
             modalBody.innerHTML = gradeTable(player)
         }
-        HTMLContent = `<div onclick="modalLeft()" class='clickable'>&#9664</div>`;
+        HTMLContent = `<div onclick="modalLeft()" class='clickable'>${fontAwesome('caret-left')}</div>`;
         for (let i = 0; i <= numModalPages; i++) {
             HTMLContent += `<div style='gap:10px'>`
             if (i == modalIndex) {
@@ -99,7 +99,7 @@ function openModal(param, sound) {
             }
             HTMLContent += `</div>`
         }
-        HTMLContent += `<div onclick="modalRight()" class='clickable'>&#9654</div>`
+        HTMLContent += `<div onclick="modalRight()" class='clickable'>${fontAwesome('caret-right')}</div>`
         const modalPages = document.getElementById('modal-pages')
         modalPages.innerHTML = HTMLContent
     } else if (param == 'info') {

@@ -51,7 +51,7 @@ function getWorldRecordPlayers(categoryIndex) {
         }
     })
     if (count > 7) {
-        HTMLContent += `<td></td><td style='text-align:left'>Various</td>`
+        HTMLContent += `<td></td><td class='clickable' style='text-align:left' colspan=10 onclick="showTab('leaderboard');organizePlayers(${categoryIndex})">-- ${count}-way tie --</td>`
     } else {
         playersCopy.forEach(player => {
             const run = player.runs[sortCategoryIndex]

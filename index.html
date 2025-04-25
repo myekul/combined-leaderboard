@@ -13,6 +13,7 @@
     <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fast-xml-parser@4.2.4/dist/fast-xml-parser.min.js"></script>
 </head>
 
 <body>
@@ -34,10 +35,15 @@
                 <div id='titleDesc' class='container' style="transform: translate(0px, -3px);font-size:90%">
                     The best overall players across each category
                 </div>
-                <div id='loading' style='position:absolute;right:40px;top:10px;color:var(--bannerText)'>
-                    <div>Loading API...</div>
-                    <!-- <div id="loadingText"></div> -->
-                </div>
+            </div>
+            <div id='runRecapMenu' class="onePointOne"
+                style="display:none;font-size:90%;width:120px;
+                            height:80px;position: absolute;right: 30px;top:10px;z-index: 2;border-radius:15px;text-align: center;padding-top:5px"><i
+                    class="fa fa-history"></i>&nbsp;Run Recap
+                <div id='runRecap_savButton' class='button' onclick="runRecapHandler('sav')"><i
+                        class="fa fa-folder-open"></i>&nbsp;.sav</div>
+                <div id='runRecap_lssButton' class='button' onclick="runRecapHandler('lss')"><img
+                        src="images/livesplit.png" style="width:15px"></i>&nbsp;.lss</div>
             </div>
         </header>
         <main>
@@ -77,10 +83,10 @@
                         <div id='sortButton' class='button' onclick="showTab('sort')"><i
                                 class="fa fa-sort-amount-asc"></i>
                         </div>
-                        <div id='runRecapButton' onclick="if(mode!='commBestILs'){getCommBestILs()};showTab('runRecap')"
-                            class="onePointOne button" style="display:none;font-size:90%;width:120px;
-                            height: 24px;position: absolute;right: 40px;"><i class="fa fa-history"></i>&nbsp;Run Recap
-                        </div>
+                    </div>
+                    <div id='loading' style='position:absolute;right:40px;top:8px;color:white'>
+                        <div>Loading API...</div>
+                        <!-- <div id="loadingText"></div> -->
                     </div>
                 </div>
                 <div class="progress-container bigShadow">
@@ -252,18 +258,6 @@
                 </div>
             </div>
             <div id="boardTitleDiv" class="sticky" style="top:42px;max-width: 50%;margin:0 auto">
-                <div id='runRecap_welcome' style="display:none">
-                    <div class="container" style="padding-top:25px">
-                        <div class='textBlock'>
-                            Welome to <span class='myekulColor'>Run Recap</span>! This tool allows you to upload a
-                            Cuphead
-                            .sav file to gain valuable insights about your recent run performance.
-                            To get started, <span class='myekulColor'>choose a category above</span> and insert your
-                            <span class='myekulColor'>run time</span> and <span class='myekulColor'>username</span>.
-                        </div>
-                    </div>
-                    <br>
-                </div>
                 <div class="container" style="max-width:50%">
                     <div class="container" style="margin:0">
                         <input id="checkbox_isolate" type="checkbox" onclick='action()' style="display:none">
@@ -281,7 +275,6 @@
                             <div style='font-size:150%'>XX:XX</div>
                             <div style='font-size:160%'><i class='fa fa-edit'></i></div>
                         </div>
-                        <!-- <div id="runRecap_grade"></div> -->
                         <input id='input_runRecap_player' type='text' placeholder='Your SRC username'
                             style='display:none;width:200px;font-size:100%'>
                         <div id='runRecap_player' onclick="hideRunRecap('player')" class='container clickable'
@@ -454,50 +447,55 @@
                     </div>
                 </div>
             </div>
-            <!-- Run Recap -->
-            <div id="runRecapTab" class="tabs" style="display:none">
+            <!-- Run Recap .sav -->
+            <div id="runRecap_savTab" class="tabs" style="display:none">
                 <div id="runRecap_controls">
-                    <br>
+                    <div id='runRecap_sav_welcome'></div>
                     <div class='container'>
                         <div class='textBlock'>
                             You can either upload an existing .sav file to automatically retrieve IL times, or
-                            create a
-                            new file and insert IL times manually.
+                            create a new file and insert IL times manually.
                         </div>
                     </div>
                     <br>
-                    <div class='container' style="gap:4px">
-                        <div id="runRecapBack" class="container" style="display:none;margin:0">
-                            <div onclick="runRecapDisplay()" class='button cuphead' style="width:100px"><i
-                                    class="fa fa-reply"></i>&nbsp;Go back
-                            </div>
-                            <div class="divider"></div>
+                    <div class="container">
+                        <div style="padding-right:30px">
+                            <div class="container">View Example:</div>
+                            <div id="runRecap_examples" class="container"></div>
                         </div>
-                        <input type='file' id='runRecapInput' onchange="runRecap(event)" style='display:none'>
-                        <div onclick="document.getElementById('runRecapInput').click()" class='button cuphead'><i
-                                class="fa fa-upload"></i>&nbsp;Upload file
-                        </div>
-                        <div onclick="playSound('move');toggleVisibility('runRecapInfo')" class='clickable'><i
-                                class='fa fa-info-circle'></i></div>
-                        <div class='divider'></div>
-                        <div onclick='processSavFile()' class="button cuphead" style="width:100px"><i
-                                class="fa fa-plus"></i>&nbsp;New file</div>
-                    </div>
-                    <div id='runRecapInfo' style='display:none;'>
-                        <div class='container'>
+                        <div id="dropBox" class="dropBox">
                             <div>
-                                SAVE FILE LOCATIONS:
-                                <br>Windows: <span class='myekulColor'>C:\Users\<span
-                                        class='runRecapInfoName'>USERNAME</span>\AppData\Roaming\Cuphead</span>
-                                <br>Mac: <span class='myekulColor'>/Users/<span
-                                        class='runRecapInfoName'>USERNAME</span>/Library/Application\
-                                    Support/unity.Studio\ MDHR.Cuphead/Cuphead</span>
+                                <div class="container" style="font-family: 'cuphead-vogue';font-size:120%">.sav</div>
+                                <div class="container">
+                                    <input type='file' id='runRecapInput' onchange="runRecap(event)"
+                                        style='display:none'>
+                                    <div onclick="document.getElementById('runRecapInput').click()"
+                                        class='button cuphead'>
+                                        <i class="fa fa-upload"></i>&nbsp;Upload file
+                                    </div>
+                                    <div onclick="playSound('move');toggleVisibility('runRecapInfo')" class='clickable'
+                                        style="padding-left:5px"><i class='fa fa-info-circle'></i></div>
+                                    <div class='divider'></div>
+                                    <div onclick='processSavFile()' class="button cuphead" style="width:100px"><i
+                                            class="fa fa-plus"></i>&nbsp;New file</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="container" style="padding:40px 0">
-                        <div style="padding-right:30px">View Example:</div>
-                        <div id="runRecap_examples"></div>
+                    <div id="runRecapBack" class="container" style="display:none;margin-top:10px">
+                        <div onclick="runRecapDisplay()" class='button cuphead' style="width:100px"><i
+                                class="fa fa-reply"></i>&nbsp;Go back
+                        </div>
+                    </div>
+                    <div id='runRecapInfo' class='container' style='display:none'>
+                        <div>
+                            SAVE FILE LOCATIONS:
+                            <br>Windows: <span class='myekulColor'>C:\Users\<span
+                                    class='runRecapInfoName'>USERNAME</span>\AppData\Roaming\Cuphead</span>
+                            <br>Mac: <span class='myekulColor'>/Users/<span
+                                    class='runRecapInfoName'>USERNAME</span>/Library/Application\
+                                Support/unity.Studio\ MDHR.Cuphead/Cuphead</span>
+                        </div>
                     </div>
                     <div id='runRecapError' style='display:none'>Error!</div>
                 </div>
@@ -528,7 +526,7 @@
                         </div>
                     </div>
                     <div id='comparisonInfo' class='textBlock container' style='display:none;font-size:75%'></div>
-                    <div id='runRecap' style="padding:10px 0"></div>
+                    <div id='runRecap_sav' style="padding:10px 0"></div>
                     <div class='container' style='padding-top:20px'>
                         <div class='button cuphead' onclick="runRecapRestart()" style='width:100px'>
                             <i class="fa fa-reply"></i>&nbsp;Restart
@@ -538,6 +536,20 @@
                                 class="fa fa-download"></i>&nbsp;Save file</div>
                     </div>
                 </div>
+            </div>
+            <!-- Run Recap .lss -->
+            <div id="runRecap_lssTab" class="tabs" style="display:none">
+                <div id="runRecap_lss_welcome"></div>
+                <div class='container'>
+                    <div class='textBlock'>
+                        You can also upload a Cuphead .sav file for dual analysis.
+                    </div>
+                </div>
+                <div class="container">
+                    <br><br>
+                    COMING SOON!
+                </div>
+                <div id="runRecap_lss"></div>
             </div>
             <!-- Modal -->
             <div id="modal" class="modal">
@@ -601,7 +613,8 @@
     <script src="code/page/chart.js"></script>
     <script src="code/page/map.js"></script>
     <script src="code/page/sort.js"></script>
-    <script src="code/page/runRecap.js"></script>
+    <script src="code/page/runRecap_sav.js"></script>
+    <script src="code/page/runRecap_lss.js"></script>
 
     <script src="code/cupheadLevels.js"></script>
 

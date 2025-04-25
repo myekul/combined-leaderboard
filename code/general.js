@@ -157,6 +157,9 @@ function showTab(newPage) {
         show('ILsSection_sm64')
     }
     show(page + 'Tab')
+    document.getElementById('runRecapMenu').classList.remove('active2')
+    document.getElementById('runRecap_savButton').classList.remove('active2')
+    document.getElementById('runRecap_lssButton').classList.remove('active2')
     buttonClick(page + 'Button', 'tabs', 'active2')
     if (gameID == 'cuphead' && mode == 'levels' || mode == 'commBestILs') {
         document.getElementById('checkbox_hp').checked = true
@@ -183,14 +186,9 @@ function showTab(newPage) {
         hide(WRs_cupheadILs_options)
     }
     const runRecap_details = document.getElementById('runRecap_details')
-    const runRecap_welcome = document.getElementById('runRecap_welcome')
-    if (page == 'runRecap') {
-        if (!runRecapFile) {
-            show(runRecap_welcome)
-        }
+    if (['runRecap_sav', 'runRecap_lss'].includes(page)) {
         show(runRecap_details)
     } else {
-        hide(runRecap_welcome)
         hide(runRecap_details)
     }
     action()
@@ -218,41 +216,47 @@ function action() {
     updateCategories()
 }
 function pageAction() {
-    const pageTitle = document.getElementById('pageTitle')
-    switch (page) {
-        case 'leaderboard':
-            generateLeaderboard();
-            pageTitle.innerHTML = ''
-            break;
-        case 'WRs':
-            generateWRs();
-            pageTitle.innerHTML = fontAwesomeText('trophy', 'World Records')
-            break;
-        case 'featured':
-            generateFeatured();
-            pageTitle.innerHTML = fontAwesomeText('star', 'Featured')
-            break;
-        case 'charts':
-            refreshCharts();
-            pageTitle.innerHTML = fontAwesomeText('bar-chart', 'Charts')
-            break;
-        case 'map':
-            generateMap();
-            pageTitle.innerHTML = fontAwesome('flag') + `&nbsp;&nbsp;Map`
-            break;
-        case 'sort':
-            generateSort();
-            pageTitle.innerHTML = fontAwesome('sort-amount-asc') + `&nbsp;&nbsp;Sort`
-            break;
-        case 'runRecap':
-            if (mode == 'commBestILs') {
+    if (['runRecap_sav', 'runRecap_lss'].includes(page) && mode != 'commBestILs') {
+        showTab('leaderboard')
+    } else {
+        switch (page) {
+            case 'leaderboard':
+                generateLeaderboard();
+                break;
+            case 'WRs':
+                generateWRs();
+                break;
+            case 'featured':
+                generateFeatured();
+                break;
+            case 'charts':
+                refreshCharts();
+                break;
+            case 'map':
+                generateMap();
+                break;
+            case 'sort':
+                generateSort();
+                break;
+            case 'runRecap_sav':
                 updateRunRecapAction()
-                pageTitle.innerHTML = fontAwesome('history') + `&nbsp;&nbsp;Run Recap`
-            } else {
-                showTab('leaderboard')
-            }
-            break
+                break
+            case 'runRecap_lss':
+                generateRunRecap_lss()
+                break
+        }
+        fontAwesomePage = fontAwesomeSet[page]
+        document.getElementById('pageTitle').innerHTML = fontAwesomePage ? fontAwesomeText(fontAwesomePage[1], fontAwesomePage[0]) : ''
     }
+}
+const fontAwesomeSet = {
+    WRs: ['World Records', 'trophy',],
+    featured: ['Featured', 'star'],
+    charts: ['Charts', 'bar-chart'],
+    map: ['Map', 'flag'],
+    sort: ['Sort', 'sort-amount-asc'],
+    runRecap_sav: ['Run Recap', 'history'],
+    runRecap_lss: ['Run Recap', 'history']
 }
 function fontAwesome(icon) {
     return `<i class="fa fa-${icon}"></i>`
@@ -326,7 +330,7 @@ function createArray(object) {
 function getRowColor(index) {
     return index % 2 == 0 ? 'otherColor' : 'background'
 }
-function addOpacityToCSSVar(color) {
+function addOpacityToCSSVar(color) { // ChatGPT
     const rgb = color.trim().match(/rgb\((\d+), (\d+), (\d+)\)/);
     if (rgb) {
         const r = rgb[1];
@@ -338,7 +342,7 @@ function addOpacityToCSSVar(color) {
         return addOpacityToCSSVar(hexToRgb(color));
     }
 }
-function hexToRgb(hex) {
+function hexToRgb(hex) { // ChatGPT
     hex = hex.replace(/^#/, '');
     if (hex.length == 3) {
         hex = hex.split('').map(function (hexChar) {
@@ -409,7 +413,7 @@ function getPlayerDisplay(player) {
             HTMLContent += `<td>${getPlayerIcon(player, 18)}</td>`
         }
     }
-    HTMLContent += `<td onclick="playSound('cardup');openModal(${player.rank - 1})" class='clickable' style='text-align:left;font-weight: bold;font-size:90%;padding-right:5px'>${getPlayerName(player)}</td>`
+    HTMLContent += `<td onclick="playSound('cardup');openModal(${player.rank - 1})" class='clickable' style='text-align:left;font-weight: bold;font-size:80%;padding-right:5px'>${getPlayerName(player)}</td>`
     return HTMLContent
 }
 function getNumDisplay() {

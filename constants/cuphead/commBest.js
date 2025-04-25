@@ -69,6 +69,7 @@ const commBestILs = {
             'JimiconNeedsYT',
             'KalaveritaTV',
             'KO_Kiss_087',
+            'Lewzr',
             'MarkinSws',
             'Quincely0',
             'Rapho',
@@ -103,6 +104,12 @@ const commBestILs = {
                 score: '11:10.13',
                 playerName: 'MarkinSws',
                 videos: { links: [{ uri: 'https://youtu.be/1I2Ltq9eqtA' }] }
+            },
+            {
+                date: '2025-03-23',
+                score: '11:10.84',
+                playerName: 'Lewzr',
+                videos: { links: [{ uri: 'https://youtu.be/-WovGm8jCSI' }] }
             }
         ],
         extraPlayers: [
@@ -120,7 +127,6 @@ const commBestILs = {
             "PanchoFox",
             "2haka",
             'Pizzarolli',
-            'Lewzr',
             'SrPancho',
             'WoskiBoy'
         ]

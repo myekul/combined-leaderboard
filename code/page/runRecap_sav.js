@@ -64,15 +64,13 @@ function runRecapPlayer() {
     return HTMLContent
 }
 function runRecap(event) {
-    const fileInput = event.target
-    const file = fileInput.files[0];
+    const file = event.target?.files ? event.target.files[0] : event;
     if (file) {
         runRecapDisplay()
         const reader = new FileReader();
         reader.onload = function (e) {
             const content = e.target.result;
             runRecapFile = JSON.parse(content)
-            showTab('runRecap')
             playSound('ready')
             const checkbox_runRecap_harsh = document.getElementById('checkbox_runRecap_harsh')
             if (runRecapTime != 'XX:XX' && getScore(extraCategory, convertToSeconds(runRecapTime)) < 90) {
@@ -86,7 +84,9 @@ function runRecap(event) {
     } else {
         show('runRecapError')
     }
-    fileInput.value = ''
+    if (event.target?.files) {
+        event.target.value = ''
+    }
 }
 function processSavFile(playerIndex) {
     fetch('resources/cupheadSav.json')
@@ -147,21 +147,31 @@ function runRecapDownload() {
 function fullgamePlayer(playerIndex) {
     return commBestILsCategory.players ? commBestILsCategory.players[playerIndex] : players[playerIndex].name
 }
-const runRecapElems = ['welcome', 'controls']
 function runRecapRestart() {
     playSound('category_select')
-    runRecapElems.forEach(elem => {
-        show('runRecap_' + elem)
-    })
+    show('runRecap_controls')
     hide('runRecapSection')
 }
 function runRecapDisplay() {
-    runRecapElems.forEach(elem => {
-        hide('runRecap_' + elem)
-    })
+    hide('runRecap_controls')
     show('runRecapSection')
 }
+function runRecapWelcome() {
+    let HTMLContent = `<div class="container" style="padding:20px 0"><div class='textBlock'>`
+    HTMLContent += `Welome to ${myekulColor('Run Recap')}! This tool allows you to upload a `
+    if (page == 'runRecap_sav') {
+        HTMLContent += `Cuphead .sav`
+    } else {
+        HTMLContent += `LiveSplit .lss`
+    }
+    HTMLContent += ` file to gain valuable insights about your recent run performance.
+        To get started, ${myekulColor('choose a category above')} and insert your
+        ${myekulColor('run time')} and ${myekulColor('username')}.`
+    HTMLContent += `</div></div>`
+    document.getElementById(page + '_welcome').innerHTML = HTMLContent
+}
 function updateRunRecapAction() {
+    runRecapWelcome()
     categories.forEach(category => {
         category.info.levelID = bossIDs[category.info.id]
     })
@@ -310,7 +320,7 @@ function showRunRecapTab(tab) {
     runRecapTab = tab ? tab : runRecapTab
     buttonClick('runRecap_' + runRecapTab, 'runRecapTabs', 'active2')
     updateComparisonInfo()
-    const runRecapElem = document.getElementById('runRecap')
+    const runRecapElem = document.getElementById('runRecap_sav')
     if (runRecapTab == 'times') {
         runRecapElem.innerHTML = runRecapTimes()
     } else if (runRecapTab == 'sums') {
@@ -381,3 +391,26 @@ function runRecapSums() {
     HTMLContent += `</table></div>`
     return HTMLContent
 }
+function runRecapHandler(runRecapMode) {
+    const newTab = 'runRecap_' + runRecapMode
+    if (mode != 'commBestILs') {
+        page = newTab
+        getCommBestILs()
+    } else {
+        showTab(newTab)
+    }
+}
+const dropBox = document.getElementById('dropBox');
+dropBox.addEventListener('dragover', (event) => {
+    event.preventDefault();
+    dropBox.classList.add('drag-over');
+});
+dropBox.addEventListener('dragleave', () => {
+    dropBox.classList.remove('drag-over');
+});
+dropBox.addEventListener('drop', (event) => {
+    event.preventDefault();
+    dropBox.classList.remove('drag-over');
+    const files = event.dataTransfer.files;
+    runRecap(files[0])
+});

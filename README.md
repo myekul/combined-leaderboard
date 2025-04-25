@@ -12,7 +12,7 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 
 ## Tabs
 ### Leaderboard
-- Ranks players based on a number of criteria (see above)
+- Ranks players based on a number of criteria (see info section)
 
 ### World records
 - Displays the world records for each category

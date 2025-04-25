@@ -56,8 +56,8 @@ gameLogo.src = `images/logo/${gameID}.png`
 document.getElementById('gameLogoButton').src = `images/logo/${gameID}.png`
 const subtitle = document.getElementById('subtitle')
 const header = document.querySelector('header')
+const gameIcons = document.querySelectorAll('.gameIcon')
 if (gameID == 'tetris' || categorySet[gameID]) {
-    const gameIcons = document.querySelectorAll('.gameIcon')
     gameIcons.forEach(gameIcon => {
         gameIcon.src = `images/favicon/${gameID}.png`
     })
@@ -69,7 +69,7 @@ switch (gameID) {
     case 'cuphead':
         show('commBestILsButton')
         show('modeSelection')
-        show('runRecapButton')
+        show('runRecapMenu')
         break;
     case 'sm64':
         show('modeSelection')

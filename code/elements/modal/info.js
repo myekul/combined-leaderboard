@@ -55,8 +55,16 @@ function modalInfo() {
         ${infoExternal('firebase')}'>Firebase API</span>&nbspis used to cache and organize data from SRC.
         ${infoExternal('youtube')}'>YouTube API</span>&nbspis used to retrieve video statistics.
         ${infoExternal('github')}'>GitHub Pages</span>&nbspis used to host this site.
-        <br><br>Additionally, <span class='myekulColor'>Google Charts</span> and <span class='myekulColor'>D3.js</span> are used for data visualizations.
-        <br><br>This is a static site written entirely in raw HTML / CSS / JavaScript, which makes it extremely lightweight and efficient.
+        <br><br>Additionally, ${myekulColor('Google Charts')} and ${myekulColor('D3.js')} are used for data visualizations.
+        <br>`
+    HTMLContent += infoTitle('Special Thanks')
+    HTMLContent += `<br>I'd like to dedicate this section to the Cuphead speedrunning community for cultivating an incredible and friendly online space for people to engage in this niche hobby.
+    It's cheesy, but I wouldn't be the person I am today if it weren't for you guys. Much love.`
+    if (gameID == 'cuphead') {
+        HTMLContent += `<br><br>Thank you MarkinSws for creating and maintaining the Comm Best Pace / SoB sheet, and allowing Run Recap integration.
+    <br>Thank you to all runners who have contributed to my Comm Best ILs sheet.`
+    }
+    HTMLContent += `<br><br>This is a static site written entirely in raw HTML / CSS / JavaScript, which makes it extremely lightweight and efficient.
         It was created from scratch, and made specifically for the speedrunning community.
         It is also open source, ad-free, nonprofit, and costs $0 to use, host, and maintain. Enjoy!`
     HTMLContent += `</div><img src='images/external/myekul.png' class='container' style='height:50px;width:50px;padding:10px 0'>`

@@ -7,10 +7,6 @@ function parseCheckboxes() {
     isolated = document.getElementById('checkbox_isolate').checked
     displayNumRuns = document.getElementById('checkbox_numRuns').checked
     milliseconds = document.getElementById('checkbox_milliseconds').checked
-    // if (isolated && sortCategoryIndex == -1) {
-    //     sortCategoryIndex = 0
-    //     organizePlayers(sortCategoryIndex, true)
-    // }
 }
 function playersTable(playersArray) {
     let HTMLContent = `<div class='bigShadow' style='align-self: flex-end;'><div style='overflow-x:scroll;'><table>`
@@ -130,7 +126,6 @@ function generateLeaderboard() {
         })
         HTMLContent += `</tbody></table></div>`
     }
-
     HTMLContent += `</div>`
     if (!showMore && (sortCategoryIndex == -1 ? players.length > getNumDisplay() : categories[sortCategoryIndex].runs.length > getNumDisplay())) {
         HTMLContent += `<div onclick="showMorePlayers()" class='button' style='margin:0 auto;margin-top:15px'>Show More</div>`
@@ -240,9 +235,11 @@ function parsePlayerRuns(player, playerIndex) {
             HTMLContent += parseRun(player, playerIndex, category, categoryIndex)
         })
         if (mode != 'commBestILs') {
-            const gpaClass = player.hasAllRuns ? getLetterGrade(player.score).className : ''
             HTMLContent += !['tetris', 'mtpo'].includes(gameID) ? `<td>${player.sum}</td>` : ''
-            HTMLContent += player.hasAllRuns && gameID != 'mtpo' ? `<td class='${gpaClass}'>${getGPA(player.score)}</td>` : '<td></td>'
+            if (gameID != 'mtpo') {
+                const gpaClass = player.hasAllRuns ? getLetterGrade(player.score).className : ''
+                HTMLContent += player.hasAllRuns ? `<td class='${gpaClass}'>${getGPA(player.score)}</td>` : '<td></td>'
+            }
             HTMLContent += mode != 'fullgame' ? `<td>${categories.length - player.numRuns}</td>` : ''
         }
     }

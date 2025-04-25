@@ -573,3 +573,24 @@ svg {
     filter: drop-shadow(0.5px 1px 0 black) drop-shadow(-0.5px -0.5px 0 black);
     padding: 0 3px
 }
+#runRecapMenu .button{
+    width:70px;
+    font-size:90%;
+    margin:0 auto;;
+    margin-top:4px
+}
+.dropBox {
+    width: 500px;
+    height: 250px;
+    border: 2px dashed white;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: background-color 0.1s;
+}
+
+.dropBox.drag-over {
+    background-color: var(--gray);
+}
