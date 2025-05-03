@@ -6,7 +6,7 @@ function read_lss(content) {
     runRecap_lssFile = { bestSegments: [], pbSplits: [], pbSegments: [], attemptHistory: [], segmentHistory: [] }
     const attempts = Array.from(xmlDoc.querySelectorAll("AttemptHistory > Attempt"))
     const finishedAttempts = attempts.filter(attempt => attempt.querySelector("GameTime"));
-    const result = finishedAttempts.map(attempt => {
+    const attemptHistory = finishedAttempts.map(attempt => {
         return {
             id: attempt.getAttribute("id"),
             start: attempt.getAttribute("started"),
@@ -16,7 +16,33 @@ function read_lss(content) {
             splits: []
         }
     })
-    runRecap_lssFile.attemptHistory.push(...result)
+    const segments = xmlDoc.querySelectorAll("Segment");
+    segments.forEach((segment, index) => {
+        runRecap_lssFile.bestSegments.push(convertToSeconds(segment.querySelector("BestSegmentTime GameTime")?.textContent.slice(3)))
+        const splitTime = convertToSeconds(segment.querySelector('SplitTimes SplitTime GameTime')?.textContent.slice(3))
+        runRecap_lssFile.pbSplits.push(splitTime)
+        let segmentTime = splitTime
+        if (index > 0) {
+            const prevSplitTime = runRecap_lssFile.pbSplits[index - 1]
+            segmentTime = splitTime - prevSplitTime
+        }
+        runRecap_lssFile.pbSegments.push(segmentTime)
+        const segmentAttempts = Array.from(segment.querySelectorAll('SegmentHistory > Time'))
+        // console.log(segmentAttempts[0].querySelector("GameTime"))
+        const result = segmentAttempts.map(attempt => {
+            const timeMode = attempt.querySelector("GameTime") ? 'GameTime' : 'RealTime'
+            return {
+                id: attempt.getAttribute("id"),
+                gameTime: convertToSeconds(attempt.querySelector(timeMode).textContent.slice(3))
+            }
+        })
+        runRecap_lssFile.segmentHistory.push(result)
+    })
+    attemptHistory.forEach(attempt => {
+        if (runRecap_lssFile.segmentHistory[0].find(segmentAttempt => segmentAttempt.id == attempt.id)) {
+            runRecap_lssFile.attemptHistory.push(attempt)
+        }
+    })
     let HTMLContent = ''
     const reverseAttempts = runRecap_lssFile.attemptHistory.reverse()
     let firstAttempt = 0
@@ -35,35 +61,18 @@ function read_lss(content) {
     document.querySelectorAll('.lss_hide').forEach(elem => {
         show(elem)
     })
-    const segments = xmlDoc.querySelectorAll("Segment");
-    segments.forEach((segment, index) => {
-        runRecap_lssFile.bestSegments.push(convertToSeconds(segment.querySelector("BestSegmentTime GameTime")?.textContent.slice(3)))
-        const splitTime = convertToSeconds(segment.querySelector('SplitTimes SplitTime GameTime')?.textContent.slice(3))
-        runRecap_lssFile.pbSplits.push(splitTime)
-        let segmentTime = splitTime
-        if (index > 0) {
-            const prevSplitTime = runRecap_lssFile.pbSplits[index - 1]
-            segmentTime = splitTime - prevSplitTime
-        }
-        runRecap_lssFile.pbSegments.push(segmentTime)
-        segmentAttempts = Array.from(segment.querySelectorAll('SegmentHistory > Time'))
-        const result = segmentAttempts.map(attempt => {
-            return {
-                id: attempt.getAttribute("id"),
-                gameTime: convertToSeconds(attempt.querySelector("GameTime").textContent.slice(3))
-            }
-        })
-        runRecap_lssFile.segmentHistory.push(result)
-    })
-    runRecap_lssFile.attemptHistory.forEach((attempt, index) => {
+    runRecap_lssFile.attemptHistory.forEach(attempt => {
         let total = 0
         runRecap_lssFile.segmentHistory.forEach(segment => {
             const time = segment.find(segmentAttempt => segmentAttempt.id == attempt.id).gameTime
-            attempt.segments.push(time)
-            total += time
-            attempt.splits.push(total)
+            if (time) {
+                attempt.segments.push(time)
+                total += time
+                attempt.splits.push(total)
+            }
         })
     })
+    console.log(runRecap_lssFile)
     loadMarkin()
 }
 function generate_lss() {
@@ -154,7 +163,7 @@ function generate_lss() {
             const player = players.find(player => player.name == runRecap_markin.bestSegmentsPlayers[index].split('/')[0])
             HTMLContent += `<td>${getPlayerIcon(player, 24)}</td>`
         }
-        HTMLContent += `<td style='font-size:80%'>${secondsToHMS(comparisonSegment, true)}</td>`
+        HTMLContent += `<td style='padding:0 5px;font-size:80%'>${secondsToHMS(comparisonSegment, true)}</td>`
         HTMLContent += `<td class='${grade.className}' style='padding:0 5px'>${getDelta(trueDelta)}</td>`
         HTMLContent += image
         HTMLContent += `<td class='${className}' style='padding:0 10px;font-size:120%'>${secondsToHMS(currentSegment, true)}</td>`
@@ -169,7 +178,7 @@ function generate_lss() {
             const comparisonSplit = splitComparison(comparison, index)
             const splitDelta = currentSplit - comparisonSplit
             const trueSplitDelta = Math.trunc(splitDelta * 100) / 100
-            HTMLContent += `<td style='font-size:80%'>${secondsToHMS(comparisonSplit, true)}</td>`
+            HTMLContent += `<td style='padding:0 5px;font-size:80%'>${secondsToHMS(comparisonSplit, true)}</td>`
             HTMLContent += `<td style='padding:0 5px;color:${redGreen(trueSplitDelta)}'>${getDelta(trueSplitDelta)}</td>`
         }
         HTMLContent += `<td class='${className}' style='padding:0 5px'>${secondsToHMS(currentSplit, true)}</td>`
