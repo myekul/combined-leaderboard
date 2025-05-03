@@ -65,7 +65,7 @@ function modalInfo() {
     <br>Thank you to all runners who have contributed to my Comm Best ILs sheet.`
     }
     HTMLContent += `<br><br>This is a static site written entirely in raw HTML / CSS / JavaScript, which makes it extremely lightweight and efficient.
-        It was created from scratch, and made specifically for the speedrunning community.
+        It was created from scratch, independently devloped, and crafted specifically for the speedrunning community.
         It is also open source, ad-free, nonprofit, and costs $0 to use, host, and maintain. Enjoy!`
     HTMLContent += `</div><img src='images/external/myekul.png' class='container' style='height:50px;width:50px;padding:10px 0'>`
     return HTMLContent

@@ -1,4 +1,4 @@
-function openModal(param, sound) {
+function openModal(modal, sound, param) {
     if (sound == 'up') {
         playSound('cardup')
     } else if (sound == 'move') {
@@ -7,10 +7,6 @@ function openModal(param, sound) {
         playSound('cardflip')
     }
     modalSliders = false
-    let playerModal = false
-    if (typeof param == 'number') {
-        playerModal = true
-    }
     showModal = true
     if (gameID == 'tetris') {
         numModalPages = 1
@@ -22,7 +18,7 @@ function openModal(param, sound) {
     if (modalIndex > numModalPages) {
         modalIndex = 0
     }
-    if (!playerModal) {
+    if (modal != 'player') {
         modalIndex = 0
     } else {
         show('modal-pages')
@@ -32,88 +28,37 @@ function openModal(param, sound) {
             closeModal()
         }
     });
-    const modalTitle = document.getElementById('modal-title')
-    const modalBody = document.getElementById('modal-body')
-    const modalSubtitle = document.getElementById('modal-subtitle')
-    modalSubtitle.innerHTML = ''
-    if (playerModal) {
-        globalPlayerIndex = param
-        window.firebaseUtils.lastCheckedUser()
-        document.addEventListener("keydown", modalKeyPress);
-        let player = players[globalPlayerIndex]
-        if (sortCategoryIndex > -1) {
-            const oldIndex = sortCategoryIndex
-            sortCategoryIndex = -1
-            sortPlayers(players)
-            sortCategoryIndex = oldIndex
-            player = players[globalPlayerIndex]
-        }
-        let HTMLContent = `<div class='container' style='padding-top:8px'>`
-        HTMLContent += gameID != 'tetris' ? `<div style='padding-right:10px'>${getPlayerIcon(player, 50)}</div>` : ''
-        HTMLContent += `<div>`
-        HTMLContent += `<div class='container' style='padding-bottom:2px'>`
-        HTMLContent += `<div style='font-size:140%;margin:0'>${getPlayerName(player)}</div>`
-        HTMLContent += `</div>`
-        if (player.links) {
-            HTMLContent += `<div class='container' style='gap:5px;justify-content:flex-start'>`
-            const flag = getPlayerFlag(player, 12)
-            HTMLContent += `<div>${flag}</div>`
-            HTMLContent += flag ? `<div class='container' style='width:10px;margin:0'>&#8226;</div>` : ''
-            const socials = ['src', 'twitch', 'youtube']
-            socials.forEach(social => {
-                const anchor = getAnchor(getSocial(player, social))
-                HTMLContent += anchor ? `${anchor}<img src='images/external/${social}.png' class='clickable container' style='height:16px;width:auto'>` : ''
-            })
-            HTMLContent += `</div>`
-        }
-        HTMLContent += `</div>`
-        const boardTitle = generateBoardTitle(2)
-        HTMLContent += boardTitle ? `<div class='modalBoardTitle' style='padding-left:20px'>${boardTitle}</div>` : ''
-        HTMLContent += `</div>`
-        modalSubtitle.innerHTML = HTMLContent
-        let modalPageNames = ['reportCard', 'videoCollection', 'gradeTable']
-        if (mode == 'commBestILs') {
-            modalPageNames.slice(0, 2)
-        }
-        if (gameID == 'tetris') {
-            modalPageNames.splice(1, 1)
-        }
-        const modalPage = modalPageNames[modalIndex]
-        if (modalPage == 'reportCard') {
-            modalTitle.innerText = 'REPORT CARD'
-            modalBody.innerHTML = reportCard(player)
-        } else if (modalPage == 'videoCollection') {
-            modalTitle.innerText = 'VIDEO COLLECTION'
-            modalBody.innerHTML = videoCollection(player)
-        } else if (modalPage == 'gradeTable') {
-            modalTitle.innerText = 'GRADE TABLE'
-            modalBody.innerHTML = gradeTable(player)
-        }
-        HTMLContent = `<div onclick="modalLeft()" class='clickable'>${fontAwesome('caret-left')}</div>`;
-        for (let i = 0; i <= numModalPages; i++) {
-            HTMLContent += `<div style='gap:10px'>`
-            if (i == modalIndex) {
-                HTMLContent += fontAwesome('circle')
-            } else {
-                HTMLContent += fontAwesome('circle-o')
-            }
-            HTMLContent += `</div>`
-        }
-        HTMLContent += `<div onclick="modalRight()" class='clickable'>${fontAwesome('caret-right')}</div>`
-        const modalPages = document.getElementById('modal-pages')
-        modalPages.innerHTML = HTMLContent
-    } else if (param == 'info') {
-        globalPlayerIndex = -1
-        modalTitle.innerText = 'INFO'
-        modalBody.innerHTML = modalInfo()
-    } else {
-        globalPlayerIndex = -1
-        modalTitle.innerText = 'COUNTRY'
-        modalBody.innerHTML = countryModal(param)
+    let modalTitle = ''
+    let modalBody = ''
+    document.getElementById('modal-subtitle').innerHTML = ''
+    switch (modal) {
+        case 'player':
+            modalBody = playerModal(param)
+            break
+        case 'info':
+            modalTitle = 'INFO'
+            modalBody = modalInfo()
+            break
+        case 'runRecapInfo':
+            modalTitle = 'INFO'
+            modalBody = runRecapInfo()
+            break
+        case 'country':
+            modalTitle = 'COUNTRY'
+            modalBody = countryModal(param)
+            break
+        case 'runRecapSegment':
+            modalTitle = 'SEGMENT INFO'
+            modalBody = runRecapSegment(param)
+            break
     }
-    const modal = document.getElementById("modal");
-    modal.style.backgroundColor = 'rgba(0, 0, 0, 0.4)';
-    modal.style.display = "block";
+    if (modalTitle) {
+        document.getElementById('modal-title').innerHTML = modalTitle
+    }
+    document.getElementById('modal-body').innerHTML = modalBody
+    const modalElem = document.getElementById("modal");
+    modalElem.style.backgroundColor = 'rgba(0, 0, 0, 0.4)';
+    modalElem.style.display = "block";
     const modalContent = document.getElementById('modal-content')
     modalContent.style.animation = 'slideUp 0.25s ease-out forwards';
 }
@@ -130,6 +75,80 @@ function closeModal() {
         hide(modal)
     }, 200);
 }
+function playerModal(playerIndex) {
+    globalPlayerIndex = playerIndex
+    window.firebaseUtils.lastCheckedUser()
+    document.addEventListener("keydown", modalKeyPress);
+    let player = players[globalPlayerIndex]
+    if (sortCategoryIndex > -1) {
+        const oldIndex = sortCategoryIndex
+        sortCategoryIndex = -1
+        sortPlayers(players)
+        sortCategoryIndex = oldIndex
+        player = players[globalPlayerIndex]
+    }
+    playerModalSubtitle(globalPlayerIndex)
+    let pagesContent = `<div onclick="modalLeft()" class='clickable'>${fontAwesome('caret-left')}</div>`;
+    for (let i = 0; i <= numModalPages; i++) {
+        pagesContent += `<div style='gap:10px'>`
+        if (i == modalIndex) {
+            pagesContent += fontAwesome('circle')
+        } else {
+            pagesContent += fontAwesome('circle-o')
+        }
+        pagesContent += `</div>`
+    }
+    pagesContent += `<div onclick="modalRight()" class='clickable'>${fontAwesome('caret-right')}</div>`
+    document.getElementById('modal-pages').innerHTML = pagesContent
+    let modalPageNames = ['reportCard', 'videoCollection', 'gradeTable']
+    if (mode == 'commBestILs') {
+        modalPageNames.slice(0, 2)
+    }
+    if (gameID == 'tetris') {
+        modalPageNames.splice(1, 1)
+    }
+    const modalPage = modalPageNames[modalIndex]
+    let modalTitle
+    let modalBody
+    if (modalPage == 'reportCard') {
+        modalTitle = 'REPORT CARD'
+        modalBody = reportCard(player)
+    } else if (modalPage == 'videoCollection') {
+        modalTitle = 'VIDEO COLLECTION'
+        modalBody = videoCollection(player)
+    } else if (modalPage == 'gradeTable') {
+        modalTitle = 'GRADE TABLE'
+        modalBody = gradeTable(player)
+    }
+    document.getElementById('modal-title').innerHTML = modalTitle
+    return modalBody
+}
+function playerModalSubtitle(playerIndex) {
+    const player = players[playerIndex]
+    let modalSubtitle = `<div class='container' style='padding-top:8px'>`
+    modalSubtitle += gameID != 'tetris' ? `<div style='padding-right:10px'>${getPlayerIcon(player, 50)}</div>` : ''
+    modalSubtitle += `<div>`
+    modalSubtitle += `<div class='container' style='padding-bottom:2px'>`
+    modalSubtitle += `<div style='font-size:140%;margin:0'>${getPlayerName(player)}</div>`
+    modalSubtitle += `</div>`
+    if (player.links) {
+        modalSubtitle += `<div class='container' style='gap:5px;justify-content:flex-start'>`
+        const flag = getPlayerFlag(player, 12)
+        modalSubtitle += `<div>${flag}</div>`
+        modalSubtitle += flag ? `<div class='container' style='width:10px;margin:0'>&#8226;</div>` : ''
+        const socials = ['src', 'twitch', 'youtube']
+        socials.forEach(social => {
+            const anchor = getAnchor(getSocial(player, social))
+            modalSubtitle += anchor ? `${anchor}<img src='images/external/${social}.png' class='clickable container' style='height:16px;width:auto'>` : ''
+        })
+        modalSubtitle += `</div>`
+    }
+    modalSubtitle += `</div>`
+    const boardTitle = generateBoardTitle(2)
+    modalSubtitle += boardTitle ? `<div class='modalBoardTitle' style='padding-left:20px'>${boardTitle}</div>` : ''
+    modalSubtitle += `</div>`
+    document.getElementById('modal-subtitle').innerHTML = modalSubtitle
+}
 function scoreFromGrade(category, percentage) {
     const worldRecord = getWorldRecord(category)
     let score = reverseScore.includes(category.name) ? worldRecord * (percentage / 100) : worldRecord / (percentage / 100)
@@ -139,7 +158,6 @@ function scoreFromGrade(category, percentage) {
     return score
 }
 function fetchYouTube(videoID) {
-    // return fetch(`https://www.googleapis.com/youtube/v3/videos?id=${videoID}&key=${API_KEY}&part=snippet,statistics&fields=items(snippet,statistics)`)
     return fetch(`https://www.googleapis.com/youtube/v3/videos?id=${videoID}&key=${API_KEY}&part=statistics&fields=items(statistics)`)
         .then(response => response.json())
         .then(data => {
@@ -170,7 +188,6 @@ function videoCollection(player) {
             HTMLContent += fancyRun(run, runIndex)
             if (link?.includes('you')) {
                 const videoID = getYouTubeID(link)
-                // HTMLContent += `<td id='modal_title_${runIndex}' style='text-align:center;max-width:200px;white-space: normal;padding-right:15px'></td>`
                 HTMLContent += `<td id='modal_stats_${runIndex}' style='text-align:right;padding:0 5px'></td>`
                 fetchYouTube(videoID).then(data => {
                     if (data) {
@@ -183,14 +200,12 @@ function videoCollection(player) {
                         innerHTMLContent += `</div>`
                         if (modalIndex == 1) {
                             document.getElementById('modal_stats_' + runIndex).innerHTML = innerHTMLContent
-                            // document.getElementById('modal_title_' + runIndex).innerHTML = data.snippet.title
                         }
                     }
                 })
             } else {
                 HTMLContent += `<td></td>`
             }
-            // HTMLContent += mode != 'commBestILs' ? `<td>${run.date}</td>` : ''
             HTMLContent += `</tr>`
             runCount++
         }
@@ -315,7 +330,7 @@ function modalKeyPress() {
             event.preventDefault();
             if (globalPlayerIndex > 0 && sortCategoryIndex == -1 && page == 'leaderboard') {
                 globalPlayerIndex--
-                openModal(globalPlayerIndex, 'flip')
+                openModal('player', 'flip', globalPlayerIndex)
             } else {
                 playSound('locked')
             }
@@ -324,7 +339,7 @@ function modalKeyPress() {
             event.preventDefault();
             if (globalPlayerIndex < 300 && globalPlayerIndex < players.length - 1 && sortCategoryIndex == -1 && page == 'leaderboard') {
                 globalPlayerIndex++
-                openModal(globalPlayerIndex, 'flip')
+                openModal('player', 'flip', globalPlayerIndex)
             } else {
                 playSound('locked')
             }
@@ -334,7 +349,7 @@ function modalKeyPress() {
 function modalLeft() {
     if (modalIndex > 0) {
         modalIndex--
-        openModal(globalPlayerIndex, 'move')
+        openModal('player', 'move', globalPlayerIndex)
     } else {
         playSound('locked')
     }
@@ -342,7 +357,7 @@ function modalLeft() {
 function modalRight() {
     if (modalIndex < numModalPages) {
         modalIndex++
-        openModal(globalPlayerIndex, 'move')
+        openModal('player', 'move', globalPlayerIndex)
     } else {
         playSound('locked')
     }

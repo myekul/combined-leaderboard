@@ -233,9 +233,9 @@ const loadoutsDLC = {
         ['charge', 'converge', '', 'whetstone'],
         ['charge', 'crackshot', 'super1', 'whetstone'],
         ['charge', 'converge', 'super3', 'whetstone'],
-        ['charge', 'crackshot', 'super3', 'whetstone'],
         ['charge', 'converge', 'super3', 'whetstone'],
-        ['charge', 'spread', '', 'heartring']
+        ['charge', 'converge', 'super3', 'whetstone'],
+        ['charge', 'converge', 'super3', 'whetstone']
     ],
     thehowlingaces: [
         ['charge', 'converge', 'super3', 'whetstone'],
@@ -259,7 +259,7 @@ const loadoutsDLC = {
         [],
         ['lobber', 'spread', '', 'astralcookie'],
         ['lobber', 'spread', '', 'astralcookie'],
-        ['charge', 'lobber', '', 'astralcookie'],
+        ['charge', 'spread', '', 'astralcookie'],
         ['charge', 'lobber', '', 'astralcookie']
     ]
 };

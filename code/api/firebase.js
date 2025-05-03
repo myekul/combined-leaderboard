@@ -33,7 +33,6 @@ function docRef() {
 }
 function reduction() {
     const obj = {};
-    // const safeCategories = [ ...categories ]
     categories.forEach((category, categoryIndex) => {
         obj[categoryIndex] = category;
     });

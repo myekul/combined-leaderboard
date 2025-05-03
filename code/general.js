@@ -31,8 +31,12 @@ function displayDecimals(value, exception) {
     return ''
 }
 function convertToSeconds(time) {
-    const [minutes, seconds] = time.split(":").map(Number);
-    return minutes * 60 + seconds;
+    if (time.includes(":")) {
+        const [minutes, seconds] = time.split(":").map(Number);
+        return minutes * 60 + seconds;
+    } else {
+        return Number(time);
+    }
 }
 function getGPA(value) {
     const gpa = (value / 100 * 4).toString().slice(0, 4)
@@ -157,9 +161,7 @@ function showTab(newPage) {
         show('ILsSection_sm64')
     }
     show(page + 'Tab')
-    document.getElementById('runRecapMenu').classList.remove('active2')
-    document.getElementById('runRecap_savButton').classList.remove('active2')
-    document.getElementById('runRecap_lssButton').classList.remove('active2')
+    document.getElementById('runRecapButton').classList.remove('active2')
     buttonClick(page + 'Button', 'tabs', 'active2')
     if (gameID == 'cuphead' && mode == 'levels' || mode == 'commBestILs') {
         document.getElementById('checkbox_hp').checked = true
@@ -186,7 +188,7 @@ function showTab(newPage) {
         hide(WRs_cupheadILs_options)
     }
     const runRecap_details = document.getElementById('runRecap_details')
-    if (['runRecap_sav', 'runRecap_lss'].includes(page)) {
+    if (page == 'runRecap') {
         show(runRecap_details)
     } else {
         hide(runRecap_details)
@@ -216,7 +218,7 @@ function action() {
     updateCategories()
 }
 function pageAction() {
-    if (['runRecap_sav', 'runRecap_lss'].includes(page) && mode != 'commBestILs') {
+    if (page == 'runRecap' && mode != 'commBestILs') {
         showTab('leaderboard')
     } else {
         switch (page) {
@@ -238,11 +240,8 @@ function pageAction() {
             case 'sort':
                 generateSort();
                 break;
-            case 'runRecap_sav':
-                updateRunRecapAction()
-                break
-            case 'runRecap_lss':
-                generateRunRecap_lss()
+            case 'runRecap':
+                runRecapViewPage(runRecapView)
                 break
         }
         fontAwesomePage = fontAwesomeSet[page]
@@ -255,8 +254,7 @@ const fontAwesomeSet = {
     charts: ['Charts', 'bar-chart'],
     map: ['Map', 'flag'],
     sort: ['Sort', 'sort-amount-asc'],
-    runRecap_sav: ['Run Recap', 'history'],
-    runRecap_lss: ['Run Recap', 'history']
+    runRecap: ['Run Recap', 'history']
 }
 function fontAwesome(icon) {
     return `<i class="fa fa-${icon}"></i>`
@@ -316,6 +314,9 @@ function setMode(newMode) {
     url.searchParams.set('mode', mode);
     window.history.pushState({}, '', url);
     buttonClick(mode + 'Button', 'modeSelection', 'active2')
+    if (mode != 'levels') {
+        disableLevelModes()
+    }
 }
 function isSelected(categoryIndex) {
     return categoryIndex == sortCategoryIndex ? 'selected' : ''
@@ -413,7 +414,7 @@ function getPlayerDisplay(player) {
             HTMLContent += `<td>${getPlayerIcon(player, 18)}</td>`
         }
     }
-    HTMLContent += `<td onclick="playSound('cardup');openModal(${player.rank - 1})" class='clickable' style='text-align:left;font-weight: bold;font-size:80%;padding-right:5px'>${getPlayerName(player)}</td>`
+    HTMLContent += `<td onclick="openModal('player','up',${player.rank - 1})" class='clickable' style='text-align:left;font-weight: bold;font-size:80%;padding-right:5px'>${getPlayerName(player)}</td>`
     return HTMLContent
 }
 function getNumDisplay() {

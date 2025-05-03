@@ -2,6 +2,7 @@ const commBestILs = {
     '1.1+': {
         name: '1.1+',
         tabName: '1.1+',
+        markin: '1.1+ Any%',
         className: 'onePointOne',
         range: 'C:Z',
         category: cuphead['main'][0],
@@ -12,6 +13,7 @@ const commBestILs = {
     Legacy: {
         name: 'Legacy',
         tabName: '1.0',
+        markin: '1.0 Any%',
         className: 'legacy',
         range: 'C:Z',
         category: cuphead['main'][1],
@@ -22,6 +24,7 @@ const commBestILs = {
     NMG: {
         name: 'NMG',
         tabName: 'NMG',
+        markin: 'NMG Any%',
         className: 'nmg',
         range: 'C:Z',
         category: cuphead['main'][2],
@@ -33,6 +36,7 @@ const commBestILs = {
     DLC: {
         name: 'DLC',
         tabName: 'DLC',
+        markin: 'DLC Any% (L/S)',
         className: 'dlc',
         range: 'C1:Z6',
         category: cuphead['main'][3],
@@ -44,6 +48,7 @@ const commBestILs = {
     'DLC L/S': {
         name: 'DLC',
         tabName: 'DLC',
+        markin: 'DLC Any% (L/S)',
         className: 'dlc',
         range: 'C1:Z6',
         category: cuphead['main'][3],
@@ -80,6 +85,7 @@ const commBestILs = {
     'DLC C/S': {
         name: 'DLC',
         tabName: 'DLC C/S',
+        markin: 'DLC Any% (C/S)',
         className: 'dlc',
         range: 'C1:Z6',
         category: cuphead['main'][3],
@@ -124,10 +130,6 @@ const commBestILs = {
             "AssasinNarga",
             "PorcoBrabo",
             "Rookie_Gamer_Tlax",
-            "PanchoFox",
-            "2haka",
-            'Pizzarolli',
-            'SrPancho',
             'WoskiBoy'
         ]
     },

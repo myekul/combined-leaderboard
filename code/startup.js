@@ -69,7 +69,7 @@ switch (gameID) {
     case 'cuphead':
         show('commBestILsButton')
         show('modeSelection')
-        show('runRecapMenu')
+        show('runRecapButton')
         break;
     case 'sm64':
         show('modeSelection')
@@ -117,7 +117,6 @@ if (['sm64', 'sms', 'smo', 'nsmbds', 'nsmbw', 'nsmbu', 'nslu'].includes(gameID))
     gameLogo.style.height = '80px'
     header.style.height = '130px'
 }
-// document.getElementById('favicon').href = `images/favicon/${gameID}.png`
 google.charts.load('current', { packages: ['corechart'] });
 document.addEventListener('DOMContentLoaded', function () {
     refreshLeaderboard()

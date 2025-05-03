@@ -1,5 +1,9 @@
 const API_KEY = 'AIzaSyDg6FBho-vfAm67-UdGP-8IbVFdLV23unY'
 const rootStyles = getComputedStyle(document.documentElement)
+
+const forestfolliesID = 1464969490
+const mausoleumID = 1481199742
+
 let playerNames = new Set()
 let players = []
 let categories = []
@@ -30,8 +34,12 @@ let extraCategory = {}
 let countries = {}
 let globalCountryName
 
-let runRecapFile
-let runRecapPlayerName
+let runRecap_savFile
+let runRecap_lssFile = {}
+let runRecap_markin
+let runRecapView = 'home'
+let runRecapElem = 'sav'
+let runRecapPlayerName = 'Username'
 let runRecapTime = 'XX:XX'
 let runRecapTab = 'times'
 

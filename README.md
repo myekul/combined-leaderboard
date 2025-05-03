@@ -37,6 +37,7 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Score chart should be grades, not 0-100?
 - Cuphead one gun?
 - 1.1 ILs (Goopy, Sally, Werner)
+- Chalice Tutorial toggle
 
 ## Known bugs
 - Leaderboard squish and stretch

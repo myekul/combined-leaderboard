@@ -1,6 +1,5 @@
 function getFullgame(categoryName) {
     setMode('fullgame')
-    disableLevelModes()
     sortCategoryIndex = -1
     if (gameID == 'cuphead') {
         if (categoryName) {
@@ -72,7 +71,6 @@ function getLevels() {
 }
 function getCommBestILs(categoryName) {
     setMode('commBestILs')
-    disableLevelModes()
     sortCategoryIndex = -1
     categoryName = categoryName != null ? categoryName : commBestILsCategory.tabName
     commBestILsCategory = commBestILs[categoryName]
@@ -185,10 +183,6 @@ function load() {
     //     loadingText.innerHTML = 'An error has occurred. Please reload the page.'
     // }
 }
-function moveObject(array, fromIndex, toIndex) {
-    const [movedObject] = array.splice(fromIndex, 1); // Remove the object from its current position
-    array.splice(toIndex, 0, movedObject); // Insert the object at the desired position
-}
 function prepareData() {
     categories.forEach((category, categoryIndex) => {
         assignRuns(category, categoryIndex)
@@ -227,13 +221,6 @@ function prepareData() {
                     player.extra.place = playerIndex + 1
                 }
             })
-            // newRuns = []
-            // extraCategory.runs.forEach(run => {
-            //     if (chargeDLC.includes(run.playerName)) {
-            //         newRuns.push(run)
-            //     }
-            // })
-            // extraCategory.runs = newRuns
         }
         players.forEach((player, playerIndex) => {
             player.score = -playerIndex

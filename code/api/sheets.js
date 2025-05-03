@@ -155,6 +155,11 @@ function fetchCuphead() {
             })
         }
         completeLoad()
+        if (page == 'runRecap') {
+            runRecapViewPage('home')
+            runRecapUnload('sav', true)
+            runRecapUnload('lss', true)
+        }
         prepareData()
         gapi.client.sheets.spreadsheets.get({
             spreadsheetId: SHEET_ID
