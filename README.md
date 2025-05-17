@@ -36,8 +36,11 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Categories for date charts
 - Score chart should be grades, not 0-100?
 - Cuphead one gun?
-- 1.1 ILs (Goopy, Sally, Werner)
-- Chalice Tutorial toggle
+- 1.1 ILs (Goopy, Ribby, Sally, Werner)
+- Chalice Tutorial toggle?
+- Run Recap LSS - # of attempts
+- Run Recap LSS - Segment Analysis
+- SPO Leaderboard
 
 ## Known bugs
 - Leaderboard squish and stretch
@@ -46,3 +49,5 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Map color logic is weird
 - Some YouTube channel links are broken (SRC fault)
 - Date sort is off by 1 day
+- Calculator uses real percentages instead of balanced percentages
+- Tetris is broken

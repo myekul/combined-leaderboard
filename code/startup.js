@@ -37,7 +37,8 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 function gameTabs() {
     let HTMLContent = ''
-    const games = ['cuphead', 'sm64', 'tetris', 'titanfall_2', 'mtpo']
+    // const games = ['cuphead', 'sm64', 'tetris', 'titanfall_2', 'mtpo']
+    const games = ['cuphead', 'sm64', 'titanfall_2', 'mtpo']
     games.forEach(game => {
         HTMLContent += `<a href='?game=${game}' class="container clickable ${game}"><img src="images/logo/${game}.png"></a>`
     })
@@ -140,3 +141,5 @@ document.addEventListener('DOMContentLoaded', function () {
 document.querySelectorAll('.options').forEach(elem => {
     elem.innerHTML = fontAwesome('ellipsis-h')
 })
+generateDropbox('sav')
+generateDropbox('lss')

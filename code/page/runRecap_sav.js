@@ -4,8 +4,8 @@ function processSavFile(playerIndex) {
         .then(data => {
             runRecap_savFile = data
             runRecapUnload('lss', true)
-            generateDropbox('sav')
             if (playerIndex != null) {
+                runRecapExample = true
                 const player = players[playerIndex]
                 runRecapPlayerName = player.name
                 document.getElementById('input_runRecap_player').value = player.name
@@ -19,7 +19,6 @@ function processSavFile(playerIndex) {
                     level.bestTime = commBestILsCategory.runs[playerIndex][categoryIndex]
                 })
                 if (playerIndex == 0 && commBestILsCategory.markin) {
-                    generateDropbox('lss', true)
                     loadMarkin(true)
                     document.querySelectorAll('.lss_recentRuns').forEach(elem => {
                         elem.innerHTML = ''
@@ -30,9 +29,13 @@ function processSavFile(playerIndex) {
                         hide(elem)
                     })
                 }
+                if (playerIndex > 0 || !commBestILsCategory.markin) {
+                    runRecapViewPage('content', 'sav', true)
+                }
             } else {
                 runRecapViewPage('content', 'sav')
             }
+            generateDropbox('sav')
         })
 }
 function refreshRunRecap() {
@@ -74,14 +77,14 @@ function runRecapTimes() {
     let HTMLContent = ''
     assignIsles()
     HTMLContent += `<div class='container' style='gap:25px'>`
-    const follies = runRecap_savFile?.levelDataManager.levelObjects.find(level => level.levelID == forestfolliesID)
+    const follies = getCupheadLevel(forestfolliesID, true)
     if (follies.bestTime != nullTime) {
         HTMLContent += `<div>`
         HTMLContent += `<div class='container'>
         <div>${getImage('other/forestfollies', 42)}</div>
         <div style='padding-left:8px;font-size:135%'>${secondsToHMS(follies.bestTime, true)}</div>
         </div>`
-        const mausoleum = runRecap_savFile.levelDataManager.levelObjects.find(level => level.levelID == mausoleumID)
+        const mausoleum = getCupheadLevel(mausoleumID, true)
         if (mausoleum.bestTime != nullTime && ['DLC', 'DLC+Base'].includes(commBestILsCategory.name)) {
             HTMLContent += `<div class='container' style='margin:0'>
             <div>${getImage('other/mausoleum', 42)}</div>
@@ -120,8 +123,17 @@ function runRecapCategory(categoryIndex) {
     const comparisonTime = getComparisonTime(categoryIndex)
     const delta = runRecapDelta(runTime, comparisonTime)
     const grade = runRecapGrade(delta)
+    let comparisonContent = `<div>${secondsToHMS(comparisonTime)}</div>`
+    if (document.getElementById('dropdown_runRecap_sav_comparison').value == 'top3Best') {
+        comparisonContent += `<div class='container'>`
+        commBestILsCategory.top3BestPlayers[categoryIndex].forEach(playerIndex => {
+            const player = players[playerIndex]
+            comparisonContent += getPlayerIcon(player, 16)
+        })
+        comparisonContent += `</div>`
+    }
     HTMLContent += `<tr class='${getRowColor(categoryIndex)}'>`
-    HTMLContent += done ? `<td style='font-size:80%'>${secondsToHMS(comparisonTime)}</td>` : `<td></td>`
+    HTMLContent += done ? `<td style='font-size:80%'>${comparisonContent}</td>` : `<td></td>`
     HTMLContent += done ? `<td class='${grade.className}' style='font-size:90%'>${getDelta(delta)}</td>` : `<td></td>`
     HTMLContent += `<td class='container ${category.info.id}'>${getImage(category.info.id, 42)}</td>`
     HTMLContent += `<td id='runRecap_${categoryIndex}' class='${category.info.id}' style='padding:0 6px'>${done ? runRecapIL(runTime, categoryIndex) : runRecapInput(categoryIndex)}</td>`
@@ -134,6 +146,8 @@ function getComparisonTime(categoryIndex) {
     const comparison = dropdown_runRecap_sav_comparison ? dropdown_runRecap_sav_comparison.value : 'top3'
     if (comparison == 'top3') {
         return commBestILsCategory.top3[categoryIndex]
+    } else if (comparison == 'top3Best') {
+        return commBestILsCategory.top3Best[categoryIndex]
     } else if (comparison == 'humanTheory') {
         return commBestILsCategory.humanTheory[categoryIndex]
     } else if (comparison == 'commBest') {
@@ -142,8 +156,9 @@ function getComparisonTime(categoryIndex) {
         return commBestILsCategory.runs[parseInt(comparison.split('_')[1])][categoryIndex]
     }
 }
-function getCupheadLevel(categoryIndex) {
-    return runRecap_savFile.levelDataManager.levelObjects.find(level => level.levelID == categories[categoryIndex].info.levelID)
+function getCupheadLevel(param, other) {
+    const id = other ? param : categories[param].info.levelID
+    return runRecap_savFile.levelDataManager.levelObjects.find(level => level.levelID == id)
 }
 function updateRunRecapIL(categoryIndex) {
     playSound('category_select')
@@ -178,7 +193,6 @@ function runRecapPlaceholder(runTime, categoryIndex) {
 function showRunRecapTab(tab) {
     runRecapTab = tab ? tab : runRecapTab
     buttonClick('runRecap_' + runRecapTab, 'runRecap_sav_tabs', 'active2')
-    updateComparisonInfo()
     const runRecapElem = document.getElementById('runRecap')
     if (runRecapTab == 'times') {
         runRecapElem.innerHTML = runRecapTimes()
@@ -192,6 +206,9 @@ function updateComparisonInfo() {
     switch (comparison) {
         case 'top3':
             HTMLContent = "Average of top 3 players' boss times in their PBs"
+            break
+        case 'top3Best':
+            HTMLContent = "Best of top 3 players' boss times in their PBs"
             break
         case 'humanTheory':
             HTMLContent = "Top 3 players' PB boss times averaged with comm best ILs"

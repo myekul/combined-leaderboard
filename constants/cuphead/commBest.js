@@ -139,10 +139,16 @@ const commBestILs = {
         className: 'dlc',
         range: 'C1:Z6',
         category: cuphead['main'][3],
-        numRuns: 1,
+        numRuns: 2,
         shot1: 'charge',
         shot2: 'twistup',
         extraRuns: [
+            {
+                date: '2025-05-09',
+                score: '10:54.25',
+                playerName: 'GamerAttack27',
+                videos: { links: [{ uri: 'https://youtu.be/bgWwOKoOouU' }] }
+            },
             {
                 date: '2025-03-08',
                 score: '10:59.66',
@@ -193,7 +199,7 @@ const commBestILs = {
         className: 'dlcbase',
         range: 'C:Z',
         category: cuphead['main'][4],
-        numRuns: 1,
+        numRuns: 2,
         // shot1: 'lobber',
         // shot2: 'spread'
         subcat: 'Any%'

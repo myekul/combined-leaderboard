@@ -245,7 +245,13 @@ function pageAction() {
                 break
         }
         fontAwesomePage = fontAwesomeSet[page]
-        document.getElementById('pageTitle').innerHTML = fontAwesomePage ? fontAwesomeText(fontAwesomePage[1], fontAwesomePage[0]) : ''
+        const pageTitle = document.getElementById('pageTitle')
+        if (fontAwesomePage) {
+            show(pageTitle)
+            pageTitle.innerHTML = fontAwesomeText(fontAwesomePage[1], fontAwesomePage[0])
+        } else {
+            hide(pageTitle)
+        }
     }
 }
 const fontAwesomeSet = {

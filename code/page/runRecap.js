@@ -60,20 +60,25 @@ function runRecapTimeElem(time) {
     return `<div style='font-size:150%'>${time}</div>`
 }
 function runRecapWelcome() {
-    let HTMLContent = `<div class="container" style="padding:20px 0"><div class='textBlock'>`
-    HTMLContent += `Welome to ${myekulColor('Run Recap')}! This tool allows you to upload a ${myekulColor('Cuphead .sav')} and a ${myekulColor('LiveSplit .lss')}
-    file to gain valuable insights about your recent run performance.
-    To get started, ${myekulColor('choose a category above')} and insert your
-        ${myekulColor('run time')} and ${myekulColor('username')}.`
-    HTMLContent += `</div></div>`
+    const HTMLContent = `
+    <div class="container" style="padding:20px 0">
+        <div class='textBlock'>
+            Welcome to ${myekulColor('Run Recap')}! This tool allows you to upload
+            a ${myekulColor('LiveSplit .lss')}
+            and a ${myekulColor('Cuphead .sav')} file
+            to gain valuable insights about your recent run performance.
+            To get started, ${myekulColor('choose a category above')} and insert your
+            ${myekulColor('run time')} and ${myekulColor('username')}.
+        </div>
+    </div>`
     document.getElementById('runRecap_welcome').innerHTML = HTMLContent
 }
 function generateDropbox(elem, load) {
     const dropBoxID = 'runRecap_dropBox_' + elem
     const dropBoxInnerID = dropBoxID + '_inner'
-    const fullLoad = elem == 'lss' && !load || elem == 'sav'
-    const fileUploaded = fullLoad && (elem == 'sav' && runRecap_savFile || elem == 'lss' && runRecap_lssFile.pbSplits)
+    const fullLoad = (elem == 'lss' && !load) || elem == 'sav'
     const unsupported = elem == 'lss' && !commBestILsCategory.markin
+    const fileUploaded = !unsupported && fullLoad && (elem == 'sav' && runRecap_savFile || elem == 'lss' && runRecap_lssFile.pbSplits)
     let HTMLContent = ''
     HTMLContent += `<div id='${dropBoxInnerID}' class="dropBox ${fileUploaded ? extraCategory.className + ' flash' : ''}">
                         <div>
@@ -149,15 +154,15 @@ async function runRecapHandleFile(event, elem) {
             } else {
                 checkbox_runRecap_harsh.checked = true
             }
-            const load = elem == 'lss'
-            generateDropbox(elem, load)
             if (elem == 'sav') {
                 runRecap_savFile = JSON.parse(content)
+                generateDropbox(elem)
             } else {
                 read_lss(content)
             }
         } catch (error) {
             show('runRecapError')
+            console.log(error)
         }
     } else {
         show('runRecapError')
@@ -177,13 +182,13 @@ function runRecapInfo() {
                     </div>`
     return HTMLContent
 }
-function runRecapSegment(data) {
-    playerModalSubtitle(globalPlayerIndex)
-    let HTMLContent = ''
-    HTMLContent += ''
-    return HTMLContent
-}
-function runRecapViewPage(newPage, elem) {
+// function runRecapSegment(data) {
+//     playerModalSubtitle(globalPlayerIndex)
+//     let HTMLContent = ''
+//     HTMLContent += ''
+//     return HTMLContent
+// }
+function runRecapViewPage(newPage, elem, shh) {
     sortCategoryIndex = -1
     runRecapView = newPage
     document.querySelectorAll('.runRecap_section').forEach(elem => {
@@ -191,8 +196,11 @@ function runRecapViewPage(newPage, elem) {
     })
     if (elem) {
         runRecapElem = elem
-        playSound('ready')
+        if (!shh) {
+            playSound('ready')
+        }
     }
+    updateComparisonInfo()
     if (newPage == 'home') {
         runRecapUpdateComparison()
         runRecapHome()
@@ -225,8 +233,11 @@ function runRecapUpdateComparison() {
 }
 function runRecapHome() {
     runRecapWelcome()
-    generateDropbox('sav')
-    generateDropbox('lss')
+    if (runRecapExample) {
+        runRecapUnload('sav', true)
+        runRecapUnload('lss', true)
+        runRecapExample = false
+    }
     categories.forEach(category => {
         category.info.levelID = bossIDs[category.info.id]
     })

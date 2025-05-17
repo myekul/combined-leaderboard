@@ -6,7 +6,7 @@ function parseCheckboxes() {
     })
     isolated = document.getElementById('checkbox_isolate').checked
     displayNumRuns = document.getElementById('checkbox_numRuns').checked
-    milliseconds = document.getElementById('checkbox_milliseconds').checked
+    milliseconds = document.getElementById('checkbox_milliseconds').checked && page == 'leaderboard'
 }
 function playersTable(playersArray) {
     let HTMLContent = `<div class='bigShadow' style='align-self: flex-end;'><div style='overflow-x:scroll;'><table>`

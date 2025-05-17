@@ -76,13 +76,14 @@ function fetchCuphead() {
             bossesCopy = bossesCopy.slice(0, 19)
         }
         bossesCopy.sort((a, b) => (a.order || 0) - (b.order || 0));
-        if (commBestILsCategory.tabName == 'DLC+Base') {
-            const elementsToMove = bossesCopy.slice(0, 6);
-            bossesCopy.splice(0, 6);
-            bossesCopy.splice(8, 0, ...elementsToMove);
-            const elem = bossesCopy.splice(2, 1)[0];
-            bossesCopy.unshift(elem);
-        }
+        // OOB Route
+        // if (commBestILsCategory.tabName == 'DLC+Base') {
+        //     const elementsToMove = bossesCopy.slice(0, 6);
+        //     bossesCopy.splice(0, 6);
+        //     bossesCopy.splice(8, 0, ...elementsToMove);
+        //     const elem = bossesCopy.splice(2, 1)[0];
+        //     bossesCopy.unshift(elem);
+        // }
         bossesCopy.forEach(boss => {
             categories.push({ name: boss.name, info: boss, runs: [] })
         })
@@ -144,11 +145,20 @@ function fetchCuphead() {
                 }
             })
             commBestILsCategory.top3 = []
+            commBestILsCategory.top3Best = new Array(commBestILsCategory.runs[0].length).fill(Infinity)
+            commBestILsCategory.top3BestPlayers = new Array(commBestILsCategory.runs[0].length).fill(null)
             commBestILsCategory.humanTheory = []
             categories.forEach((category, categoryIndex) => {
                 let levelSum = 0
-                commBestILsCategory.runs.forEach(run => {
-                    levelSum += run[categoryIndex]
+                commBestILsCategory.runs.forEach((run, index) => {
+                    const time = run[categoryIndex]
+                    levelSum += time
+                    if (time < commBestILsCategory.top3Best[categoryIndex]) {
+                        commBestILsCategory.top3Best[categoryIndex] = time
+                        commBestILsCategory.top3BestPlayers[categoryIndex] = [index]
+                    } else if (time == commBestILsCategory.top3Best[categoryIndex]) {
+                        commBestILsCategory.top3BestPlayers[categoryIndex].push(index)
+                    }
                 })
                 commBestILsCategory.top3.push(levelSum / numRuns)
                 commBestILsCategory.humanTheory.push((levelSum + categories[categoryIndex].runs[0].score) / (numRuns + 1))
@@ -156,9 +166,11 @@ function fetchCuphead() {
         }
         completeLoad()
         if (page == 'runRecap') {
-            runRecapViewPage('home')
-            runRecapUnload('sav', true)
-            runRecapUnload('lss', true)
+            // runRecapViewPage('home')
+            // runRecapUnload('sav', true)
+            // runRecapUnload('lss', true)
+            generateDropbox('sav')
+            generateDropbox('lss')
         }
         prepareData()
         gapi.client.sheets.spreadsheets.get({

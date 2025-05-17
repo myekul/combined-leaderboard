@@ -235,14 +235,12 @@
                     </div>
                 </div>
                 <div id="loadouts" class="container"></div>
-                <div id='commBestILs_options_button' class='container clickable' onclick="toggleOptions('commBestILs')"
-                    style="width:50px;text-align:center"><i class="fa fa-ellipsis-h"></i></div>
-                <div id="commBestILs_options" class='container' style="display:none">
+                <div class='container'>
                     <input id="checkbox_viable" onchange="getCommBestILs()" type="checkbox" checked>Run viable
                 </div>
             </div>
             <!-- Board Title -->
-            <div id="pageTitle" class="container" style="font-family: var(--font2);font-size:200%;padding-top:15px">
+            <div id="pageTitle" class="container" style="font-family: var(--font2);font-size:200%;padding:15px 0">
             </div>
             <div id='categoriesSection' class="container hide" style="display:none">
                 <div class="clickable" onclick="organizePlayers(sortCategoryIndex-1)"><i class="fa fa-caret-left"
@@ -253,7 +251,7 @@
                         style="font-size:150%"></i>
                 </div>
             </div>
-            <div id="boardTitleDiv" class="sticky" style="top:42px;max-width: 50%;margin:0 auto">
+            <div id="boardTitleDiv" class="sticky" style="top:42px;max-width: 50%;margin:0 auto;padding-top:8px">
                 <div class="container" style="max-width:50%">
                     <div class="container" style="margin:0">
                         <input id="checkbox_isolate" type="checkbox" onclick='action()' style="display:none">
@@ -448,19 +446,11 @@
                 <div id="runRecap_home" class='runRecap_section'>
                     <div class="container">
                         <div style="padding-right:40px">
-                            <div class="container">Load Example:</div>
+                            <div class="container">View Example:</div>
                             <div id="runRecap_examples" class="container"></div>
                         </div>
                         <div>
                             <div id='runRecap_welcome'></div>
-                            <div class='container'>
-                                <div class="rrSec">.sav</div>
-                                <div class='textBlock'>
-                                    You can either upload an existing .sav file to automatically retrieve IL times, or
-                                    create an empty file and insert IL times manually.
-                                </div>
-                            </div>
-                            <br>
                             <div class='container'>
                                 <div class="rrSec">.lss</div>
                                 <div class='textBlock'>
@@ -472,13 +462,21 @@
                                     comparisons will not work when splitting after scorecard.
                                 </div>
                             </div>
+                            <br>
+                            <div class='container'>
+                                <div class="rrSec">.sav</div>
+                                <div class='textBlock'>
+                                    You can either upload an existing .sav file to automatically retrieve IL times, or
+                                    create an empty file and insert IL times manually.
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="container" style="padding:25px 0;gap:20px">
-                        <div id="runRecap_dropBox_sav"></div>
                         <div id="runRecap_dropBox_lss"></div>
+                        <div id="runRecap_dropBox_sav"></div>
                     </div>
-                    <div id='runRecapError' style='display:none'>Error!</div>
+                    <div id='runRecapError' class='container' style='display:none'>Error!</div>
                 </div>
                 <div id="runRecap_content" class='runRecap_section' style="display:none">
                     <div id='runRecap_options_button' class='clickable container options' onclick="toggleOptions()">
@@ -487,34 +485,22 @@
                         <input id='checkbox_runRecap_harsh' onclick="action()" type="checkbox" checked>Harsh Grading
                     </div>
                     <div class="container" style='padding-bottom:3px'>
-                        <div id="runRecap_sav_comparison" class="container" style="margin: 0">
-                            <div style="font-family:'cuphead-vogue';padding-right:10px">.sav</div>&Delta;
-                            <select id="dropdown_runRecap_sav_comparison" onchange="playSound('cardflip');action()">
-                                <option value="top3" selected>Top 3 Average</option>
-                                <option value="humanTheory">Human Theory</option>
-                                <option value="commBest">Comm Best</option>
-                                <optgroup id='runRecap_optgroup' label="Players"></optgroup>
-                            </select>
-                            <i class='fa fa-info-circle clickable'
-                                onclick="playSound('move');toggleVisibility('comparisonInfo')"
-                                style='padding-left:5px'></i>
-                            <div class="divider"></div>
-                        </div>
                         <div id="runRecap_lss_comparison" class="container" style="margin: 0">
                             <div style="font-family:'cuphead-vogue';padding-right:10px">.lss</div>&Delta;
+                            <select id="dropdown_runRecap_lss_vs" onchange="playSound('cardflip');action()"
+                                class="onePointOne">
+                                <option class='lss_yourPB' value="yourPB" selected>Your PB</option>
+                                <optgroup class="lss_recentRuns" label="Recent Runs"></optgroup>
+                            </select>
+                            <div>vs.</div>
                             <select id="dropdown_runRecap_lss_comparison" onchange="playSound('cardflip');action()">
-                                <option class="lss_hide" value="yourBest" selected>Your Best Segments</option>
-                                <option class="lss_hide" value="yourPB">Your PB Segments</option>
+                                <option class="lss_hide" value="yourBest" selected>Your Best Splits</option>
+                                <option class="lss_hide lss_yourPB" value="yourPB">Your PB</option>
+                                <option id="lss_prevPB" class="lss_hide">Previous PB</option>
                                 <optgroup label="Comm Best Sheet">
                                     <option class="lss_hide" value="wr">World Record</option>
                                     <option value="commBest">Comm Best</option>
                                 </optgroup>
-                                <optgroup class="lss_recentRuns" label="Recent Runs"></optgroup>
-                            </select>
-                            <div>vs.</div>
-                            <select id="dropdown_runRecap_lss_vs" onchange="playSound('cardflip');action()"
-                                class="onePointOne">
-                                <option id='lss_yourBest' value="yourPB" selected>Your PB</option>
                                 <optgroup class="lss_recentRuns" label="Recent Runs"></optgroup>
                             </select>
                         </div>
@@ -524,6 +510,20 @@
                                 Times</div>
                             <div id='runRecap_sums' class="button" style="width:70px" onclick="showRunRecapTab('sums')">
                                 Sums</div>
+                        </div>
+                        <div id="runRecap_sav_comparison" class="container" style="margin: 0">
+                            <div class="divider"></div>
+                            <div style="font-family:'cuphead-vogue';padding-right:10px">.sav</div>&Delta;
+                            <select id="dropdown_runRecap_sav_comparison" onchange="playSound('cardflip');action()">
+                                <option value="top3" selected>Top 3 Average</option>
+                                <option value="top3Best">Top 3 Best</option>
+                                <option value="humanTheory">"Human Theory"</option>
+                                <option value="commBest">Comm Best</option>
+                                <optgroup id='runRecap_optgroup' label="Players"></optgroup>
+                            </select>
+                            <i class='fa fa-info-circle clickable'
+                                onclick="playSound('move');toggleVisibility('comparisonInfo')"
+                                style='padding-left:5px'></i>
                         </div>
                     </div>
                     <div id='comparisonInfo' class='textBlock container' style='display:none;font-size:75%'></div>
