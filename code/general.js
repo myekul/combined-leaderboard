@@ -537,6 +537,10 @@ function scoreGradeSpan(percentage) {
 function getDateDif(date1, date2) {
     return Math.floor((date1 - date2) / (100 * 60 * 60 * 24) / 10)
 }
+function daysAgo(dateDif) {
+    dateDif = dateDif.toLocaleString()
+    return dateDif == 0 ? 'Today' : dateDif + ` day${dateDif == 1 ? '' : 's'} ago`
+}
 function toggleVisibility(elem) {
     if (document.getElementById(elem).style.display == '') {
         hide(elem)
@@ -544,9 +548,6 @@ function toggleVisibility(elem) {
         show(elem)
         return 1
     }
-}
-function daysAgo(dateDif) {
-    return dateDif == 0 ? 'Today' : dateDif + ` day${dateDif == 1 ? '' : 's'} ago`
 }
 function show(elem) {
     if (typeof (elem) == 'string') {

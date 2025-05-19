@@ -628,3 +628,7 @@ svg {
     font-size: 120%;
     padding: 0 20px
 }
+
+#lss_chart svg {
+    box-shadow: none
+}

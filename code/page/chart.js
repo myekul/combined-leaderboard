@@ -85,12 +85,8 @@ function drawChart() {
     }
     const data = google.visualization.arrayToDataTable(rows);
     const options = {
-        chartArea: {
-            height: '90%'
-        },
-        legend: {
-            position: 'none'
-        },
+        chartArea: { height: '90%' },
+        legend: { position: 'none' },
         backgroundColor: getBackgroundColor(),
         hAxis: {
             // title: 'Time',

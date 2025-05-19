@@ -1,16 +1,22 @@
+function convertDateToISO(dateString) {
+    const [month, day, year] = dateString.slice(0, 10).split('/')
+    const date = new Date(`${year}-${month}-${day}`)
+    return date.toISOString().split('T')[0]
+}
 function read_lss(content) {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(content, "application/xml");
     // console.log(xmlDoc)
     runRecap_lssFile = {}
     runRecap_lssFile = { bestSplits: [], bestSegments: [], pbSplits: [], pbSegments: [], attemptHistory: [], segmentHistory: [] }
+    runRecap_lssFile.attemptCount = xmlDoc.querySelector('AttemptCount').innerHTML
     const attempts = Array.from(xmlDoc.querySelectorAll("AttemptHistory > Attempt"))
     const finishedAttempts = attempts.filter(attempt => attempt.querySelector("GameTime"));
     const attemptHistory = finishedAttempts.map(attempt => {
         return {
             id: attempt.getAttribute("id"),
-            start: attempt.getAttribute("started"),
-            end: attempt.getAttribute("ended"),
+            start: convertDateToISO(attempt.getAttribute("started")),
+            end: convertDateToISO(attempt.getAttribute("ended")),
             gameTime: convertToSeconds(attempt.querySelector("GameTime").textContent.slice(3)),
             segments: [],
             splits: []
@@ -54,7 +60,7 @@ function read_lss(content) {
         if (index == 0) {
             firstAttempt = attempt.id
         }
-        HTMLContent += `<option value="${attempt.id}">${secondsToHMS(attempt.gameTime)} - ${attempt.start.slice(0, 10)}</option>`
+        HTMLContent += `<option value="${attempt.id}">${secondsToHMS(attempt.gameTime)} - ${attempt.start}</option>`
         if (attempt.gameTime > pbTime && attempt.gameTime < prevPB) {
             prevPB = attempt.gameTime
             prevPBIndex = attempt.id
@@ -98,10 +104,41 @@ function read_lss(content) {
             }
         })
     })
+    generateDropbox('lss')
     // console.log(runRecap_lssFile)
-    loadMarkin()
+}
+function runRecap_lss_info() {
+    runRecap_lssFile.id = []
+    runRecap_lssFile.name = []
+    for (let index = 0; index < runRecap_lssFile.pbSplits.length && index < categories.length + getOffset(); index++) {
+        const categoryIndex = index - getOffset()
+        if (commBestILsCategory.name == 'DLC' && index == 1) {
+            runRecap_lssFile.id.push('other/mausoleum')
+            runRecap_lssFile.name.push('Mausoleum')
+        } else if (commBestILsCategory.tabName == 'DLC C/S' && index == 2) {
+            runRecap_lssFile.id.push('other/chalicetutorial')
+            runRecap_lssFile.name.push('Chalice Tutorial')
+        } else if (index == 0) {
+            runRecap_lssFile.id.push('other/forestfollies')
+            runRecap_lssFile.name.push('Forest Follies')
+        } else {
+            const category = categories[categoryIndex]
+            if (category) {
+                runRecap_lssFile.id.push(category.info.id)
+                runRecap_lssFile.name.push(category.name)
+            }
+        }
+    }
+}
+function getOffset() {
+    let offset = 1
+    if (commBestILsCategory.name == 'DLC') {
+        offset = commBestILsCategory.tabName == 'DLC C/S' ? 3 : 2
+    }
+    return offset
 }
 function generate_lss() {
+    runRecap_lss_info()
     const comparison = document.getElementById('dropdown_runRecap_lss_comparison').value
     const currentRun = document.getElementById('dropdown_runRecap_lss_vs').value
     let HTMLContent = ''
@@ -126,47 +163,23 @@ function generate_lss() {
         HTMLContent += `<td>.sav ILs</td>`
     }
     // Offset for Follies, Mausoleum, Chalice Tutorial
-    let offset = 1
-    if (commBestILsCategory.name == 'DLC') {
-        offset = commBestILsCategory.tabName == 'DLC C/S' ? 3 : 2
-    }
-    for (let index = 0; index < runRecap_lssFile.pbSplits.length && index < categories.length + offset; index++) {
+    const splits = []
+    const deltas = []
+    const colors = []
+    for (let index = 0; index < runRecap_lssFile.pbSplits.length && index < categories.length + getOffset(); index++) {
         const comparisonSegment = segmentComparison(comparison, index)
-        // const name = index == 0 ? 'Forest Follies' : categories[index - 1].name
-        let id
-        let className
-        // let name
-        const categoryIndex = index - offset
-        if (commBestILsCategory.name == 'DLC' && index == 1) {
-            id = 'other/mausoleum'
-            className = ''
-            // name = 'Mausoleum'
-        } else if (commBestILsCategory.tabName == 'DLC C/S' && index == 2) {
-            id = 'other/chalicetutorial'
-            className = ''
-            // name = 'Chalice Tutorial'
-        } else {
-            const category = index == 0 ? null : categories[categoryIndex]
-            id = category ? category.info.id : 'other/forestfollies'
-            className = category ? id : ''
-            // name = category ? category.name : 'Forest Follies'
-            if (category) {
-                const nextCategory = categories[categoryIndex - 1]
-                if (nextCategory && category.info.isle != nextCategory?.info.isle) {
-                    HTMLContent += `<tr style='height:24px'></tr>`
-                }
-            }
-        }
+        const categoryIndex = index - getOffset()
         // HTMLContent += `<td class='${className}' style='text-align:left'>${name}</td>`
         const currentSegment = segmentComparison(currentRun, index, true)
         const delta = currentSegment - comparisonSegment
         const trueDelta = Math.trunc(delta * 100) / 100
         const grade = runRecapGrade(trueDelta)
-        const image = `<td class='${className}'><div class='container'>${getImage(id, 24)}</div></td>`
-        // const segmentData = { name: name, image: image }
-        // HTMLContent += `<tr class='${getRowColor(index)} clickable' onclick="openModal('runRecapSegment','up','${segmentData}')">`
-        HTMLContent += `<tr class='${getRowColor(index)} clickable'>`
+        const className = runRecap_lssFile.id[index]
+        const image = `<td class='${className}'><div class='container'>${getImage(className, 24)}</div></td>`
+        HTMLContent += `<tr class='${getRowColor(index)} ${!runRecapExample ? `clickable' onclick='openModal("runRecapSegment","up",${index})` : ''}'>`
+        // HTMLContent += `<tr class='${getRowColor(index)} clickable'>`
         const currentSplit = splitComparison(currentRun, index)
+        splits.push(currentSplit)
         const comparisonSplit = splitComparison(comparison, index)
         let comparisonContent = `<div class='container' style='gap:7px'>`
         if (comparison == 'commBest') {
@@ -176,6 +189,7 @@ function generate_lss() {
         comparisonContent += `<div>${secondsToHMS(comparisonSplit, true)}</div></div>`
         const splitDelta = currentSplit - comparisonSplit
         const trueSplitDelta = Math.trunc(splitDelta * 100) / 100
+        deltas.push(trueSplitDelta)
         HTMLContent += `<td style='padding:0 5px;font-size:80%'>${comparisonContent}</td>`
         HTMLContent += `<td style='padding:0 5px;color:${redGreen(trueSplitDelta)}'>${getDelta(trueSplitDelta)}</td>`
         HTMLContent += image
@@ -195,7 +209,7 @@ function generate_lss() {
         HTMLContent += `<td class='${compareCustom ? '' : grade.className}' style='padding:0 5px;text-align:left'>${compareCustom ? '' : grade.grade}</td>`
         if (runRecap_savFile) {
             HTMLContent += `<td style='padding:0 20px'></td>`
-            if (index >= offset) {
+            if (index >= getOffset()) {
                 const level = getCupheadLevel(categoryIndex)
                 const runTime = level?.bestTime
                 const comparisonTime = getComparisonTime(categoryIndex)
@@ -233,9 +247,18 @@ function generate_lss() {
             }
         }
         HTMLContent += `</tr>`
+        if (index >= getOffset()) {
+            const category = categories[categoryIndex]
+            const nextCategory = categories[categoryIndex + 1]
+            if (nextCategory && category.info.isle != nextCategory?.info.isle) {
+                HTMLContent += `<tr style='height:24px'></tr>`
+            }
+        }
+
     }
     HTMLContent += `</table></div>`
-    document.getElementById('runRecap').innerHTML = HTMLContent
+    document.getElementById('runRecap_lss').innerHTML = HTMLContent
+    lss_chart(splits, deltas, colors)
 }
 function redGreen(delta) {
     return delta > 0 ? 'red' : 'limegreen'
@@ -288,45 +311,157 @@ function splitComparison(comparison, index) {
         return runRecap_lssFile.attemptHistory.find(attempt => attempt.id == comparison).splits[index]
     }
 }
-function loadMarkin(example) {
-    if (runRecap_markin?.tabName != commBestILsCategory.tabName) {
-        generateDropbox('lss', true)
-        return gapi.client.sheets.spreadsheets.values.get({
-            spreadsheetId: `1JgTjjonfC7bh4976NI4pCPeFp8LbA3HMKdvS_47-WtQ`,
-            range: `'${commBestILsCategory.markin}'!B4:G23`
-        }).then(response => {
-            const values = response.result.values
-            let lastIndex = values.length
-            values.some((row, index) => {
-                if (!row[0]) {
-                    lastIndex = index
-                }
-            })
-            runRecap_markin = { tabName: commBestILsCategory.tabName, bestSplits: [], bestSplitsPlayers: [], wrSplits: [], bestSegments: [], bestSegmentsPlayers: [], wrSegments: [] }
-            for (let i = 0; i < lastIndex; i++) {
-                runRecap_markin.bestSplits.push(convertToSeconds(values[i][0]))
-                runRecap_markin.bestSplitsPlayers.push(values[i][1])
-                runRecap_markin.wrSplits.push(convertToSeconds(values[i][2]))
-                runRecap_markin.bestSegments.push(convertToSeconds(values[i][3]))
-                runRecap_markin.bestSegmentsPlayers.push(values[i][4])
-                runRecap_markin.wrSegments.push(convertToSeconds(values[i][5]))
-            }
-            if (example) {
-                markinExample()
-            } else {
-                generateDropbox('lss')
+function loadMarkin() {
+    return gapi.client.sheets.spreadsheets.values.get({
+        spreadsheetId: `1JgTjjonfC7bh4976NI4pCPeFp8LbA3HMKdvS_47-WtQ`,
+        range: `'${commBestILsCategory.markin}'!B4:G23`
+    }).then(response => {
+        const values = response.result.values
+        let lastIndex = values.length
+        values.some((row, index) => {
+            if (!row[0]) {
+                lastIndex = index
             }
         })
-    } else if (example) {
-        markinExample()
-    } else {
-        generateDropbox('lss')
-    }
+        runRecap_markin = { tabName: commBestILsCategory.tabName, bestSplits: [], bestSplitsPlayers: [], wrSplits: [], bestSegments: [], bestSegmentsPlayers: [], wrSegments: [] }
+        for (let i = 0; i < lastIndex; i++) {
+            runRecap_markin.bestSplits.push(convertToSeconds(values[i][0]))
+            runRecap_markin.bestSplitsPlayers.push(values[i][1])
+            runRecap_markin.wrSplits.push(convertToSeconds(values[i][2]))
+            runRecap_markin.bestSegments.push(convertToSeconds(values[i][3]))
+            runRecap_markin.bestSegmentsPlayers.push(values[i][4])
+            runRecap_markin.wrSegments.push(convertToSeconds(values[i][5]))
+        }
+        prepareData()
+    })
 }
 function markinExample() {
-    runRecap_lssFile = { pbSplits: [...runRecap_markin.wrSplits], pbSegments: [...runRecap_markin.wrSegments], bestSegments: [...runRecap_markin.bestSegments] }
+    runRecap_lssFile.pbSplits = [...runRecap_markin.wrSplits]
+    runRecap_lssFile.pbSegments = [...runRecap_markin.wrSegments]
+    runRecap_lssFile.bestSegments = [...runRecap_markin.bestSegments]
+    runRecap_lss_info()
     generateDropbox('lss')
     document.querySelectorAll('.lss_yourPB').forEach(elem => {
         elem.innerHTML = secondsToHMS(runRecap_markin.wrSplits[runRecap_markin.wrSplits.length - 1])
     })
+}
+function lss_chart(splits, deltas) {
+    const data = new google.visualization.DataTable()
+    data.addColumn('number', 'Splits')
+    data.addColumn('number', 'Delta')
+    data.addColumn({ type: 'string', role: 'style' })
+    // data.addColumn({ role: 'annotation' })
+    const rows = []
+    for (let i = 0; i < getOffset(); i++) {
+        rows.push([0, 0, ''])
+    }
+    splits.forEach((split, index) => {
+        const color = index >= getOffset() ? getColorFromClass(runRecap_lssFile.id[index]) : ''
+        // rows.push([split, deltas[index], `point { fill-color: ${color}; }`, getDelta(deltas[index])])
+        rows.push([split, deltas[index], `point { fill-color: ${color}; }`])
+    })
+    data.addRows(rows);
+    const options = {
+        // curveType: 'function', // Smooth curves
+        chartArea: { height: '90%' },
+        legend: { position: 'none' },
+        backgroundColor: 'transparent',
+        pointSize: 9,
+        lineWidth: 2,
+        series: { 0: { color: 'gray' } },
+        hAxis: {
+            textStyle: {
+                color: 'transparent',
+                fontName: getFont()
+            },
+            minValue: 0,
+            gridlines: { count: 0 }
+        },
+        vAxis: {
+            textStyle: {
+                color: 'transparent',
+                fontName: getFont()
+            },
+            gridlines: { count: 0 },
+            baselineColor: 'gray'
+        },
+        tooltip: {
+            textStyle: {
+                fontName: getFont()
+            }
+        },
+        annotations: {
+            style: 'none',
+            textStyle: {
+                fontName: getFont()
+            }
+        },
+    };
+    const chart = new google.visualization.LineChart(document.getElementById('lss_chart'));
+    chart.draw(data, options);
+}
+function runRecapSegment(index) {
+    // if (globalPlayerIndex > -1) {
+    //     playerModalSubtitle(globalPlayerIndex)
+    // }
+    const id = runRecap_lssFile.id[index]
+    let HTMLContent = ''
+    HTMLContent += `<div class='container ${id}' style='gap:10px;margin-bottom:10px;padding:5px;border-radius:5px'>`
+    HTMLContent += getImage(id, 36)
+    HTMLContent += `<div style='font-size:20px;font-weight:bold'>${runRecap_lssFile.name[index]}</div>`
+    HTMLContent += `</div>`
+    const thisSegment = runRecap_lssFile.segmentHistory[index].length
+    let prevSegment = runRecap_lssFile.segmentHistory[index - 1]?.length
+    if (!prevSegment) {
+        prevSegment = 0
+    }
+    const numResets = Math.abs(prevSegment - thisSegment)
+    const resetRate = getPercentage(numResets / runRecap_lssFile.attemptCount)
+    const display = resetRate ? displayPercentage(resetRate) : 0
+    const grade = getLetterGrade(100 - resetRate)
+    HTMLContent += `<div class='container' style='gap:8px'>`
+    HTMLContent += `<div>Reset rate:</div>`
+    HTMLContent += `<div style='font-size:80%'>
+        <div class='container'>${numResets} reset${numResets == 1 ? '' : 's'}</div>
+        <div style='margin: 5px 0;border-bottom: 2px solid white;width: 100px;'></div>
+        <div class='container'>${runRecap_lssFile.attemptCount} attempts</div>
+    </div>`
+    HTMLContent += `<div>=</div>`
+    HTMLContent += `<div class='${grade.className}' style='border-radius:5px;padding:5px;${grade.grade == 'F' ? 'color:white' : ''}'>${display}%</div>`
+    HTMLContent += `</div>`
+    const sortedSegments = runRecap_lssFile.segmentHistory[index].sort((a, b) => a.gameTime - b.gameTime)
+    HTMLContent += `<div class='container' style='gap:30px;padding-top:15px'>`
+    HTMLContent += `<table>
+    <tr class='gray'><th colspan=5>Your best segments</th></tr>`
+    sortedSegments.slice(0, 10).forEach((segmentAttempt, segmentIndex) => {
+        const run = runRecap_lssFile.attemptHistory.find(attempt => attempt.id == segmentAttempt.id)
+        const date = run?.start
+        const trophy = getTrophy(segmentIndex + 1)
+        HTMLContent += `<tr class='${getRowColor(segmentIndex)}'>
+        <td style='font-size:70%;text-align:right;padding:0 5px'>${date ? daysAgo(getDateDif(new Date(), new Date(date))) : ''}</td>
+        <td class='${placeClass(segmentIndex + 1)}' style='font-size:70%;padding:0 5px'>${trophy ? `<div class='container trophy'>${trophy}` : segmentIndex + 1}</td>
+        <td class='${id}' style='padding:0 5px'>${secondsToHMS(segmentAttempt.gameTime, true)}</td>
+        <td class='${run ? commBestILsCategory.className : ''}' style='font-size:80%;padding:0 5px'>${run ? secondsToHMS(run.gameTime, true) : ''}</td>
+        <td style='font-size:70%;padding:0 5px'>${date ? date : ''}</td>
+        </tr>`
+    })
+    HTMLContent += `</table>`
+    HTMLContent += `<div>`
+    HTMLContent += `<table>
+        <tr class='gray'><th colspan=2>Comm Best</th></tr>
+        <tr>
+            <td>${getPlayerIcon(players.find(player => player.name == runRecap_markin.bestSegmentsPlayers[index]), 24)}</td>
+            <td class='${id}' style='padding:0 5px'>${secondsToHMS(runRecap_markin.bestSegments[index], true)}</td>
+        </tr>
+    </table>`
+    HTMLContent += `<table>
+        <tr class='gray'><th colspan=2>World Record</th></tr>
+        <tr>
+            <td>${getPlayerIcon(players[0], 24)}</td>
+            <td class='${id}' style='padding:0 5px'>${secondsToHMS(runRecap_markin.wrSegments[index], true)}</td>
+        </tr>
+    </table>`
+    HTMLContent += `</div>`
+    HTMLContent += `</div>`
+    return HTMLContent
 }

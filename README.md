@@ -38,9 +38,9 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Cuphead one gun?
 - 1.1 ILs (Goopy, Ribby, Sally, Werner)
 - Chalice Tutorial toggle?
-- Run Recap LSS - # of attempts
-- Run Recap LSS - Segment Analysis
+- Run Recap LSS - Split History?
 - SPO Leaderboard
+- Copy and paste boss times
 
 ## Known bugs
 - Leaderboard squish and stretch

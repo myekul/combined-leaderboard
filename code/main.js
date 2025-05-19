@@ -184,6 +184,7 @@ function load() {
     // }
 }
 function prepareData() {
+    completeLoad()
     categories.forEach((category, categoryIndex) => {
         assignRuns(category, categoryIndex)
     })
@@ -312,7 +313,6 @@ function generateRanks() {
                 // NMG run in place of a 1.1 run
                 if ((category.name == '1.1+' || category.name == 'Full Clear 1.1+') && player.runs[2]) {
                     placeholderRun(player, good, ideal, 2, 0)
-
                     // } else if (player.runs[0].score > run.score) {
                     //     player.runs[0] = runCopy
                     //     const oldScore = getScore(onePointOne, onePointOneRun.score)

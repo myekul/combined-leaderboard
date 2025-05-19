@@ -67,27 +67,22 @@ function runRecapWelcome() {
             a ${myekulColor('LiveSplit .lss')}
             and a ${myekulColor('Cuphead .sav')} file
             to gain valuable insights about your recent run performance.
-            To get started, ${myekulColor('choose a category above')} and insert your
-            ${myekulColor('run time')} and ${myekulColor('username')}.
+            To get started, insert your ${myekulColor('run time')} and ${myekulColor('username')}.
         </div>
     </div>`
     document.getElementById('runRecap_welcome').innerHTML = HTMLContent
 }
-function generateDropbox(elem, load) {
+function generateDropbox(elem) {
     const dropBoxID = 'runRecap_dropBox_' + elem
     const dropBoxInnerID = dropBoxID + '_inner'
-    const fullLoad = (elem == 'lss' && !load) || elem == 'sav'
     const unsupported = elem == 'lss' && !commBestILsCategory.markin
-    const fileUploaded = !unsupported && fullLoad && (elem == 'sav' && runRecap_savFile || elem == 'lss' && runRecap_lssFile.pbSplits)
+    const fileUploaded = !unsupported && (elem == 'sav' && runRecap_savFile || elem == 'lss' && runRecap_lssFile.pbSplits)
     let HTMLContent = ''
     HTMLContent += `<div id='${dropBoxInnerID}' class="dropBox ${fileUploaded ? extraCategory.className + ' flash' : ''}">
                         <div>
                             <div class="container" style="font-family: 'cuphead-vogue';font-size:150%">.${elem}&nbsp;`
     if (fileUploaded) {
         HTMLContent += fontAwesome('check')
-    }
-    if (load) {
-        HTMLContent += `<div class='loader'></div>`
     }
     HTMLContent += `</div>
                     <div class="container">
@@ -156,7 +151,37 @@ async function runRecapHandleFile(event, elem) {
             }
             if (elem == 'sav') {
                 runRecap_savFile = JSON.parse(content)
-                generateDropbox(elem)
+                if ('isPlayer1Mugman' in runRecap_savFile) {
+                    if (getCupheadLevel(mausoleumID, true).completed) {
+                        if (runRecap_savFile.loadouts.playerOne.primaryWeapon == 1467024095) { // Lobber
+                            if (getCupheadLevel(bossIDs['therootpack'], true).completed) {
+                                getCommBestILs('DLC+Base L/S')
+                            } else {
+                                getCommBestILs('DLC L/S')
+                            }
+                        } else if (runRecap_savFile.loadouts.playerOne.primaryWeapon == 1466416941) { // Charge
+                            if (getCupheadLevel(bossIDs['therootpack'], true).completed) {
+                                getCommBestILs('DLC+Base C/S')
+                            } else if (runRecap_savFile.loadouts.playerOne.secondaryWeapon == 1568276855) { // Twist-Up
+                                getCommBestILs('DLC C/T')
+                            } else if (getCupheadLevel(bossIDs['glumstonethegiant'], true).difficultyBeaten == 2) {
+                                getCommBestILs('DLC Expert')
+                            } else {
+                                getCommBestILs('DLC C/S')
+                            }
+                        } else {
+                            getCommBestILs('DLC Low%')
+                        }
+                    } else {
+                        getCommBestILs('NMG')
+                    }
+                } else {
+                    if (runRecap_savFile.loadouts.playerOne.secondaryWeapon == 1466518900) { // Roundabout
+                        getCommBestILs('Legacy')
+                    } else {
+                        getCommBestILs('1.1+')
+                    }
+                }
             } else {
                 read_lss(content)
             }
@@ -182,12 +207,6 @@ function runRecapInfo() {
                     </div>`
     return HTMLContent
 }
-// function runRecapSegment(data) {
-//     playerModalSubtitle(globalPlayerIndex)
-//     let HTMLContent = ''
-//     HTMLContent += ''
-//     return HTMLContent
-// }
 function runRecapViewPage(newPage, elem, shh) {
     sortCategoryIndex = -1
     runRecapView = newPage
@@ -201,6 +220,7 @@ function runRecapViewPage(newPage, elem, shh) {
         }
     }
     updateComparisonInfo()
+    show('runRecap_' + newPage)
     if (newPage == 'home') {
         runRecapUpdateComparison()
         runRecapHome()
@@ -215,14 +235,19 @@ function runRecapViewPage(newPage, elem, shh) {
         if (runRecapElem == 'sav') {
             show('runRecap_sav_tabs')
             hide('runRecap_lss_comparison')
+            show('runRecap')
+            hide('lss_chart')
+            hide('runRecap_lss')
             runRecapAction()
         } else {
             hide('runRecap_sav_tabs')
             show('runRecap_lss_comparison')
+            hide('runRecap')
+            show('lss_chart')
+            show('runRecap_lss')
             generate_lss()
         }
     }
-    show('runRecap_' + newPage)
 }
 function runRecapUpdateComparison() {
     let HTMLContent = ''

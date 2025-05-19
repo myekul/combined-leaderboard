@@ -117,7 +117,7 @@ function scoreBreakdownInfo() {
 function toggleSliders() {
     playSound('move')
     if (modalSliders) {
-        openModal(globalPlayerIndex)
+        openModal('player', null, globalPlayerIndex)
     } else {
         document.getElementById('modal_sliders').innerHTML = fontAwesome('close')
         for (let i = 0; i < categories.length; i++) {

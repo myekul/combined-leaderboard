@@ -32,7 +32,9 @@
                     <img class='gameIcon'>
                 </div>
                 <div id='titleDesc' class='container' style="transform: translate(0px, -3px);font-size:90%">
-                    The best overall players across each category
+                    <div>The best overall players across each category</div>
+                    <div onclick="openModal('info','up')" class="clickable" style="padding-left:10px;width:25px"><i
+                            class="fa fa-info-circle"></i></div>
                 </div>
             </div>
             <div id='runRecapButton' class="onePointOne container button"
@@ -445,7 +447,7 @@
             <div id="runRecapTab" class="tabs" style="display:none">
                 <div id="runRecap_home" class='runRecap_section'>
                     <div class="container">
-                        <div style="padding-right:40px">
+                        <div style="padding-right:30px">
                             <div class="container">View Example:</div>
                             <div id="runRecap_examples" class="container"></div>
                         </div>
@@ -466,7 +468,8 @@
                             <div class='container'>
                                 <div class="rrSec">.sav</div>
                                 <div class='textBlock'>
-                                    You can either upload an existing .sav file to automatically retrieve IL times, or
+                                    You can either upload an existing .sav file from %appdata% to automatically retrieve
+                                    IL times, or
                                     create an empty file and insert IL times manually.
                                 </div>
                             </div>
@@ -479,6 +482,8 @@
                     <div id='runRecapError' class='container' style='display:none'>Error!</div>
                 </div>
                 <div id="runRecap_content" class='runRecap_section' style="display:none">
+                    <div id='runRecap' style="padding:10px 0"></div>
+                    <div id='lss_chart' class='container' style='width:900px;height:120px'></div>
                     <div id='runRecap_options_button' class='clickable container options' onclick="toggleOptions()">
                     </div>
                     <div id="runRecap_options" class="container" style="display:none">
@@ -527,7 +532,7 @@
                         </div>
                     </div>
                     <div id='comparisonInfo' class='textBlock container' style='display:none;font-size:75%'></div>
-                    <div id='runRecap' style="padding:10px 0"></div>
+                    <div id='runRecap_lss' style="padding:10px 0"></div>
                     <div class='container' style='padding-top:20px'>
                         <div class='button cuphead' onclick="runRecapViewPage('home')" style='width:100px'>
                             <i class="fa fa-reply"></i>&nbsp;Go back

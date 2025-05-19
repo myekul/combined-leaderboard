@@ -164,15 +164,20 @@ function fetchCuphead() {
                 commBestILsCategory.humanTheory.push((levelSum + categories[categoryIndex].runs[0].score) / (numRuns + 1))
             })
         }
-        completeLoad()
         if (page == 'runRecap') {
-            // runRecapViewPage('home')
-            // runRecapUnload('sav', true)
-            // runRecapUnload('lss', true)
+            if (runRecapExample) {
+                runRecapViewPage('home')
+            }
             generateDropbox('sav')
             generateDropbox('lss')
+            if (commBestILsCategory.markin) {
+                loadMarkin()
+            } else {
+                prepareData()
+            }
+        } else {
+            prepareData()
         }
-        prepareData()
         gapi.client.sheets.spreadsheets.get({
             spreadsheetId: SHEET_ID
         }).then(response => {

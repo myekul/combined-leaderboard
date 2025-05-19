@@ -19,7 +19,7 @@ function processSavFile(playerIndex) {
                     level.bestTime = commBestILsCategory.runs[playerIndex][categoryIndex]
                 })
                 if (playerIndex == 0 && commBestILsCategory.markin) {
-                    loadMarkin(true)
+                    markinExample()
                     document.querySelectorAll('.lss_recentRuns').forEach(elem => {
                         elem.innerHTML = ''
                         hide(elem)
