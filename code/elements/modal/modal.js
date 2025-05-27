@@ -151,7 +151,7 @@ function playerModalSubtitle(playerIndex) {
 }
 function scoreFromGrade(category, percentage) {
     const worldRecord = getWorldRecord(category)
-    let score = reverseScore.includes(category.name) ? worldRecord * (percentage / 100) : worldRecord / (percentage / 100)
+    let score = category.reverse ? worldRecord * (percentage / 100) : worldRecord / (percentage / 100)
     if (gameID == 'cuphead' && mode == 'levels') {
         score = category.info.time - (category.info.time - worldRecord) * (percentage / 100)
     }

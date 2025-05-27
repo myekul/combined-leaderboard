@@ -1,5 +1,4 @@
-function runRecapHandle() {
-    const newTab = 'runRecap'
+function runRecapHandle(newTab) {
     if (mode != 'commBestILs') {
         page = newTab
         getCommBestILs()
@@ -263,9 +262,6 @@ function runRecapHome() {
         runRecapUnload('lss', true)
         runRecapExample = false
     }
-    categories.forEach(category => {
-        category.info.levelID = bossIDs[category.info.id]
-    })
     let HTMLContent = `<table class='bigShadow'>`
     players.slice(0, commBestILsCategory.numRuns).forEach((player, playerIndex) => {
         if (player.extra) {

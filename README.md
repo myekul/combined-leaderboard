@@ -40,7 +40,10 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Chalice Tutorial toggle?
 - Run Recap LSS - Split History?
 - SPO Leaderboard
+- Goober World
 - Copy and paste boss times
+- 10:XX Trifecta
+- Remove anonymous players
 
 ## Known bugs
 - Leaderboard squish and stretch
@@ -50,4 +53,3 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Some YouTube channel links are broken (SRC fault)
 - Date sort is off by 1 day
 - Calculator uses real percentages instead of balanced percentages
-- Tetris is broken

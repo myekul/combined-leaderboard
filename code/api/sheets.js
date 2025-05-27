@@ -170,28 +170,31 @@ function fetchCuphead() {
             }
             generateDropbox('sav')
             generateDropbox('lss')
-            if (commBestILsCategory.markin) {
-                loadMarkin()
-            } else {
-                prepareData()
-            }
+        }
+        if (commBestILsCategory.markin) {
+            loadMarkin()
         } else {
             prepareData()
         }
-        gapi.client.sheets.spreadsheets.get({
-            spreadsheetId: SHEET_ID
-        }).then(response => {
-            const sheets = response.result.sheets;
-            const tabMap = {};
-            sheets.forEach(sheet => {
-                const name = sheet.properties.title;
-                const gid = sheet.properties.sheetId;
-                tabMap[name] = gid;
-            });
-            const url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/edit?gid=' + tabMap[commBestILsCategory.tabName]
-            const boardTitleSrc = document.getElementById('boardTitleSrc')
-            boardTitleSrc.innerHTML = `<div class='clickable'>${getAnchor(url)}<img src='images/external/sheets.png'></div>`
-            boardTitleSrc.innerHTML += `<div style='margin-left:5px'>${getSRCicon()}</div>`
-        });
+        categories.forEach(category => {
+            category.info.levelID = bossIDs[category.info.id]
+        })
     }, (err) => console.error("Execute error", err));
+}
+function loadSheets(){
+    gapi.client.sheets.spreadsheets.get({
+        spreadsheetId: SHEET_ID
+    }).then(response => {
+        const sheets = response.result.sheets;
+        const tabMap = {};
+        sheets.forEach(sheet => {
+            const name = sheet.properties.title;
+            const gid = sheet.properties.sheetId;
+            tabMap[name] = gid;
+        });
+        const url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/edit?gid=' + tabMap[commBestILsCategory.tabName]
+        const boardTitleSrc = document.getElementById('boardTitleSrc')
+        boardTitleSrc.innerHTML = `<div class='clickable'>${getAnchor(url)}<img src='images/external/sheets.png'></div>`
+        boardTitleSrc.innerHTML += `<div style='margin-left:5px'>${getSRCicon()}</div>`
+    });
 }

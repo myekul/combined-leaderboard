@@ -42,7 +42,7 @@ function getFullgame(categoryName) {
     if (!categoryName) {
         fullgameCategory = ''
         categories = categorySet[gameID]
-        if (['cuphead', 'sm64', 'nsmbw'].includes(gameID)) {
+        if (['cuphead', 'sm64', 'nsmbw', 'tetris'].includes(gameID)) {
             buttonClick(gameID + '_fullgameCategories_main', 'fullgameCategories', 'active')
         }
     }
@@ -96,7 +96,7 @@ function updateLoadouts(categoryName) {
     if (commBestILsCategory.name == 'DLC') {
         fullgameCategories.push('DLC', 'DLC L/S', 'DLC C/S', 'DLC C/T', 'DLC Low%', 'DLC Expert')
     } else if (commBestILsCategory.name == 'DLC+Base') {
-        fullgameCategories.push('DLC+Base', 'DLC+Base C/S')
+        fullgameCategories.push('DLC+Base', 'DLC+Base L/S', 'DLC+Base C/S')
     }
     fullgameCategories.forEach(category => {
         const thisCategory = commBestILs[category]
@@ -192,12 +192,12 @@ function prepareData() {
         assignRuns(extraCategory)
         if (commBestILsCategory.extraRuns || commBestILsCategory.extraPlayers) {
             const morePlayers = []
-            commBestILsCategory.extraRuns.forEach(run => {
+            commBestILsCategory.extraRuns?.forEach(run => {
                 morePlayers.push(run.playerName)
             })
             players = players.filter(player => commBestILsCategory.extraPlayers?.includes(player.name) || morePlayers.includes(player.name) || player.runs.some(run => run != 0))
             const worldRecord = getWorldRecord(extraCategory)
-            commBestILsCategory.extraRuns.forEach(run => {
+            commBestILsCategory.extraRuns?.forEach(run => {
                 const player = players.find(player => player.name == run.playerName)
                 run.score = run.score > 0 ? run.score : convertToSeconds(run.score)
                 run.percentage = getPercentage(worldRecord / run.score)
@@ -374,7 +374,7 @@ function sortPlayers(playersArray, customCategoryIndex) {
             return b[criteria] - a[criteria];
         });
     } else {
-        const isReverse = reverseScore.includes(categories[categoryIndex].name);
+        const isReverse = categories[categoryIndex].reverse
         playersArray.sort((a, b) => {
             const aRun = a.runs[categoryIndex];
             const bRun = b.runs[categoryIndex];
@@ -396,7 +396,7 @@ function sortPlayers(playersArray, customCategoryIndex) {
 function refreshLeaderboard() {
     sortCategoryIndex = -1
     if (gameID == 'tetris') {
-        categories = tetris
+        categories = tetris['main']
         gapi.load("client", loadClient);
     } else if (!categorySet[gameID]) {
         generateCategories(gameID)
@@ -421,6 +421,9 @@ function resetLoad() {
 }
 function completeLoad() {
     document.getElementById('progress-bar').style.width = '100%';
+    if (mode == 'commBestILs') {
+        loadSheets()
+    }
 }
 function hideTabs() {
     const tabs = document.querySelectorAll('.tabs')

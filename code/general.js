@@ -109,7 +109,7 @@ function getScore(category, runTime) {
         } else {
             percentage = (category.info.time - runTime) / (category.info.time - wrTime);
         }
-    } else if (reverseScore.includes(category.name)) {
+    } else if (category.reverse) {
         percentage = runTime / wrTime
     }
     return getPercentage(percentage)
@@ -161,7 +161,7 @@ function showTab(newPage) {
         show('ILsSection_sm64')
     }
     show(page + 'Tab')
-    document.getElementById('runRecapButton').classList.remove('active2')
+    document.querySelectorAll('.cupheadButton').forEach(elem => { elem.classList.remove('active2') })
     buttonClick(page + 'Button', 'tabs', 'active2')
     if (gameID == 'cuphead' && mode == 'levels' || mode == 'commBestILs') {
         document.getElementById('checkbox_hp').checked = true
@@ -218,7 +218,7 @@ function action() {
     updateCategories()
 }
 function pageAction() {
-    if (page == 'runRecap' && mode != 'commBestILs') {
+    if (['runRecap', 'commBest'].includes(page) && mode != 'commBestILs') {
         showTab('leaderboard')
     } else {
         switch (page) {
@@ -243,10 +243,13 @@ function pageAction() {
             case 'runRecap':
                 runRecapViewPage(runRecapView)
                 break
+            case 'commBest':
+                generateCommBest()
+                break
         }
         fontAwesomePage = fontAwesomeSet[page]
         const pageTitle = document.getElementById('pageTitle')
-        if (fontAwesomePage) {
+        if (page != 'leaderboard') {
             show(pageTitle)
             pageTitle.innerHTML = fontAwesomeText(fontAwesomePage[1], fontAwesomePage[0])
         } else {
@@ -255,12 +258,14 @@ function pageAction() {
     }
 }
 const fontAwesomeSet = {
+    leaderboard: ['Leaderboard', 'home'],
     WRs: ['World Records', 'trophy',],
     featured: ['Featured', 'star'],
     charts: ['Charts', 'bar-chart'],
     map: ['Map', 'flag'],
     sort: ['Sort', 'sort-amount-asc'],
-    runRecap: ['Run Recap', 'history']
+    runRecap: ['Run Recap', 'history'],
+    commBest: ['Comm Best', 'tasks']
 }
 function fontAwesome(icon) {
     return `<i class="fa fa-${icon}"></i>`
@@ -405,7 +410,7 @@ function big5() {
 }
 function tetrisCheck(category, score) {
     if (score) {
-        return gameID == 'tetris' ? reverseScore.includes(category.name) ? Math.round(score).toLocaleString() : (score / 1).toFixed(2) : secondsToHMS(score)
+        return gameID == 'tetris' ? category.reverse ? Math.round(score).toLocaleString() : (score / 1).toFixed(2) : secondsToHMS(score)
     }
     return ''
 }
@@ -413,7 +418,7 @@ function getPlayerDisplay(player) {
     let HTMLContent = ''
     HTMLContent += mode != 'commBestILs' ? `<td class='${placeClass(player.rank)}' style='font-size:90%'>${player.rank}</td>` : ''
     if (gameID != 'tetris') {
-        if (document.getElementById('checkbox_flags').checked) {
+        if (document.getElementById('checkbox_flags').checked && page != 'commBest') {
             HTMLContent += `<td>${getPlayerFlag(player, 12)}</td>`
         }
         if (document.getElementById('checkbox_icons').checked) {
@@ -562,5 +567,8 @@ function hide(elem) {
     elem.style.display = 'none'
 }
 function cupheadShot(shot, size, extra) {
-    return `<img src="images/cuphead/inventory/weapons/${shot}.png" ${extra ? `class='container'` : ''} ${size ? `style='height:${size}px'` : ''}></img>`
+    if (shot) {
+        return `<img src="images/cuphead/inventory/weapons/${shot}.png" ${extra ? `class='container'` : ''} ${size ? `style='height:${size}px'` : ''}></img>`
+    }
+    return ''
 }

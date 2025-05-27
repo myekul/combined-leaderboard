@@ -62,9 +62,6 @@ function generateMap() {
     document.getElementById('countryTable').innerHTML = countryCount()
     createMap()
     flagArmy()
-    // google.charts.setOnLoadCallback(function () {
-    //     pieChart()
-    // });
 }
 function getLocation(player, countriesObject) {
     if (player.location) {
@@ -168,49 +165,6 @@ function flagArmy() {
     })
     document.getElementById('flagArmy').innerHTML = HTMLContent
 }
-// function pieChart() {
-//     const rows = [['Country', '# of Players', { role: 'tooltip', p: { html: true } }]]
-//     countriesObject = sortCategoryIndex > -1 ? categories[sortCategoryIndex].countries : countries
-//     const countriesArray = createArray(countriesObject)
-//     countriesArray.sort((a, b) => {
-//         return b.count - a.count
-//     });
-//     countriesArray.forEach(country => {
-//         const flag = getFlag(country.code, country.name, 30)
-//         const label = country.name
-//         rows.push([
-//             country.code.toUpperCase(),
-//             country.count,
-//             getTooltip(flag, label)
-//         ])
-//     })
-//     const data = google.visualization.arrayToDataTable(rows);
-//     const options = {
-//         backgroundColor: 'transparent',
-//         legend: { position: 'none' },
-//         width: 600,
-//         height: 600,
-//         tooltip: {
-//             textStyle: {
-//                 fontName: getFont(),
-//                 color: 'black'
-//             },
-//             isHtml: true
-//         },
-//         annotations: {
-//             style: 'none',
-//             textStyle: {
-//                 fontName: getFont()
-//             },
-//         },
-//         pieSliceText: 'label',
-//         pieSliceTextStyle: {
-//             fontName: getFont(),
-//         },
-//     };
-//     const chart = new google.visualization.PieChart(document.getElementById('countryChart'));
-//     chart.draw(data, options);
-// }
 function createMap() {
     countriesObject = sortCategoryIndex > -1 ? categories[sortCategoryIndex].countries : countries
     countriesArray = createArray(countriesObject)

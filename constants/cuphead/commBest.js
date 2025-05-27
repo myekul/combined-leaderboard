@@ -204,6 +204,28 @@ const commBestILs = {
         // shot2: 'spread'
         subcat: 'Any%'
     },
+    'DLC+Base L/S': {
+        name: 'DLC+Base',
+        tabName: 'DLC+Base',
+        className: 'dlcbase',
+        range: 'C:Z',
+        category: cuphead['main'][4],
+        numRuns: 2,
+        shot1: 'lobber',
+        shot2: 'spread',
+        extraPlayers: [
+            'BlackTower',
+            'ExclamationMarkYT',
+            'GamerAttack27',
+            'Grondious',
+            'HappyWolf',
+            'jaan_971',
+            'KalaveritaTV',
+            'MarkinSws',
+            'Quincely0',
+            'Rapho'
+        ]
+    },
     'DLC+Base C/S': {
         name: 'DLC+Base',
         tabName: 'DLC+Base C/S',
@@ -232,15 +254,15 @@ const commBestILs = {
             "Kirthar",
             "Musically_dECLINED",
             "Jason2890",
-            "V11GAmeR",
             "Yuka",
             "Kaleva",
+            'Lewzr',
             "halfword",
             "PorcoBrabo",
-            "Rookie_Gamer_Tlax",
             "minamikori",
             "alex92Tcordobes",
-            "Huawai"
+            "Huawai",
+            'Uramatsu'
         ]
     },
 }

@@ -173,8 +173,7 @@ function parsePlayer(player, playerIndex) {
         if (mode == 'commBestILs') {
             if (['DLC', 'DLC+Base'].includes(commBestILsCategory.tabName) && !commBestILsCategory.extraPlayers) {
                 if (player.extra?.percentage >= 90) {
-                    const shot1 = commBestILs[commBestILsCategory.name + ' C/S'].extraPlayers.includes(player.name) ? 'charge' : 'lobber'
-                    HTMLContent += `<td>${cupheadShot(shot1, 20, true)}</td>`
+                    HTMLContent += `<td>${cupheadShot(determineShot1(player), 20, true)}</td>`
                     HTMLContent += `<td>${cupheadShot('spread', 20, true)}</td>`
                 } else {
                     HTMLContent += `<td></td><td></td>`
@@ -220,14 +219,21 @@ function parsePlayer(player, playerIndex) {
     HTMLContent += `</tr>`
     return HTMLContent
 }
+function determineShot1(player, categoryName) {
+    const category = categoryName ? categoryName : commBestILsCategory.name
+    if (commBestILs[category + ' L/S'].extraPlayers?.includes(player.name)) {
+        return 'lobber'
+    } else if (commBestILs[category + ' C/S'].extraPlayers?.includes(player.name)) {
+        return 'charge'
+    }
+}
 function parsePlayerRuns(player, playerIndex) {
     let HTMLContent = `<tr class=${getRowColor(playerIndex)} style='height:23px'>`
     if (isolated) {
         HTMLContent += parseRun(player, playerIndex, categories[sortCategoryIndex], sortCategoryIndex)
         const categoryName = categories[sortCategoryIndex].name
         if (player.runs[sortCategoryIndex].percentage > 90 && ['DLC', 'DLC+Base'].includes(categoryName)) {
-            const shot1 = commBestILs[categoryName + ' C/S'].extraPlayers.includes(player.name) ? 'charge' : 'lobber'
-            HTMLContent += `<td>${cupheadShot(shot1, 20, true)}</td>`
+            HTMLContent += `<td>${cupheadShot(determineShot1(player, categoryName), 20, true)}</td>`
             HTMLContent += `<td>${cupheadShot('spread', 20, true)}</td>`
         }
     } else {
@@ -303,6 +309,7 @@ function showMorePlayers() {
     showMore = true
     action()
 }
+// Comm Best IL mugshot width
 function getHeaderSize() {
     if (bossILindex > -1) {
         return 'width:150px'

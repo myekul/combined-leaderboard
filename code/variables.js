@@ -43,6 +43,7 @@ let runRecapPlayerName = 'Username'
 let runRecapTime = 'XX:XX'
 let runRecapTab = 'times'
 let runRecapExample = false
+let splitInfo = {}
 
 // Big 5
 let allILs = true

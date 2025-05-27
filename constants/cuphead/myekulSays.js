@@ -7,7 +7,7 @@ function cupheadProdigies(name) {
 const myekulSays = {
     ClipBoardGuy: `ClipBoardGuy is a BEAST at 1.1+. He has also exercised his 1.1+ skills in All Flags, getting some incredible times there as well. ClipBoardGuy is also a top Titanfall 2 runner!`,
     Danxi: `Danxi is a dominant IL runner who previously held all 34/34 Simple Whetstone IL world records. As a fellow Whetstone IL runner who started in 2021, Danxi was a big inspiration for me back in the day.`,
-    DORNOBZBAC: `DORNOBZBAC is a prominent IL runner with a number of impressive accomplishments, but perhaps the most notable is being the co-founder of the 25 DUO!!!`,
+    DORNOBZBAC: `DORNOBZBAC is a prominent IL runner with a number of impressive accomplishments. 25 TRIO!!!`,
     ExclamationMarkYT: `ExclamationMarkYT is an accomplished multi-category runner who made an absolute TEAR in DLC, being a former world record holder and one of the early pioneers of the Saltimate Jutsu. He has also been the host of several Cuphead tournaments over the past few years. Shoutouts to him!` + cupheadProdigies('ExclamationMarkYT'),
     fabix531: `fabix531 is an excellent runner whose expertise shines in base game categories. He is also an accomplished Expert and All Flags runner.`,
     Fintan0: `Fintan0 is a top Legacy runner from Ireland. In fact, he is the LEGACY WORLD RECORD HOLDER! What a feat.`,
@@ -40,7 +40,7 @@ const myekulSays = {
 <br><br>Honyahi nininununa Na`,
     PorcoBrabo: `Oink`,
     SBDWolf: `SBDWolf is one of those people who decides they want to learn a speedrun, spends hours studying and practicing the optimal strats, and then DOMINATES the competition in a matter of weeks. His Legacy and 1.1+ runs are great examples of this. He also runs some other awesome games such as Castlevania, DKC2, and Gimmick!` + cupheadGods('SBDWolf'),
-    SlimsyLeader: `SlimsyLeader is a top IL runner with an impressive resume, perhaps best known for DOMINATING Esther Winchester ILs. In fact, he has all six Esther world records! He is also a self-proclaimed member of the 25 DUO, along with DORNOBZBAC!!!`,
+    SlimsyLeader: `SlimsyLeader is a top IL runner with an impressive resume, perhaps best known for DOMINATING Esther Winchester ILs. In fact, he has all six Esther world records! Also, 25 TRIO!!!`,
     Spaceboy321: `Spaceboy is a MASTERFUL whetstone IL runner, best known for making an absolute TEAR on several plane bosses. In fact, he holds every world record on Hilda, Djimmi, and Cala. Incredible!`,
     Sublime: `Sublime is an INSANE Legacy runner, having held the world record numerous times throughout the years. He has also held the Hater% world record!`,
     Yuka: `Yuka is a Swiss runner known for his INSANE Legacy skills. He is often refered to as a human TAS.`

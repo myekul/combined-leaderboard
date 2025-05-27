@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles/grades.css">
     <link rel="stylesheet" href="styles/modal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/brands.min.css">
     <link id='favicon' rel="shortcut icon" href='images/external/myekul.png'>
     <title>Combined Leaderboard</title>
     <script src="https://apis.google.com/js/api.js"></script>
@@ -18,29 +19,40 @@
 <body>
     <div id="bodyContent" style="display:none">
         <header>
-            <div>
-                <div class="container" style="align-items: flex-end;">
-                    <img class='gameIcon'>
-                    <div>
-                        <img id='gameLogo' class='container' style="height:50px;width:auto">
-                        <div id='gameTitle' class='container'
-                            style="font-size:170%;position:absolute;left:50%;transform: translate(-50%, -35px)"></div>
-                        <div id='subtitle' style="font-size:150%;text-align: center;font-family:var(--font2)">
-                            COMBINED LEADERBOARD
+            <div id='srcGame' class="container" style="position:absolute;top:5px;left:25px"></div>
+            <div class="container" style="gap:4px;padding-top:12px">
+                <a href="https://www.github.com/myekul" target="_blank">
+                    <img class='myekul clickable' src="images/external/myekul.png" style="height:80px;width:80px">
+                </a>
+                <div>
+                    <div class="container">
+                        <!-- <img class='gameIcon'> -->
+                        <div>
+                            <div class="container" style="justify-content: left;">
+                                <div id='gameTitle' style="font-size:140%;text-align: center;">myekul's
+                                </div>
+                            </div>
+                            <div id='subtitle'
+                                style="transform: translate(0px, -2px);font-size:175%;font-family:var(--font2)">
+                                COMBINED LEADERBOARD
+                            </div>
                         </div>
+                        <!-- <img class='gameIcon'> -->
                     </div>
-                    <img class='gameIcon'>
-                </div>
-                <div id='titleDesc' class='container' style="transform: translate(0px, -3px);font-size:90%">
-                    <div>The best overall players across each category</div>
-                    <div onclick="openModal('info','up')" class="clickable" style="padding-left:10px;width:25px"><i
-                            class="fa fa-info-circle"></i></div>
+                    <div id='titleDesc' class='container'
+                        style="transform: translate(0px, -5px);font-size:90%;justify-content: left;">
+                        <div>The best overall players across each category</div>
+                        <div onclick="openModal('info','up')" class="clickable" style="padding-left:10px;width:25px"><i
+                                class="fa fa-info-circle"></i></div>
+                    </div>
                 </div>
             </div>
-            <div id='runRecapButton' class="onePointOne container button"
-                style="display:none;width:150px;height:30px;position: absolute;right: 20px;top:10px;border-radius:15px;text-align: center">
-                <div style="font-family:'cuphead-vogue';font-size:150%" onclick="runRecapHandle()"><i
-                        class="fa fa-history"></i>&nbsp;Run Recap
+            <div id='runRecapButton' class="cupheadButton onePointOne" style="display:none">
+                <div onclick="runRecapHandle('runRecap')"><i class="fa fa-history"></i>&nbsp;Run Recap
+                </div>
+            </div>
+            <div id='commBestButton' class="cupheadButton" style="display:none;top:45px">
+                <div onclick="runRecapHandle('commBest')"><i class="fa fa-tasks"></i>&nbsp;Comm Best
                 </div>
             </div>
         </header>
@@ -67,20 +79,13 @@
                         <div id="boardTitleSrc" class="container"></div>
                     </div>
                     <div id="tabs" class="container" style="margin:0">
-                        <div id='leaderboardButton' class='button' onclick="showTab('leaderboard')"><i
-                                class="fa fa-home"></i>
-                        </div>
-                        <div id='WRsButton' class='button' onclick="showTab('WRs')"><i class="fa fa-trophy"></i></div>
+                        <div id='leaderboardButton'></div>
+                        <div id='WRsButton'></div>
+                        <div id='featuredButton'></div>
                         <div class='container' style='width:15px;margin:0'>&#8226;</div>
-                        <div id='featuredButton' class='button' onclick="showTab('featured')"><i class="fa fa-star"></i>
-                        </div>
-                        <div id='chartsButton' class='button' onclick="showTab('charts')"><i
-                                class="fa fa-bar-chart"></i>
-                        </div>
-                        <div id='mapButton' class='button' onclick="showTab('map')"><i class="fa fa-flag"></i></div>
-                        <div id='sortButton' class='button' onclick="showTab('sort')"><i
-                                class="fa fa-sort-amount-asc"></i>
-                        </div>
+                        <div id='chartsButton'></div>
+                        <div id='mapButton'></div>
+                        <div id='sortButton'></div>
                     </div>
                     <div id='loading' style='position:absolute;right:40px;top:8px;color:white'>
                         <div>Loading API...</div>
@@ -122,6 +127,10 @@
                                 DLC+Base
                             </div>
                         </div>
+                        <!-- <div class="container">
+                            <div id='fullgameCategories_10xxTrifecta' onclick="getFullgame('10xxTrifecta')"
+                                class="button dlc" style="width:120px">10:XX Trifecta</div>
+                        </div> -->
                     </div>
                     <div id="sm64_fullgameCategories" style="display:none">
                         <div class="container">
@@ -141,14 +150,22 @@
                                 style="width:150px">Main 3 Categories</div>
                         </div>
                     </div>
+                    <!-- <div id="tetris_fullgameCategories" style="display:none">
+                        <div class="container">
+                            <div id='tetris_fullgameCategories_main' onclick="getFullgame()" class="button banner"
+                                style="width:100px">Pace</div>
+                            <div id='fullgameCategories_all' onclick="getFullgame('tetrisAll')" class="button banner"
+                                style="width:100px">All</div>
+                        </div>
+                    </div> -->
                 </div>
             </div>
             <!-- Individual Levels -->
             <div id="ILsSection_cuphead" class='hide headerRow' style="display:none">
                 <div class="container">
                     <div id='versionTabs' class='container' style="margin:0">
-                        <div id='legacy' onclick="cupheadLevelSetting('legacy','nodlc')" class="button legacy">Legacy
-                            1.0
+                        <div id='legacy' onclick="cupheadLevelSetting('legacy','nodlc')" class="button legacy"
+                            style="width:110px">Legacy 1.0
                         </div>
                         <!-- <div id='onePointOne' onclick="cupheadLevelSetting('onePointOne','nodlc')"
                             class="button onePointOne" style="width:50px">1.1</div> -->
@@ -161,10 +178,9 @@
                     </div>
                     <div id='categoryTabs' class='container' style="margin:0">
                         <div id='nodlcBoards' onclick="cupheadLevelSetting(cupheadVersion,'nodlc')"
-                            class="button cuphead">
-                            Main Boards</div>
-                        <div id='dlcBoards' onclick="cupheadLevelSetting('currentPatch','dlc')" class="button dlc">DLC
-                            Loadout</div>
+                            class="button cuphead">Main Boards</div>
+                        <div id='dlcBoards' onclick="cupheadLevelSetting('currentPatch','dlc')" class="button dlc"
+                            style="width:110px">DLC Loadout</div>
                     </div>
                 </div>
                 <div id="ILcategories_cuphead" style="display:none">
@@ -283,7 +299,7 @@
             </div>
             <!-- Leaderboard -->
             <div id="leaderboardTab" class="tabs" style="display:none">
-                <div id='leaderboard_options_button' class='clickable container options' onclick="toggleOptions()">
+                <div id='leaderboard_options_button' class='options'>
                 </div>
                 <div id='leaderboard_options' style="display:none">
                     <div class="container">
@@ -311,7 +327,7 @@
                     <div id='WRs_sums' onclick="showWRsTab('sums')" class="button">Sums</div>
                     <div id='WRs_chart' onclick="showWRsTab('chart')" class="button">Times</div>
                 </div>
-                <div id='WRs_options_button' class='clickable container options' onclick="toggleOptions()"></div>
+                <div id='WRs_options_button' class='options'></div>
                 <div id='WRs_options' class="container" style="display:none">
                     <input id='checkbox_WRs_date' onclick="action()" type="checkbox">Date
                     <div id="WRs_cupheadILs_options">
@@ -323,7 +339,7 @@
                 <div id="WRs"></div>
                 <div id="WRsChartSection">
                     <div id="WRsChart_options" class="container">
-                        <select id="dropdown_WRsChart" onchange="action()">
+                        <select id="dropdown_WRsChart">
                             <option value="default" selected>Default</option>
                             <option value="isle">Isle</option>
                             <option value="difficulty">Difficulty</option>
@@ -337,17 +353,21 @@
             </div>
             <!-- Featured -->
             <div id="featuredTab" class="tabs" style="display:none">
+                <div id='featured_options_button' class='options'></div>
+                <div id='featured_options' class="container" style="display:none;padding:10px 0">
+                    <select id="dropdown_featured" class='container'>
+                        <option value="recent" selected>Recent</option>
+                        <option value="top5">Top 5</option>
+                    </select>
+                </div>
+
                 <div id="featured"></div>
-            </div>
-            <!-- Players -->
-            <div id="playersTab" class="tabs" style="display:none">
-                <div id="players"></div>
             </div>
             <!-- Charts -->
             <div id="chartsTab" class="tabs" style="display:none">
-                <div id='charts_options_button' class='clickable container options' onclick="toggleOptions()"></div>
+                <div id='charts_options_button' class='options'></div>
                 <div id='charts_options' class="container" style="display:none">
-                    <select id="dropdown_top" onchange="action()">
+                    <select id="dropdown_top">
                         <option value="30" selected>Top 30</option>
                         <option value="100">Top 100</option>
                         <option value="300">Top 300</option>
@@ -362,21 +382,21 @@
             </div>
             <!-- Map -->
             <div id="mapTab" class="tabs" style="display:none">
-                <div id='map_options_button' class='clickable container options' onclick="toggleOptions()"></div>
+                <div id='map_options_button' class='options'></div>
                 <div id='map_options' class="container" style="display:none">
                     <div>
                         <input id='checkbox_map_color' onclick="action()" type="checkbox">Color
                     </div>
                 </div>
                 <div class="container">
-                    <select id="dropdown_mapMode" onchange="action()">
+                    <select id="dropdown_mapMode">
                         <option value="all" selected>Top 300</option>
                         <option value="top100">Top 100</option>
                         <option value="top30">Top 30</option>
                         <option value="trophies">Trophies</option>
                         <option value="WRs">WRs</option>
                     </select>
-                    <select id="dropdown_mapValue" onchange="action()">
+                    <select id="dropdown_mapValue">
                         <option value="players" selected>Players</option>
                         <option value="runs">Runs</option>
                     </select>
@@ -386,7 +406,6 @@
                         <div id="mapTooltip"></div>
                         <svg id="world-map" width="800" height="400"></svg>
                         <div id="flagArmy"></div>
-                        <!-- <div id="countryChart"></div> -->
                     </div>
                     <div class='container' style="width:50%;margin:0">
                         <div id="countryTable"></div>
@@ -399,7 +418,7 @@
             <!-- Sort -->
             <div id="sortTab" class="tabs" style="display:none">
                 <div id='sort_options' class="container">
-                    <select id="dropdown_sortCriteria" onchange="action()">
+                    <select id="dropdown_sortCriteria">
                         <optgroup label="Runs">
                             <option value="score" selected>Score</option>
                             <option value="date">Date</option>
@@ -416,7 +435,7 @@
                             <option id='sortDPS' value="dps">DPS</option>
                         </optgroup>
                     </select>
-                    <select id="dropdown_sortRange" onchange="action()">
+                    <select id="dropdown_sortRange">
                         <option value="top300" selected>Top 300</option>
                         <option value="top100">Top 100</option>
                         <option value="trophies">Trophies</option>
@@ -426,7 +445,7 @@
                     </select>
                 </div>
                 <div>
-                    <select id="sortDateOptions" class="container" onchange="action()">
+                    <select id="sortDateOptions" class="container">
                         <option value="year" selected>Year</option>
                         <!-- <option value="season">Season</option> -->
                         <option value="month">Month</option>
@@ -484,7 +503,7 @@
                 <div id="runRecap_content" class='runRecap_section' style="display:none">
                     <div id='runRecap' style="padding:10px 0"></div>
                     <div id='lss_chart' class='container' style='width:900px;height:120px'></div>
-                    <div id='runRecap_options_button' class='clickable container options' onclick="toggleOptions()">
+                    <div id='runRecap_options_button' class='options'>
                     </div>
                     <div id="runRecap_options" class="container" style="display:none">
                         <input id='checkbox_runRecap_harsh' onclick="action()" type="checkbox" checked>Harsh Grading
@@ -492,13 +511,12 @@
                     <div class="container" style='padding-bottom:3px'>
                         <div id="runRecap_lss_comparison" class="container" style="margin: 0">
                             <div style="font-family:'cuphead-vogue';padding-right:10px">.lss</div>&Delta;
-                            <select id="dropdown_runRecap_lss_vs" onchange="playSound('cardflip');action()"
-                                class="onePointOne">
+                            <select id="dropdown_runRecap_lss_vs" class="onePointOne">
                                 <option class='lss_yourPB' value="yourPB" selected>Your PB</option>
                                 <optgroup class="lss_recentRuns" label="Recent Runs"></optgroup>
                             </select>
                             <div>vs.</div>
-                            <select id="dropdown_runRecap_lss_comparison" onchange="playSound('cardflip');action()">
+                            <select id="dropdown_runRecap_lss_comparison">
                                 <option class="lss_hide" value="yourBest" selected>Your Best Splits</option>
                                 <option class="lss_hide lss_yourPB" value="yourPB">Your PB</option>
                                 <option id="lss_prevPB" class="lss_hide">Previous PB</option>
@@ -519,7 +537,7 @@
                         <div id="runRecap_sav_comparison" class="container" style="margin: 0">
                             <div class="divider"></div>
                             <div style="font-family:'cuphead-vogue';padding-right:10px">.sav</div>&Delta;
-                            <select id="dropdown_runRecap_sav_comparison" onchange="playSound('cardflip');action()">
+                            <select id="dropdown_runRecap_sav_comparison">
                                 <option value="top3" selected>Top 3 Average</option>
                                 <option value="top3Best">Top 3 Best</option>
                                 <option value="humanTheory">"Human Theory"</option>
@@ -544,6 +562,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <!-- Comm Best -->
+            <div id="commBestTab" class="tabs" style="display:none">
+                <div id="commBest" class="container" style="padding-top:20px"></div>
             </div>
             <!-- Modal -->
             <div id="modal" class="modal">
@@ -577,7 +599,7 @@
                 </a>
                 <div class="footerText">myekul</div>
                 <a href="https://www.github.com/myekul" target="_blank">
-                    <img class='myekul' src="images/external/myekul.png" class="clickable">
+                    <img src="images/external/myekul.png" class="myekul clickable">
                 </a>
                 <div class="footerText">2024-2025</div>
             </div>
@@ -611,6 +633,7 @@
     <script src="code/page/runRecap.js"></script>
     <script src="code/page/runRecap_sav.js"></script>
     <script src="code/page/runRecap_lss.js"></script>
+    <script src="code/page/commBest.js"></script>
 
     <script src="code/cupheadLevels.js"></script>
 

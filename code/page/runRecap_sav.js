@@ -1,4 +1,4 @@
-function processSavFile(playerIndex) {
+function processSavFile(playerIndex, display) {
     fetch('resources/cupheadSav.json')
         .then(response => response.json())
         .then(data => {
@@ -19,15 +19,11 @@ function processSavFile(playerIndex) {
                     level.bestTime = commBestILsCategory.runs[playerIndex][categoryIndex]
                 })
                 if (playerIndex == 0 && commBestILsCategory.markin) {
-                    markinExample()
-                    document.querySelectorAll('.lss_recentRuns').forEach(elem => {
-                        elem.innerHTML = ''
-                        hide(elem)
-                    })
-                    document.getElementById('dropdown_runRecap_lss_comparison').value = 'commBest'
-                    document.querySelectorAll('.lss_hide').forEach(elem => {
-                        hide(elem)
-                    })
+                    bootMarkinExample()
+                    if (display) {
+                        runRecapViewPage('content', 'lss', true)
+                        showTab('runRecap')
+                    }
                 }
                 if (playerIndex > 0 || !commBestILsCategory.markin) {
                     runRecapViewPage('content', 'sav', true)
@@ -37,6 +33,17 @@ function processSavFile(playerIndex) {
             }
             generateDropbox('sav')
         })
+}
+function bootMarkinExample() {
+    markinExample()
+    document.querySelectorAll('.lss_recentRuns').forEach(elem => {
+        elem.innerHTML = ''
+        hide(elem)
+    })
+    document.getElementById('dropdown_runRecap_lss_comparison').value = 'commBest'
+    document.querySelectorAll('.lss_hide').forEach(elem => {
+        hide(elem)
+    })
 }
 function refreshRunRecap() {
     const dropdown_runRecap = document.getElementById('dropdown_runRecap')

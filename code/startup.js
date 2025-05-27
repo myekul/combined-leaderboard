@@ -37,8 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 function gameTabs() {
     let HTMLContent = ''
-    // const games = ['cuphead', 'sm64', 'tetris', 'titanfall_2', 'mtpo']
-    const games = ['cuphead', 'sm64', 'titanfall_2', 'mtpo']
+    const games = ['cuphead', 'sm64', 'tetris', 'titanfall_2', 'mtpo']
     games.forEach(game => {
         HTMLContent += `<a href='?game=${game}' class="container clickable ${game}"><img src="images/logo/${game}.png"></a>`
     })
@@ -52,17 +51,15 @@ function gameTabs() {
     })
     document.getElementById('gameSelect').innerHTML = HTMLContent
 }
-const gameLogo = document.getElementById('gameLogo')
-gameLogo.src = `images/logo/${gameID}.png`
 document.getElementById('gameLogoButton').src = `images/logo/${gameID}.png`
 const subtitle = document.getElementById('subtitle')
 const header = document.querySelector('header')
-const gameIcons = document.querySelectorAll('.gameIcon')
-if (gameID == 'tetris' || categorySet[gameID]) {
-    gameIcons.forEach(gameIcon => {
-        gameIcon.src = `images/favicon/${gameID}.png`
-    })
-}
+// const gameIcons = document.querySelectorAll('.gameIcon')
+// if (gameID == 'tetris' || categorySet[gameID]) {
+//     gameIcons.forEach(gameIcon => {
+//         gameIcon.src = `images/favicon/${gameID}.png`
+//     })
+// }
 document.documentElement.style.setProperty('--banner', getColorFromClass(gameID));
 document.documentElement.style.setProperty('--bannerText', getColorFromClass(gameID, true));
 const title = document.querySelector('title')
@@ -70,13 +67,16 @@ switch (gameID) {
     case 'cuphead':
         show('commBestILsButton')
         show('modeSelection')
-        show('runRecapButton')
+        document.querySelectorAll('.cupheadButton').forEach(elem => {
+            elem.classList.add('button')
+            elem.classList.add('container')
+            show(elem)
+        })
         break;
     case 'sm64':
         show('modeSelection')
         break;
     case 'tetris':
-        subtitle.innerText = 'PACE ACADEMY';
         document.querySelectorAll('.options').forEach(elem => hide(elem))
         hide('featuredButton')
         hide('mapButton')
@@ -89,34 +89,6 @@ switch (gameID) {
 }
 if (['smb1', 'smbtll', 'mtpo'].includes(gameID)) {
     document.getElementById('checkbox_milliseconds').checked = true;
-}
-if (['tetris', 'smb1', 'smbtll', 'smb2', 'smb3'].includes(gameID)) {
-    header.style.fontFamily = 'pressStart2P';
-    subtitle.style.fontFamily = 'pressStart2P'
-    if (['smb2', 'smb3'].includes(gameID)) {
-        gameLogo.src = ''
-        const gameTitle = document.getElementById('gameTitle')
-        gameTitle.innerText = 'SUPER MARIO BROS. ' + gameID.slice(-1)
-        if (gameID == 'smb2') {
-            gameTitle.style.color = 'gold'
-            gameTitle.style.textShadow = '-3px 3px 0px red'
-        } else {
-            gameTitle.style.color = 'royalblue'
-            gameTitle.style.textShadow = '-2px 2px 0px red'
-        }
-        subtitle.style.padding = '4px 0'
-    } else {
-        gameLogo.style.height = '80px'
-        header.style.height = '140px'
-        subtitle.style.padding = '8px 0'
-    }
-    gameIcons.forEach(gameIcon => {
-        gameIcon.style.marginBottom = '8px'
-    })
-}
-if (['sm64', 'sms', 'smo', 'nsmbds', 'nsmbw', 'nsmbu', 'nslu'].includes(gameID)) {
-    gameLogo.style.height = '80px'
-    header.style.height = '130px'
 }
 google.charts.load('current', { packages: ['corechart'] });
 document.addEventListener('DOMContentLoaded', function () {
@@ -140,6 +112,34 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 document.querySelectorAll('.options').forEach(elem => {
     elem.innerHTML = fontAwesome('ellipsis-h')
+    elem.classList.add('container')
+    elem.classList.add('clickable')
+    elem.addEventListener('click', () => {
+        toggleOptions()
+    })
 })
 generateDropbox('sav')
-generateDropbox('lss')
+generateDropbox('lss');
+['leaderboard', 'WRs', 'featured', 'charts', 'map', 'sort'].forEach(pageName => {
+    const button = document.getElementById(pageName + 'Button')
+    button.innerHTML = fontAwesome(fontAwesomeSet[pageName][1])
+    button.classList.add('button')
+    button.addEventListener('click', () => {
+        showTab(pageName)
+    })
+})
+document.querySelectorAll('select').forEach(elem => {
+    elem.addEventListener('change', () => {
+        playSound('cardflip')
+        action()
+    })
+})
+if (gameID != 'tetris') {
+    const url = `https://www.speedrun.com/api/v1/games/${gameID}`
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('srcGame').innerHTML = `${getAnchor('https://www.speedrun.com/' + gameID)}<img src='${data.data.assets['cover-tiny'].uri}' height='90px' class='clickable'></a>`
+            // console.log(data.data)
+        })
+}

@@ -40,16 +40,6 @@
     src: url("fonts/CupheadVogue-ExtraBold-merged.ttf") format("truetype");
 }
 
-@font-face {
-    font-family: "sm64";
-    src: url("fonts/sm64.ttf") format("truetype");
-}
-
-@font-face {
-    font-family: "pressStart2P";
-    src: url("fonts/pressStart2P.ttf") format("truetype");
-}
-
 body {
     font-family: var(--font);
     font-size: 17px;
@@ -59,7 +49,6 @@ body {
     overflow-x: hidden;
     overflow-y: scroll;
     white-space: nowrap;
-    /* background-color: var(--background); */
     background: repeating-linear-gradient(45deg,
             var(--background),
             var(--background) 10px,
@@ -87,14 +76,9 @@ input {
     accent-color: var(--banner)
 }
 
-/* input[type="range"]::-webkit-slider-runnable-track {
-    background-color: var(--background);
-} */
-
 header {
     background-color: var(--banner);
     color: var(--bannerText);
-    padding-top: 10px;
     height: 100px;
 }
 
@@ -120,7 +104,6 @@ h1 {
 .textBlock {
     white-space: normal;
     max-width: 700px;
-    /* padding-bottom: 20px */
 }
 
 .textBox {
@@ -631,4 +614,16 @@ svg {
 
 #lss_chart svg {
     box-shadow: none
+}
+
+.cupheadButton {
+    width: 155px;
+    height: 30px;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    border-radius: 15px;
+    text-align: center;
+    font-family: 'cuphead-vogue';
+    font-size: 120%
 }
