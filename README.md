@@ -4,7 +4,7 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 ## Motivation
 ### A more granular leaderboard
 - On traditional leaderboards, the player in 1st place can have a speedrun leagues ahead of everyone in 2nd, 3rd, and so on. There's no easy way to make this comparison without doing the math in your head.
-    - This leaderboard caluculates letter grades for every run in every category, allowing you to easily identify the best scores.
+    - This leaderboard calculates letter grades for every run in every category, allowing you to easily identify the best scores.
 ### Player Motivation
 - Players have reported increased motivation to improve their times and try out new categories to raise their leaderboard placement.
 ### Organization

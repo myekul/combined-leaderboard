@@ -87,7 +87,7 @@ switch (gameID) {
         show('modeSelection')
         break;
 }
-if (['smb1', 'smbtll', 'mtpo'].includes(gameID)) {
+if (['smb1', 'smbtll', 'mtpo', 'titanfall_2'].includes(gameID)) {
     document.getElementById('checkbox_milliseconds').checked = true;
 }
 google.charts.load('current', { packages: ['corechart'] });

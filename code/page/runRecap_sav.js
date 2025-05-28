@@ -52,11 +52,6 @@ function refreshRunRecap() {
     dropdown_runRecap.classList.add(commBestILsCategory.className)
     document.getElementById('runRecapBoardTitle').innerHTML = generateBoardTitle(2)
 }
-function runRecapAction() {
-    if (players[0]) {
-        showRunRecapTab()
-    }
-}
 function runRecapDownload() {
     const jsonStr = JSON.stringify(runRecap_savFile, null, 2)
     const blob = new Blob([jsonStr], { type: "application/json" })
@@ -84,51 +79,72 @@ function runRecapTimes() {
     let HTMLContent = ''
     assignIsles()
     HTMLContent += `<div class='container' style='gap:25px'>`
-    const follies = getCupheadLevel(forestfolliesID, true)
-    if (follies.bestTime != nullTime) {
-        HTMLContent += `<div>`
-        HTMLContent += `<div class='container'>
-        <div>${getImage('other/forestfollies', 42)}</div>
-        <div style='padding-left:8px;font-size:135%'>${secondsToHMS(follies.bestTime, true)}</div>
-        </div>`
-        const mausoleum = getCupheadLevel(mausoleumID, true)
-        if (mausoleum.bestTime != nullTime && ['DLC', 'DLC+Base'].includes(commBestILsCategory.name)) {
-            HTMLContent += `<div class='container' style='margin:0'>
-            <div>${getImage('other/mausoleum', 42)}</div>
-            <div style='padding-left:8px;font-size:135%'>${secondsToHMS(mausoleum.bestTime, true)}</div>
-            </div>`
-        }
-        HTMLContent += `</div>`
+    const follies = getCupheadLevel(runNguns['forestfollies'], true)
+    const treetop = getCupheadLevel(runNguns['treetoptrouble'], true)
+    HTMLContent += `<div>`
+    if (follies.bestTime != nullTime && treetop.bestTime == nullTime) {
+        HTMLContent += extraLevel('forestfollies', follies.bestTime)
     }
+    const mausoleum = getCupheadLevel(mausoleumID, true)
+    if (mausoleum.bestTime != nullTime && ['DLC', 'DLC+Base'].includes(commBestILsCategory.name)) {
+        HTMLContent += extraLevel('mausoleum', mausoleum.bestTime)
+    }
+    HTMLContent += `</div>`
     if (['DLC', 'DLC+Base'].includes(commBestILsCategory.name)) {
         const isle = isles[4]
         HTMLContent += isleHeader(isle)
         isle.runRecapCategories.forEach(object => {
             HTMLContent += runRecapCategory(object)
         })
-        HTMLContent += `</table>`
+        HTMLContent += `</table></div>`
     }
-    isles.slice(0, 4).forEach(isle => {
+    isles.slice(0, 4).forEach((isle, index) => {
         HTMLContent += isle.runRecapCategories.length ? isleHeader(isle) : ''
         isle.runRecapCategories.forEach(object => {
             HTMLContent += runRecapCategory(object)
         })
         HTMLContent += `</table>`
+        const levels = [['forestfollies', 'treetoptrouble'], ['funfairfever', 'funhousefrazzle'], ['ruggedridge', 'perilouspiers']]
+        levels.forEach((levelPair, levelIndex) => {
+            if (index == levelIndex) {
+                HTMLContent += `<div style='padding-top:15px'>`
+                levelPair.forEach(level => {
+                    const levelObj = getCupheadLevel(runNguns[level], true)
+                    if (levelObj.bestTime != nullTime && !(level == 'forestfollies' && treetop.bestTime == nullTime)) {
+                        HTMLContent += extraLevel(level, levelObj.bestTime)
+                    }
+                })
+                HTMLContent += `</div>`
+            }
+        })
+        HTMLContent += `</div>`
     })
     HTMLContent += `</div>`
     return HTMLContent
 }
+function extraLevel(name, time) {
+    return `<div class='container'>
+        <div>${getImage('other/' + name, 36)}</div>
+        <div style='padding-left:8px;font-size:120%'>${secondsToHMS(time, true)}</div>
+        </div>`
+}
 function isleHeader(isle) {
-    return `<table class='bigShadow'><tr><td colspan=10 class='${isle.className}'>${isle.name}</td></td>`
+    return `<div><table class='bigShadow'><tr><td colspan=10 class='${isle.className}'>${isle.name}</td></td>`
 }
 function runRecapCategory(categoryIndex) {
     const category = categories[categoryIndex]
     const level = getCupheadLevel(categoryIndex)
     const runTime = level?.bestTime
+    category.runTime = runTime
+    const prevCategory = categories[categoryIndex - 1]
+    if (prevCategory) {
+        category.runTime += prevCategory.runTime
+    }
     let HTMLContent = ''
     const done = runTime && runTime != nullTime
     const comparisonTime = getComparisonTime(categoryIndex)
     const delta = runRecapDelta(runTime, comparisonTime)
+    category.delta = delta
     const grade = runRecapGrade(delta)
     let comparisonContent = `<div>${secondsToHMS(comparisonTime)}</div>`
     if (document.getElementById('dropdown_runRecap_sav_comparison').value == 'top3Best') {
@@ -182,8 +198,8 @@ function updateRunRecapIL(categoryIndex) {
         level.completed = true
         level.played = true
     }
-    level.bestTime = userInput
-    runRecapAction()
+    level.bestTime = parseFloat(userInput)
+    generate_sav()
 }
 function runRecapIL(runTime, categoryIndex) {
     return `<div class='clickable' onclick="runRecapPlaceholder('${runTime}',${categoryIndex})" style='font-size:135%'>${secondsToHMS(runTime, true)}</div>`
@@ -197,12 +213,15 @@ function runRecapPlaceholder(runTime, categoryIndex) {
     input.focus()
     input.setSelectionRange(0, input.value.length)
 }
-function showRunRecapTab(tab) {
+function generate_sav(tab) {
     runRecapTab = tab ? tab : runRecapTab
     buttonClick('runRecap_' + runRecapTab, 'runRecap_sav_tabs', 'active2')
     const runRecapElem = document.getElementById('runRecap')
     if (runRecapTab == 'times') {
         runRecapElem.innerHTML = runRecapTimes()
+        const times = categories.map(category => category.runTime)
+        const deltas = categories.map(category => category.delta)
+        runRecap_chart(times, deltas)
     } else if (runRecapTab == 'sums') {
         runRecapElem.innerHTML = runRecapSums()
     }

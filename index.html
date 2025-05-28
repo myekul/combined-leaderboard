@@ -471,7 +471,19 @@
                             <div id="runRecap_examples" class="container"></div>
                         </div>
                         <div>
-                            <div id='runRecap_welcome'></div>
+                            <div id='runRecap_welcome'>
+                                <div class="container" style="padding:20px 0">
+                                    <div class='textBlock'>
+                                        Welcome to <span class="myekulColor">Run Recap</span>! This tool allows you to
+                                        upload
+                                        a <span class="myekulColor">LiveSplit .lss</span>
+                                        and a <span class="myekulColor">Cuphead .sav</span> file
+                                        to gain valuable insights about your recent run performance.
+                                        To get started, insert your <span class="myekulColor">run time</span> and
+                                        <span class="myekulColor">username</span>.
+                                    </div>
+                                </div>
+                            </div>
                             <div class='container'>
                                 <div class="rrSec">.lss</div>
                                 <div class='textBlock'>
@@ -501,8 +513,7 @@
                     <div id='runRecapError' class='container' style='display:none'>Error!</div>
                 </div>
                 <div id="runRecap_content" class='runRecap_section' style="display:none">
-                    <div id='runRecap' style="padding:10px 0"></div>
-                    <div id='lss_chart' class='container' style='width:900px;height:120px'></div>
+                    <div id='runRecap_chart' class='container' style='width:900px;height:100px'></div>
                     <div id='runRecap_options_button' class='options'>
                     </div>
                     <div id="runRecap_options" class="container" style="display:none">
@@ -528,10 +539,9 @@
                             </select>
                         </div>
                         <div id='runRecap_sav_tabs' class="container" style="margin:0">
-                            <div id='runRecap_times' class="button" style="width:70px"
-                                onclick="showRunRecapTab('times')">
+                            <div id='runRecap_times' class="button" style="width:70px" onclick="generate_sav('times')">
                                 Times</div>
-                            <div id='runRecap_sums' class="button" style="width:70px" onclick="showRunRecapTab('sums')">
+                            <div id='runRecap_sums' class="button" style="width:70px" onclick="generate_sav('sums')">
                                 Sums</div>
                         </div>
                         <div id="runRecap_sav_comparison" class="container" style="margin: 0">
@@ -550,7 +560,7 @@
                         </div>
                     </div>
                     <div id='comparisonInfo' class='textBlock container' style='display:none;font-size:75%'></div>
-                    <div id='runRecap_lss' style="padding:10px 0"></div>
+                    <div id='runRecap' style="padding:10px 0"></div>
                     <div class='container' style='padding-top:20px'>
                         <div class='button cuphead' onclick="runRecapViewPage('home')" style='width:100px'>
                             <i class="fa fa-reply"></i>&nbsp;Go back

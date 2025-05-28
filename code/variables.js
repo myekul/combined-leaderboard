@@ -1,8 +1,15 @@
 const API_KEY = 'AIzaSyDg6FBho-vfAm67-UdGP-8IbVFdLV23unY'
 const rootStyles = getComputedStyle(document.documentElement)
 
-const forestfolliesID = 1464969490
 const mausoleumID = 1481199742
+const runNguns = {
+    forestfollies: 1464969490,
+    treetoptrouble: 1464969491,
+    funhousefrazzle: 1496818712,
+    funfairfever: 1499704951,
+    perilouspiers: 1464969492,
+    ruggedridge: 1464969493
+}
 
 let playerNames = new Set()
 let players = []

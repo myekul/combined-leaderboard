@@ -172,7 +172,6 @@ function generate_lss() {
     // Offset for Follies, Mausoleum, Chalice Tutorial
     const splits = []
     const deltas = []
-    const colors = []
     for (let index = 0; index < runRecap_lssFile.pbSplits.length && index < categories.length + getOffset(); index++) {
         const comparisonSegment = segmentComparison(comparison, index)
         const categoryIndex = index - getOffset()
@@ -232,7 +231,7 @@ function generate_lss() {
                 <td></td>
                 <td></td>`
             } else {
-                const levelID = index == 0 ? forestfolliesID : mausoleumID
+                const levelID = index == 0 ? runNguns['forestfollies'] : mausoleumID
                 const level = getCupheadLevel(levelID, true)
                 HTMLContent += `<td></td>
                 <td>${level.bestTime != nullTime ? image : ''}</td>
@@ -252,8 +251,8 @@ function generate_lss() {
 
     }
     HTMLContent += `</table></div>`
-    document.getElementById('runRecap_lss').innerHTML = HTMLContent
-    lss_chart(splits, deltas, colors)
+    document.getElementById('runRecap').innerHTML = HTMLContent
+    runRecap_chart(splits, deltas, true)
 }
 function comparisonContent(type, index, time, comparison) {
     const source = type == 'split' ? 'bestSplitsPlayers' : 'bestSegmentsPlayers'
@@ -349,61 +348,6 @@ function markinExample() {
     document.querySelectorAll('.lss_yourPB').forEach(elem => {
         elem.innerHTML = secondsToHMS(runRecap_markin.wrSplits[runRecap_markin.wrSplits.length - 1])
     })
-}
-function lss_chart(splits, deltas) {
-    const data = new google.visualization.DataTable()
-    data.addColumn('number', 'Splits')
-    data.addColumn('number', 'Delta')
-    data.addColumn({ type: 'string', role: 'style' })
-    // data.addColumn({ role: 'annotation' })
-    const rows = []
-    for (let i = 0; i < getOffset(); i++) {
-        rows.push([0, 0, ''])
-    }
-    splits.forEach((split, index) => {
-        const color = index >= getOffset() ? getColorFromClass(splitInfo.id[index]) : ''
-        // rows.push([split, deltas[index], `point { fill-color: ${color}; }`, getDelta(deltas[index])])
-        rows.push([split, deltas[index], `point { fill-color: ${color}; }`])
-    })
-    data.addRows(rows);
-    const options = {
-        // curveType: 'function', // Smooth curves
-        chartArea: { height: '90%' },
-        legend: { position: 'none' },
-        backgroundColor: 'transparent',
-        pointSize: 9,
-        lineWidth: 2,
-        series: { 0: { color: 'gray' } },
-        hAxis: {
-            textStyle: {
-                color: 'transparent',
-                fontName: getFont()
-            },
-            minValue: 0,
-            gridlines: { count: 0 }
-        },
-        vAxis: {
-            textStyle: {
-                color: 'transparent',
-                fontName: getFont()
-            },
-            gridlines: { count: 0 },
-            baselineColor: 'gray'
-        },
-        tooltip: {
-            textStyle: {
-                fontName: getFont()
-            }
-        },
-        annotations: {
-            style: 'none',
-            textStyle: {
-                fontName: getFont()
-            }
-        },
-    };
-    const chart = new google.visualization.LineChart(document.getElementById('lss_chart'));
-    chart.draw(data, options);
 }
 function runRecapSegment(index) {
     // if (globalPlayerIndex > -1) {

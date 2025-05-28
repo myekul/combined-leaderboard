@@ -58,19 +58,6 @@ function runRecapPlayer() {
 function runRecapTimeElem(time) {
     return `<div style='font-size:150%'>${time}</div>`
 }
-function runRecapWelcome() {
-    const HTMLContent = `
-    <div class="container" style="padding:20px 0">
-        <div class='textBlock'>
-            Welcome to ${myekulColor('Run Recap')}! This tool allows you to upload
-            a ${myekulColor('LiveSplit .lss')}
-            and a ${myekulColor('Cuphead .sav')} file
-            to gain valuable insights about your recent run performance.
-            To get started, insert your ${myekulColor('run time')} and ${myekulColor('username')}.
-        </div>
-    </div>`
-    document.getElementById('runRecap_welcome').innerHTML = HTMLContent
-}
 function generateDropbox(elem) {
     const dropBoxID = 'runRecap_dropBox_' + elem
     const dropBoxInnerID = dropBoxID + '_inner'
@@ -234,16 +221,10 @@ function runRecapViewPage(newPage, elem, shh) {
         if (runRecapElem == 'sav') {
             show('runRecap_sav_tabs')
             hide('runRecap_lss_comparison')
-            show('runRecap')
-            hide('lss_chart')
-            hide('runRecap_lss')
-            runRecapAction()
+            generate_sav()
         } else {
             hide('runRecap_sav_tabs')
             show('runRecap_lss_comparison')
-            hide('runRecap')
-            show('lss_chart')
-            show('runRecap_lss')
             generate_lss()
         }
     }
@@ -256,7 +237,6 @@ function runRecapUpdateComparison() {
     document.getElementById('runRecap_optgroup').innerHTML = HTMLContent
 }
 function runRecapHome() {
-    runRecapWelcome()
     if (runRecapExample) {
         runRecapUnload('sav', true)
         runRecapUnload('lss', true)
@@ -289,4 +269,62 @@ function runRecapDelta(runTime, comparisonTime) {
 }
 function getDelta(delta) {
     return (delta < 0 ? '' : '+') + delta + 's'
+}
+function runRecap_chart(times, deltas, lss) {
+    const data = new google.visualization.DataTable()
+    data.addColumn('number', 'Times')
+    data.addColumn('number', 'Delta')
+    data.addColumn({ type: 'string', role: 'style' })
+    // data.addColumn({ role: 'annotation' })
+    const rows = []
+    const startingIndex = lss ? getOffset() : 1
+    for (let i = 0; i < startingIndex; i++) {
+        rows.push([0, 0, ''])
+    }
+    times.forEach((time, index) => {
+        let colorClass
+        if (lss) {
+            colorClass = index >= getOffset() ? splitInfo.id[index] : ''
+        } else {
+            colorClass = categories[index].info.id
+        }
+        const color = colorClass ? getColorFromClass(colorClass) : ''
+        // rows.push([split, deltas[index], `point { fill-color: ${color}; }`, getDelta(deltas[index])])
+        rows.push([time, deltas[index], `point { fill-color: ${color}; }`])
+    })
+    data.addRows(rows)
+    const options = {
+        // curveType: 'function', // Smooth curves
+        chartArea: { height: '90%' },
+        legend: { position: 'none' },
+        backgroundColor: 'transparent',
+        pointSize: 9,
+        lineWidth: 2,
+        series: { 0: { color: 'gray' } },
+        hAxis: {
+            textStyle: {
+                color: 'transparent',
+                fontName: getFont()
+            },
+            minValue: 0,
+            gridlines: { count: 0 }
+        },
+        vAxis: {
+            textStyle: {
+                color: 'transparent',
+                fontName: getFont()
+            },
+            gridlines: { count: 0 },
+            baselineColor: 'gray'
+        },
+        tooltip: { trigger: 'none' },
+        // annotations: {
+        //     style: 'none',
+        //     textStyle: {
+        //         fontName: getFont()
+        //     }
+        // },
+    };
+    const chart = new google.visualization.LineChart(document.getElementById('runRecap_chart'));
+    chart.draw(data, options);
 }
