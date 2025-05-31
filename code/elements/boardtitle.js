@@ -62,7 +62,7 @@ function generateBoardTitle(extra, categoryIndex) {
         if (cellContent) {
             cellContent = `<span id='boardLevel'>${cellContent}</span>`
         }
-        if ((gameID == 'cuphead' && bossILindex == -1) || ['sm64', 'mtpo'].includes(gameID)) {
+        if ((gameID == 'cuphead' && bossILindex == -1) || ['sm64', 'mtpo','spo'].includes(gameID)) {
             HTMLContent += `<th class='container ${className}'>${image}${cellContent}</th>`
         } else {
             HTMLContent += `<td class='${category.difficulty}'>${category.name}</td>`
@@ -89,7 +89,7 @@ function generateBoardTitle(extra, categoryIndex) {
         } else if (fullgameCategory == 'currentPatch') {
             HTMLContent += `<td class='cuphead'>Current Patch</td>`
         } else {
-            HTMLContent += `<td class='${cuphead[fullgameCategory][0].className}'>${fullgameCategory}</td>`
+            HTMLContent += `<td class='${categorySet[fullgameCategory][0].className}'>${fullgameCategory}</td>`
         }
     }
     if (mode == 'levels' && sm64ILsSection) {

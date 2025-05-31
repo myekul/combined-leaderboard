@@ -25,7 +25,7 @@ if (['tetris', 'smb1', 'smb2', 'smb3', 'nsmbds'].includes(gameID)) {
     url.searchParams.delete('mode');
     window.history.pushState({}, '', url);
 }
-if (['titanfall_2', 'mtpo'].includes(gameID)) {
+if (['titanfall_2', 'mtpo', 'spo'].includes(gameID)) {
     setMode('levels')
     url.searchParams.delete('mode');
     window.history.pushState({}, '', url);
@@ -37,11 +37,11 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 function gameTabs() {
     let HTMLContent = ''
-    const games = ['cuphead', 'sm64', 'tetris', 'titanfall_2', 'mtpo']
+    const games = ['cuphead', 'sm64', 'tetris', 'titanfall_2']
     games.forEach(game => {
         HTMLContent += `<a href='?game=${game}' class="container clickable ${game}"><img src="images/logo/${game}.png"></a>`
     })
-    const moreGames = [['smb1', 'smbtll'], ['smb2', 'smb3'], ['nsmbds', 'nsmbw'], ['nsmbu', 'nslu'], ['sms', 'smo']]
+    const moreGames = [['mtpo', 'spo'], ['smb1', 'smbtll'], ['smb2', 'smb3'], ['nsmbds', 'nsmbw'], ['nsmbu', 'nslu'], ['sms', 'smo']]
     moreGames.forEach(gameSet => {
         HTMLContent += `<div class='container'>`
         gameSet.forEach(game => {
@@ -87,12 +87,40 @@ switch (gameID) {
         show('modeSelection')
         break;
 }
-if (['smb1', 'smbtll', 'mtpo', 'titanfall_2'].includes(gameID)) {
+if (['smb1', 'smbtll', 'mtpo', 'spo', 'titanfall_2'].includes(gameID)) {
     document.getElementById('checkbox_milliseconds').checked = true;
 }
 google.charts.load('current', { packages: ['corechart'] });
+function loadJSFile(path, callback) {
+    const script = document.createElement('script');
+    script.src = path;
+    script.type = 'text/javascript';
+    script.onload = callback;
+    document.head.appendChild(script);
+}
 document.addEventListener('DOMContentLoaded', function () {
-    refreshLeaderboard()
+    if (!['tetris', 'mtpo', 'spo', 'titanfall_2'].includes(gameID)) {
+        fetch(`constants/categories/${gameID}.json`)
+            .then(response => response.json())
+            .then(data => {
+                categorySet = data
+                if (gameID == 'cuphead') {
+                    loadJSFile('/constants/cuphead/commBest.js', function () {
+                        commBestILsCategory = commBestILs['1.1+']
+                        generateDropbox('sav')
+                        generateDropbox('lss')
+                        refreshLeaderboard()
+                    })
+                } else {
+                    refreshLeaderboard()
+                }
+            }).catch(error => {
+                console.error('Error loading categories:', error);
+                generateCategories(gameID)
+            })
+    } else {
+        refreshLeaderboard()
+    }
     let audioNames = []
     if (gameID == 'cuphead') {
         audioNames = ['cardup', 'carddown', 'cardflip', 'category_select', 'equip_move', 'locked', 'move', 'ready', 'win_time_loop', 'win_time_loop_end']
@@ -117,9 +145,7 @@ document.querySelectorAll('.options').forEach(elem => {
     elem.addEventListener('click', () => {
         toggleOptions()
     })
-})
-generateDropbox('sav')
-generateDropbox('lss');
+});
 ['leaderboard', 'WRs', 'featured', 'charts', 'map', 'sort'].forEach(pageName => {
     const button = document.getElementById(pageName + 'Button')
     button.innerHTML = fontAwesome(fontAwesomeSet[pageName][1])
@@ -142,4 +168,10 @@ if (gameID != 'tetris') {
             document.getElementById('srcGame').innerHTML = `${getAnchor('https://www.speedrun.com/' + gameID)}<img src='${data.data.assets['cover-tiny'].uri}' height='90px' class='clickable'></a>`
             // console.log(data.data)
         })
+}
+if (['cuphead', 'sm64', 'mtpo', 'spo'].includes(gameID)) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = `styles/games/${gameID}.css`;
+    document.head.appendChild(link);
 }

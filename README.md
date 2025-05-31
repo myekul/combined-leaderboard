@@ -39,11 +39,8 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - 1.1 ILs (Goopy, Ribby, Sally, Werner)
 - Chalice Tutorial toggle?
 - Run Recap LSS - Split History?
-- SPO Leaderboard
-- Goober World
 - Copy and paste boss times
 - 10:XX Trifecta
-- Remove anonymous players
 
 ## Known bugs
 - Leaderboard squish and stretch

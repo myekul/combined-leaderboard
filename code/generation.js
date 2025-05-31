@@ -1,4 +1,4 @@
-// generateLevelIDs('nsmbw')
+// generateLevelIDs('spo')
 // const tempCategories = []
 // let tempProcessedCategories = 0
 // const runNguns = ['Forest Follies', 'Treetop Trouble', 'Funfair Fever', 'Funhouse Frazzle', 'Rugged Ridge', 'Perilous Piers']
@@ -60,7 +60,7 @@
 //                 } else {
 //                     tempCategories[levelIndex] = category
 //                     tempProcessedCategories++
-//                     if (tempProcessedCategories == 9) {
+//                     if (tempProcessedCategories == 16) {
 //                         console.log(JSON.stringify(tempCategories)) // JSON
 //                     }
 //                 }
@@ -84,7 +84,7 @@ function generateCategories(gameID) {
             data.data.forEach(category => {
                 catties.push({ name: category.name, id: category.id })
             })
-            categorySet[gameID] = catties
+            categorySet = catties
             refreshLeaderboard()
         })
 }

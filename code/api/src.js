@@ -27,11 +27,15 @@ function getLeaderboard(category, query, variables, extra, altGameID) {
                         stopLeaderboards = false
                     } else {
                         if (gameID == 'sm64' && mode == 'levels') {
-                            getLeaderboard(sm64[0], `category/${sm64[0].id}`, sm64Var, true)
+                            getLeaderboard(categorySet[0], `category/${categorySet[0].id}`, sm64Var, true)
                         } else if (gameID == 'titanfall_2') {
                             getLeaderboard(titanfall_2, `category/${titanfall_2.id}`, titanfall_2VarFG, true)
+                        } else if (gameID == 'nsmbw') {
+                            getLeaderboard(categorySet[0], `category/${categorySet[0].id}`, 'var-wledqkxn=814g9yj1', true)
                         } else if (gameID == 'mtpo') {
                             getLeaderboard(mtpo, `category/${mtpo.id}`, '', true)
+                        } else if (gameID == 'spo') {
+                            getLeaderboard(spo, `category/${spo.id}`, '', true)
                         } else {
                             const boardTitleSrc = document.getElementById('boardTitleSrc')
                             boardTitleSrc.innerHTML = getSRCicon()
@@ -57,7 +61,7 @@ function getLeaderboard(category, query, variables, extra, altGameID) {
                     gapi.load("client", loadClient);
                 } else {
                     if (gameID == 'sm64') {
-                        extraCategory.className = sm64[0].className
+                        extraCategory.className = categorySet[0].className
                     }
                     assignRuns(extraCategory)
                     prepareData()

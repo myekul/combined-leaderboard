@@ -15,7 +15,7 @@ let playerNames = new Set()
 let players = []
 let categories = []
 
-let commBestILsCategory = commBestILs['1.1+']
+let commBestILsCategory
 let modalIndex = 0
 let globalPlayerIndex = -1
 
@@ -73,21 +73,7 @@ let isolated = false
 let displayNumRuns = false
 let milliseconds = false
 let showGameSelect = false
-
-const categorySet = {
-    'cuphead': cuphead['main'],
-    'smb1': smb1,
-    'smbtll': smbtll,
-    'smb2': smb2,
-    'smb3': smb3,
-    'nsmbds': nsmbds,
-    'nsmbw': nsmbw,
-    'nsmbu': nsmbu,
-    'nslu': nslu,
-    'sm64': sm64,
-    'sms': sms,
-    'smo': smo
-}
+let categorySet
 const grades = [
     { grade: 'A+', className: 'grade-a-plus', threshold: 97 },
     { grade: 'A', className: 'grade-a', threshold: 93 },

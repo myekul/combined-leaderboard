@@ -5,7 +5,7 @@ const commBestILs = {
         markin: '1.1+ Any%',
         className: 'onePointOne',
         range: 'C:Z',
-        category: cuphead['main'][0],
+        category: categorySet['main'][0],
         numRuns: 3,
         shot1: 'lobber',
         shot2: 'spread'
@@ -16,7 +16,7 @@ const commBestILs = {
         markin: '1.0 Any%',
         className: 'legacy',
         range: 'C:Z',
-        category: cuphead['main'][1],
+        category: categorySet['main'][1],
         numRuns: 3,
         shot1: 'lobber',
         shot2: 'roundabout'
@@ -27,7 +27,7 @@ const commBestILs = {
         markin: 'NMG Any%',
         className: 'nmg',
         range: 'C:Z',
-        category: cuphead['main'][2],
+        category: categorySet['main'][2],
         numRuns: 3,
         shot1: 'lobber',
         shot2: 'spread'
@@ -39,7 +39,7 @@ const commBestILs = {
         markin: 'DLC Any% (L/S)',
         className: 'dlc',
         range: 'C1:Z6',
-        category: cuphead['main'][3],
+        category: categorySet['main'][3],
         numRuns: 3,
         // shot1: 'lobber',
         // shot2: 'spread'
@@ -51,7 +51,7 @@ const commBestILs = {
         markin: 'DLC Any% (L/S)',
         className: 'dlc',
         range: 'C1:Z6',
-        category: cuphead['main'][3],
+        category: categorySet['main'][3],
         numRuns: 3,
         shot1: 'lobber',
         shot2: 'spread',
@@ -88,7 +88,7 @@ const commBestILs = {
         markin: 'DLC Any% (C/S)',
         className: 'dlc',
         range: 'C1:Z6',
-        category: cuphead['main'][3],
+        category: categorySet['main'][3],
         numRuns: 3,
         shot1: 'charge',
         shot2: 'spread',
@@ -131,7 +131,9 @@ const commBestILs = {
             "AssasinNarga",
             "PorcoBrabo",
             "Rookie_Gamer_Tlax",
-            'WoskiBoy'
+            'WoskiBoy',
+            'Mine_',
+            'nomit'
         ]
     },
     'DLC C/T': {
@@ -139,7 +141,7 @@ const commBestILs = {
         tabName: 'DLC C/T',
         className: 'dlc',
         range: 'C1:Z6',
-        category: cuphead['main'][3],
+        category: categorySet['main'][3],
         numRuns: 2,
         shot1: 'charge',
         shot2: 'twistup',
@@ -197,10 +199,11 @@ const commBestILs = {
     'DLC+Base': {
         name: 'DLC+Base',
         tabName: 'DLC+Base',
+        markin: 'DLC+BG Any% (L/S)',
         className: 'dlcbase',
         range: 'C:Z',
-        category: cuphead['main'][4],
-        numRuns: 2,
+        category: categorySet['main'][4],
+        numRuns: 1,
         // shot1: 'lobber',
         // shot2: 'spread'
         subcat: 'Any%'
@@ -208,10 +211,11 @@ const commBestILs = {
     'DLC+Base L/S': {
         name: 'DLC+Base',
         tabName: 'DLC+Base',
+        markin: 'DLC+BG Any% (L/S)',
         className: 'dlcbase',
         range: 'C:Z',
-        category: cuphead['main'][4],
-        numRuns: 2,
+        category: categorySet['main'][4],
+        numRuns: 1,
         shot1: 'lobber',
         shot2: 'spread',
         extraPlayers: [
@@ -232,7 +236,7 @@ const commBestILs = {
         tabName: 'DLC+Base C/S',
         className: 'dlcbase',
         range: 'C1:Z25',
-        category: cuphead['main'][4],
+        category: categorySet['main'][4],
         numRuns: 3,
         shot1: 'charge',
         shot2: 'spread',

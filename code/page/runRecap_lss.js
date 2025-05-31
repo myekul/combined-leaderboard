@@ -115,7 +115,7 @@ function runRecap_lss_splitInfo() {
     splitInfo.isle = []
     for (let index = 0; index < runRecap_markin.bestSplits.length && index < categories.length + getOffset(); index++) {
         const categoryIndex = index - getOffset()
-        if (commBestILsCategory.name == 'DLC' && index == 1) {
+        if (['DLC', 'DLC+Base'].includes(commBestILsCategory.name) && index == 1) {
             splitInfo.id.push('other/mausoleum')
             splitInfo.name.push('Mausoleum')
             splitInfo.isle.push(null)
@@ -139,7 +139,7 @@ function runRecap_lss_splitInfo() {
 }
 function getOffset() {
     let offset = 1
-    if (commBestILsCategory.name == 'DLC') {
+    if (['DLC', 'DLC+Base'].includes(commBestILsCategory.name)) {
         offset = commBestILsCategory.tabName == 'DLC C/S' ? 3 : 2
     }
     return offset
@@ -211,7 +211,7 @@ function generate_lss() {
                 const ILgrade = runRecapGrade(delta)
                 let comparisonContents = `<div class='container'>`
                 if (document.getElementById('dropdown_runRecap_sav_comparison').value == 'top3Best') {
-                    comparisonContents += `<div class='container'>`
+                    comparisonContents += `<div class='container' style='padding-right:6px'>`
                     commBestILsCategory.top3BestPlayers[categoryIndex].forEach(playerIndex => {
                         const player = players[playerIndex]
                         comparisonContents += getPlayerIcon(player, 24)
@@ -318,7 +318,7 @@ function splitComparison(comparison, index) {
 function loadMarkin() {
     return gapi.client.sheets.spreadsheets.values.get({
         spreadsheetId: `1JgTjjonfC7bh4976NI4pCPeFp8LbA3HMKdvS_47-WtQ`,
-        range: `'${commBestILsCategory.markin}'!B4:G23`
+        range: `'${commBestILsCategory.markin}'!B4:G30`
     }).then(response => {
         const values = response.result.values
         let lastIndex = values.length

@@ -1,14 +1,14 @@
 function generateFeatured() {
     let everyRun = getEveryRun(300)
     const type = document.getElementById('dropdown_featured').value
+    if (gameID == 'mtpo') {
+        everyRun = everyRun.filter(run => run.categoryIndex != 0)
+    }
     if (type == 'recent') {
         everyRun.sort((a, b) => new Date(b.run.date) - new Date(a.run.date))
         everyRun = everyRun.filter(run => run.run.percentage >= 90)
     } else {
         everyRun.sort((a, b) => b.run.percentage - a.run.percentage)
-    }
-    if (gameID == 'mtpo') {
-        everyRun = everyRun.filter((run, runIndex) => runIndex != 0)
     }
     let HTMLContent = `<div class='container'><table class='bigShadow' style='border-collapse:collapse'>`
     if (mode == 'commBestILs') {

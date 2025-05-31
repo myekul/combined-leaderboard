@@ -88,8 +88,9 @@ function stopSound(sfx) {
     sound.currentTime = 0
 }
 function getImage(image, heightParam) {
+    const extension = gameID == 'spo' ? 'webp' : 'png'
     const height = heightParam ? heightParam : 42
-    return `<img src='images/${gameID}/levels/${image}.png' style='height:${height}px;width:auto'>`
+    return `<img src='images/${gameID}/levels/${image}.${extension}' style='height:${height}px;width:auto'>`
 }
 function getColorClass() {
     if (mode == 'commBestILs') {

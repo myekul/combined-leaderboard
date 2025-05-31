@@ -61,6 +61,11 @@
     color: white;
 }
 
+.spo {
+    background-color: var(--spo);
+    color: white;
+}
+
 .sms {
     background-color: darkturquoise;
     color: black

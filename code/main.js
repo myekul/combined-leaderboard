@@ -2,25 +2,25 @@ function getFullgame(categoryName) {
     setMode('fullgame')
     sortCategoryIndex = -1
     if (gameID == 'cuphead') {
+        categories = categorySet['main']
         if (categoryName) {
             if (['basegame', 'currentPatch'].includes(categoryName)) {
                 if (categoryName == 'basegame') {
-                    categories = cuphead['main'].slice(0, 3)
+                    categories = categorySet['main'].slice(0, 3)
                 } else if (categoryName == 'currentPatch') {
-                    categories = cuphead['main'].slice(2, 5)
+                    categories = categorySet['main'].slice(2, 5)
                 }
                 fullgameCategory = categoryName
                 buttonClick('fullgameCategories_' + categoryName, 'fullgameCategories', 'active')
             } else {
                 fullgameCategory = categoryName
-                categories = cuphead[categoryName]
+                categories = categorySet[categoryName]
                 buttonClick('fullgameCategories_' + categories[0].className, 'fullgameCategories', 'active')
             }
         }
     } else {
-        categories = categorySet[gameID]
+        categories = categorySet
         if (!categories) {
-            console.log('hi')
             categories = generateCategories(gameID)
         }
         if (categoryName) {
@@ -33,7 +33,7 @@ function getFullgame(categoryName) {
             }
             if (gameID == 'nsmbw') {
                 if (categoryName == 'main3') {
-                    categories = nsmbw.slice(0, 3)
+                    categories = categorySet.slice(0, 3)
                 }
             }
             buttonClick('fullgameCategories_' + categoryName, 'fullgameCategories', 'active')
@@ -41,7 +41,6 @@ function getFullgame(categoryName) {
     }
     if (!categoryName) {
         fullgameCategory = ''
-        categories = categorySet[gameID]
         if (['cuphead', 'sm64', 'nsmbw', 'tetris'].includes(gameID)) {
             buttonClick(gameID + '_fullgameCategories_main', 'fullgameCategories', 'active')
         }
@@ -149,7 +148,12 @@ function getOtherLevels(section) {
             } else if (gameID == 'mtpo') {
                 categories.forEach((category, categoryIndex) => {
                     category.info = mtpoLevelIDs[categoryIndex]
-                    getLeaderboard(category, `level/${category.id}/vdo93vdp`) // Any%
+                    getLeaderboard(category, `level/${category.id}/vdo93vdp`,) // Any%
+                })
+            } else if (gameID == 'spo') {
+                categories.forEach((category, categoryIndex) => {
+                    category.info = spoLevelIDs[categoryIndex]
+                    getLeaderboard(category, `level/${category.id}/wdmy8odq`, spoVarIL) // NTSC
                 })
             } else if (gameID == 'nsmbw') {
                 categories.forEach(category => {
@@ -166,7 +170,7 @@ function getPlayers(category) {
 function addPlayer(player) {
     const initialSize = playerNames.size
     playerNames.add(player.name)
-    if (playerNames.size > initialSize) {
+    if (playerNames.size > initialSize && !(gameID != 'tetris' && !player.id)) {
         const playerCopy = { ...player }
         playerCopy.runs = new Array(categories.length).fill(0)
         players.push(playerCopy)
@@ -398,7 +402,7 @@ function refreshLeaderboard() {
     if (gameID == 'tetris') {
         categories = tetris['main']
         gapi.load("client", loadClient);
-    } else if (!categorySet[gameID]) {
+    } else if (!categorySet) {
         generateCategories(gameID)
     } else {
         if (mode == 'fullgame') {

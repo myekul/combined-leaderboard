@@ -1,0 +1,154 @@
+.simple {
+    background-color: lightgreen !important;
+    color: black
+}
+
+.simplehighest {
+    background-color: limegreen !important;
+    color: black
+}
+
+.regular {
+    background-color: var(--cuphead-yellow) !important;
+    color: black
+}
+
+.regularhighest {
+    background-color: goldenrod !important;
+    color: black
+}
+
+.expert {
+    background-color: salmon !important;
+    color: black
+}
+
+.experthighest {
+    background-color: indianred !important;
+    color: black
+}
+
+.therootpack {
+    background-color: #E1A136;
+    color: black
+}
+
+.goopylegrande {
+    background-color: cornflowerblue;
+    color: black
+}
+
+.hildaberg {
+    background-color: brown;
+    color: var(--cuphead-yellow)
+}
+
+.cagneycarnation {
+    background-color: orange;
+    color: black
+}
+
+.ribbyandcroaks {
+    background-color: olive;
+    color: white
+}
+
+.baronessvonbonbon {
+    background-color: hotpink;
+    color: white
+}
+
+.beppitheclown {
+    background-color: firebrick;
+    color: white
+}
+
+.djimmithegreat {
+    background-color: indianred;
+    color: mediumturquoise
+}
+
+.grimmatchstick {
+    background-color: yellowgreen;
+    color: black
+}
+
+.wallywarbles {
+    background-color: mediumblue;
+    color: white
+}
+
+.rumorhoneybottoms {
+    background-color: gold;
+    color: black
+}
+
+.captainbrineybeard {
+    background-color: crimson;
+    color: white
+}
+
+.sallystageplay {
+    background-color: lightseagreen;
+    color: black
+}
+
+.wernerwerman {
+    background-color: sienna;
+    color: white
+}
+
+.drkahlsrobot {
+    background-color: darkgray;
+    color: black
+}
+
+.calamaria {
+    background-color: var(--cuphead-green);
+    color: var(--dlc-font)
+}
+
+.phantomexpress {
+    background-color: mediumpurple;
+    color: white
+}
+
+.kingdice {
+    background-color: blueviolet;
+    color: white
+}
+
+.thedevil {
+    background-color: black;
+    color: var(--cuphead-yellow)
+}
+
+.glumstonethegiant {
+    background-color: burlywood;
+    color: black
+}
+
+.moonshinemob {
+    background-color: teal;
+    color: var(--cuphead-yellow)
+}
+
+.thehowlingaces {
+    background-color: goldenrod;
+    color: crimson
+}
+
+.mortimerfreeze {
+    background-color: darkviolet;
+    color: darkturquoise
+}
+
+.estherwinchester {
+    background-color: chocolate;
+    color: var(--cuphead-yellow)
+}
+
+.chefsaltbaker {
+    background-color: lightgray;
+    color: black
+}
