@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(data => {
                 categorySet = data
                 if (gameID == 'cuphead') {
-                    loadJSFile('/constants/cuphead/commBest.js', function () {
+                    loadJSFile('constants/cuphead/commBest.js', function () {
                         commBestILsCategory = commBestILs['1.1+']
                         generateDropbox('sav')
                         generateDropbox('lss')
