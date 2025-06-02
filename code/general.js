@@ -325,7 +325,8 @@ function setMode(newMode) {
     mode = newMode
     url.searchParams.set('mode', mode);
     window.history.pushState({}, '', url);
-    buttonClick(mode + 'Button', 'modeSelection', 'active2')
+    document.getElementById('dropdown_mode').value = mode
+    // buttonClick(mode + 'Button', 'modeSelection', 'active2')
     if (mode != 'levels') {
         disableLevelModes()
     }

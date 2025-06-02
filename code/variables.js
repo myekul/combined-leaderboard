@@ -88,7 +88,10 @@ const grades = [
     { grade: 'D', className: 'grade-d', threshold: 63 },
     { grade: 'D-', className: 'grade-d-minus', threshold: 60 },
     { grade: 'F', className: 'grade-f', threshold: 0 }
-];
+]
+grades.forEach(grade => {
+    grade.className += ' grade'
+})
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 const seasons = [

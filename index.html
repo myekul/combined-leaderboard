@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="styles/grades.css">
     <link rel="stylesheet" href="styles/modal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/brands.min.css">
     <link id='favicon' rel="shortcut icon" href='images/external/myekul.png'>
     <title>Combined Leaderboard</title>
     <script src="https://apis.google.com/js/api.js"></script>
@@ -62,11 +61,20 @@
                     <div id='gameSelectButton' class="clickable container" onclick="toggleGameSelect()">
                         <div style="margin-right:10px"><i class="fa fa-bars"></i></div>
                         <img id='gameLogoButton' src="">
+                        <!-- <div class='clickable' style="width:25px"><img src="images/external/discord.png"
+                                style="height:20px"></div> -->
                     </div>
                     <div id="gameSelect" class="sticky" style="display:none"></div>
                     <div onclick="openModal('info','up')" class="clickable" style="width:25px"><i
                             class="fa fa-info-circle"></i></div>
-                    <div id='modeSelection' class='container' style="display:none; margin:0">
+                    <select id="dropdown_mode" style="display:none;text-align: center;font-family: 'cuphead-vogue';height:24px;font-size:100%">
+                        <option value="fullgame" selected>Full Game</option>
+                        <option value="levels">Individual Levels</option>
+                        <option id='commBestILsButton' value="commBestILs" style="display:none">Comm Best ILs
+                        </option>
+                        <!-- <option value="tetris">Tetris</option> -->
+                    </select>
+                    <!-- <div id='modeSelection' class='container' style="display:none; margin:0">
                         <div id='fullgameButton' class='button' onclick="getFullgame()">Full Game</div>
                         <div id='levelsButton' class='button' onclick="getLevels()">Individual
                             Levels</div>
@@ -74,7 +82,7 @@
                             Best
                             ILs
                         </div>
-                    </div>
+                    </div> -->
                     <div style="width:70px">
                         <div id="boardTitleSrc" class="container"></div>
                     </div>
@@ -120,8 +128,10 @@
                             <div id='fullgameCategories_legacy' onclick="getFullgame('Legacy')" class="button legacy">
                                 Legacy
                             </div>
-                            <div id='fullgameCategories_nmg' onclick="getFullgame('NMG')" class="button nmg">NMG</div>
-                            <div id='fullgameCategories_dlc' onclick="getFullgame('DLC')" class="button dlc">DLC</div>
+                            <div id='fullgameCategories_nmg' onclick="getFullgame('NMG')" class="button nmg">NMG
+                            </div>
+                            <div id='fullgameCategories_dlc' onclick="getFullgame('DLC')" class="button dlc">DLC
+                            </div>
                             <div id='fullgameCategories_dlcbase' onclick="getFullgame('DLC+Base')"
                                 class="button dlcbase">
                                 DLC+Base
@@ -218,7 +228,8 @@
                                     class="button expert">S-Rank</div>
                             </div>
                         </div>
-                        <div id='ground' onclick="getGroundPlane('ground')" class="button"><img id='groundimg'></div>
+                        <div id='ground' onclick="getGroundPlane('ground')" class="button"><img id='groundimg'>
+                        </div>
                         <div id='plane' onclick="getGroundPlane('plane')" class="button"><img id='planeimg'></div>
                         <div id='allLevels' onclick="getAllLevels()" class='button onePointOne'
                             style="color:white;width:50px;margin-left:10px">All
@@ -244,12 +255,15 @@
             <!-- Cuphead Comm Best ILs -->
             <div id="commBestILsSection" class='hide headerRow' style="display:none">
                 <div id="commBestILsVersionTabs" class="container">
-                    <div id='commBestILs_onePointOne' onclick="getCommBestILs('1.1+')" class="button onePointOne">1.1+
+                    <div id='commBestILs_onePointOne' onclick="getCommBestILs('1.1+')" class="button onePointOne">
+                        1.1+
                     </div>
-                    <div id='commBestILs_legacy' onclick="getCommBestILs('Legacy')" class="button legacy">Legacy</div>
+                    <div id='commBestILs_legacy' onclick="getCommBestILs('Legacy')" class="button legacy">Legacy
+                    </div>
                     <div id='commBestILs_nmg' onclick="getCommBestILs('NMG')" class="button nmg">NMG</div>
                     <div id='commBestILs_dlc' onclick="getCommBestILs('DLC')" class="button dlc">DLC</div>
-                    <div id='commBestILs_dlcbase' onclick="getCommBestILs('DLC+Base')" class="button dlcbase">DLC+Base
+                    <div id='commBestILs_dlcbase' onclick="getCommBestILs('DLC+Base')" class="button dlcbase">
+                        DLC+Base
                     </div>
                 </div>
                 <div id="loadouts" class="container"></div>
@@ -474,7 +488,8 @@
                             <div id='runRecap_welcome'>
                                 <div class="container" style="padding:20px 0">
                                     <div class='textBlock'>
-                                        Welcome to <span class="myekulColor">Run Recap</span>! This tool allows you to
+                                        Welcome to <span class="myekulColor">Run Recap</span>! This tool allows you
+                                        to
                                         upload
                                         a <span class="myekulColor">LiveSplit .lss</span>
                                         and a <span class="myekulColor">Cuphead .sav</span> file
@@ -499,7 +514,8 @@
                             <div class='container'>
                                 <div class="rrSec">.sav</div>
                                 <div class='textBlock'>
-                                    You can either upload an existing .sav file from %appdata% to automatically retrieve
+                                    You can either upload an existing .sav file from %appdata% to automatically
+                                    retrieve
                                     IL times, or
                                     create an empty file and insert IL times manually.
                                 </div>

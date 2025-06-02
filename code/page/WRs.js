@@ -43,7 +43,7 @@ function getWorldRecordPlayers(categoryIndex) {
         }
     }
     const className = mode == 'fullgame' ? 'first' : classNameLogic(category)
-    HTMLContent += `<td class='${className}'>${tetrisCheck(category, worldRecord)}</td>`
+    HTMLContent += `<td class='${className}' style='padding:0 8px'>${tetrisCheck(category, worldRecord)}</td>`
     let count = 0
     category.runs.forEach(run => {
         if (run.place == 1) {

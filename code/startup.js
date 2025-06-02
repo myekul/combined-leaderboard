@@ -66,7 +66,7 @@ const title = document.querySelector('title')
 switch (gameID) {
     case 'cuphead':
         show('commBestILsButton')
-        show('modeSelection')
+        show('dropdown_mode')
         document.querySelectorAll('.cupheadButton').forEach(elem => {
             elem.classList.add('button')
             elem.classList.add('container')
@@ -74,7 +74,7 @@ switch (gameID) {
         })
         break;
     case 'sm64':
-        show('modeSelection')
+        show('dropdown_mode')
         break;
     case 'tetris':
         document.querySelectorAll('.options').forEach(elem => hide(elem))
@@ -84,7 +84,7 @@ switch (gameID) {
         github.style.filter = 'brightness(0) invert(1)';
         break;
     case 'nsmbw':
-        show('modeSelection')
+        show('dropdown_mode')
         break;
 }
 if (['smb1', 'smbtll', 'mtpo', 'spo', 'titanfall_2'].includes(gameID)) {
@@ -157,7 +157,21 @@ document.querySelectorAll('.options').forEach(elem => {
 document.querySelectorAll('select').forEach(elem => {
     elem.addEventListener('change', () => {
         playSound('cardflip')
-        action()
+        if (elem.id == 'dropdown_mode') {
+            switch (elem.value) {
+                case 'fullgame':
+                    getFullgame()
+                    break;
+                case 'levels':
+                    getLevels()
+                    break;
+                case 'commBestILs':
+                    getCommBestILs()
+                    break;
+            }
+        } else {
+            action()
+        }
     })
 })
 if (gameID != 'tetris') {

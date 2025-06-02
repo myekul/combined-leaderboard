@@ -115,17 +115,17 @@ function runRecap_lss_splitInfo() {
     splitInfo.isle = []
     for (let index = 0; index < runRecap_markin.bestSplits.length && index < categories.length + getOffset(); index++) {
         const categoryIndex = index - getOffset()
-        if (['DLC', 'DLC+Base'].includes(commBestILsCategory.name) && index == 1) {
+        if (index == 0) {
+            splitInfo.id.push('other/forestfollies')
+            splitInfo.name.push('Forest Follies')
+            splitInfo.isle.push(null)
+        } else if (index == 1 && ['DLC', 'DLC+Base'].includes(commBestILsCategory.name)) {
             splitInfo.id.push('other/mausoleum')
             splitInfo.name.push('Mausoleum')
             splitInfo.isle.push(null)
-        } else if (commBestILsCategory.tabName == 'DLC C/S' && index == 2) {
+        } else if (index == 2 && commBestILsCategory.shot1 == 'charge') {
             splitInfo.id.push('other/chalicetutorial')
             splitInfo.name.push('Chalice Tutorial')
-            splitInfo.isle.push(null)
-        } else if (index == 0) {
-            splitInfo.id.push('other/forestfollies')
-            splitInfo.name.push('Forest Follies')
             splitInfo.isle.push(null)
         } else {
             const category = categories[categoryIndex]
@@ -140,7 +140,7 @@ function runRecap_lss_splitInfo() {
 function getOffset() {
     let offset = 1
     if (['DLC', 'DLC+Base'].includes(commBestILsCategory.name)) {
-        offset = commBestILsCategory.tabName == 'DLC C/S' ? 3 : 2
+        offset = commBestILsCategory.shot1 == 'charge' ? 3 : 2
     }
     return offset
 }
@@ -318,7 +318,7 @@ function splitComparison(comparison, index) {
 function loadMarkin() {
     return gapi.client.sheets.spreadsheets.values.get({
         spreadsheetId: `1JgTjjonfC7bh4976NI4pCPeFp8LbA3HMKdvS_47-WtQ`,
-        range: `'${commBestILsCategory.markin}'!B4:G30`
+        range: `'${commBestILsCategory.markin}'!B4:G31`
     }).then(response => {
         const values = response.result.values
         let lastIndex = values.length
