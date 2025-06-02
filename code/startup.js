@@ -156,6 +156,7 @@ document.querySelectorAll('.options').forEach(elem => {
 })
 document.querySelectorAll('select').forEach(elem => {
     elem.addEventListener('change', () => {
+        elem.classList.add('clickable')
         playSound('cardflip')
         if (elem.id == 'dropdown_mode') {
             switch (elem.value) {

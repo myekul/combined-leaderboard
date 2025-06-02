@@ -92,7 +92,9 @@ function getCommBestILs(categoryName) {
 function updateLoadouts(categoryName) {
     let HTMLContent = ''
     let fullgameCategories = []
-    if (commBestILsCategory.name == 'DLC') {
+    if (commBestILsCategory.name == 'NMG') {
+        fullgameCategories.push('NMG', 'NMG P/S')
+    } else if (commBestILsCategory.name == 'DLC') {
         fullgameCategories.push('DLC', 'DLC L/S', 'DLC C/S', 'DLC C/T', 'DLC Low%', 'DLC Expert')
     } else if (commBestILsCategory.name == 'DLC+Base') {
         fullgameCategories.push('DLC+Base', 'DLC+Base L/S', 'DLC+Base C/S')

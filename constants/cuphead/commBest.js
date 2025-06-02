@@ -32,6 +32,20 @@ const commBestILs = {
         shot1: 'lobber',
         shot2: 'spread'
     },
+    'NMG P/S': {
+        name: 'NMG',
+        tabName: 'NMG P/S',
+        className: 'nmg',
+        range: 'C:Z',
+        category: categorySet['main'][2],
+        numRuns: 1,
+        shot1: 'peashooter',
+        shot2: 'spread',
+        extraRuns: [],
+        extraPlayers: [
+            'SBDWolf'
+        ]
+    },
     // DLC
     DLC: {
         name: 'DLC',

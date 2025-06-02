@@ -170,11 +170,13 @@ function adjustGrade(categoryIndex) {
     const newLetterGrade = getLetterGrade(newPercentage)
     gradeElem.innerHTML = newLetterGrade.grade
     gradeElem.classList.remove(...gradeElem.classList)
-    gradeElem.classList.add(newLetterGrade.className)
     const percentageElem = document.getElementById('modal_category_' + categoryIndex + '_percentage')
     percentageElem.innerHTML = displayPercentage(newPercentage)
     percentageElem.classList.remove(...percentageElem.classList)
-    percentageElem.classList.add(newLetterGrade.className)
+    newLetterGrade.className.split(' ').forEach(className => {
+        gradeElem.classList.add(className)
+        percentageElem.classList.add(className)
+    })
     const scoreElem = document.getElementById('modal_category_' + categoryIndex + '_score')
     const category = categories[categoryIndex]
     modalPercentages[categoryIndex] = parseFloat(newPercentage)
