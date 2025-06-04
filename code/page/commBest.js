@@ -27,13 +27,14 @@ function generateCommBest() {
         HTMLContent += `<tr><th colspan=4 class='gray'>Comm Best Segments</th></tr>`
         let sum = 0
         splitInfo.id.forEach((id, index) => {
-            const player = players.find(player => player.name == runRecap_markin.bestSegmentsPlayers[index].split('/')[0])
+            const playerName = runRecap_markin.bestSegmentsPlayers[index].split('/')[0]
+            const player = players.find(player => player.name == playerName)
             const bestSegment = runRecap_markin.bestSegments[index]
             sum += bestSegment
             HTMLContent += `<tr class='${getRowColor(index)}'>`
             HTMLContent += `<td class='container ${id}'>${getImage(id, 24)}</td>`
             HTMLContent += `<td class='${id}' style='padding:0 5px'>${secondsToHMS(bestSegment, true)}</td>`
-            HTMLContent += getPlayerDisplay(player)
+            HTMLContent += getPlayerDisplay(player?player:playerName)
             HTMLContent += `</tr>`
             const nextSplit = splitInfo.isle[index + 1]
             if (nextSplit != splitInfo.isle[index]) {

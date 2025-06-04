@@ -234,7 +234,7 @@ function gradeTable(player) {
         HTMLContent += `</tr>`
     }
     grades.slice(0, grades.length - 1).forEach(grade => {
-        HTMLContent += `<tr><td class=${grade.className} style='text-align:left'>${grade.grade}</td>
+        HTMLContent += `<tr><td class='${grade.className}' style='text-align:left'>${grade.grade}</td>
         <td>${grade.threshold}%</td>`
         categories.forEach((category, categoryIndex) => {
             const gradeTime = scoreFromGrade(category, grade.threshold)

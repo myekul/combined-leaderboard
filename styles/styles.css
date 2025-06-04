@@ -212,20 +212,11 @@ select {
     opacity: 0.6;
 }
 
-#boardTitle {
-    padding: 5px;
-    font-weight: bold;
-}
-
-#boardTitle td,
-#boardTitle th {
-    font-size: 110%
-}
-
 .boardTitleTable {
     border: 3px solid var(--banner);
     border-radius: 5px;
-    font-weight: bold
+    font-weight: bold;
+    font-size: 110%
 }
 
 progress::-webkit-progress-value {
@@ -277,16 +268,6 @@ select {
 #WRsTabs .button,
 #commBestILsVersionTabs div {
     width: 85px
-}
-
-#commBestILsWeapons img {
-    height: 36px;
-    padding: 0 2px
-}
-
-#boardTitle td,
-#boardLevel {
-    padding: 6px
 }
 
 #difficultyBoth div {
@@ -355,7 +336,7 @@ select {
 
 #world-map {
     background: var(--otherColor);
-    border: 2px solid var(--background);
+    border: 3px solid var(--background);
     margin-top: 10px
 }
 

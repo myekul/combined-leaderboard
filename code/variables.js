@@ -1,4 +1,5 @@
 const API_KEY = 'AIzaSyDg6FBho-vfAm67-UdGP-8IbVFdLV23unY'
+const MYEKUL_SHEET_ID = '14l1hkW337uiyCRkNz61MNq99AEoidZdqaQUIpH5FlGU'
 const rootStyles = getComputedStyle(document.documentElement)
 
 const mausoleumID = 1481199742
@@ -37,10 +38,13 @@ let WRsTab = 'players'
 let fullgameCategory
 let sm64ILsSection
 let extraCategory = {}
+let gapiClientLoaded = false
 
 let countries = {}
 let globalCountryName
 
+const myekulSheets = {}
+const markinSheets = {}
 let runRecap_savFile
 let runRecap_lssFile = {}
 let runRecap_markin

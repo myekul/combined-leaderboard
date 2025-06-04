@@ -36,11 +36,11 @@ function fancyHeader(numCols, extra) {
         while (categoryIndex < categories.length) {
             const category = categories[categoryIndex]
             const numCats = cupheadNumCats(category)
-            const cellText = !difficultyILs ? `<span style='font-size:175%;padding-left:10px'>${category.info.name}</span>` : ''
+            const cellText = !difficultyILs ? `<span style='font-size:120%;font-weight:bold'>${category.info.name}</span>` : ''
             HTMLContent +=
-                `<th colspan=${numCols * numCats} ${!extra ? `onclick="getBossIL('${category.info.id}')" class='clickable'` : ''}>
-                    <div style='padding:1px 10px' class='container ${category.info.id}'>${getImage(category.info.id)}${cellText}</div>
-                </th>`
+                `<td colspan=${numCols * numCats} ${!extra ? `onclick="getBossIL('${category.info.id}')" class='clickable'` : ''}>
+                    <div style='padding:1px 10px;gap:10px' class='container ${category.info.id}'>${getImage(category.info.id,36)}${cellText}</div>
+                </td>`
             categoryIndex += numCats
         }
     }
@@ -114,7 +114,7 @@ function generateLeaderboard() {
                 HTMLContent += category.runs[0] ? `<td colspan=${numCols} class='first'>${secondsToHMS(getWorldRecord(category))}</td>` : `<td></td>`
             } else {
                 categories.forEach((category, categoryIndex) => {
-                    HTMLContent += category.runs[0] ? `<td colspan=${numCols} class='first ${isSelected(categoryIndex)}'>${secondsToHMS(getWorldRecord(category))}</td>` : `<td></td>`
+                    HTMLContent += category.runs[0] ? `<th colspan=${numCols} class='first ${isSelected(categoryIndex)}'>${secondsToHMS(getWorldRecord(category))}</th>` : `<td></td>`
                 })
             }
             HTMLContent += `</tr>`
@@ -169,7 +169,7 @@ function parsePlayer(player, playerIndex) {
             HTMLContent += `<td style='padding:0 10px'></td>`
         }
     }
-    if (mode == 'commBestILs' || ['titanfall_2', 'nsmbw', 'mtpo', 'spo'].includes(gameID) || (gameID == 'sm64' && mode == 'levels')) {
+    if (mode == 'commBestILs' || ['titanfall_2', 'mtpo', 'spo'].includes(gameID) || (['sm64', 'nsmbw'].includes(gameID) && mode == 'levels')) {
         if (mode == 'commBestILs') {
             if (['DLC', 'DLC+Base'].includes(commBestILsCategory.tabName) && !commBestILsCategory.extraPlayers) {
                 if (player.extra?.percentage >= 90) {

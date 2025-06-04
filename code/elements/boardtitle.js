@@ -23,23 +23,23 @@ function setBoardTitle() {
 }
 function generateBoardTitle(extra, categoryIndex) {
     let worldRecord
-    let imgSize = 42
+    const imgSize = 32
     if (categoryIndex == null) {
         categoryIndex = sortCategoryIndex
     } else {
         worldRecord = true
-        imgSize = 21
     }
     let HTMLContent = `<div><table class='boardTitleTable'><tr>`
     if (worldRecord) {
-        HTMLContent += `<td class='first'>${secondsToHMS(getWorldRecord(categories[categoryIndex]))}</td>`
+        HTMLContent += boardTitleCell('first', secondsToHMS(getWorldRecord(categories[categoryIndex])))
     }
     if (mode == 'levels' & bossILindex > -1) {
         category = bosses[bossILindex]
         imgsrc = category.id
         let className = category.className ? category.className : imgsrc
         let cellContent = category.name
-        HTMLContent += `<th class='container ${className}'>${getImage(imgsrc, imgSize)}<span id='boardLevel'>${cellContent}</span></th>`
+        const content = getImage(imgsrc, imgSize) + cellContent
+        HTMLContent += boardTitleCell('container ' + className, content)
     }
     if (categoryIndex > -1 && extra != 2) {
         let category = categories[categoryIndex]
@@ -59,73 +59,75 @@ function generateBoardTitle(extra, categoryIndex) {
         if (mode != 'fullgame' && extra) {
             cellContent = ''
         }
-        if (cellContent) {
-            cellContent = `<span id='boardLevel'>${cellContent}</span>`
-        }
-        if ((gameID == 'cuphead' && bossILindex == -1) || ['sm64', 'mtpo','spo'].includes(gameID)) {
-            HTMLContent += `<th class='container ${className}'>${image}${cellContent}</th>`
+        if ((gameID == 'cuphead' && bossILindex == -1) || ['sm64', 'mtpo', 'spo'].includes(gameID)) {
+            const content = `<div class='container' style='gap:4px'>${image + cellContent}</div>`
+            HTMLContent += boardTitleCell('container ' + className, content)
         } else {
-            HTMLContent += `<td class='${category.difficulty}'>${category.name}</td>`
+            HTMLContent += boardTitleCell(category.difficulty, category.name)
         }
         if (gameID == 'cuphead' && big4()) {
-            HTMLContent += `<td class='${category.difficulty}'>${category.name}</td>`
+            HTMLContent += boardTitleCell(category.difficulty, category.name)
         }
     } else if (mode == 'levels' && ((gameID == 'cuphead' && bossILindex == -1) || gameID != 'cuphead')) {
-        HTMLContent += `<td>Top IL Runners</td>`
+        HTMLContent += boardTitleCell('', 'Top IL Runners')
     }
     if (categoryIndex == -1 || extra == 2) {
         if (difficultyILs) {
-            HTMLContent += `<td class='${levelDifficulty}'>${levelDifficulty.charAt(0).toUpperCase() + levelDifficulty.slice(1)}</td>`
+            HTMLContent += boardTitleCell(levelDifficulty, levelDifficulty.charAt(0).toUpperCase() + levelDifficulty.slice(1))
         } else if (groundPlane) {
-            HTMLContent += `<th style='padding: 0 5px' class='container ${getColorClass()}'><img src='images/cuphead/${groundPlane}_${cupheadVersion == 'currentPatch' ? 'mugman' : 'cuphead'}.png' style='height:42px;width:auto'></th>`
+            const img = `<img src='images/cuphead/${groundPlane}_${cupheadVersion == 'currentPatch' ? 'mugman' : 'cuphead'}.png' style='height:${imgSize}px;width:auto'>`
+            HTMLContent += boardTitleCell(getColorClass(), img)
         } else if (isleIndex > -1) {
             const isle = isles[isleIndex]
-            HTMLContent += `<td class='${isle.className}'>${isle.name}</td>`
+            HTMLContent += boardTitleCell(isle.className, isle.name)
         }
     }
     if (mode == 'fullgame' && fullgameCategory) {
         if (fullgameCategory == 'basegame') {
-            HTMLContent += `<td class='cuphead'>Base Game</td>`
+            HTMLContent += boardTitleCell('cuphead', 'Base Game')
         } else if (fullgameCategory == 'currentPatch') {
-            HTMLContent += `<td class='cuphead'>Current Patch</td>`
+            HTMLContent += boardTitleCell('cuphead', 'Current Patch')
         } else {
-            HTMLContent += `<td class='${categorySet[fullgameCategory][0].className}'>${fullgameCategory}</td>`
+            HTMLContent += boardTitleCell(categorySet[fullgameCategory][0].className, fullgameCategory)
         }
     }
     if (mode == 'levels' && sm64ILsSection) {
-        HTMLContent += `<td class='banner'>${sm64ILsSection}</td>`
+        HTMLContent += boardTitleCell('banner', sm64ILsSection)
     }
     if (gameID == 'cuphead' && mode == 'levels') {
         if (!big5()) {
-            HTMLContent += `<td class='${levelDifficulty}'>${getCupheadCategory(anyHighest, levelDifficulty)}</td>`
+            HTMLContent += boardTitleCell(levelDifficulty, getCupheadCategory(anyHighest, levelDifficulty))
         }
         if (DLCnoDLC == 'dlc') {
-            HTMLContent += `<td class='dlc'>DLC</td>`
+            HTMLContent += boardTitleCell('dlc', 'DLC')
         }
         if (cupheadVersion == 'legacy') {
-            HTMLContent += `<td class='legacy'>Legacy</td>`
+            HTMLContent += boardTitleCell('legacy', 'Legacy')
         }
         if (basegameILs && isleIndex == -1 && bossILindex == -1) {
-            HTMLContent += `<td class='cuphead'>Base Game</td>`
+            HTMLContent += boardTitleCell('cuphead', 'Base Game')
         }
     }
     if (mode == 'commBestILs') {
-        const shotSize = categoryIndex > -1 ? imgSize : 30
-        HTMLContent += `<td class=${commBestILsCategory.className}>${commBestILsCategory.name}</td>`
-        HTMLContent += commBestILsCategory.shot1 ? `<th id='commBestILsWeapons' class='container'>` : ''
+        const shotSize = categoryIndex > -1 ? 30 : 30
+        HTMLContent += boardTitleCell(commBestILsCategory.className, commBestILsCategory.name)
+        HTMLContent += commBestILsCategory.shot1 ? `<td id='commBestILsWeapons' class='container' style='margin:0;gap:4px;padding:0 3px'>` : ''
         HTMLContent += commBestILsCategory.shot1 ? cupheadShot(commBestILsCategory.shot1, shotSize) : ''
         HTMLContent += commBestILsCategory.shot2 ? cupheadShot(commBestILsCategory.shot2, shotSize) : ''
-        HTMLContent += commBestILsCategory.subcat ? `<td>${commBestILsCategory.subcat}</td>` : ''
-        HTMLContent += commBestILsCategory.shot1 ? `</th>` : ''
+        HTMLContent += commBestILsCategory.shot1 ? `</td>` : ''
+        HTMLContent += commBestILsCategory.subcat ? boardTitleCell('', commBestILsCategory.subcat) : ''
     }
     if (page == 'charts' && sortCategoryIndex == -1 && mode != 'commBestILs') {
-        HTMLContent += `<td class='banner'>Player Score</td>`
+        HTMLContent += boardTitleCell('banner', 'Player Score')
     }
     HTMLContent += `</tr></table></div>`
     if (HTMLContent == `<div><table class='boardTitleTable'><tr></tr></table></div>`) {
         return ''
     }
     return HTMLContent
+}
+function boardTitleCell(className, content) {
+    return `<td class='${className}' style='height:32px;padding:0 5px'>${content}</td>`
 }
 function updateCategories() {
     let HTMLContent = `<table>`

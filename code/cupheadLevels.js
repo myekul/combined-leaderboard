@@ -159,7 +159,7 @@ function toggleFullgameCategories() {
     if (showFullgameCategories) {
         showFullgameCategories = false
         hide('fullgameCategories')
-        fullgameCategoriesButton.innerHTML = '&#9660'
+        fullgameCategoriesButton.innerHTML = fontAwesome('bars')
     } else {
         showFullgameCategories = true
         show('fullgameCategories')
@@ -173,7 +173,7 @@ function toggleILcategories() {
     if (ILcategories) {
         ILcategories = false
         hide(ILcategoriesElem)
-        ILcategoriesButton.innerHTML = '&#9660'
+        ILcategoriesButton.innerHTML = fontAwesome('bars')
     } else {
         ILcategories = true
         show(ILcategoriesElem)
@@ -270,7 +270,7 @@ function updateILbosses() {
                 clickevent = `playSound('locked')`
             }
             const selected = bossILindex == categoryIndex ? 'selected' : ''
-            HTMLContent += `<th onclick="${clickevent}" class='clickable ${category.id} ${selected} ${grayscale}'>${getImage(category.id)}</th>`
+            HTMLContent += `<th onclick="${clickevent}" class='clickable ${category.id} ${selected} ${grayscale}'>${getImage(category.id, 36)}</th>`
         })
         const character = cupheadVersion == 'currentPatch' ? 'mugman' : 'cuphead'
         document.getElementById('groundimg').src = `images/cuphead/ground_${character}.png`

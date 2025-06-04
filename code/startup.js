@@ -19,7 +19,6 @@ if (['cuphead', 'sm64', 'nsmbw'].includes(gameID)) {
     show(gameID + '_fullgameCategories')
 }
 let numModalPages = 3
-const SHEET_ID = gameID == 'cuphead' ? '14l1hkW337uiyCRkNz61MNq99AEoidZdqaQUIpH5FlGU' : '1ZBxkZEsfwDsUpyire4Xb16er36Covk7nhR8BN_LPodI'
 if (['tetris', 'smb1', 'smb2', 'smb3', 'nsmbds'].includes(gameID)) {
     setMode('fullgame')
     url.searchParams.delete('mode');
@@ -156,7 +155,6 @@ document.querySelectorAll('.options').forEach(elem => {
 })
 document.querySelectorAll('select').forEach(elem => {
     elem.addEventListener('change', () => {
-        elem.classList.add('clickable')
         playSound('cardflip')
         if (elem.id == 'dropdown_mode') {
             switch (elem.value) {

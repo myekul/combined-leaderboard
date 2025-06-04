@@ -316,29 +316,18 @@ function splitComparison(comparison, index) {
     }
 }
 function loadMarkin() {
-    return gapi.client.sheets.spreadsheets.values.get({
-        spreadsheetId: `1JgTjjonfC7bh4976NI4pCPeFp8LbA3HMKdvS_47-WtQ`,
-        range: `'${commBestILsCategory.markin}'!B4:G31`
-    }).then(response => {
-        const values = response.result.values
-        let lastIndex = values.length
-        values.some((row, index) => {
-            if (!row[0]) {
-                lastIndex = index
-            }
-        })
-        runRecap_markin = { tabName: commBestILsCategory.tabName, bestSplits: [], bestSplitsPlayers: [], wrSplits: [], bestSegments: [], bestSegmentsPlayers: [], wrSegments: [] }
-        for (let i = 0; i < lastIndex; i++) {
-            runRecap_markin.bestSplits.push(convertToSeconds(values[i][0]))
-            runRecap_markin.bestSplitsPlayers.push(values[i][1])
-            runRecap_markin.wrSplits.push(convertToSeconds(values[i][2]))
-            runRecap_markin.bestSegments.push(convertToSeconds(values[i][3]))
-            runRecap_markin.bestSegmentsPlayers.push(values[i][4])
-            runRecap_markin.wrSegments.push(convertToSeconds(values[i][5]))
-        }
-        runRecap_lss_splitInfo()
-        prepareData()
+    const values = markinSheets[commBestILsCategory.markin]
+    runRecap_markin = { tabName: commBestILsCategory.tabName, bestSplits: [], bestSplitsPlayers: [], wrSplits: [], bestSegments: [], bestSegmentsPlayers: [], wrSegments: [] }
+    values.forEach(row => {
+        runRecap_markin.bestSplits.push(convertToSeconds(row.values[0].formattedValue))
+        runRecap_markin.bestSplitsPlayers.push(row.values[1].formattedValue)
+        runRecap_markin.wrSplits.push(convertToSeconds(row.values[2].formattedValue))
+        runRecap_markin.bestSegments.push(convertToSeconds(row.values[3].formattedValue))
+        runRecap_markin.bestSegmentsPlayers.push(row.values[4].formattedValue)
+        runRecap_markin.wrSegments.push(convertToSeconds(row.values[5].formattedValue))
     })
+    runRecap_lss_splitInfo()
+    prepareData()
 }
 function markinExample() {
     runRecap_lssFile.pbSplits = [...runRecap_markin.wrSplits]
