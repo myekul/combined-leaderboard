@@ -50,7 +50,7 @@ function getWorldRecordPlayers(categoryIndex) {
             count++
         }
     })
-    if (count > 7) {
+    if (count > 4) {
         HTMLContent += `<td></td><td class='clickable' style='text-align:left' onclick="showTab('leaderboard');organizePlayers(${categoryIndex})">-- ${count}-way tie --</td>`
     } else {
         playersCopy.forEach(player => {

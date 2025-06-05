@@ -36,12 +36,8 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 function gameTabs() {
     let HTMLContent = ''
-    const games = ['cuphead', 'sm64', 'tetris', 'titanfall_2']
-    games.forEach(game => {
-        HTMLContent += `<a href='?game=${game}' class="container clickable ${game}"><img src="images/logo/${game}.png"></a>`
-    })
-    const moreGames = [['mtpo', 'spo'], ['smb1', 'smbtll'], ['smb2', 'smb3'], ['nsmbds', 'nsmbw'], ['nsmbu', 'nslu'], ['sms', 'smo']]
-    moreGames.forEach(gameSet => {
+    const games = [['cuphead'], ['sm64', 'sms', 'smo'], ['smb1', 'smbtll'], ['smb2', 'smb3'], ['nsmbds', 'nsmbw'], ['nsmbu', 'nslu'], ['dkc', 'dkc2', 'dkc3'], ['mtpo', 'spo'], ['tetris', 'titanfall_2']]
+    games.forEach(gameSet => {
         HTMLContent += `<div class='container'>`
         gameSet.forEach(game => {
             HTMLContent += `<a href='?game=${game}' class="container clickable ${game}" style='width:100%'><img src="images/logo/${game}.png"></a>`
@@ -64,16 +60,13 @@ document.documentElement.style.setProperty('--bannerText', getColorFromClass(gam
 const title = document.querySelector('title')
 switch (gameID) {
     case 'cuphead':
-        show('commBestILsButton')
-        show('dropdown_mode')
+        show('modeSelection')
         document.querySelectorAll('.cupheadButton').forEach(elem => {
-            elem.classList.add('button')
-            elem.classList.add('container')
             show(elem)
         })
         break;
     case 'sm64':
-        show('dropdown_mode')
+        show('modeSelection')
         break;
     case 'tetris':
         document.querySelectorAll('.options').forEach(elem => hide(elem))
@@ -83,7 +76,7 @@ switch (gameID) {
         github.style.filter = 'brightness(0) invert(1)';
         break;
     case 'nsmbw':
-        show('dropdown_mode')
+        show('modeSelection')
         break;
 }
 if (['smb1', 'smbtll', 'mtpo', 'spo', 'titanfall_2'].includes(gameID)) {

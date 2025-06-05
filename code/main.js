@@ -332,7 +332,7 @@ function generateRanks() {
                 }
             }
         })
-        player.explanation = ''
+        // player.explanation = ''
         missingRuns.forEach(runIndex => {
             const penalty = gameID == 'cuphead' && mode == 'levels' ? applyPenalty(player, runIndex, minimum) : ''
             const numCats = cupheadNumCats(categories[runIndex])

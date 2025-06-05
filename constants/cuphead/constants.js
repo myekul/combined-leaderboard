@@ -12,53 +12,6 @@ const dlcLow = {
     var2: 'wl3d6vw8',
     subcat2: '21gmr461'
 }
-const cuphead100 = [
-    {
-        name: 'Full Clear 1.1+',
-        className: 'onePointOne',
-        id: '9d8lxv62',
-        var: '0nwpgqr8',
-        subcat: '013kjprq',
-        var2: 'ylp6g4rn',
-        subcat2: '9qjmo97q'
-    },
-    {
-        name: 'Full Clear 1.0',
-        className: 'legacy',
-        id: '82481pmk',
-        var: 'onvv9m0n',
-        subcat: '5lm3ep81',
-        var2: 'ql6ew5kn',
-        subcat2: '4qy2mr61'
-    },
-    {
-        name: 'Full Clear NMG',
-        className: 'nmg',
-        id: 'zd38jgek',
-        var: 'kn0z0do8',
-        subcat: 'klr0d5ol',
-        var2: '6njqk9jl',
-        subcat2: '21g46x61'
-    },
-    {
-        name: 'DLC 100%',
-        className: 'dlc',
-        id: '7kjl0wz2',
-        var: 'wl3ddqo8',
-        subcat: '8104dd5l',
-        var2: 'wl3d6vw8',
-        subcat2: '81p9758q'
-    },
-    {
-        name: '300%',
-        className: 'dlcbase',
-        id: 'xk95z7g2',
-        var: 'wlekk5el',
-        subcat: 'jq6dee71',
-        var2: 'wlek63rl',
-        subcat2: 'gq78nxd1'
-    }
-]
 const ILcats = {
     anynodlc: {
         name: 'anyNoDLC',

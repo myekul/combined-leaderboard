@@ -46,12 +46,19 @@
                     </div>
                 </div>
             </div>
-            <div id='runRecapButton' class="cupheadButton onePointOne" style="display:none">
+            <div class="cupheadButton onePointOne clickable container" style="display:none;top:7px;">
                 <div onclick="runRecapHandle('runRecap')"><i class="fa fa-history"></i>&nbsp;Run Recap
                 </div>
             </div>
-            <div id='commBestButton' class="cupheadButton grade-a" style="display:none;top:45px">
-                <div onclick="runRecapHandle('commBest')"><i class="fa fa-tasks"></i>&nbsp;Comm Best
+            <div class="cupheadButton grade-a" style="display:none;top:42px;padding-bottom:24px">
+                <div class="container">
+                    <div><i class="fa fa-tasks"></i>&nbsp;Comm Best</div>
+                </div>
+                <div class="container" style="font-size:90%;font-family:var(--font)">
+                    <div onclick="if(mode!='commBestILs'){getCommBestILs()};showTab('leaderboard')"
+                        class="grade-a-plus button" style="width:70px">ILs</div>
+                    <div onclick="runRecapHandle('commBest')" class="grade-a-plus button" style="width:70px">Splits
+                    </div>
                 </div>
             </div>
         </header>
@@ -67,13 +74,11 @@
                     <div id="gameSelect" class="sticky" style="display:none"></div>
                     <div onclick="openModal('info','up')" class="clickable" style="width:25px"><i
                             class="fa fa-info-circle"></i></div>
-                    <select id="dropdown_mode" class='clickable' style="display:none;text-align: center;height:24px">
-                        <option value="fullgame" selected>Full Game</option>
-                        <option value="levels">Individual Levels</option>
-                        <option id='commBestILsButton' value="commBestILs" style="display:none">Comm Best ILs
-                        </option>
-                        <!-- <option value="tetris">Tetris</option> -->
-                    </select>
+                    <div id='modeSelection' class='container' style="display:none; margin:0">
+                        <div id='fullgameButton' class='button' onclick="getFullgame()">Full Game</div>
+                        <div id='levelsButton' class='button' onclick="getLevels()">Individual
+                            Levels</div>
+                    </div>
                     <!-- <div id='modeSelection' class='container' style="display:none; margin:0">
                         <div id='fullgameButton' class='button' onclick="getFullgame()">Full Game</div>
                         <div id='levelsButton' class='button' onclick="getLevels()">Individual
@@ -662,6 +667,7 @@
 
     <script src="code/math.js"></script>
     <script src="code/general.js"></script>
+    <script src="code/important.js"></script>
     <script src="code/penalty.js"></script>
 
     <script src="code/generation.js"></script>

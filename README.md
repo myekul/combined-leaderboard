@@ -41,6 +41,7 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Run Recap LSS - Split History?
 - Copy and paste boss times
 - 10:XX Trifecta
+- Cache Boards
 
 ## Known bugs
 - Leaderboard squish and stretch
@@ -50,3 +51,4 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Some YouTube channel links are broken (SRC fault)
 - Date sort is off by 1 day
 - Calculator uses real percentages instead of balanced percentages
+- Map board title

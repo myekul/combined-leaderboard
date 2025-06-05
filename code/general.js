@@ -138,126 +138,6 @@ function trophyCase(object) {
     HTMLContent += object.count3 > 0 ? `<td class='trophyCase' style='text-align:left'>${getTrophy(3)}<span>${object.count3 > 1 ? object.count3 : ''}</span></td>` : '<td></td>'
     return HTMLContent
 }
-function showTab(newPage) {
-    page = newPage
-    window.firebaseUtils.screenView()
-    window.history.pushState(null, null, '#' + page);
-    hideTabs()
-    tooltipStyle?.remove()
-    document.querySelectorAll('.hide').forEach(elem => {
-        hide(elem)
-    })
-    if (gameID == 'cuphead') {
-        if (mode == 'levels') {
-            show('ILsSection_cuphead')
-        }
-        if (mode == 'commBestILs') {
-            show('commBestILsSection')
-        }
-    }
-    if (['cuphead', 'sm64', 'nsmbw'].includes(gameID) && mode == 'fullgame') {
-        show('fullgameCategoriesSection')
-    }
-    if (gameID == 'sm64' && mode == 'levels') {
-        show('ILsSection_sm64')
-    }
-    show(page + 'Tab')
-    document.querySelectorAll('.cupheadButton').forEach(elem => { elem.classList.remove('active2') })
-    buttonClick(page + 'Button', 'tabs', 'active2')
-    if (gameID == 'cuphead' && mode == 'levels' || mode == 'commBestILs') {
-        document.getElementById('checkbox_hp').checked = true
-    }
-    if (page != 'leaderboard') {
-        document.getElementById('checkbox_isolate').checked = false
-        isolated = false
-    }
-    const dropdown_sortCriteria = document.getElementById('dropdown_sortCriteria')
-    const sort_options = document.getElementById('sort_options')
-    if (mode == 'commBestILs' && page == 'sort') {
-        dropdown_sortCriteria.value = 'player'
-        hide(sort_options)
-    } else if (gameID == 'tetris') {
-        dropdown_sortCriteria.value = 'score'
-        hide(sort_options)
-    } else {
-        show(sort_options)
-    }
-    const WRs_cupheadILs_options = document.getElementById('WRs_cupheadILs_options')
-    if (gameID == 'cuphead' && mode == 'levels' || mode == 'commBestILs') {
-        show(WRs_cupheadILs_options)
-    } else {
-        hide(WRs_cupheadILs_options)
-    }
-    const runRecap_details = document.getElementById('runRecap_details')
-    if (page == 'runRecap') {
-        show(runRecap_details)
-    } else {
-        hide(runRecap_details)
-    }
-    action()
-}
-function action() {
-    parseCheckboxes()
-    pageAction()
-    if (page != 'leaderboard') {
-        document.getElementById('leaderboard').innerHTML = ''
-    }
-    if (page != 'charts') {
-        document.getElementById('chart').innerHTML = ''
-    }
-    if (page != 'map') {
-        countries = {}
-        document.getElementById('world-map').innerHTML = ''
-    }
-    const categoriesSection = document.getElementById('categoriesSection')
-    if (['featured', 'charts', 'map', 'sort'].includes(page) || (isolated && !(mode == 'commBestILs' && sortCategoryIndex == -1))) {
-        show(categoriesSection)
-    } else {
-        hide(categoriesSection)
-    }
-    setBoardTitle()
-    updateCategories()
-}
-function pageAction() {
-    if (['runRecap', 'commBest'].includes(page) && mode != 'commBestILs') {
-        showTab('leaderboard')
-    } else {
-        switch (page) {
-            case 'leaderboard':
-                generateLeaderboard();
-                break;
-            case 'WRs':
-                generateWRs();
-                break;
-            case 'featured':
-                generateFeatured();
-                break;
-            case 'charts':
-                refreshCharts();
-                break;
-            case 'map':
-                generateMap();
-                break;
-            case 'sort':
-                generateSort();
-                break;
-            case 'runRecap':
-                runRecapViewPage(runRecapView)
-                break
-            case 'commBest':
-                generateCommBest()
-                break
-        }
-        fontAwesomePage = fontAwesomeSet[page]
-        const pageTitle = document.getElementById('pageTitle')
-        if (page != 'leaderboard') {
-            show(pageTitle)
-            pageTitle.innerHTML = fontAwesomeText(fontAwesomePage[1], fontAwesomePage[0])
-        } else {
-            hide(pageTitle)
-        }
-    }
-}
 const fontAwesomeSet = {
     leaderboard: ['Leaderboard', 'home'],
     WRs: ['World Records', 'trophy',],
@@ -300,6 +180,21 @@ function getPlayerIcon(player, size) {
     const src = imgsrc ? 'https://www.speedrun.com/static/user/' + player.id + '/image?v=' + imgsrc : 'images/null.png'
     return `<div style='width:${size}px;height:${size}px'><img src='${src}' style='width:100%;height:100%;border-radius: 50%;object-fit: cover;object-position:center' title='${player?.name}'></img></div>`
 }
+function getPlayerDisplay(player) {
+    let HTMLContent = ''
+    HTMLContent += mode != 'commBestILs' ? `<td class='${placeClass(player.rank)}' style='font-size:90%'>${player.rank}</td>` : ''
+    if (gameID != 'tetris') {
+        if (document.getElementById('checkbox_flags').checked && page != 'commBest') {
+            HTMLContent += `<td>${getPlayerFlag(player, 12)}</td>`
+        }
+        if (document.getElementById('checkbox_icons').checked) {
+            HTMLContent += `<td>${getPlayerIcon(player, 18)}</td>`
+        }
+    }
+    const clickable = player.rank ? `onclick="openModal('player','up',${player.rank - 1})" class='clickable'` : ''
+    HTMLContent += `<td ${clickable} style='text-align:left;font-weight: bold;font-size:80%;padding-right:5px'>${getPlayerName(player)}</td>`
+    return HTMLContent
+}
 function getFlag(countryCode, countryName, size) {
     let HTMLContent = `<img src="https://www.speedrun.com/images/flags/${countryCode}.png" style="height:${size}px" title="${countryName}" alt=''></img>`
     return HTMLContent
@@ -309,7 +204,7 @@ function buttonClick(pressed, unpressed, className) {
         button.classList.remove(className)
     })
     const button = document.getElementById(pressed)
-    button.classList.add(className)
+    button?.classList.add(className)
 }
 function getWorldRecord(category) {
     return category.runs[0]?.score
@@ -321,16 +216,6 @@ function toggleOptions(name) {
     const visible = toggleVisibility(elemName)
     const button = document.getElementById(elemName + '_button')
     button.innerHTML = visible ? fontAwesome('close') : fontAwesome('ellipsis-h')
-}
-function setMode(newMode) {
-    mode = newMode
-    url.searchParams.set('mode', mode);
-    window.history.pushState({}, '', url);
-    document.getElementById('dropdown_mode').value = mode
-    // buttonClick(mode + 'Button', 'modeSelection', 'active2')
-    if (mode != 'levels') {
-        disableLevelModes()
-    }
 }
 function isSelected(categoryIndex) {
     return categoryIndex == sortCategoryIndex ? 'selected' : ''
@@ -416,21 +301,6 @@ function tetrisCheck(category, score) {
         return gameID == 'tetris' ? category.reverse ? Math.round(score).toLocaleString() : (score / 1).toFixed(2) : secondsToHMS(score)
     }
     return ''
-}
-function getPlayerDisplay(player) {
-    let HTMLContent = ''
-    HTMLContent += mode != 'commBestILs' ? `<td class='${placeClass(player.rank)}' style='font-size:90%'>${player.rank}</td>` : ''
-    if (gameID != 'tetris') {
-        if (document.getElementById('checkbox_flags').checked && page != 'commBest') {
-            HTMLContent += `<td>${getPlayerFlag(player, 12)}</td>`
-        }
-        if (document.getElementById('checkbox_icons').checked) {
-            HTMLContent += `<td>${getPlayerIcon(player, 18)}</td>`
-        }
-    }
-    const clickable = player.rank ? `onclick="openModal('player','up',${player.rank - 1})" class='clickable'` : ''
-    HTMLContent += `<td ${clickable} style='text-align:left;font-weight: bold;font-size:80%;padding-right:5px'>${getPlayerName(player)}</td>`
-    return HTMLContent
 }
 function getNumDisplay() {
     if (page == 'sort') {

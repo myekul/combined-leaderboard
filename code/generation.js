@@ -80,9 +80,12 @@ function generateCategories(gameID) {
     fetch(url)
         .then(response => response.json())
         .then(data => {
+            console.log(data)
             const catties = []
             data.data.forEach(category => {
-                catties.push({ name: category.name, id: category.id })
+                if (!category.miscellaneous) {
+                    catties.push({ name: category.name, id: category.id })
+                }
             })
             categorySet = catties
             refreshLeaderboard()

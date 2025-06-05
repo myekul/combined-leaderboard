@@ -38,7 +38,7 @@ function generateBoardTitle(extra, categoryIndex) {
         imgsrc = category.id
         let className = category.className ? category.className : imgsrc
         let cellContent = category.name
-        const content = getImage(imgsrc, imgSize) + cellContent
+        const content = `<div class='container' style='gap:4px'>${getImage(imgsrc, imgSize) + cellContent}</div>`
         HTMLContent += boardTitleCell('container ' + className, content)
     }
     if (categoryIndex > -1 && extra != 2) {

@@ -422,7 +422,7 @@ svg {
     position: absolute;
     left: 0;
     top: 50px;
-    width: 250px;
+    width: 300px;
     background-color: var(--background);
     opacity: 1;
     z-index: 10;
@@ -456,9 +456,10 @@ svg {
 
 #gameSelect img {
     max-width: 250px;
-    width: 70%;
-    height: 50px;
+    width: 80%;
+    height: 55px;
     object-fit: contain;
+    padding:2px 0
 }
 
 .progress-container {
@@ -600,11 +601,10 @@ svg {
 }
 
 .cupheadButton {
-    width: 155px;
-    height: 30px;
+    width: 160px;
+    height: 28px;
     position: absolute;
     right: 20px;
-    top: 10px;
     border-radius: 15px;
     text-align: center;
     font-family: 'cuphead-vogue';
