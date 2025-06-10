@@ -34,7 +34,9 @@ function runRecapStartElem(elem) {
     const input = input_runRecapElem.value
     hide(input_runRecapElem)
     if (elem == 'player') {
-        playSound('category_select');
+        if (!runRecapExample) {
+            playSound('category_select');
+        }
         runRecapPlayerName = input.trim() ? input : runRecapPlayerName
     } else {
         stopSound('win_time_loop')
@@ -228,6 +230,11 @@ function runRecapViewPage(newPage, elem, shh) {
             generate_lss()
         }
     }
+    if (runRecapExample) {
+        show('runRecapExampleDiv')
+    } else {
+        hide('runRecapExampleDiv')
+    }
 }
 function runRecapUpdateComparison() {
     let HTMLContent = ''
@@ -238,14 +245,16 @@ function runRecapUpdateComparison() {
 }
 function runRecapHome() {
     if (runRecapExample) {
+        runRecapDefault()
         runRecapUnload('sav', true)
         runRecapUnload('lss', true)
         runRecapExample = false
+        hide('runRecapExampleDiv')
     }
     let HTMLContent = `<table class='bigShadow'>`
     players.slice(0, commBestILsCategory.numRuns).forEach((player, playerIndex) => {
         if (player.extra) {
-            HTMLContent += `<tr class='${getRowColor(playerIndex)} clickable' onclick="processSavFile(${playerIndex})">`
+            HTMLContent += `<tr class='${getRowColor(playerIndex)} clickable' onclick="processSavFile(${playerIndex});playSound('category_select')">`
             HTMLContent += `<td>${getTrophy(playerIndex + 1)}</td>`
             HTMLContent += `<td class='${placeClass(playerIndex + 1)}' style='padding:0 4px'>${secondsToHMS(player.extra.score)}</td>`
             HTMLContent += `<td>${getPlayerFlag(player, 12)}</td>`
@@ -327,4 +336,14 @@ function runRecap_chart(times, deltas, lss) {
     };
     const chart = new google.visualization.LineChart(document.getElementById('runRecap_chart'));
     chart.draw(data, options);
+}
+function runRecapDefault() {
+    document.getElementById('runRecap_time').innerHTML = `
+    <div style='font-size:150%'>XX:XX</div>
+    <div style='font-size:160%'>${fontAwesome('edit')}</div>`
+    document.getElementById('runRecap_player').innerHTML = `
+    <div>Your username...</div>
+    <div style='font-size:160%'>${fontAwesome('edit')}</div>`
+    runRecapPlayerName = 'Username'
+    runRecapTime = 'XX:XX'
 }

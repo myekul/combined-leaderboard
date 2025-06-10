@@ -87,7 +87,7 @@ function playerModal(playerIndex) {
         sortCategoryIndex = oldIndex
         player = players[globalPlayerIndex]
     }
-    playerModalSubtitle(globalPlayerIndex)
+    document.getElementById('modal-subtitle').innerHTML = getPlayerProfile(globalPlayerIndex)
     let pagesContent = `<div onclick="modalLeft()" class='clickable'>${fontAwesome('caret-left')}</div>`;
     for (let i = 0; i <= numModalPages; i++) {
         pagesContent += `<div style='gap:10px'>`
@@ -123,32 +123,6 @@ function playerModal(playerIndex) {
     document.getElementById('modal-title').innerHTML = modalTitle
     return modalBody
 }
-function playerModalSubtitle(playerIndex) {
-    const player = players[playerIndex]
-    let modalSubtitle = `<div class='container' style='padding-top:8px'>`
-    modalSubtitle += gameID != 'tetris' ? `<div style='padding-right:10px'>${getPlayerIcon(player, 50)}</div>` : ''
-    modalSubtitle += `<div>`
-    modalSubtitle += `<div class='container' style='padding-bottom:2px'>`
-    modalSubtitle += `<div style='font-size:140%;margin:0'>${getPlayerName(player)}</div>`
-    modalSubtitle += `</div>`
-    if (player.links) {
-        modalSubtitle += `<div class='container' style='gap:5px;justify-content:flex-start'>`
-        const flag = getPlayerFlag(player, 12)
-        modalSubtitle += `<div>${flag}</div>`
-        modalSubtitle += flag ? `<div class='container' style='width:10px;margin:0'>&#8226;</div>` : ''
-        const socials = ['src', 'twitch', 'youtube']
-        socials.forEach(social => {
-            const anchor = getAnchor(getSocial(player, social))
-            modalSubtitle += anchor ? `${anchor}<img src='images/external/${social}.png' class='clickable container' style='height:16px;width:auto'>` : ''
-        })
-        modalSubtitle += `</div>`
-    }
-    modalSubtitle += `</div>`
-    const boardTitle = generateBoardTitle(2)
-    modalSubtitle += boardTitle ? `<div class='modalBoardTitle' style='padding-left:20px'>${boardTitle}</div>` : ''
-    modalSubtitle += `</div>`
-    document.getElementById('modal-subtitle').innerHTML = modalSubtitle
-}
 function scoreFromGrade(category, percentage) {
     const worldRecord = getWorldRecord(category)
     let score = category.reverse ? worldRecord * (percentage / 100) : worldRecord / (percentage / 100)
@@ -174,9 +148,10 @@ function getYouTubeID(link) {
     }
     return videoID
 }
-function getThumbnail(link, videoID) {
+function getThumbnail(link, videoID, size) {
+    const thumbnailSize = size ? 'width:224px;height:126px' : 'width:160px;height:90px'
     const src = link.includes('twitch') ? 'images/twitch.png' : `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`
-    return getAnchor(link) + `<img src='${src}' class='clickable' style='width:160px;height:90px'></img></a>`
+    return getAnchor(link) + `<img src='${src}' class='clickable' style="${thumbnailSize}"></img></a>`
 }
 function videoCollection(player) {
     let HTMLContent = `<div class='container'><table style='border-collapse:collapse'>`

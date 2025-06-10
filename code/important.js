@@ -78,7 +78,7 @@ function action() {
     updateCategories()
 }
 function pageAction() {
-    if (['runRecap', 'commBest'].includes(page) && mode != 'commBestILs') {
+    if (['runRecap', 'commBest'].includes(page) && mode != 'commBestILs' || (page == 'spotlight' && mode != 'fullgame')) {
         showTab('leaderboard')
     } else {
         switch (page) {
@@ -105,6 +105,9 @@ function pageAction() {
                 break
             case 'commBest':
                 generateCommBest()
+                break
+            case 'spotlight':
+                generateSpotlight()
                 break
         }
         fontAwesomePage = fontAwesomeSet[page]

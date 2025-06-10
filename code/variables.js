@@ -39,6 +39,8 @@ let fullgameCategory
 let sm64ILsSection
 let extraCategory = {}
 let gapiClientLoaded = false
+let spotlightPlayerIndex
+let spotlightFlag
 
 let countries = {}
 let globalCountryName
@@ -50,8 +52,8 @@ let runRecap_lssFile = {}
 let runRecap_markin
 let runRecapView = 'home'
 let runRecapElem = 'sav'
-let runRecapPlayerName = 'Username'
-let runRecapTime = 'XX:XX'
+let runRecapPlayerName
+let runRecapTime
 let runRecapTab = 'times'
 let runRecapExample = false
 let splitInfo = {}

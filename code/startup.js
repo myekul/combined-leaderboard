@@ -101,6 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         commBestILsCategory = commBestILs['1.1+']
                         generateDropbox('sav')
                         generateDropbox('lss')
+                        runRecapDefault()
                         refreshLeaderboard()
                     })
                 } else {

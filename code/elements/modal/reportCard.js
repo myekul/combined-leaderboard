@@ -79,10 +79,16 @@ function reportCard(player) {
     const textStyle = 'font-size:80%;max-width:275px;padding-bottom:15px'
     HTMLContent += player.explanation ? `<div id='playerExplanation' class='container textBlock' style='display:none;${textStyle}'>${player.explanation}</div>` : ''
     HTMLContent += myekulSaysCheck ? `<div id='myekulSays' style='display:none'>
-        <div class='container clickable' onclick="myekulSaysAction()" style='justify-content:left;padding-left:10px'><img src='images/external/myekul.png' style='height:30px;width:auto;padding-right:5px'><div style='font-size:110%'><span class='myekulColor'>myekul</span> says...</div></div>
+        <div class='clickable' onclick="myekulSaysAction()">${myekulSaysDiv()}</div>
         <div class='container textBlock' style='${textStyle}'>${myekulSaysCheck}</div>
         </div>` : ''
     return HTMLContent
+}
+function myekulSaysDiv() {
+    return `<div class='container' style='justify-content:left'>
+    <img src='images/external/myekul.png' style='height:30px;width:auto;padding-right:5px'>
+    <div style='font-size:110%'>${myekulColor('myekul')} says...</div>
+    </div>`
 }
 function myekulSaysAction() {
     playSound('move')

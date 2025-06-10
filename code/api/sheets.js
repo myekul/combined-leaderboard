@@ -197,10 +197,12 @@ function loadMyekul() {
     }
     if (page == 'runRecap') {
         if (runRecapExample) {
-            runRecapViewPage('home')
+            processSavFile(0, true)
         }
         generateDropbox('sav')
         generateDropbox('lss')
+    } else if (runRecapExample) {
+        runRecapViewPage('home')
     }
     if (commBestILsCategory.markin) {
         fetchCuphead(true)

@@ -339,9 +339,6 @@ function markinExample() {
     })
 }
 function runRecapSegment(index) {
-    // if (globalPlayerIndex > -1) {
-    //     playerModalSubtitle(globalPlayerIndex)
-    // }
     const id = splitInfo.id[index]
     let HTMLContent = ''
     HTMLContent += `<div class='container ${id}' style='gap:10px;margin-bottom:10px;padding:5px;border-radius:5px'>`

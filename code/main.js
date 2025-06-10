@@ -1,6 +1,7 @@
 function getFullgame(categoryName) {
     setMode('fullgame')
     sortCategoryIndex = -1
+    spotlightFlag = false
     if (gameID == 'cuphead') {
         categories = categorySet['main']
         if (categoryName) {
@@ -17,6 +18,9 @@ function getFullgame(categoryName) {
                 categories = categorySet[categoryName]
                 buttonClick('fullgameCategories_' + categories[0].className, 'fullgameCategories', 'active')
             }
+        } else {
+            console.log('hi')
+            spotlightFlag = true
         }
     } else {
         categories = categorySet
@@ -249,11 +253,13 @@ function prepareData() {
     players.forEach((player, playerIndex) => {
         player.rank = playerIndex + 1
     })
-    const tabs = document.querySelectorAll('.tabs')
-    tabs.forEach(elem => {
-        show(elem)
-    })
     hide('loading')
+    if (mode == 'fullgame' && spotlightFlag) {
+        generateSpotlightPlayer()
+        show('spotlightDiv')
+    } else {
+        hide('spotlightDiv')
+    }
     showTab(page)
 }
 function assignRuns(category, categoryIndex) {

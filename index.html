@@ -46,17 +46,17 @@
                     </div>
                 </div>
             </div>
-            <div class="cupheadButton onePointOne clickable container" style="display:none;top:7px;">
-                <div onclick="runRecapHandle('runRecap')"><i class="fa fa-history"></i>&nbsp;Run Recap
-                </div>
+            <div class="cupheadButton onePointOne clickable container" style="display:none;top:7px;"
+                onclick="runRecapHandle('runRecap');playSound('category_select')">
+                <div><i class="fa fa-history"></i>&nbsp;Run Recap</div>
             </div>
             <div class="cupheadButton grade-a" style="display:none;top:42px;padding-bottom:24px">
                 <div class="container">
                     <div><i class="fa fa-tasks"></i>&nbsp;Comm Best</div>
                 </div>
                 <div class="container" style="font-size:90%;font-family:var(--font)">
-                    <div onclick="if(mode!='commBestILs'){getCommBestILs()};showTab('leaderboard')"
-                        class="grade-a-plus button" style="width:70px">ILs</div>
+                    <div onclick="page='leaderboard';getCommBestILs()" class="grade-a-plus button" style="width:70px">
+                        ILs</div>
                     <div onclick="runRecapHandle('commBest')" class="grade-a-plus button" style="width:70px">Splits
                     </div>
                 </div>
@@ -109,6 +109,8 @@
                     <div id="progress-bar" class="progress-bar"></div>
                 </div>
             </div>
+            <div id="spotlightDiv" class='clickable' onclick="showTab('spotlight');playSound('ready')"
+                style="position:absolute;right:20px;top:150px"></div>
             <!-- Fullgame Categories -->
             <div id="fullgameCategoriesSection" class='hide headerRow' style="display:none">
                 <div id='fullgameCategoriesButton' onclick="toggleFullgameCategories()" class='clickable container'
@@ -302,17 +304,12 @@
                         <input id='input_runRecap_time' type='text' placeholder='XX:XX'
                             style='display:none;width:65px;font-size:100%'>
                         <div id='runRecap_time' onclick="hideRunRecap('time')" class='container clickable'
-                            style='margin:0;gap:8px'>
-                            <div style='font-size:150%'>XX:XX</div>
-                            <div style='font-size:160%'><i class='fa fa-edit'></i></div>
-                        </div>
+                            style='margin:0;gap:8px'></div>
                         <input id='input_runRecap_player' type='text' placeholder='Your SRC username'
                             style='display:none;width:200px;font-size:100%'>
                         <div id='runRecap_player' onclick="hideRunRecap('player')" class='container clickable'
-                            style='margin:0;gap:8px'>Your username...<div style='font-size:160%'><i
-                                    class='fa fa-edit'></i>
-                            </div>
-                        </div>
+                            style='margin:0;gap:8px'></div>
+                        <div id="runRecapExampleDiv">EXAMPLE</div>
                     </div>
                 </div>
             </div>
@@ -598,6 +595,10 @@
             <div id="commBestTab" class="tabs" style="display:none">
                 <div id="commBest" class="container" style="padding-top:20px"></div>
             </div>
+            <!-- Spotlight -->
+            <div id="spotlightTab" class="tabs" style="display:none">
+                <div id="spotlight" style="padding-top:20px"></div>
+            </div>
             <!-- Modal -->
             <div id="modal" class="modal">
                 <div id="modal-content">
@@ -662,6 +663,7 @@
     <script src="code/page/runRecap_sav.js"></script>
     <script src="code/page/runRecap_lss.js"></script>
     <script src="code/page/commBest.js"></script>
+    <script src="code/page/spotlight.js"></script>
 
     <script src="code/cupheadLevels.js"></script>
 
@@ -669,6 +671,8 @@
     <script src="code/general.js"></script>
     <script src="code/important.js"></script>
     <script src="code/penalty.js"></script>
+    <script src="code/player.js"></script>
+    <script src="code/fancy.js"></script>
 
     <script src="code/generation.js"></script>
 
