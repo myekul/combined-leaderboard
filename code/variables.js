@@ -74,6 +74,7 @@ let showFullgameCategories = false
 let ILcategories = false
 let basegameILs = false
 let firstTime = true
+let firstTimeFull = true
 let showModal = false
 let isolated = false
 let displayNumRuns = false

@@ -65,7 +65,7 @@ function generateMap() {
 }
 function getLocation(player, countriesObject) {
     if (player.location) {
-        let countryName = player.location.country.names.international
+        let countryName = player.location.country.name
         let code = player.location.country.code
         if (['England', 'Northern Ireland', 'Scotland', 'Wales'].includes(countryName)) {
             countryName = 'United Kingdom'

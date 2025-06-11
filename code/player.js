@@ -11,7 +11,7 @@ function getPlayerFlag(player, size) {
     const playerLocation = player.location
     if (playerLocation) {
         let countryCode = playerLocation.country.code
-        let countryName = playerLocation.country.names.international
+        let countryName = playerLocation.country.name
         return getFlag(countryCode, countryName, size)
     }
     return ''

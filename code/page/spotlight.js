@@ -17,7 +17,6 @@ function getDailyRandomIndex() {
 function generateSpotlightPlayer() {
     spotlightPlayerIndex = getDailyRandomIndex()
     const player = players[spotlightPlayerIndex]
-    console.log(player)
     document.getElementById('spotlightDiv').innerHTML = getPlayerIcon(player, 64)
 }
 function generateSpotlight() {

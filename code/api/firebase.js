@@ -123,7 +123,33 @@ window.firebaseUtils = {
     },
     lastCheckedUser: () => {
         setUserProperties(analytics, { last_checked_user: players[globalPlayerIndex].name });
-    }
+    },
+    firestoreWriteMain: async () => {
+        for (let i = 0; i < categories.length; i++) {
+            const docRefMain = doc(db, gameID + '_main', String(i));
+            await setDoc(docRefMain, categories[i])
+                .then(() => {
+                    console.log(`Document ${i} written`);
+                })
+                .catch((error) => {
+                    console.error(`Error writing document ${i}: `, error);
+                });
+        }
+    },
+    firestoreReadMain: async () => {
+        const collectionRef = collection(db, gameID + '_main')
+        let query1 = query(collectionRef)
+        try {
+            let querySnapshot = await getDocs(query1)
+            querySnapshot.forEach(doc => {
+                categories.push(doc.data());
+            });
+            resetAndGo()
+            firebaseReadSuccess()
+        } catch (error) {
+            console.error("Error fetching documents: ", error)
+        }
+    },
 }
 function firebaseReadSuccess() {
     completeLoad()

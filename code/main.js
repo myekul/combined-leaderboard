@@ -19,7 +19,6 @@ function getFullgame(categoryName) {
                 buttonClick('fullgameCategories_' + categories[0].className, 'fullgameCategories', 'active')
             }
         } else {
-            console.log('hi')
             spotlightFlag = true
         }
     } else {
@@ -50,16 +49,22 @@ function getFullgame(categoryName) {
         }
     }
     resetLoad()
-    categories.forEach(category => {
-        let variables = ''
-        if (category.var) {
-            variables += `var-${category.var}=${category.subcat}`
-        }
-        if (category.var2) {
-            variables += `&var-${category.var2}=${category.subcat2}`
-        }
-        getLeaderboard(category, `category/${category.id}`, variables)
-    })
+    if (!(['cuphead', 'sm64', 'smo', 'smb1', 'sms'].includes(gameID) && mode == 'fullgame' && !categoryName && firstTimeFull)) {
+        categories.forEach(category => {
+            let variables = ''
+            if (category.var) {
+                variables += `var-${category.var}=${category.subcat}`
+            }
+            if (category.var2) {
+                variables += `&var-${category.var2}=${category.subcat2}`
+            }
+            getLeaderboard(category, `category/${category.id}`, variables)
+        })
+    } else {
+        // firstTimeFull = false
+        categories = []
+        window.firebaseUtils.firestoreReadMain()
+    }
 }
 function getLevels() {
     if (gameID == 'cuphead' && mode != 'levels') {
@@ -260,6 +265,11 @@ function prepareData() {
     } else {
         hide('spotlightDiv')
     }
+    if (mode == 'fullgame' && firstTimeFull) {
+        show('refreshDiv')
+    } else {
+        hide('refreshDiv')
+    }
     showTab(page)
 }
 function assignRuns(category, categoryIndex) {
@@ -302,7 +312,7 @@ function assignRuns(category, categoryIndex) {
         } else {
             thePlayer.bestScore = run.percentage
         }
-        run.playerName = thePlayer.name
+        run.playerName = thePlayer ? thePlayer.name : null
     })
 }
 function generateRanks() {
