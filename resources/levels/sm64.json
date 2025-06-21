@@ -1,62 +1,107 @@
 [
     {
         "id": "r9gzzkjd",
-        "name": "Bob-omb Battlefield"
+        "name": "Bob-omb Battlefield",
+        "info": "bob",
+        "bg": "lawngreen",
+        "color": "black"
     },
     {
         "id": "o9x22m3w",
-        "name": "Whomp's Fortress"
+        "name": "Whomp's Fortress",
+        "info": "wf",
+        "bg": "moccasin",
+        "color": "chocolate"
     },
     {
         "id": "495jjvmw",
-        "name": "Jolly Roger Bay"
+        "name": "Jolly Roger Bay",
+        "info": "jrb",
+        "bg": "darkblue",
+        "color": "darkturquoise"
     },
     {
         "id": "rdq006ow",
-        "name": "Cool, Cool Mountain"
+        "name": "Cool, Cool Mountain",
+        "info": "ccm",
+        "bg": "lightskyblue",
+        "color": "white"
     },
     {
         "id": "5d7776qd",
-        "name": "Big Boo's Haunt"
+        "name": "Big Boo's Haunt",
+        "info": "bbh",
+        "bg": "slateblue",
+        "color": "white"
     },
     {
         "id": "kwjyyo0w",
-        "name": "Hazy Maze Cave"
+        "name": "Hazy Maze Cave",
+        "info": "hmc",
+        "bg": "seagreen",
+        "color": "beige"
     },
     {
         "id": "owokkgjd",
-        "name": "Lethal Lava Land"
+        "name": "Lethal Lava Land",
+        "info": "lll",
+        "bg": "maroon",
+        "color": "orange"
     },
     {
         "id": "xd100vz9",
-        "name": "Shifting Sand Land"
+        "name": "Shifting Sand Land",
+        "info": "ssl",
+        "bg": "gold",
+        "color": "black"
     },
     {
         "id": "ewpppkyw",
-        "name": "Dire, Dire Docks"
+        "name": "Dire, Dire Docks",
+        "info": "ddd",
+        "bg": "royalblue",
+        "color": "paleturquoise"
     },
     {
         "id": "y9meekzd",
-        "name": "Snowman's Land"
+        "name": "Snowman's Land",
+        "info": "sl",
+        "bg": "lightgray",
+        "color": "black"
     },
     {
         "id": "5wk22gvw",
-        "name": "Wet-Dry World"
+        "name": "Wet-Dry World",
+        "info": "wdw",
+        "bg": "saddlebrown",
+        "color": "white"
     },
     {
         "id": "592jjv7w",
-        "name": "Tall, Tall Mountain"
+        "name": "Tall, Tall Mountain",
+        "info": "ttm",
+        "bg": "orangered",
+        "color": "white"
     },
     {
         "id": "rw6vvkp9",
-        "name": "Tiny-Huge Island"
+        "name": "Tiny-Huge Island",
+        "info": "thi",
+        "bg": "limegreen",
+        "color": "beige"
     },
     {
         "id": "29vyy1q9",
-        "name": "Tick Tock Clock"
+        "name": "Tick Tock Clock",
+        "info": "ttc",
+        "bg": "khaki",
+        "color": "saddlebrown"
     },
     {
         "id": "xd466vq9",
-        "name": "Rainbow Ride"
+        "name": "Rainbow Ride",
+        "info": "rr",
+        "bg": "aqua",
+        "color": "black"
     }
 ]

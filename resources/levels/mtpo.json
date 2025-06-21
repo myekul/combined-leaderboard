@@ -1,54 +1,85 @@
 [
     {
         "id": "gdr21e9z",
-        "name": "Von Kaiser"
+        "name": "Von Kaiser",
+        "info": "vonkaiser",
+        "bg": "#63B0FF",
+        "color": "black"
     },
     {
         "id": "nwl3powv",
-        "name": "Piston Honda"
+        "name": "Piston Honda",
+        "info": "pistonhonda",
+        "bg": "#B53120"
     },
     {
         "id": "ywelml9l",
-        "name": "Don Flamenco"
+        "name": "Don Flamenco",
+        "info": "donflamenco",
+        "bg": "#7527FE"
     },
     {
         "id": "69zznx91",
-        "name": "King Hippo"
+        "name": "King Hippo",
+        "info": "kinghippo",
+        "bg": "#C676FE"
     },
     {
         "id": "r9gx1jw2",
-        "name": "Great Tiger"
+        "name": "Great Tiger",
+        "info": "greattiger",
+        "bg": "#48CDDE",
+        "color": "black"
     },
     {
         "id": "o9x433dl",
-        "name": "Bald Bull"
+        "name": "Bald Bull",
+        "info": "baldbull",
+        "bg": "var(--mtpo)"
     },
     {
         "id": "4954lmwp",
-        "name": "Piston Honda 2"
+        "name": "Piston Honda 2",
+        "info": "pistonhonda",
+        "bg": "#B53120"
     },
     {
         "id": "rdql5owx",
-        "name": "Soda Popinski"
+        "name": "Soda Popinski",
+        "info": "sodapopinski",
+        "bg": "#A019CC"
     },
     {
         "id": "5d78zqwy",
-        "name": "Bald Bull 2"
+        "name": "Bald Bull 2",
+        "info": "baldbull",
+        "bg": "var(--mtpo)"
     },
     {
         "id": "kwjp10wg",
-        "name": "Don Flamenco 2"
+        "name": "Don Flamenco 2",
+        "info": "donflamenco",
+        "bg": "#7527FE"
     },
     {
         "id": "owoyqj96",
-        "name": "Mr. Sandman"
+        "name": "Mr. Sandman",
+        "info": "mrsandman",
+        "bg": "#ADADAD",
+        "color": "black"
     },
     {
         "id": "xd1x8z9o",
-        "name": "Super Macho Man"
+        "name": "Super Macho Man",
+        "info": "supermachoman",
+        "bg": "#C0DFFF",
+        "color": "black"
     },
     {
         "id": "ewpr0ydn",
-        "name": "Mike Tyson"
+        "name": "Mike Tyson",
+        "info": "miketyson",
+        "bg": "#9290FF",
+        "color": "black"
     }
 ]

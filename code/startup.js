@@ -24,7 +24,7 @@ if (['tetris', 'smb1', 'smb2', 'smb3', 'nsmbds'].includes(gameID)) {
     url.searchParams.delete('mode');
     window.history.pushState({}, '', url);
 }
-if (['titanfall_2', 'mtpo', 'spo'].includes(gameID)) {
+if (['titanfall_2', 'mtpo', 'spo', 'ssbm'].includes(gameID)) {
     setMode('levels')
     url.searchParams.delete('mode');
     window.history.pushState({}, '', url);
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 function gameTabs() {
     let HTMLContent = ''
-    const games = [['cuphead'], ['sm64', 'sms', 'smo'], ['smb1', 'smbtll'], ['smb2', 'smb3'], ['nsmbds', 'nsmbw'], ['nsmbu', 'nslu'], ['dkc', 'dkc2', 'dkc3'], ['mtpo', 'spo'], ['tetris', 'titanfall_2']]
+    const games = [['cuphead'], ['sm64', 'sms', 'smo'], ['smb1', 'smbtll'], ['smb2', 'smb3'], ['nsmbds', 'nsmbw'], ['nsmbu', 'nslu'], ['dkc', 'dkc2', 'dkc3'], ['mtpo', 'spo'], ['ssbm'], ['tetris', 'titanfall_2']]
     games.forEach(gameSet => {
         HTMLContent += `<div class='container'>`
         gameSet.forEach(game => {
@@ -72,14 +72,20 @@ switch (gameID) {
         document.querySelectorAll('.options').forEach(elem => hide(elem))
         hide('featuredButton')
         hide('mapButton')
-        const github = document.getElementById('github');
-        github.style.filter = 'brightness(0) invert(1)';
+        invertGithub()
         break;
     case 'nsmbw':
         show('modeSelection')
         break;
+    case 'ssbm':
+        invertGithub()
+        break;
 }
-if (['smb1', 'smbtll', 'mtpo', 'spo', 'titanfall_2'].includes(gameID)) {
+function invertGithub() {
+    const github = document.getElementById('github');
+    github.style.filter = 'brightness(0) invert(1)';
+}
+if (['smb1', 'smbtll', 'mtpo', 'spo', 'titanfall_2', 'ssbm'].includes(gameID)) {
     document.getElementById('checkbox_milliseconds').checked = true;
 }
 google.charts.load('current', { packages: ['corechart'] });
@@ -91,7 +97,7 @@ function loadJSFile(path, callback) {
     document.head.appendChild(script);
 }
 document.addEventListener('DOMContentLoaded', function () {
-    if (!['tetris', 'mtpo', 'spo', 'titanfall_2'].includes(gameID)) {
+    if (!['tetris', 'mtpo', 'spo', 'titanfall_2', 'ssbm'].includes(gameID)) {
         fetch(`constants/categories/${gameID}.json`)
             .then(response => response.json())
             .then(data => {
@@ -123,6 +129,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     if (gameID == 'sm64') {
         audioNames = ['cardup', 'carddown']
+    }
+    if (gameID == 'ssbm') {
+        audioNames = ['cardup', 'carddown', 'category_select']
     }
     audioNames.forEach(audio => {
         const audioElement = document.createElement('audio');
@@ -176,7 +185,7 @@ if (gameID != 'tetris') {
             // console.log(data.data)
         })
 }
-if (['cuphead', 'sm64', 'mtpo', 'spo'].includes(gameID)) {
+if (['cuphead'].includes(gameID)) {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = `styles/games/${gameID}.css`;

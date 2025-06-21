@@ -58,7 +58,7 @@ function getWorldRecordPlayers(categoryIndex) {
             if (run?.place == 1) {
                 // HTMLContent += `<td>${getPlayerFlag(player, 12)}</td>`
                 HTMLContent += `<td>${getPlayerIcon(player, 18)}</td>`
-                HTMLContent += `<td class='clickable' style='text-align:left'>${getAnchor(getVideoLink(run))}${run.debug ? '*' : ''}${getPlayerName(player)}</td>`
+                HTMLContent += `<td class='clickable' style='text-align:left'>${getAnchor(run.url)}${run.debug ? '*' : ''}${getPlayerName(player)}</td>`
             }
         })
     }

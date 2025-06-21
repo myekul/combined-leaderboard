@@ -1,66 +1,98 @@
 [
     {
         "id": "ewp3lldn",
-        "name": "Gabby Jay"
+        "name": "Gabby Jay",
+        "info": "gabbyjay",
+        "bg": "var(--spo)"
     },
     {
         "id": "y9m6nlw5",
-        "name": "Bear Hugger"
+        "name": "Bear Hugger",
+        "info": "bearhugger",
+        "bg": "var(--spo)"
     },
     {
         "id": "5wkx3594",
-        "name": "Piston Hurricane"
+        "name": "Piston Hurricane",
+        "info": "pistonhurricane",
+        "bg": "var(--spo)"
     },
     {
         "id": "592kyg96",
-        "name": "Bald Bull"
+        "name": "Bald Bull",
+        "info": "baldbull",
+        "bg": "var(--spo)"
     },
     {
         "id": "29v6o1wv",
-        "name": "Bob Charlie"
+        "name": "Bob Charlie",
+        "info": "bobcharlie",
+        "bg": "#5ab34f"
     },
     {
         "id": "xd41q0dm",
-        "name": "Dragon Chan"
+        "name": "Dragon Chan",
+        "info": "dragonchan",
+        "bg": "#5ab34f"
     },
     {
         "id": "xd01z0wq",
-        "name": "Masked Muscle"
+        "name": "Masked Muscle",
+        "info": "maskedmuscle",
+        "bg": "#5ab34f"
     },
     {
         "id": "rw61jn97",
-        "name": "Mr. Sandman"
+        "name": "Mr. Sandman",
+        "info": "mrsandman",
+        "bg": "#5ab34f"
     },
     {
         "id": "n93167d0",
-        "name": "Aran Ryan"
+        "name": "Aran Ryan",
+        "info": "aranryan",
+        "bg": "#b98f47"
     },
     {
         "id": "z98317dl",
-        "name": "Heike Kagero"
+        "name": "Heike Kagero",
+        "info": "heikekagero",
+        "bg": "#b98f47"
     },
     {
         "id": "rdn7en9m",
-        "name": "Mad Clown"
+        "name": "Mad Clown",
+        "info": "madclown",
+        "bg": "#b98f47"
     },
     {
         "id": "ldyxmj93",
-        "name": "Super Machoman"
+        "name": "Super Machoman",
+        "info": "supermachoman",
+        "bg": "#b98f47"
     },
     {
         "id": "gdrn589z",
-        "name": "Narcis Prince"
+        "name": "Narcis Prince",
+        "info": "narcisprince",
+        "bg": "#7458c7"
     },
     {
         "id": "nwl5rpdv",
-        "name": "Hoy Quarlow"
+        "name": "Hoy Quarlow",
+        "info": "hoyquarlow",
+        "bg": "#7458c7"
     },
     {
         "id": "ywey6qdl",
-        "name": "Rick Bruiser"
+        "name": "Rick Bruiser",
+        "info": "rickbruiser",
+        "bg": "#7458c7"
     },
     {
         "id": "69z5k691",
-        "name": "Nick Bruiser"
+        "name": "Nick Bruiser",
+        "info": "nickbruiser",
+        "bg": "#7458c7"
     }
 ]

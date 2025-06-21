@@ -459,7 +459,7 @@ svg {
     width: 80%;
     height: 55px;
     object-fit: contain;
-    padding:2px 0
+    padding: 2px 0
 }
 
 .progress-container {
@@ -609,4 +609,8 @@ svg {
     text-align: center;
     font-family: 'cuphead-vogue';
     font-size: 120%
+}
+
+.glassjoe {
+    background-color: var(--mtpo);
 }

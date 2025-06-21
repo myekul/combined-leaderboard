@@ -159,7 +159,7 @@ function videoCollection(player) {
     player.runs.forEach((run, runIndex) => {
         if (run && !(gameID == 'mtpo' && runIndex == 0)) {
             HTMLContent += `<tr class='${getRowColor(runCount)}'>`
-            const link = getVideoLink(run)
+            const link = run.url
             HTMLContent += fancyRun(run, runIndex)
             if (link?.includes('you')) {
                 const videoID = getYouTubeID(link)
@@ -224,52 +224,18 @@ function gradeTable(player) {
                     cellContent = tetrisCheck(category, playerScore)
                 }
             }
-            HTMLContent += `<td class='${className}'>${cellContent}</td>`
+            HTMLContent += `<td class='${className}' style='padding:0 3px'>${cellContent}</td>`
         })
         HTMLContent += `</tr>`
     })
     HTMLContent += `</table>`
     return HTMLContent
 }
-function scoreBreakdown(player) {
-    const playerCategories = []
-    const playerRuns = []
-    const missingCategories = []
-    let HTMLContent = `<div class='container'><table><tr>`
-    categories.forEach((category, categoryIndex) => {
-        if (player.runs[categoryIndex]) {
-            playerCategories.push(category)
-            playerRuns.push(player.runs[categoryIndex])
-        } else {
-            missingCategories.push(category)
-        }
-    })
-    const missingRuns = missingCategories.length > 0
-    HTMLContent += `</tr>`
-    HTMLContent += `</tr></table></div>`
-    HTMLContent += missingRuns ? `<div class='container' style='padding:10px'>Missing Runs</div>` : ''
-    HTMLContent += `<div class='container'><table><tr>`
-    missingCategories.forEach(missingCategory => {
-        HTMLContent += getCategoryHeader(missingCategory)
-    })
-    HTMLContent += `</tr>`
-    if (mode == 'levels' && big5()) {
-        HTMLContent += `<tr>`
-        missingCategories.forEach(missingCategory => {
-            HTMLContent += getExtraHeader(missingCategory)
-        })
-        HTMLContent += `</tr>`
-    }
-    HTMLContent += `</table></div>`
-    HTMLContent += `<div class='textBlock'>${player.explanation}</div>`
-    HTMLContent += `<div class='container' style='padding-top:15px'>${scoreGradeSpan(player.score)}</div>`
-    return HTMLContent
-}
 function getCategoryHeader(category) {
     const colorClass = mode == 'levels' ? getColorClass() : ''
     const style = category.info ? '' : 'width:80px'
     const cellContent = category.info ? getImage(category.info.id) : category.name
-    return `<th class='${category.className} ${colorClass}' style="${style}">${cellContent}</th>`
+    return `<th class='${classNameLogic(category)} ${colorClass}' style="${style}">${cellContent}</th>`
 }
 function getExtraHeader(category) {
     const colorClass = category.difficulty

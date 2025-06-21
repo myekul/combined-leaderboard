@@ -24,8 +24,9 @@ function secondsToHMS(seconds, exception) {
 function displayDecimals(value, exception) {
     let ms = Math.round((value % 1) * 1000)
     if (ms) {
-        ms = gameID == 'mtpo' || exception ? ms / 10 : ms
-        const padding = gameID == 'mtpo' || exception ? 2 : 3
+        const twoDecimals = ['cuphead', 'mtpo', 'ssbm'].includes(gameID) || exception
+        ms = twoDecimals ? ms / 10 : ms
+        const padding = twoDecimals ? 2 : 3
         return `.<span style='font-size:75%'>${Math.round(ms).toString().padStart(padding, '0')}</span>`
     }
     return ''
@@ -73,7 +74,7 @@ function placeClass(place) {
     return null
 }
 function playSound(sfx) {
-    if (['cuphead', 'smb3', 'sm64'].includes(gameID)) {
+    if (['cuphead', 'smb3', 'sm64', 'ssbm'].includes(gameID)) {
         const sound = document.getElementById(sfx)
         if (sound) {
             sound.currentTime = 0
@@ -128,7 +129,7 @@ function getTrophy(place) {
     }
     themeID = gameID == 'cuphead' ? 'jre1dqwn' : 'e87d4p8q'
     if (place) {
-        return `<img src='images/trophy/${['cuphead', 'sm64', 'titanfall_2'].includes(gameID) ? gameID + '/' : ''}${place}.png' title='${placeText}' style='height:14px'>`
+        return `<img src='images/trophy/${['cuphead', 'sm64', 'titanfall_2', 'ssbm'].includes(gameID) ? gameID + '/' : ''}${place}.png' title='${placeText}' style='height:14px'>`
     }
     return ''
 }
@@ -235,17 +236,6 @@ function showDefault() {
     document.getElementById('checkbox_isolate').checked = false
     sortPlayers(players)
     action()
-}
-function getVideoLink(run) {
-    if (run.videos) {
-        if (run.videos.links) {
-            return run.videos.links[run.videos.links.length - 1].uri
-        } else {
-            return run.videos.text
-        }
-    } else {
-        return ''
-    }
 }
 function trimDifficulty(difficulty) {
     return difficulty.split(' ')[difficulty.split(' ').length - 1]

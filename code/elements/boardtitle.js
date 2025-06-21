@@ -59,7 +59,7 @@ function generateBoardTitle(extra, categoryIndex) {
         if (mode != 'fullgame' && extra) {
             cellContent = ''
         }
-        if ((gameID == 'cuphead' && bossILindex == -1) || ['sm64', 'mtpo', 'spo'].includes(gameID)) {
+        if ((gameID == 'cuphead' && bossILindex == -1) || ['sm64', 'mtpo', 'spo', 'ssbm'].includes(gameID)) {
             const content = `<div class='container' style='gap:4px'>${image + cellContent}</div>`
             HTMLContent += boardTitleCell('container ' + className, content)
         } else {
@@ -68,7 +68,7 @@ function generateBoardTitle(extra, categoryIndex) {
         if (gameID == 'cuphead' && big4()) {
             HTMLContent += boardTitleCell(category.difficulty, category.name)
         }
-    } else if (mode == 'levels' && ((gameID == 'cuphead' && bossILindex == -1) || gameID != 'cuphead')) {
+    } else if (mode == 'levels' && ((gameID == 'cuphead' && bossILindex == -1) || gameID != 'cuphead') && gameID != 'ssbm') {
         HTMLContent += boardTitleCell('', 'Top IL Runners')
     }
     if (categoryIndex == -1 || extra == 2) {

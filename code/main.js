@@ -124,10 +124,18 @@ function getOtherLevels(section) {
         .then(data => {
             categories = data
             resetLoad()
-            if (gameID == 'sm64') {
-                categories.forEach((category, categoryIndex) => {
-                    category.info = sm64LevelIDs[categoryIndex]
+            if (['sm64', 'mtpo', 'spo', 'ssbm'].includes(gameID)) {
+                const style = document.createElement('style');
+                document.head.appendChild(style);
+                categories.forEach(category => {
+                    style.sheet.insertRule(
+                        `.${category.info} { background-color: ${category.bg}; color: ${category.color ? category.color : gameID == 'mtpo' ? 'white' : 'black'} }`,
+                        style.sheet.cssRules.length
+                    );
+                    category.info = { id: category.info }
                 })
+            }
+            if (gameID == 'sm64') {
                 switch (section) {
                     case 'Lobby':
                         categories = categories.slice(0, 5)
@@ -152,23 +160,24 @@ function getOtherLevels(section) {
                     getLeaderboard(category, `level/${category.id}/zdnq4oqd`, sm64Var) // Stage RTA
                 })
             } else if (gameID == 'titanfall_2') {
-                categories.forEach((category, categoryIndex) => {
-                    category.name = titanfall_2LevelIDs[categoryIndex].name
+                categories.forEach(category => {
                     getLeaderboard(category, `level/${category.id}/ndx8z6jk`, titanfall_2VarIL) // Any%
                 })
             } else if (gameID == 'mtpo') {
-                categories.forEach((category, categoryIndex) => {
-                    category.info = mtpoLevelIDs[categoryIndex]
+                categories.forEach(category => {
                     getLeaderboard(category, `level/${category.id}/vdo93vdp`,) // Any%
                 })
             } else if (gameID == 'spo') {
-                categories.forEach((category, categoryIndex) => {
-                    category.info = spoLevelIDs[categoryIndex]
+                categories.forEach(category => {
                     getLeaderboard(category, `level/${category.id}/wdmy8odq`, spoVarIL) // NTSC
                 })
             } else if (gameID == 'nsmbw') {
                 categories.forEach(category => {
                     getLeaderboard(category, `level/${category.id}/02qx7zky`, '&var-' + category.var + '=' + category.worldRTA) // Any%
+                })
+            } else if (gameID == 'ssbm') {
+                categories.forEach(category => {
+                    getLeaderboard(category, `level/xd0xp0dq/9kvx3w32`, '&var-r8rp00ne=' + category.id)
                 })
             }
         })
@@ -216,6 +225,9 @@ function prepareData() {
                 const player = players.find(player => player.name == run.playerName)
                 run.score = run.score > 0 ? run.score : convertToSeconds(run.score)
                 run.percentage = getPercentage(worldRecord / run.score)
+                run.videos = {}
+                run.videos.links = []
+                run.videos.links.push({ uri: run.url })
                 player.extra = run
             })
             const newPlayers = []

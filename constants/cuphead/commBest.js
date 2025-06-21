@@ -68,7 +68,7 @@ const commBestILs = {
                 date: '2024-03-14',
                 score: '10:55.08',
                 playerName: 'myekul',
-                videos: { links: [{ uri: 'https://youtu.be/uB7fOkPIMDc' }] }
+                url: 'https://youtu.be/uB7fOkPIMDc'
             }
         ],
         extraPlayers: [
@@ -104,25 +104,25 @@ const commBestILs = {
                 date: '2024-08-07',
                 score: '10:50.69',
                 playerName: 'Quincely0',
-                videos: { links: [{ uri: 'https://youtu.be/9NmKTKqQUdg' }] }
+                url: 'https://youtu.be/9NmKTKqQUdg'
             },
             {
                 date: '2023-12-24',
                 score: '10:59.85',
                 playerName: 'GamerAttack27',
-                videos: { links: [{ uri: 'https://youtu.be/AKyBN0Hhy0U' }] }
+                url: 'https://youtu.be/AKyBN0Hhy0U'
             },
             {
                 date: '2022-08-25',
                 score: '11:10.13',
                 playerName: 'MarkinSws',
-                videos: { links: [{ uri: 'https://youtu.be/1I2Ltq9eqtA' }] }
+                url: 'https://youtu.be/1I2Ltq9eqtA'
             },
             {
                 date: '2025-03-23',
-                score: '11:10.84',
+                score: '11:05.10',
                 playerName: 'Lewzr',
-                videos: { links: [{ uri: 'https://youtu.be/-WovGm8jCSI' }] }
+                url: 'https://youtu.be/XmWhrdAQiT8'
             }
         ],
         extraPlayers: [
@@ -156,13 +156,13 @@ const commBestILs = {
                 date: '2025-05-09',
                 score: '10:54.25',
                 playerName: 'GamerAttack27',
-                videos: { links: [{ uri: 'https://youtu.be/bgWwOKoOouU' }] }
+                url: 'https://youtu.be/bgWwOKoOouU'
             },
             {
                 date: '2025-03-08',
                 score: '10:59.66',
                 playerName: 'myekul',
-                videos: { links: [{ uri: 'https://youtu.be/HRwuUPAstSc' }] }
+                url: 'https://youtu.be/HRwuUPAstSc'
             }
         ]
     },
@@ -247,13 +247,13 @@ const commBestILs = {
                 date: '2024-06-21',
                 score: '38:53.36',
                 playerName: 'Quincely0',
-                videos: { links: [{ uri: 'https://youtu.be/u_w4cHV-rqU' }] }
+                url: 'https://youtu.be/u_w4cHV-rqU'
             },
             {
                 date: '2024-12-24',
                 score: '39:36.74',
                 playerName: 'GamerAttack27',
-                videos: { links: [{ uri: 'https://youtu.be/AKyBN0Hhy0U' }] }
+                url: 'https://youtu.be/AKyBN0Hhy0U'
             },
         ],
         extraPlayers: [

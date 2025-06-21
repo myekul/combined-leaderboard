@@ -6,7 +6,7 @@ function parseCheckboxes() {
     })
     isolated = document.getElementById('checkbox_isolate').checked
     displayNumRuns = document.getElementById('checkbox_numRuns').checked
-    milliseconds = document.getElementById('checkbox_milliseconds').checked && page == 'leaderboard'
+    milliseconds = document.getElementById('checkbox_milliseconds').checked
 }
 function playersTable(playersArray) {
     let HTMLContent = `<div class='bigShadow' style='align-self: flex-end;'><div style='overflow-x:scroll;'><table>`
@@ -39,7 +39,7 @@ function fancyHeader(numCols, extra) {
             const cellText = !difficultyILs ? `<span style='font-size:120%;font-weight:bold'>${category.info.name}</span>` : ''
             HTMLContent +=
                 `<td colspan=${numCols * numCats} ${!extra ? `onclick="getBossIL('${category.info.id}')" class='clickable'` : ''}>
-                    <div style='padding:1px 10px;gap:10px' class='container ${category.info.id}'>${getImage(category.info.id,36)}${cellText}</div>
+                    <div style='padding:1px 10px;gap:10px' class='container ${category.info.id}'>${getImage(category.info.id, 36)}${cellText}</div>
                 </td>`
             categoryIndex += numCats
         }
@@ -100,8 +100,8 @@ function generateLeaderboard() {
             }
         }
         if (mode != 'commBestILs' && !isolated) {
-            HTMLContent += !['tetris', 'mtpo', 'spo'].includes(gameID) ? `<th>Sum</td>` : ''
-            HTMLContent += !['mtpo', 'spo'].includes(gameID) ? `<th>GPA</td>` : ''
+            HTMLContent += !['tetris', 'mtpo', 'spo', 'ssbm'].includes(gameID) ? `<th>Sum</td>` : ''
+            HTMLContent += !['mtpo', 'spo', 'ssbm'].includes(gameID) ? `<th>GPA</td>` : ''
             HTMLContent += mode != 'fullgame' ? `<th>N/A</td>` : ''
         }
         HTMLContent +=
@@ -189,7 +189,7 @@ function parsePlayer(player, playerIndex) {
             HTMLContent += `<td style='font-size:75%'>${displayPercentage(player.score)}</td>`
         }
         HTMLContent += `<td class='${letterGrade.className}' style='font-size:75%;text-align:left'>${letterGrade.grade}</td>`
-        if (['mtpo', 'spo'].includes(gameID)) {
+        if (['mtpo', 'spo', 'ssbm'].includes(gameID)) {
             HTMLContent += player.hasAllRuns ? `<td class='${letterGrade.className}'>${getGPA(player.score)}</td>` : `<td></td>`
             HTMLContent += player.sum ? `<td>${player.sum}</td>` : `<td></td>`
         }
@@ -241,8 +241,8 @@ function parsePlayerRuns(player, playerIndex) {
             HTMLContent += parseRun(player, playerIndex, category, categoryIndex)
         })
         if (mode != 'commBestILs') {
-            HTMLContent += !['tetris', 'mtpo', 'spo'].includes(gameID) ? `<td>${player.sum}</td>` : ''
-            if (!['mtpo', 'spo'].includes(gameID)) {
+            HTMLContent += !['tetris', 'mtpo', 'spo', 'ssbm'].includes(gameID) ? `<td>${player.sum}</td>` : ''
+            if (!['mtpo', 'spo', 'ssbm'].includes(gameID)) {
                 const gpaClass = player.hasAllRuns ? getLetterGrade(player.score).className : ''
                 HTMLContent += player.hasAllRuns ? `<td class='${gpaClass}'>${getGPA(player.score)}</td>` : '<td></td>'
             }
@@ -291,7 +291,7 @@ function parseRun(player, playerIndex, category, categoryIndex, exception) {
     const thePlaceClass = placeClass(place)
     const newColorClass = thePlaceClass ? thePlaceClass : colorClass
     const runLink = gameID != 'tetris' && run.id ? getAnchor('https://www.speedrun.com/' + gameID + '/runs/' + run.id) : ''
-    const videoLink = getAnchor(getVideoLink(run))
+    const videoLink = getAnchor(run.url)
     if (mode == 'commBestILs' && !exception) {
         const debug = run.debug ? '*' : ''
         HTMLContent += `<td class='${category.className} ${grayedOut} ${videoLink ? 'clickable' : ''}'>${videoLink}${getTrophy(run.place)}${debug}</td>`

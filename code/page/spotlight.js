@@ -10,7 +10,7 @@ function getDailyRandomIndex() {
     }
     // Deterministically shuffle eligible players using the hash as a seed
     function seededRandom(seed) {
-        return function() {
+        return function () {
             seed = (seed * 9301 + 49297) % 233280;
             return seed / 233280;
         };
@@ -34,7 +34,7 @@ function generateSpotlight() {
     const player = players[spotlightPlayerIndex]
     let HTMLContent = ''
     HTMLContent += getPlayerProfile(spotlightPlayerIndex)
-    HTMLContent += `<div class='container' style='margin-top:20px'>`
+    HTMLContent += `<div class='container' style='margin-top:20px'><div class='container bigShadow'>`
     let rowCount = 0
     player.runs.forEach((run, runIndex) => {
         if (run) {
@@ -43,11 +43,11 @@ function generateSpotlight() {
             const rowColor = getRowColor(rowCount)
             HTMLContent += `<tr class='${rowColor}'>${fancyTime(run, runIndex)}</tr>`
             HTMLContent += `<tr class='${rowColor}'>${fancyThumbnail(run, 200)}</tr>`
-            HTMLContent += `<tr class='${rowColor}'>${fancyDate(run)}</tr>`
+            HTMLContent += `<tr class='${rowColor}' style='height:40px'>${fancyDate(run)}</tr>`
             HTMLContent += `</table>`
         }
     })
-    HTMLContent += `</div>`
+    HTMLContent += `</div></div>`
     const myekulSaysText = myekulSays[player.name]
     if (myekulSaysText) {
         HTMLContent += `<div style='width:500px;margin:0 auto;margin-top:20px'>`

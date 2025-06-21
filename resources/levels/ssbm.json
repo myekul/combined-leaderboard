@@ -1,0 +1,152 @@
+[
+    {
+        "id": "5le29vzl",
+        "name": "Dr. Mario",
+        "info": "drmario",
+        "bg": "#e86c6d"
+    },
+    {
+        "id": "0q5vy7nl",
+        "name": "Mario",
+        "info": "mario",
+        "bg": "#ff4026"
+    },
+    {
+        "id": "4lx5rdr1",
+        "name": "Luigi",
+        "info": "luigi",
+        "bg": "#5ea444"
+    },
+    {
+        "id": "814o84jq",
+        "name": "Bowser",
+        "info": "bowser",
+        "bg": "#44745e"
+    },
+    {
+        "id": "z1926dkq",
+        "name": "Peach",
+        "info": "peach",
+        "bg": "#f5c9f0"
+    },
+    {
+        "id": "p12vr4kq",
+        "name": "Yoshi",
+        "info": "yoshi",
+        "bg": "#83cd65"
+    },
+    {
+        "id": "81pyv6k1",
+        "name": "DK",
+        "info": "dk",
+        "bg": "#f9da4a"
+    },
+    {
+        "id": "xqke26yq",
+        "name": "C. Falcon",
+        "info": "cfalcon",
+        "bg": "#8e8adc"
+    },
+    {
+        "id": "gq750zy1",
+        "name": "Ganondorf",
+        "info": "ganondorf",
+        "bg": "#7974a4"
+    },
+    {
+        "id": "21gnvoml",
+        "name": "Falco",
+        "info": "falco",
+        "bg": "#69b0de"
+    },
+    {
+        "id": "jqzn8ymq",
+        "name": "Fox",
+        "info": "fox",
+        "bg": "#307cdf"
+    },
+    {
+        "id": "klr3v62l",
+        "name": "Ness",
+        "info": "ness",
+        "bg": "#de413d"
+    },
+    {
+        "id": "21dk9rjl",
+        "name": "Ice Climbers",
+        "info": "iceclimbers",
+        "bg": "#a0cafe"
+    },
+    {
+        "id": "5q8kj5kq",
+        "name": "Kirby",
+        "info": "kirby",
+        "bg": "#fed6e3"
+    },
+    {
+        "id": "4qyzd371",
+        "name": "Samus",
+        "info": "samus",
+        "bg": "#353f56"
+    },
+    {
+        "id": "mln8prdl",
+        "name": "Zelda/Sheik",
+        "info": "zelda",
+        "bg": "#fdeaa4"
+    },
+    {
+        "id": "810vg35l",
+        "name": "Link",
+        "info": "link",
+        "bg": "#1c94c3"
+    },
+    {
+        "id": "9qj7vjgq",
+        "name": "Young Link",
+        "info": "younglink",
+        "bg": "#a5d160"
+    },
+    {
+        "id": "5lmovz41",
+        "name": "Pichu",
+        "info": "pichu",
+        "bg": "#dedc1f"
+    },
+    {
+        "id": "jq65n37l",
+        "name": "Pikachu",
+        "info": "pikachu",
+        "bg": "#ffb912"
+    },
+    {
+        "id": "81w4z35q",
+        "name": "Jigglypuff",
+        "info": "jigglypuff",
+        "bg": "#f29bf6"
+    },
+    {
+        "id": "zqoxkd2q",
+        "name": "Mewtwo",
+        "info": "mewtwo",
+        "bg": "#927bc5"
+    },
+    {
+        "id": "0139d331",
+        "name": "Mr. G&W",
+        "info": "mrgameandwatch",
+        "bg": "#a4a190"
+    },
+    {
+        "id": "rqvvg3wq",
+        "name": "Marth",
+        "info": "marth",
+        "bg": "#5da8c8"
+    },
+    {
+        "id": "5le29dzl",
+        "name": "Roy",
+        "info": "roy",
+        "bg": "#74b65b"
+    }
+]

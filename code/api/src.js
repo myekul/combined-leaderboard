@@ -95,6 +95,14 @@ function cleanRuns(runs) {
         if (theRun.players[0].name) {
             playerContent = { name: theRun.players[0].name }
         }
+        let url = null
+        if (theRun.videos) {
+            if (theRun.videos.links) {
+                url = theRun.videos.links[theRun.videos.links.length - 1].uri
+            } else {
+                url = theRun.videos.text
+            }
+        }
         const newRun =
         {
             date: theRun.date,
@@ -102,7 +110,8 @@ function cleanRuns(runs) {
             player: playerContent,
             score: theRun.times.primary_t,
             videos: theRun.videos,
-            id: theRun.weblink.split('run/')[1]
+            id: theRun.weblink.split('run/')[1],
+            url: url,
         }
         newRuns.push(newRun)
     })
