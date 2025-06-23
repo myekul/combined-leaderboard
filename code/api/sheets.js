@@ -14,6 +14,8 @@ function loadClient() {
 function fetchAllData() {
     if (gameID == 'cuphead') {
         fetchCuphead()
+    } else if (gameID == 'ssbm') {
+        fetchSSBM()
     } else {
         categories.forEach((category, categoryIndex) => {
             fetchTetris(category, categoryIndex)
@@ -56,10 +58,10 @@ function fetchTetris(category, categoryIndex) {
             return rowObject;
         });
         categories[categoryIndex].runs = objects
-        load(categories)
+        load()
         if (processedCategories == categories.length) {
             prepareData()
-            const url = 'https://docs.google.com/spreadsheets/d/' + MYEKUL_SHEET_ID
+            const url = 'https://docs.google.com/spreadsheets/d/1ZBxkZEsfwDsUpyire4Xb16er36Covk7nhR8BN_LPodI'
             const boardTitleSrc = document.getElementById('boardTitleSrc')
             boardTitleSrc.innerHTML = `<div class='clickable'>${getAnchor(url)}<img src='images/external/sheets.png'></div>`
         }
@@ -229,4 +231,67 @@ function loadSheets() {
         boardTitleSrc.innerHTML = `<div class='clickable'>${getAnchor(url)}<img src='images/external/sheets.png'></div>`
         boardTitleSrc.innerHTML += `<div style='margin-left:5px'>${getSRCicon()}</div>`
     });
+}
+function fetchSSBM() {
+    // resetLoad()
+    if (!globalCache) {
+        const sheetID = '15wdkLsmSU2T9Os1j-lISe-XmXH-l3Awk9xBipYnTQCI'
+        return gapi.client.sheets.spreadsheets.values.get({
+            spreadsheetId: sheetID,
+            range: `'BTT (combined)'!A2:AB1000`
+        }).then(response => {
+            globalCache = response.result.values
+            loadSSBM()
+        }, (err) => console.error("Execute error", err));
+    } else {
+        loadSSBM()
+    }
+}
+function loadSSBM() {
+    categories.forEach(category => {
+        category.runs = []
+    })
+    globalCache.forEach(playerRow => {
+        const playerName = playerRow[0]
+        const sum = playerRow[2]
+        const newPlayer = addPlayer({ name: playerName, sum: sum })
+        if (!newPlayer) {
+            players.find(player => player.name == playerName).sum = sum
+        }
+        playerRow.forEach((cell, index) => {
+            const category = categories[index - 3]
+            if (index > 2) {
+                if (cell) {
+                    category.runs.push({ score: convertToSeconds(cell), player: { name: playerName } })
+                }
+            }
+        })
+    })
+    categories.forEach(category => {
+        category.runs.sort((a, b) => {
+            return a.score - b.score
+        })
+        let currentPlace = 1
+        category.runs.forEach((run, index) => {
+            if (index > 0 && run.score == category.runs[index - 1].score) {
+                run.place = category.runs[index - 1].place; // Same rank as previous if tie
+            } else {
+                run.place = currentPlace;
+            }
+            currentPlace++;
+        })
+    })
+    // players.sort((a, b) => {
+    //     return convertToSeconds(a.sum) - convertToSeconds(b.sum)
+    // })
+    players.sort((a, b) => {
+        if (!a.sum && !b.sum) return 0;
+        if (!a.sum) return 1;
+        if (!b.sum) return -1;
+        return convertToSeconds(a.sum) - convertToSeconds(b.sum);
+    });
+    prepareData()
+    const url = 'https://docs.google.com/spreadsheets/d/15wdkLsmSU2T9Os1j-lISe-XmXH-l3Awk9xBipYnTQCI'
+    const boardTitleSrc = document.getElementById('boardTitleSrc')
+    boardTitleSrc.innerHTML = `<div class='clickable'>${getAnchor(url)}<img src='images/external/sheets.png'></div>`
 }

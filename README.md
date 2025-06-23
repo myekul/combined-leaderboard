@@ -41,7 +41,9 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Run Recap LSS - Split History?
 - Copy and paste boss times
 - 10:XX Trifecta
-- Cache Boards
+- Melee sums fix
+- Home run contest
+- Smash 64
 
 ## Known bugs
 - Leaderboard squish and stretch

@@ -37,6 +37,7 @@ let tooltipStyle
 let WRsTab = 'players'
 let fullgameCategory
 let sm64ILsSection
+let meleeSRC = false
 let extraCategory = {}
 let gapiClientLoaded = false
 let spotlightPlayerIndex
@@ -47,6 +48,7 @@ let globalCountryName
 
 const myekulSheets = {}
 const markinSheets = {}
+let globalCache
 let runRecap_savFile
 let runRecap_lssFile = {}
 let runRecap_markin

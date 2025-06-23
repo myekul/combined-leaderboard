@@ -36,6 +36,8 @@ function getLeaderboard(category, query, variables, extra, altGameID) {
                             getLeaderboard(mtpo, `category/${mtpo.id}`, '', true)
                         } else if (gameID == 'spo') {
                             getLeaderboard(spo, `category/${spo.id}`, '', true)
+                        } else if (gameID == 'ssbm' && !meleeSRC) {
+                            gapi.load("client", loadClient);
                         } else {
                             const boardTitleSrc = document.getElementById('boardTitleSrc')
                             boardTitleSrc.innerHTML = getSRCicon()

@@ -1,5 +1,5 @@
 function getPlayerName(player) {
-    const playerName = player.name ? player.name : player
+    let playerName = player.name ? player.name : player
     if (playerName.charAt(0) == '[') {
         const match = playerName.match(/\(([^)]+)\)/)
         playerName = match ? match[1] : playerName.slice(4)

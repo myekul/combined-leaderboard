@@ -150,12 +150,14 @@ function parsePlayer(player, playerIndex) {
         }
     })
     player.hasAllRuns = !player.runs.some(run => run == 0)
-    player.sum = player.hasAllRuns ? 0 : ''
-    if (player.hasAllRuns) {
-        player.runs.forEach(run => {
-            player.sum += run.score
-        })
-        player.sum = secondsToHMS(player.sum)
+    if (!player.sum) {
+        player.sum = player.hasAllRuns ? 0 : ''
+        if (player.hasAllRuns) {
+            player.runs.forEach(run => {
+                player.sum += run.score
+            })
+            player.sum = secondsToHMS(player.sum)
+        }
     }
     const letterGrade = getLetterGrade(player.score)
     HTMLContent += `<tr class='${getRowColor(playerIndex)} categoryLabel' style='height:23px'>`
@@ -191,7 +193,9 @@ function parsePlayer(player, playerIndex) {
         HTMLContent += `<td class='${letterGrade.className}' style='font-size:75%;text-align:left'>${letterGrade.grade}</td>`
         if (['mtpo', 'spo', 'ssbm'].includes(gameID)) {
             HTMLContent += player.hasAllRuns ? `<td class='${letterGrade.className}'>${getGPA(player.score)}</td>` : `<td></td>`
-            HTMLContent += player.sum ? `<td>${player.sum}</td>` : `<td></td>`
+            if (!(gameID == 'ssbm' && meleeSRC)) {
+                HTMLContent += player.sum ? `<td>${player.sum}</td>` : `<td></td>`
+            }
         }
     }
     HTMLContent += getPlayerDisplay(player)

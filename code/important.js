@@ -7,19 +7,14 @@ function showTab(newPage) {
     document.querySelectorAll('.hide').forEach(elem => {
         hide(elem)
     })
-    if (gameID == 'cuphead') {
-        if (mode == 'levels') {
-            show('ILsSection_cuphead')
-        }
-        if (mode == 'commBestILs') {
-            show('commBestILsSection')
-        }
+    if (mode == 'commBestILs') {
+        show('commBestILsSection')
     }
     if (['cuphead', 'sm64', 'nsmbw'].includes(gameID) && mode == 'fullgame') {
         show('fullgameCategoriesSection')
     }
-    if (gameID == 'sm64' && mode == 'levels') {
-        show('ILsSection_sm64')
+    if (['cuphead', 'sm64', 'ssbm'].includes(gameID) && mode == 'levels') {
+        show('ILsSection_' + gameID)
     }
     show(page + 'Tab')
     buttonClick(page + 'Button', 'tabs', 'active2')
@@ -35,7 +30,7 @@ function showTab(newPage) {
     if (mode == 'commBestILs' && page == 'sort') {
         dropdown_sortCriteria.value = 'player'
         hide(sort_options)
-    } else if (gameID == 'tetris') {
+    } else if (['tetris', 'ssbm'].includes(gameID)) {
         dropdown_sortCriteria.value = 'score'
         hide(sort_options)
     } else {

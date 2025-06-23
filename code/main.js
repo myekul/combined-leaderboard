@@ -124,6 +124,11 @@ function getOtherLevels(section) {
         .then(data => {
             categories = data
             resetLoad()
+            if (section) {
+                buttonClick(section, 'ILcategories_' + gameID, 'active2')
+            } else {
+                buttonClick('ILdefault_' + gameID, 'ILcategories_' + gameID, 'active2')
+            }
             if (['sm64', 'mtpo', 'spo', 'ssbm'].includes(gameID)) {
                 const style = document.createElement('style');
                 document.head.appendChild(style);
@@ -150,12 +155,6 @@ function getOtherLevels(section) {
                         categories = categories.slice(13, 15)
                         break
                 }
-                sm64ILsSection = section
-                if (sm64ILsSection) {
-                    buttonClick(sm64ILsSection, 'ILcategories_sm64', 'active2')
-                } else {
-                    buttonClick('sm64ILsAll', 'ILcategories_sm64', 'active2')
-                }
                 categories.forEach((category) => {
                     getLeaderboard(category, `level/${category.id}/zdnq4oqd`, sm64Var) // Stage RTA
                 })
@@ -176,6 +175,7 @@ function getOtherLevels(section) {
                     getLeaderboard(category, `level/${category.id}/02qx7zky`, '&var-' + category.var + '=' + category.worldRTA) // Any%
                 })
             } else if (gameID == 'ssbm') {
+                meleeSRC = section
                 categories.forEach(category => {
                     getLeaderboard(category, `level/xd0xp0dq/9kvx3w32`, '&var-r8rp00ne=' + category.id)
                 })
@@ -190,10 +190,11 @@ function getPlayers(category) {
 function addPlayer(player) {
     const initialSize = playerNames.size
     playerNames.add(player.name)
-    if (playerNames.size > initialSize && !(gameID != 'tetris' && !player.id)) {
+    if (playerNames.size > initialSize && !(!['tetris', 'ssbm'].includes(gameID) && !player.id)) {
         const playerCopy = { ...player }
         playerCopy.runs = new Array(categories.length).fill(0)
         players.push(playerCopy)
+        return true
     }
 }
 function load() {
@@ -265,7 +266,9 @@ function prepareData() {
         }
         generateRanks()
         sortCategoryIndex = -1
-        sortPlayers(players)
+        if (!(gameID == 'ssbm' && !meleeSRC)) {
+            sortPlayers(players)
+        }
     }
     players.forEach((player, playerIndex) => {
         player.rank = playerIndex + 1
@@ -400,13 +403,22 @@ function organizePlayers(categoryIndex, shh) {
 function sortPlayers(playersArray, customCategoryIndex) {
     const categoryIndex = customCategoryIndex != null ? customCategoryIndex : sortCategoryIndex
     if (categoryIndex == -1) {
-        let criteria = 'score'
-        if (mode == 'commBestILs') {
-            criteria == 'rank'
+        if (gameID == 'ssbm' && !meleeSRC) {
+            players.sort((a, b) => {
+                if (!a.sum && !b.sum) return 0;
+                if (!a.sum) return 1;
+                if (!b.sum) return -1;
+                return convertToSeconds(a.sum) - convertToSeconds(b.sum);
+            });
+        } else {
+            let criteria = 'score'
+            if (mode == 'commBestILs') {
+                criteria == 'rank'
+            }
+            playersArray.sort((a, b) => {
+                return b[criteria] - a[criteria];
+            });
         }
-        playersArray.sort((a, b) => {
-            return b[criteria] - a[criteria];
-        });
     } else {
         const isReverse = categories[categoryIndex].reverse
         playersArray.sort((a, b) => {
@@ -432,7 +444,7 @@ function refreshLeaderboard() {
     if (gameID == 'tetris') {
         categories = tetris['main']
         gapi.load("client", loadClient);
-    } else if (!categorySet) {
+    } else if (mode == 'fullgame' && !categorySet) {
         generateCategories(gameID)
     } else {
         if (mode == 'fullgame') {

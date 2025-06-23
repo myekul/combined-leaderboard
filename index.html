@@ -254,13 +254,26 @@
                     style="width:50px"><i class="fa fa-bars"></i></div>
                 <div id='ILcategories_sm64' style="display:none">
                     <div class="container">
-                        <div id='sm64ILsAll' onclick="getLevels()" class="button">All</div>
+                        <div id='ILdefault_sm64' onclick="getLevels()" class="button">All</div>
                     </div>
                     <div class="container">
                         <div id='Lobby' onclick="getOtherLevels('Lobby')" class="button">Lobby</div>
                         <div id='Basement' onclick="getOtherLevels('Basement')" class="button">Basement</div>
                         <div id='Upstairs' onclick="getOtherLevels('Upstairs')" class="button">Upstairs</div>
                         <div id='Tippy' onclick="getOtherLevels('Tippy')" class="button">Tippy</div>
+                    </div>
+                </div>
+            </div>
+            <div id="ILsSection_ssbm" class='hide headerRow' style="display:none">
+                <!-- <div id='ILcategoriesButton_ssbm' onclick="toggleILcategories()" class='clickable container'
+                    style="width:50px"><i class="fa fa-bars"></i></div> -->
+                <div id='ILcategories_ssbm'>
+                    <div class="container">
+                        <div id='ILdefault_ssbm' onclick="getLevels()" class="button" style="width:50px">
+                            <img src="images/external/sheets.png" style="height:20px">
+                        </div>
+                        <div id='ssbm_src' onclick="getOtherLevels('ssbm_src')" class="button" style="width:50px"><img
+                                src="images/external/src.png" style="height:20px"></div>
                     </div>
                 </div>
             </div>
@@ -630,6 +643,9 @@
                 </a>
                 <a href="https://www.youtube.com/@myekul/videos" target="_blank">
                     <img src="images/external/youtube.png" class="clickable">
+                </a>
+                <a href="https://discord.gg/U5xyYCbhEM" target="_blank">
+                    <img src="images/external/discord.png" class="clickable">
                 </a>
                 <a href="https://www.github.com/myekul/combined-leaderboard" target="_blank">
                     <img id='github' src="images/external/github.png" class="clickable">
