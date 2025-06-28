@@ -268,8 +268,8 @@ const commBestILs = {
             "PorcoBrabo",
             "minamikori",
             "alex92Tcordobes",
-            "Huawai",
-            'Uramatsu'
+            'Uramatsu',
+            'PorcoBrabo',
         ]
     },
 }

@@ -15,15 +15,7 @@ function fancyRun(run, categoryIndex, extra) {
     return HTMLContent
 }
 function fancyThumbnail(run, size) {
-    let runLink = run.videos ? run.videos.links[run.videos.links.length - 1].uri : ''
-    if (run.videos.links.length > 1) {
-        run.videos.links.forEach(link => {
-            if (link.uri.includes('you')) {
-                runLink = link.uri
-            }
-        })
-    }
-    return `<td>${getThumbnail(runLink, getYouTubeID(runLink), size)}</td>`
+    return `<td>${getThumbnail(run.url, getYouTubeID(run.url), size)}</td>`
 }
 function fancyDate(run) {
     const date = run.date

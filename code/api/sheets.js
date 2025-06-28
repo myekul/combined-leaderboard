@@ -154,14 +154,14 @@ function loadMyekul() {
                     runs.forEach(column => {
                         if (column.userEnteredValue) {
                             let playerName = column.userEnteredValue.formulaValue.split(',')[1].trim().slice(1).split('"')[0]
-                            const link = column.userEnteredValue.formulaValue.slice(12).split('"')[0]
+                            const url = column.userEnteredValue.formulaValue.slice(12).split('"')[0]
                             let debug = false
                             if (playerName.startsWith("*")) {
                                 playerName = playerName.slice(1);
                                 debug = true
                             }
                             addPlayer({ name: playerName })
-                            category.runs.push({ place: 1, debug: debug, player: { name: playerName }, score: time, date: category.runs.length, videos: { links: [{ uri: link }] } })
+                            category.runs.push({ place: 1, debug: debug, player: { name: playerName }, score: time, date: category.runs.length, url: url })
                         }
                     })
                 }

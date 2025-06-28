@@ -8,7 +8,7 @@ function openModal(modal, sound, param) {
     }
     modalSliders = false
     showModal = true
-    if (gameID == 'tetris') {
+    if (['tetris', 'ssbm'].includes(gameID)) {
         numModalPages = 1
     } else if (mode == 'commBestILs') {
         numModalPages = 1
@@ -104,7 +104,7 @@ function playerModal(playerIndex) {
     if (mode == 'commBestILs') {
         modalPageNames.slice(0, 2)
     }
-    if (gameID == 'tetris') {
+    if (['tetris', 'ssbm'].includes(gameID)) {
         modalPageNames.splice(1, 1)
     }
     const modalPage = modalPageNames[modalIndex]

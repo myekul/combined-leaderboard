@@ -226,9 +226,6 @@ function prepareData() {
                 const player = players.find(player => player.name == run.playerName)
                 run.score = run.score > 0 ? run.score : convertToSeconds(run.score)
                 run.percentage = getPercentage(worldRecord / run.score)
-                run.videos = {}
-                run.videos.links = []
-                run.videos.links.push({ uri: run.url })
                 player.extra = run
             })
             const newPlayers = []
