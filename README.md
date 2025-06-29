@@ -43,7 +43,7 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - 10:XX Trifecta
 - Melee sums fix
 - Home run contest
-- Smash 64
+- Punch Out!! Wii
 
 ## Known bugs
 - Leaderboard squish and stretch

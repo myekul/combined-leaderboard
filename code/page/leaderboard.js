@@ -100,8 +100,8 @@ function generateLeaderboard() {
             }
         }
         if (mode != 'commBestILs' && !isolated) {
-            HTMLContent += !['tetris', 'mtpo', 'spo', 'ssbm'].includes(gameID) ? `<th>Sum</td>` : ''
-            HTMLContent += !['mtpo', 'spo', 'ssbm'].includes(gameID) ? `<th>GPA</td>` : ''
+            HTMLContent += !['tetris', 'mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID) ? `<th>Sum</td>` : ''
+            HTMLContent += !['mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID) ? `<th>GPA</td>` : ''
             HTMLContent += mode != 'fullgame' ? `<th>N/A</td>` : ''
         }
         HTMLContent +=
@@ -191,9 +191,9 @@ function parsePlayer(player, playerIndex) {
             HTMLContent += `<td style='font-size:75%'>${displayPercentage(player.score)}</td>`
         }
         HTMLContent += `<td class='${letterGrade.className}' style='font-size:75%;text-align:left'>${letterGrade.grade}</td>`
-        if (['mtpo', 'spo', 'ssbm'].includes(gameID)) {
+        if (['mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID)) {
             HTMLContent += player.hasAllRuns ? `<td class='${letterGrade.className}'>${getGPA(player.score)}</td>` : `<td></td>`
-            if (!(gameID == 'ssbm' && meleeSRC)) {
+            if (!(gameID == 'ssbm' && ssbVar)) {
                 HTMLContent += player.sum ? `<td>${player.sum}</td>` : `<td></td>`
             }
         }
@@ -245,8 +245,8 @@ function parsePlayerRuns(player, playerIndex) {
             HTMLContent += parseRun(player, playerIndex, category, categoryIndex)
         })
         if (mode != 'commBestILs') {
-            HTMLContent += !['tetris', 'mtpo', 'spo', 'ssbm'].includes(gameID) ? `<td>${player.sum}</td>` : ''
-            if (!['mtpo', 'spo', 'ssbm'].includes(gameID)) {
+            HTMLContent += !['tetris', 'mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID) ? `<td>${player.sum}</td>` : ''
+            if (!['mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID)) {
                 const gpaClass = player.hasAllRuns ? getLetterGrade(player.score).className : ''
                 HTMLContent += player.hasAllRuns ? `<td class='${gpaClass}'>${getGPA(player.score)}</td>` : '<td></td>'
             }

@@ -129,7 +129,7 @@ function getOtherLevels(section) {
             } else {
                 buttonClick('ILdefault_' + gameID, 'ILcategories_' + gameID, 'active2')
             }
-            if (['sm64', 'mtpo', 'spo', 'ssbm'].includes(gameID)) {
+            if (['sm64', 'mtpo', 'spo', 'ssbm', 'ssb64'].includes(gameID)) {
                 const style = document.createElement('style');
                 document.head.appendChild(style);
                 categories.forEach(category => {
@@ -175,9 +175,15 @@ function getOtherLevels(section) {
                     getLeaderboard(category, `level/${category.id}/02qx7zky`, '&var-' + category.var + '=' + category.worldRTA) // Any%
                 })
             } else if (gameID == 'ssbm') {
-                meleeSRC = section
+                ssbVar = section
                 categories.forEach(category => {
                     getLeaderboard(category, `level/xd0xp0dq/9kvx3w32`, '&var-r8rp00ne=' + category.id)
+                })
+            } else if (gameID == 'ssb64') {
+                ssbVar = section
+                const cat = ssbVar ? '02qlrozk' : 'jdzvn8xk'
+                categories.forEach(category => {
+                    getLeaderboard(category, `level/${category.id}/` + cat)
                 })
             }
         })
@@ -263,7 +269,7 @@ function prepareData() {
         }
         generateRanks()
         sortCategoryIndex = -1
-        if (!(gameID == 'ssbm' && !meleeSRC)) {
+        if (!(gameID == 'ssbm' && !ssbVar)) {
             sortPlayers(players)
         }
     }
@@ -400,7 +406,7 @@ function organizePlayers(categoryIndex, shh) {
 function sortPlayers(playersArray, customCategoryIndex) {
     const categoryIndex = customCategoryIndex != null ? customCategoryIndex : sortCategoryIndex
     if (categoryIndex == -1) {
-        if (gameID == 'ssbm' && !meleeSRC) {
+        if (gameID == 'ssbm' && !ssbVar) {
             players.sort((a, b) => {
                 if (!a.sum && !b.sum) return 0;
                 if (!a.sum) return 1;

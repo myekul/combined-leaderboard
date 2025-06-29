@@ -13,7 +13,7 @@ function showTab(newPage) {
     if (['cuphead', 'sm64', 'nsmbw'].includes(gameID) && mode == 'fullgame') {
         show('fullgameCategoriesSection')
     }
-    if (['cuphead', 'sm64', 'ssbm'].includes(gameID) && mode == 'levels') {
+    if (['cuphead', 'sm64', 'ssb64', 'ssbm'].includes(gameID) && mode == 'levels') {
         show('ILsSection_' + gameID)
     }
     show(page + 'Tab')

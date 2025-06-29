@@ -37,7 +37,7 @@ let tooltipStyle
 let WRsTab = 'players'
 let fullgameCategory
 let sm64ILsSection
-let meleeSRC = false
+let ssbVar = false
 let extraCategory = {}
 let gapiClientLoaded = false
 let spotlightPlayerIndex

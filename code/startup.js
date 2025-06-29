@@ -24,7 +24,7 @@ if (['tetris', 'smb1', 'smb2', 'smb3', 'nsmbds'].includes(gameID)) {
     url.searchParams.delete('mode');
     window.history.pushState({}, '', url);
 }
-if (['titanfall_2', 'mtpo', 'spo', 'ssbm'].includes(gameID)) {
+if (['titanfall_2', 'mtpo', 'spo', 'ssbm', 'ssb64'].includes(gameID)) {
     setMode('levels')
     url.searchParams.delete('mode');
     window.history.pushState({}, '', url);
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 function gameTabs() {
     let HTMLContent = ''
-    const games = [['cuphead'], ['sm64', 'sms'], ['smb1', 'smbtll'], ['smb2', 'smb3'], ['nsmbds', 'nsmbw'], ['nsmbu', 'nslu'], ['dkc', 'dkc2', 'dkc3'], ['mtpo', 'spo'], ['ssbm'], ['tetris', 'titanfall_2']]
+    const games = [['cuphead'], ['sm64', 'sms'], ['smb1', 'smbtll'], ['smb2', 'smb3'], ['nsmbds', 'nsmbw'], ['nsmbu', 'nslu'], ['dkc', 'dkc2', 'dkc3'], ['mtpo', 'spo'], ['ssb64', 'ssbm'], ['tetris', 'titanfall_2']]
     games.forEach(gameSet => {
         HTMLContent += `<div class='container'>`
         gameSet.forEach(game => {
@@ -87,7 +87,7 @@ function invertGithub() {
     const github = document.getElementById('github');
     github.style.filter = 'brightness(0) invert(1)';
 }
-if (['smb1', 'smbtll', 'mtpo', 'spo', 'titanfall_2', 'ssbm'].includes(gameID)) {
+if (['smb1', 'smbtll', 'mtpo', 'spo', 'titanfall_2', 'ssbm', 'ssb64'].includes(gameID)) {
     document.getElementById('checkbox_milliseconds').checked = true;
 }
 google.charts.load('current', { packages: ['corechart'] });
@@ -99,7 +99,7 @@ function loadJSFile(path, callback) {
     document.head.appendChild(script);
 }
 document.addEventListener('DOMContentLoaded', function () {
-    if (!['tetris', 'mtpo', 'spo', 'titanfall_2', 'ssbm'].includes(gameID)) {
+    if (!['tetris', 'mtpo', 'spo', 'titanfall_2', 'ssbm', 'ssb64'].includes(gameID)) {
         fetch(`constants/categories/${gameID}.json`)
             .then(response => response.json())
             .then(data => {

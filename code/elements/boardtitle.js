@@ -41,6 +41,12 @@ function generateBoardTitle(extra, categoryIndex) {
         const content = `<div class='container' style='gap:4px'>${getImage(imgsrc, imgSize) + cellContent}</div>`
         HTMLContent += boardTitleCell('container ' + className, content)
     }
+    if (gameID == 'ssb64') {
+        const image = `<img src='images/ssb64/${ssbVar ? 'platform' : 'target'}.png' style='height:${imgSize}px'>`
+        const cellContent = ssbVar ? 'Board the Platforms!' : 'Break the Targets!'
+        const content = `<div class='container' style='gap:10px'>${image + (sortCategoryIndex == -1 ? cellContent : '')}</div>`
+        HTMLContent += boardTitleCell('', content)
+    }
     if (categoryIndex > -1 && extra != 2) {
         let category = categories[categoryIndex]
         let imgsrc
@@ -59,7 +65,7 @@ function generateBoardTitle(extra, categoryIndex) {
         if (mode != 'fullgame' && extra) {
             cellContent = ''
         }
-        if ((gameID == 'cuphead' && bossILindex == -1) || ['sm64', 'mtpo', 'spo', 'ssbm'].includes(gameID)) {
+        if (['cuphead', 'sm64', 'mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID) && bossILindex == -1) {
             const content = `<div class='container' style='gap:4px'>${image + cellContent}</div>`
             HTMLContent += boardTitleCell('container ' + className, content)
         } else {
@@ -68,7 +74,7 @@ function generateBoardTitle(extra, categoryIndex) {
         if (gameID == 'cuphead' && big4()) {
             HTMLContent += boardTitleCell(category.difficulty, category.name)
         }
-    } else if (mode == 'levels' && ((gameID == 'cuphead' && bossILindex == -1) || gameID != 'cuphead') && gameID != 'ssbm') {
+    } else if (mode == 'levels' && ((gameID == 'cuphead' && bossILindex == -1) || gameID != 'cuphead') && !['ssb64', 'ssbm'].includes(gameID)) {
         HTMLContent += boardTitleCell('', 'Top IL Runners')
     }
     if (categoryIndex == -1 || extra == 2) {

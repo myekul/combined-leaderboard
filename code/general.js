@@ -24,7 +24,7 @@ function secondsToHMS(seconds, exception) {
 function displayDecimals(value, exception) {
     let ms = Math.round((value % 1) * 1000)
     if (ms) {
-        const twoDecimals = ['cuphead', 'mtpo', 'ssbm'].includes(gameID) || exception
+        const twoDecimals = ['cuphead', 'mtpo', 'ssbm', 'ssb64'].includes(gameID) || exception
         ms = twoDecimals ? ms / 10 : ms
         const padding = twoDecimals ? 2 : 3
         return `.<span style='font-size:75%'>${Math.round(ms).toString().padStart(padding, '0')}</span>`
@@ -91,7 +91,7 @@ function stopSound(sfx) {
 function getImage(image, heightParam) {
     const extension = gameID == 'spo' ? 'webp' : 'png'
     const height = heightParam ? heightParam : 36
-    return `<img src='images/${gameID}/levels/${image}.${extension}' style='height:${height}px;width:auto'>`
+    return `<img src='images/levels/${gameID}/${image}.${extension}' style='height:${height}px;width:auto'>`
 }
 function getColorClass() {
     if (mode == 'commBestILs') {
@@ -129,7 +129,7 @@ function getTrophy(place) {
     }
     themeID = gameID == 'cuphead' ? 'jre1dqwn' : 'e87d4p8q'
     if (place) {
-        return `<img src='images/trophy/${['cuphead', 'sm64', 'titanfall_2', 'ssbm'].includes(gameID) ? gameID + '/' : ''}${place}.png' title='${placeText}' style='height:14px'>`
+        return `<img src='images/trophy/${['cuphead', 'sm64', 'titanfall_2', 'ssb64', 'ssbm'].includes(gameID) ? gameID + '/' : ''}${place}.png' title='${placeText}' style='height:14px'>`
     }
     return ''
 }

@@ -1,0 +1,74 @@
+[
+    {
+        "id": "rdnnn66d",
+        "name": "Luigi",
+        "info": "luigi",
+        "bg": "#5ea444"
+    },
+    {
+        "id": "ldy22n7w",
+        "name": "Mario",
+        "info": "mario",
+        "bg": "#ff4026"
+    },
+    {
+        "id": "gdr224k9",
+        "name": "Donkey Kong",
+        "info": "dk",
+        "bg": "#f9da4a"
+    },
+    {
+        "id": "nwl33xgw",
+        "name": "Link",
+        "info": "link",
+        "bg": "#1c94c3"
+    },
+    {
+        "id": "ywellk49",
+        "name": "Samus",
+        "info": "samus",
+        "bg": "#353f56"
+    },
+    {
+        "id": "69zzzo49",
+        "name": "Captain Falcon",
+        "info": "cfalcon",
+        "bg": "#8e8adc"
+    },
+    {
+        "id": "r9gxx02w",
+        "name": "Ness",
+        "info": "ness",
+        "bg": "#de413d"
+    },
+    {
+        "id": "o9x4457d",
+        "name": "Yoshi",
+        "info": "yoshi",
+        "bg": "#83cd65"
+    },
+    {
+        "id": "49544o4w",
+        "name": "Kirby",
+        "info": "kirby",
+        "bg": "#fed6e3"
+    },
+    {
+        "id": "rdqll2gw",
+        "name": "Fox",
+        "info": "fox",
+        "bg": "#307cdf"
+    },
+    {
+        "id": "5d788kew",
+        "name": "Pikachu",
+        "info": "pikachu",
+        "bg": "#ffb912"
+    },
+    {
+        "id": "kwjppl1w",
+        "name": "Jigglypuff",
+        "info": "jigglypuff",
+        "bg": "#f29bf6"
+    }
+]
