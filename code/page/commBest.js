@@ -13,7 +13,7 @@ function generateCommBest() {
         <th colspan=4 class='gray'>Comm Best Splits</th>
         </tr>`
         splitInfo.id.forEach((id, index) => {
-            const player = players.find(player => player.name == runRecap_markin.bestSplitsPlayers[index].split('/')[0])
+            const player = players.findIndex(player => player.name == runRecap_markin.bestSplitsPlayers[index].split('/')[0])
             const wrSplit = runRecap_markin.wrSplits[index]
             HTMLContent += `<tr class='${getRowColor(index)}'>`
             HTMLContent += `<td style='font-size:70%;color:var(--gray)'>${secondsToHMS(wrSplit, true)}</td>`

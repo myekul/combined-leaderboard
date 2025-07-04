@@ -18,8 +18,7 @@ function modalInfo() {
             <div id='infoExample'>${infoExample()}</div></div>
 
             <div class='textBox'><i class='fa fa-exclamation-triangle myekulColor'></i> If a player has a run score worse than the average of their best score and
-            ${scoreGradeSpan(getPercentage((categories.length - 1) / categories.length))}
-             (${myekulColor(`[# of categories - 1] / [# of categories]`)}),
+            ${scoreGradeSpan(80)},
              but they have another run greater than that, then ${myekulColor(`their bad score will be forgiven`)}.
             This logic ensures that submitting a bad run is better than having no submission at all.
             </div>
@@ -27,8 +26,8 @@ function modalInfo() {
             <br>After a player's run scores are determined, missing runs are taken into consideration.
             <span class='myekulColor'>If a player is missing a run, they will recieve an overall score penalty</span>.
             <br><br>For each missing run, the player will recieve a placeholder score to be used in overall score calculation.
-            The default placeholder is <span class='myekulColor'>([Player's best score] + (100 * ((1 / [# of categories]) / [# of categories])) / 2</span>.
-            <br>To view a player's calculation scores, press the ${fontAwesome('info-circle')} button in the bottom right of their report card.<br>`
+            The default placeholder is <span class='myekulColor'>([Player's best score] + 80) / 2</span>.
+            To view a player's calculation scores, press the ${fontAwesome('info-circle')} button in the bottom right of their report card.<br>`
         // if (['cuphead', 'sm64'].includes(gameID)) {
         //     HTMLContent += `<br><div class='textBox'><i class='fa fa-exclamation-triangle myekulColor'></i> In some cases, the missing run penalty will be reduced if the player has another run in a similar category.`
         //     if (gameID == 'cuphead') {

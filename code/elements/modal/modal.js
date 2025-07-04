@@ -80,13 +80,14 @@ function playerModal(playerIndex) {
     window.firebaseUtils.lastCheckedUser()
     document.addEventListener("keydown", modalKeyPress);
     let player = players[globalPlayerIndex]
-    if (sortCategoryIndex > -1) {
-        const oldIndex = sortCategoryIndex
-        sortCategoryIndex = -1
-        sortPlayers(players)
-        sortCategoryIndex = oldIndex
-        player = players[globalPlayerIndex]
-    }
+    // if (sortCategoryIndex > -1) {
+    //     const oldIndex = sortCategoryIndex
+    //     sortCategoryIndex = -1
+    //     sortPlayers(players)
+    //     sortCategoryIndex = oldIndex
+    //     player = players[globalPlayerIndex]
+    //     sortPlayers(players)
+    // }
     document.getElementById('modal-subtitle').innerHTML = getPlayerProfile(globalPlayerIndex)
     let pagesContent = `<div onclick="modalLeft()" class='clickable'>${fontAwesome('caret-left')}</div>`;
     for (let i = 0; i <= numModalPages; i++) {

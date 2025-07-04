@@ -10,21 +10,26 @@ function generateFeatured() {
     } else {
         everyRun.sort((a, b) => b.run.percentage - a.run.percentage)
     }
-    let HTMLContent = `<div class='container'><table class='bigShadow' style='border-collapse:collapse'>`
     if (mode == 'commBestILs') {
         everyRun = shuffleArray(everyRun)
     }
-    everyRun.slice(0, 5).forEach((run, runIndex) => {
+    let HTMLContent = ''
+    HTMLContent += `<div class='container'>${fancyTable(everyRun)}</div>`
+    if (gameID == 'mtpo' && sortCategoryIndex == 0) {
+        HTMLContent = `<div class='container'>This leaderboard assumes everyone has a 42 Glass Joe.</div>`
+    }
+    document.getElementById('featured').innerHTML = HTMLContent
+}
+function fancyTable(runs, numRuns = 5) {
+    let HTMLContent = `<table class='bigShadow' style='border-collapse:collapse;border:4px solid var(--background)'>`
+    runs.slice(0, numRuns).forEach((run, runIndex) => {
         HTMLContent += `<tr class='${getRowColor(runIndex)}'>`
         HTMLContent += fancyRun(run.run, run.categoryIndex)
         HTMLContent += fancyPlayer(run.playerIndex)
         HTMLContent += `</tr>`
     })
-    HTMLContent += `</table></div>`
-    if (gameID == 'mtpo' && sortCategoryIndex == 0) {
-        HTMLContent = `<div class='container'>This leaderboard assumes everyone has a 42 Glass Joe.</div>`
-    }
-    document.getElementById('featured').innerHTML = HTMLContent
+    HTMLContent += `</table>`
+    return HTMLContent
 }
 // Fisher-Yates Shuffle Algorithm
 // FIND LIBRARY

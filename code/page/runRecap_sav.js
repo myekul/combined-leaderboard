@@ -7,13 +7,12 @@ function processSavFile(playerIndex, display) {
             if (playerIndex != null) {
                 runRecapExample = true
                 const player = players[playerIndex]
-                runRecapPlayerName = player.name
-                document.getElementById('input_runRecap_player').value = player.name
-                runRecapStartElem('player')
+                globalPlayerIndex = playerIndex
+                document.getElementById('runRecap_player').innerHTML = runRecapPlayer('runRecap_player')
                 const time = secondsToHMS(player.extra.score)
                 runRecapTime = time
                 document.getElementById('input_runRecap_time').value = time
-                runRecapStartElem('time')
+                hideInput('runRecap_time')
                 categories.forEach((category, categoryIndex) => {
                     const level = getCupheadLevel(categoryIndex)
                     level.bestTime = commBestILsCategory.runs[playerIndex][categoryIndex]

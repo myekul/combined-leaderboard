@@ -49,7 +49,7 @@ function getFullgame(categoryName) {
         }
     }
     resetLoad()
-    if (!(['sm64', 'smo', 'smb1', 'sms'].includes(gameID) && mode == 'fullgame' && !categoryName && firstTimeFull)) {
+    if (!(['sm64', 'smb1', 'sms'].includes(gameID) && mode == 'fullgame' && !categoryName && firstTimeFull)) {
         categories.forEach(category => {
             let variables = ''
             if (category.var) {
@@ -276,7 +276,7 @@ function prepareData() {
     players.forEach((player, playerIndex) => {
         player.rank = playerIndex + 1
     })
-    hide('loading')
+    // hide('loading')
     if (mode == 'fullgame' && spotlightFlag) {
         generateSpotlightPlayer()
         show('spotlightDiv')
@@ -288,6 +288,12 @@ function prepareData() {
     } else {
         hide('refreshDiv')
     }
+    const username = localStorage.getItem('username')
+    if (username) {
+        document.getElementById('input_username').value = username
+        document.getElementById('username').innerHTML = runRecapPlayer('username')
+    }
+    show('username')
     showTab(page)
 }
 function assignRuns(category, categoryIndex) {
@@ -334,12 +340,10 @@ function assignRuns(category, categoryIndex) {
     })
 }
 function generateRanks() {
-    const minimum = mode == 'fullgame' ? getPercentage((categories.length - 1) / categories.length) : 80
-    const threshold = minimum
-    // const threshold = 0
+    const threshold = 80
     players.forEach(player => {
         player.truePercentages = new Array(categories.length).fill(0)
-        const ideal = (minimum + player.bestScore) / 2
+        const ideal = player.bestScore > threshold ? (threshold + player.bestScore) / 2 : player.bestScore
         player.percentageSum = 0
         const missingRuns = []
         const good = player.runs.some(run => run?.percentage >= threshold)
@@ -351,7 +355,7 @@ function generateRanks() {
                 player.truePercentages[runIndex] = newScore
             } else {
                 // NMG run in place of a 1.1 run
-                if ((category.name == '1.1+' || category.name == 'Full Clear 1.1+') && player.runs[2]) {
+                if ((category.name == '1.1+') && player.runs[2]) {
                     placeholderRun(player, good, ideal, 2, 0)
                     // } else if (player.runs[0].score > run.score) {
                     //     player.runs[0] = runCopy
@@ -368,9 +372,9 @@ function generateRanks() {
         })
         // player.explanation = ''
         missingRuns.forEach(runIndex => {
-            const penalty = gameID == 'cuphead' && mode == 'levels' ? applyPenalty(player, runIndex, minimum) : ''
+            const penalty = gameID == 'cuphead' && mode == 'levels' ? applyPenalty(player, runIndex, threshold) : ''
             const numCats = cupheadNumCats(categories[runIndex])
-            const placeholder = penalty ? penalty : big4() ? 100 * ((numCats - 1) / numCats) : categories.length > 6 ? 80 : ideal
+            const placeholder = penalty ? penalty : big4() ? 100 * ((numCats - 1) / numCats) : ideal
             player.percentageSum += placeholder
             player.truePercentages[runIndex] = placeholder
         })
@@ -378,7 +382,7 @@ function generateRanks() {
     })
 }
 function goodRunCheck(run, good, ideal) {
-    return run.percentage >= ideal || !good ? run.percentage : ideal
+    return run.percentage >= ideal ? run.percentage : ideal
 }
 function placeholderRun(player, good, ideal, copyIndex, pasteIndex) {
     const runCopy = { ...player.runs[copyIndex] }
@@ -466,7 +470,7 @@ function resetLoad() {
     stopLeaderboards = false
     document.getElementById('boardTitleSrc').innerHTML = `<div class='loader'></div>`
     document.getElementById('progress-bar').style.width = 0;
-    show('loading')
+    // show('loading')
 }
 function completeLoad() {
     document.getElementById('progress-bar').style.width = '100%';

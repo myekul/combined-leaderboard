@@ -54,7 +54,6 @@ let runRecap_lssFile = {}
 let runRecap_markin
 let runRecapView = 'home'
 let runRecapElem = 'sav'
-let runRecapPlayerName
 let runRecapTime
 let runRecapTab = 'times'
 let runRecapExample = false

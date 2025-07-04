@@ -6,54 +6,61 @@ function runRecapHandle(newTab) {
         showTab(newTab)
     }
 }
-function hideRunRecap(elem) {
+function showInput(elem) {
     playSound('move')
-    hide('runRecap_' + elem)
-    const input_runRecapElem = document.getElementById('input_runRecap_' + elem)
-    show(input_runRecapElem)
-    input_runRecapElem.focus()
-    input_runRecapElem.select()
-    if (elem == 'time') {
+    hide(elem)
+    const input_elem = document.getElementById('input_' + elem)
+    show(input_elem)
+    input_elem.focus()
+    input_elem.select()
+    if (elem == 'runRecap_time') {
         playSound('win_time_loop')
     }
-    input_runRecapElem.addEventListener('change', () => {
-        runRecapStartElem(elem);
-        if (elem == 'time') {
-            playSound('win_time_loop_end')
+    let handled = false;
+    input_elem.addEventListener('change', () => {
+        if (!handled) {
+            hideInput(elem);
+            handled = true;
+            if (elem == 'runRecap_time') playSound('win_time_loop_end');
         }
     });
-    input_runRecapElem.addEventListener('blur', () => {
-        runRecapStartElem(elem);
-        if (elem == 'time') {
-            playSound('win_time_loop_end')
+    input_elem.addEventListener('blur', () => {
+        if (!handled) {
+            hideInput(elem);
+            handled = true;
+            if (elem == 'runRecap_time') playSound('win_time_loop_end');
         }
     });
 }
-function runRecapStartElem(elem) {
-    const input_runRecapElem = document.getElementById('input_runRecap_' + elem)
-    const input = input_runRecapElem.value
-    hide(input_runRecapElem)
-    if (elem == 'player') {
-        if (!runRecapExample) {
-            playSound('category_select');
-        }
-        runRecapPlayerName = input.trim() ? input : runRecapPlayerName
-    } else {
+function hideInput(elem) {
+    const input_elem = document.getElementById('input_' + elem)
+    const input = input_elem.value
+    hide(input_elem)
+    if (elem == 'username') {
+        playSound('category_select')
+    } else if (elem == 'runRecap_time') {
         stopSound('win_time_loop')
         runRecapTime = input.trim() ? input : runRecapTime
     }
-    const runRecapStartElem = document.getElementById('runRecap_' + elem)
-    runRecapStartElem.innerHTML = elem == 'player' ? runRecapPlayer() : runRecapTimeElem(runRecapTime)
-    show(runRecapStartElem)
+    const startElem = document.getElementById(elem)
+    if (elem == 'username') {
+        localStorage.setItem('username', input.trim() ? input : localStorage.getItem('username'))
+        startElem.innerHTML = runRecapPlayer(elem)
+        action()
+    } else {
+        startElem.innerHTML = runRecapTimeElem(runRecapTime)
+    }
+    show(startElem)
 }
-function runRecapPlayer() {
-    const player = players.find(player => player.name == runRecapPlayerName)
+function runRecapPlayer(elem) {
+    const playerString = runRecapExample ? players[globalPlayerIndex].name : localStorage.getItem('username')
+    const player = players.find(player => player.name == playerString)
     globalPlayerIndex = player ? player.rank - 1 : -1
-    const playerName = player ? getPlayerName(player) : runRecapPlayerName
+    const playerName = player ? getPlayerName(player) : playerString
     let HTMLContent = `<div class='container' style='gap:8px;margin:0'>`
-    HTMLContent += player ? `<div>${getPlayerIcon(player, 40)}</div>` : ''
-    HTMLContent += `<div style='font-size:140%'>${playerName}</div>`
-    HTMLContent += player ? `<div>${getPlayerFlag(player, 18)}</div>` : ''
+    HTMLContent += player ? `<div>${getPlayerIcon(player, elem == 'username' ? 28 : 40)}</div>` : ''
+    HTMLContent += `<div style='font-size:${elem == 'username' ? '110' : '130'}%'>${playerName}</div>`
+    HTMLContent += player ? `<div>${getPlayerFlag(player, elem == 'username' ? 14 : 18)}</div>` : ''
     HTMLContent += `</div>`
     return HTMLContent
 }
@@ -186,7 +193,7 @@ async function runRecapHandleFile(event, elem) {
 }
 function runRecapInfo() {
     const player = players[globalPlayerIndex]
-    const playerName = player ? getPlayerName(player) : `<span style='color:white'>${runRecapPlayerName}</span>`
+    const playerName = player ? getPlayerName(player) : `<span style='color:white'>${localStorage.getItem('username')}</span>`
     let HTMLContent = ''
     HTMLContent += `<div>
                         SAVE FILE LOCATIONS:
@@ -250,6 +257,9 @@ function runRecapHome() {
         runRecapUnload('lss', true)
         runRecapExample = false
         hide('runRecapExampleDiv')
+    }
+    if (localStorage.getItem('username')) {
+        document.getElementById('runRecap_player').innerHTML = runRecapPlayer('runRecap_player')
     }
     let HTMLContent = `<table class='bigShadow'>`
     players.slice(0, commBestILsCategory.numRuns).forEach((player, playerIndex) => {
@@ -341,9 +351,5 @@ function runRecapDefault() {
     document.getElementById('runRecap_time').innerHTML = `
     <div style='font-size:150%'>XX:XX</div>
     <div style='font-size:160%'>${fontAwesome('edit')}</div>`
-    document.getElementById('runRecap_player').innerHTML = `
-    <div>Your username...</div>
-    <div style='font-size:160%'>${fontAwesome('edit')}</div>`
-    runRecapPlayerName = 'Username'
     runRecapTime = 'XX:XX'
 }

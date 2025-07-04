@@ -9,7 +9,7 @@ function parseCheckboxes() {
     milliseconds = document.getElementById('checkbox_milliseconds').checked
 }
 function playersTable(playersArray) {
-    let HTMLContent = `<div class='bigShadow' style='align-self: flex-end;'><div style='overflow-x:scroll;'><table>`
+    let HTMLContent = `<div class='bigShadow' ${!isolated ? `style='align-self: flex-end;'` : ''}><div style='overflow-x:scroll;'><table>`
     if (page != 'map' && !(mode == 'commBestILs' && sortCategoryIndex == -1 && isolated)) {
         HTMLContent +=
             `<tr style='${getHeaderSize()}'>
@@ -68,7 +68,7 @@ function generateHeader(category, categoryIndex) {
 }
 function generateLeaderboard() {
     playersCopy = [...players].slice(0, getNumDisplay())
-    let HTMLContent = `<div class="container">`
+    let HTMLContent = `<div class="container" style='align-items:flex-start'>`
     HTMLContent += playersTable(playersCopy)
     if (!(mode == 'commBestILs' && sortCategoryIndex == -1 && isolated)) {
         HTMLContent +=
@@ -105,8 +105,7 @@ function generateLeaderboard() {
             HTMLContent += mode != 'fullgame' ? `<th>N/A</td>` : ''
         }
         HTMLContent +=
-            `</tr>
-        <tbody>`
+            `</tr>`
         if (mode == 'commBestILs') {
             HTMLContent += `<tr>`
             if (isolated) {
@@ -124,7 +123,11 @@ function generateLeaderboard() {
                 HTMLContent += parsePlayerRuns(player, playerIndex)
             }
         })
-        HTMLContent += `</tbody></table></div>`
+        HTMLContent += `</table></div>`
+    }
+    if (isolated) {
+        const everyRun = getEveryRun(10)
+        HTMLContent += `<div style='padding-left:40px'>${fancyTable(everyRun, 10)}</div>`
     }
     HTMLContent += `</div>`
     if (!showMore && (sortCategoryIndex == -1 ? players.length > getNumDisplay() : categories[sortCategoryIndex].runs.length > getNumDisplay())) {
@@ -160,7 +163,8 @@ function parsePlayer(player, playerIndex) {
         }
     }
     const letterGrade = getLetterGrade(player.score)
-    HTMLContent += `<tr class='${getRowColor(playerIndex)} categoryLabel' style='height:23px'>`
+    const pulseClass = localStorage.getItem('username') == player.name ? 'pulseClass' : ''
+    HTMLContent += `<tr class='${getRowColor(playerIndex)} categoryLabel ${pulseClass}' style='height:23px'>`
     if (page == 'sort') {
         const sortCriteria = document.getElementById('dropdown_sortCriteria').value
         if (sortCriteria == 'joindate') {
@@ -186,7 +190,7 @@ function parsePlayer(player, playerIndex) {
         HTMLContent += mode != 'commBestILs' ? `<td style='padding:0 15px'></td>` : ''
     }
     HTMLContent += page == 'map' ? `<td class='${placeClass(playerIndex + 1)}'>${playerIndex + 1}</td>` : ''
-    if (mode != 'commBestILs') {
+    if (mode != 'commBestILs' && !isolated) {
         if (!['mtpo', 'spo'].includes(gameID)) {
             HTMLContent += `<td style='font-size:75%'>${displayPercentage(player.score)}</td>`
         }
@@ -198,7 +202,7 @@ function parsePlayer(player, playerIndex) {
             }
         }
     }
-    HTMLContent += getPlayerDisplay(player)
+    HTMLContent += getPlayerDisplay(player, playerIndex)
     if (['map', 'sort'].includes(page)) {
         if (sortCategoryIndex == -1) {
             player.count1 = 0

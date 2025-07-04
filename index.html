@@ -100,9 +100,15 @@
                         <div id='mapButton'></div>
                         <div id='sortButton'></div>
                     </div>
-                    <div id='loading' style='position:absolute;right:40px;top:8px;color:white'>
+                    <!-- <div id='loading' style='position:absolute;right:40px;top:8px;color:white'>
                         <div>Loading API...</div>
-                        <!-- <div id="loadingText"></div> -->
+                    </div> -->
+                    <input id='input_username' type='text' placeholder='Your SRC username'
+                        style='display:none;width:200px;font-size:100%;position:absolute;right:40px;top:4px;'>
+                    <div id='username' onclick="showInput('username')" class='container clickable'
+                        style='display:none;position:absolute;right:40px;color:white;gap:8px'>
+                        Your Username...
+                        <i class="fa fa-edit" style="font-size:130%"></i>
                     </div>
                 </div>
                 <div class="progress-container bigShadow">
@@ -283,8 +289,8 @@
                         <div id='ILdefault_ssb64' onclick="getLevels()" class="button" style="width:50px">
                             <img src="images/ssb64/target.png" style="height:20px">
                         </div>
-                        <div id='boardThePlatforms' onclick="getOtherLevels('boardThePlatforms')" class="button" style="width:50px"><img
-                                src="images/ssb64/platform.png" style="height:20px"></div>
+                        <div id='boardThePlatforms' onclick="getOtherLevels('boardThePlatforms')" class="button"
+                            style="width:50px"><img src="images/ssb64/platform.png" style="height:20px"></div>
                     </div>
                 </div>
             </div>
@@ -332,12 +338,9 @@
                         style='display:none;padding-left:25px;margin:0;gap:20px'>
                         <input id='input_runRecap_time' type='text' placeholder='XX:XX'
                             style='display:none;width:65px;font-size:100%'>
-                        <div id='runRecap_time' onclick="hideRunRecap('time')" class='container clickable'
+                        <div id='runRecap_time' onclick="showInput('runRecap_time')" class='container clickable'
                             style='margin:0;gap:8px'></div>
-                        <input id='input_runRecap_player' type='text' placeholder='Your SRC username'
-                            style='display:none;width:200px;font-size:100%'>
-                        <div id='runRecap_player' onclick="hideRunRecap('player')" class='container clickable'
-                            style='margin:0;gap:8px'></div>
+                        <div id='runRecap_player' class='container' style='margin:0;gap:8px'></div>
                         <div id="runRecapExampleDiv">EXAMPLE</div>
                     </div>
                 </div>
