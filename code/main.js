@@ -289,7 +289,7 @@ function prepareData() {
         hide('refreshDiv')
     }
     const username = localStorage.getItem('username')
-    if (username) {
+    if (username && !runRecapExample) {
         document.getElementById('input_username').value = username
         document.getElementById('username').innerHTML = runRecapPlayer('username')
     }

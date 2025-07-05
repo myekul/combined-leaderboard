@@ -374,11 +374,14 @@ function daysAgo(dateDif) {
     return dateDif == 0 ? 'Today' : dateDif + ` day${dateDif == 1 ? '' : 's'} ago`
 }
 function toggleVisibility(elem) {
-    if (document.getElementById(elem).style.display == '') {
-        hide(elem)
-    } else {
-        show(elem)
-        return 1
+    const element = document.getElementById(elem)
+    if (element) {
+        if (document.getElementById(elem).style.display == '') {
+            hide(elem)
+        } else {
+            show(elem)
+            return 1
+        }
     }
 }
 function show(elem) {
@@ -398,4 +401,12 @@ function cupheadShot(shot, size, extra) {
         return `<img src="images/cuphead/inventory/weapons/${shot}.png" ${extra ? `class='container'` : ''} ${size ? `style='height:${size}px'` : ''}></img>`
     }
     return ''
+}
+function getDelta(delta) {
+    const negative = delta < 0
+    delta = Math.abs(delta)
+    return (negative ? '-' : '+') + (delta >= 60 ? secondsToHMS(delta) : delta + 's')
+}
+function redGreen(delta) {
+    return 'color:' + (delta > 0 ? 'red' : 'limegreen')
 }

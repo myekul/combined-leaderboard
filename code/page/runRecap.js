@@ -286,9 +286,6 @@ function runRecapGrade(delta) {
 function runRecapDelta(runTime, comparisonTime) {
     return Math.floor(runTime) - Math.floor(comparisonTime)
 }
-function getDelta(delta) {
-    return (delta < 0 ? '' : '+') + delta + 's'
-}
 function runRecap_chart(times, deltas, lss) {
     const data = new google.visualization.DataTable()
     data.addColumn('number', 'Times')

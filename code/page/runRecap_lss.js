@@ -191,13 +191,13 @@ function generate_lss() {
         const trueSplitDelta = Math.trunc(splitDelta * 100) / 100
         deltas.push(trueSplitDelta)
         HTMLContent += `<td style='padding:0 5px;font-size:80%'>${comparisonContent('split', index, comparisonSplit, comparison)}</td>`
-        HTMLContent += `<td style='padding:0 5px;color:${redGreen(trueSplitDelta)}'>${getDelta(trueSplitDelta)}</td>`
+        HTMLContent += `<td style='padding:0 5px;${redGreen(trueSplitDelta)}'>${getDelta(trueSplitDelta)}</td>`
         HTMLContent += image
         HTMLContent += `<td class='${className}' style='padding:0 10px;font-size:120%'>${secondsToHMS(currentSplit, true)}</td>`
         HTMLContent += `<td style='padding:0 20px'></td>`
         const compareCustom = !isNaN(comparison) || comparison == 'yourPB'
         HTMLContent += `<td style='padding:0 5px;font-size:80%'>${comparisonContent('segment', index, comparisonSegment, comparison)}</td>`
-        HTMLContent += `<td class='${compareCustom ? '' : grade.className}' style='padding:0 5px;color:${compareCustom ? redGreen(trueDelta) : ''}'>${getDelta(trueDelta)}</td>`
+        HTMLContent += `<td class='${compareCustom ? '' : grade.className}' style='padding:0 5px;${compareCustom ? redGreen(trueDelta) : ''}'>${getDelta(trueDelta)}</td>`
         HTMLContent += image
         HTMLContent += `<td class='${className}' style='padding:0 10px;font-size:120%'>${secondsToHMS(currentSegment, true)}</td>`
         HTMLContent += `<td class='${compareCustom ? '' : grade.className}' style='padding:0 5px;text-align:left'>${compareCustom ? '' : grade.grade}</td>`
@@ -263,9 +263,6 @@ function comparisonContent(type, index, time, comparison) {
     }
     HTMLContent += `<div>${secondsToHMS(time, true)}</div></div>`
     return HTMLContent
-}
-function redGreen(delta) {
-    return delta > 0 ? 'red' : 'limegreen'
 }
 function segmentComparison(comparison, index, vs) {
     if (comparison == 'yourBest') {
