@@ -51,6 +51,10 @@ function openModal(modal, sound, param) {
             modalTitle = 'SEGMENT INFO'
             modalBody = runRecapSegment(param)
             break
+        case 'discord':
+            modalTitle = 'DISCORD'
+            modalBody = discord()
+            break
     }
     if (modalTitle) {
         document.getElementById('modal-title').innerHTML = modalTitle
@@ -77,7 +81,6 @@ function closeModal() {
 }
 function playerModal(playerIndex) {
     globalPlayerIndex = playerIndex
-    window.firebaseUtils.lastCheckedUser()
     document.addEventListener("keydown", modalKeyPress);
     let player = players[globalPlayerIndex]
     // if (sortCategoryIndex > -1) {
@@ -257,6 +260,37 @@ function countryModal(countryName) {
     playersCopy = [...country.players].slice(0, 100)
     sortPlayers(playersCopy)
     return `<div class='container'>${playersTable(playersCopy)}</div>`
+}
+function discord() {
+    fetch('https://discord.com/api/guilds/1386406855391313960/widget.json')
+        .then(response => response.json())
+        .then(data => {
+            let HTMLContent = ''
+            HTMLContent += `<div class='textBlock' style='max-width:500px;font-size:90%'>Join our vibrant community of Combined Leaderboard enjoyers in ${myekulColor('myekul castle')}! Stay up-to-date with all the latest features and behind-the-scenes glipses of the website.</div>`
+            HTMLContent += `
+            <div class='container' style='padding:16px 0;gap:8px'>
+            <img src='images/external/discord.png' style='height:24px'></img>
+                ${getAnchor(data.instant_invite)}<div class='button banner'>Join Server!</div></a>
+                <div style='width:10px;height:10px;background-color:limegreen;border-radius:50%'></div>
+                ${data.presence_count}
+            </div>`
+            HTMLContent += `<div class='container'><table>`
+            data.members.forEach(member => {
+                if (member.username == 'm...') {
+                    member.username = 'myekul'
+                }
+                const srcMember = players.find(player => player.name == member.username)
+                HTMLContent += `<tr>`
+                HTMLContent += `<td><img src='${member.avatar_url}' style='height:30px;border-radius:15px'></td>`
+                HTMLContent += `<td style='text-align:left;padding-left:5px'>${srcMember ? getPlayerName(srcMember) : member.username}</td>`
+                HTMLContent += member.game ? `<td style='padding-left:10px;color:var(--gray);text-align:left'>${member.game.name}</td>` : ''
+                HTMLContent += `</tr>`
+            })
+            HTMLContent += `</table></div>`
+            document.getElementById('modal-body').innerHTML = HTMLContent
+        })
+    // console.log(`https://discord.com/api/guilds/1386406855391313960/widget.json`)
+    // return `<iframe src="https://discord.com/widget?id=1386406855391313960&theme=dark" width="350" height="400" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>`
 }
 function modalKeyPress() {
     switch (event.key) {

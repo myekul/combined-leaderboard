@@ -128,7 +128,7 @@ function extraLevel(name, time) {
         </div>`
 }
 function isleHeader(isle) {
-    return `<div><table class='bigShadow'><tr><td colspan=10 class='${isle.className}'>${isle.name}</td></td>`
+    return `<div><table class='bigShadow'><tr><td colspan=4 class='${isle.className}'>${isle.name}</td></td>`
 }
 function runRecapCategory(categoryIndex) {
     const category = categories[categoryIndex]
@@ -155,11 +155,11 @@ function runRecapCategory(categoryIndex) {
         comparisonContent += `</div>`
     }
     HTMLContent += `<tr class='${getRowColor(categoryIndex)}'>`
-    HTMLContent += done ? `<td style='font-size:80%'>${comparisonContent}</td>` : `<td></td>`
-    HTMLContent += done ? `<td class='${grade.className}' style='font-size:90%'>${getDelta(delta)}</td>` : `<td></td>`
-    HTMLContent += `<td class='container ${category.info.id}'>${getImage(category.info.id, 42)}</td>`
-    HTMLContent += `<td id='runRecap_${categoryIndex}' class='${category.info.id}' style='padding:0 6px'>${done ? runRecapIL(runTime, categoryIndex) : runRecapInput(categoryIndex)}</td>`
     HTMLContent += done ? `<td class='${grade.className}' style='text-align:left;padding:0 2px'>${grade.grade}</td>` : `<td></td>`
+    HTMLContent += `<td class='container ${category.info.id}'>${getImage(category.info.id)}</td>`
+    HTMLContent += `<td id='runRecap_${categoryIndex}' class='${category.info.id}'>${done ? runRecapIL(runTime, categoryIndex) : runRecapInput(categoryIndex)}</td>`
+    HTMLContent += done ? `<td class='${grade.className}' style='font-size:90%'>${getDelta(delta)}</td>` : `<td></td>`
+    HTMLContent += done ? `<td style='font-size:90%;color:var(--gray);padding:0 2px'>${comparisonContent}</td>` : `<td></td>`
     HTMLContent += `</tr>`
     return HTMLContent
 }
@@ -201,7 +201,7 @@ function updateRunRecapIL(categoryIndex) {
     generate_sav()
 }
 function runRecapIL(runTime, categoryIndex) {
-    return `<div class='clickable' onclick="runRecapPlaceholder('${runTime}',${categoryIndex})" style='font-size:135%'>${secondsToHMS(runTime, true)}</div>`
+    return `<div class='clickable' onclick="runRecapPlaceholder('${runTime}',${categoryIndex})" style='font-size:130%;padding:0 8px'>${secondsToHMS(runTime, true)}</div>`
 }
 function runRecapInput(categoryIndex, value) {
     return `<input id='input_runRecapIL_${categoryIndex}' type='text' placeholder='X:XX' ${value ? `value='${value}'` : ''} style='font-size:100%;width:45px' onblur="updateRunRecapIL(${categoryIndex})">`
@@ -274,19 +274,21 @@ function runRecapSums() {
             const delta = isle.sum - isle.comparisonSum
             const grade = runRecapGrade(delta)
             HTMLContent += `<tr class='${getRowColor(isleIndex)}'>
-                <td style='font-size:80%'>${secondsToHMS(isle.comparisonSum)}</td>
-                <td class='${grade.className}' style='font-size:80%'>${getDelta(delta)}</td>
+                <td class='${grade.className}' style='text-align:left'>${grade.grade}</td>
                 <td style='padding:0 5px' class='${isle.className}'>${isle.name}</td>
                 <td class='${isle.className}'>${secondsToHMS(isle.sum)}</td>
-                <td class='${grade.className}' style='text-align:left'>${grade.grade}</td>
+                <td class='${grade.className}' style='font-size:90%'>${getDelta(delta)}</td>
+                <td style='font-size:90%;color:var(--gray)'>${secondsToHMS(isle.comparisonSum)}</td>
                 </tr>`
         }
     })
+    const delta = sum - comparisonSum
     HTMLContent += `<tr>
-    <td>${secondsToHMS(comparisonSum)}</td>
-    <td>${getDelta(sum - comparisonSum)}</td>
+    <td></td>
     <td></td>
     <td style='font-size:130%'>${secondsToHMS(sum)}</td>
+    <td style='${redGreen(delta)}'>${getDelta(delta)}</td>
+    <td style='color:var(--gray)'>${secondsToHMS(comparisonSum)}</td>
     </tr>`
     HTMLContent += `</table></div>`
     return HTMLContent

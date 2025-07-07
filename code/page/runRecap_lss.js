@@ -152,22 +152,23 @@ function generate_lss() {
     HTMLContent += `<div class='container'><table class='bigShadow'>`
     HTMLContent += `<tr style='font-size:60%'>`
     const comparisonTitle = segmentComparison(comparison)
-    HTMLContent += `<td>${comparison == 'yourBest' ? 'Your BPE' : comparisonTitle}</td>`
-    HTMLContent += `<td></td>`
     HTMLContent += `<td></td>`
     HTMLContent += `<td>Splits</td>`
     HTMLContent += `<td></td>`
-    HTMLContent += `<td>${comparisonTitle}</td>`
+    HTMLContent += `<td>${comparison == 'yourBest' ? 'Your BPE' : comparisonTitle}</td>`
+    HTMLContent += `<td></td>`
     HTMLContent += `<td></td>`
     HTMLContent += `<td></td>`
     HTMLContent += `<td>Segments</td>`
+    HTMLContent += `<td></td>`
+    HTMLContent += `<td>${comparisonTitle}</td>`
     if (runRecap_savFile) {
         HTMLContent += `<td></td>`
         HTMLContent += `<td></td>`
-        HTMLContent += `<td>Comparison</td>`
-        HTMLContent += `<td></td>`
         HTMLContent += `<td></td>`
         HTMLContent += `<td>.sav ILs</td>`
+        HTMLContent += `<td></td>`
+        HTMLContent += `<td>Comparison</td>`
     }
     // Offset for Follies, Mausoleum, Chalice Tutorial
     const splits = []
@@ -190,17 +191,17 @@ function generate_lss() {
         const splitDelta = currentSplit - comparisonSplit
         const trueSplitDelta = Math.trunc(splitDelta * 100) / 100
         deltas.push(trueSplitDelta)
-        HTMLContent += `<td style='padding:0 5px;font-size:80%'>${comparisonContent('split', index, comparisonSplit, comparison)}</td>`
-        HTMLContent += `<td style='padding:0 5px;${redGreen(trueSplitDelta)}'>${getDelta(trueSplitDelta)}</td>`
         HTMLContent += image
         HTMLContent += `<td class='${className}' style='padding:0 10px;font-size:120%'>${secondsToHMS(currentSplit, true)}</td>`
+        HTMLContent += `<td style='padding:0 5px;font-size:90%;${redGreen(trueSplitDelta)}'>${getDelta(trueSplitDelta)}</td>`
+        HTMLContent += `<td style='padding:0 5px;'>${comparisonContent('split', index, comparisonSplit, comparison)}</td>`
         HTMLContent += `<td style='padding:0 20px'></td>`
         const compareCustom = !isNaN(comparison) || comparison == 'yourPB'
-        HTMLContent += `<td style='padding:0 5px;font-size:80%'>${comparisonContent('segment', index, comparisonSegment, comparison)}</td>`
-        HTMLContent += `<td class='${compareCustom ? '' : grade.className}' style='padding:0 5px;${compareCustom ? redGreen(trueDelta) : ''}'>${getDelta(trueDelta)}</td>`
+        HTMLContent += `<td class='${compareCustom ? '' : grade.className}' style='padding:0 5px;text-align:left'>${compareCustom ? '' : grade.grade}</td>`
         HTMLContent += image
         HTMLContent += `<td class='${className}' style='padding:0 10px;font-size:120%'>${secondsToHMS(currentSegment, true)}</td>`
-        HTMLContent += `<td class='${compareCustom ? '' : grade.className}' style='padding:0 5px;text-align:left'>${compareCustom ? '' : grade.grade}</td>`
+        HTMLContent += `<td class='${compareCustom ? '' : grade.className}' style='padding:0 5px;font-size:90%;${compareCustom ? redGreen(trueDelta) : ''}'>${getDelta(trueDelta)}</td>`
+        HTMLContent += `<td style='padding:0 5px;'>${comparisonContent('segment', index, comparisonSegment, comparison)}</td>`
         if (runRecap_savFile) {
             HTMLContent += `<td style='padding:0 20px'></td>`
             if (index >= getOffset()) {
@@ -219,11 +220,11 @@ function generate_lss() {
                     comparisonContents += `</div>`
                 }
                 comparisonContents += `<div>${secondsToHMS(comparisonTime)}</div></div>`
-                HTMLContent += `<td style='padding:0 10px;font-size:80%'>${comparisonContents}</td>`
-                HTMLContent += `<td class='${ILgrade.className}' style='padding:0 5px'>${runTime == nullTime ? '-' : getDelta(delta)}</td>`
+                HTMLContent += `<td class='${ILgrade.className}' style='padding:0 5px;text-align:left'>${ILgrade.grade}</td>`
                 HTMLContent += image
                 HTMLContent += `<td class='${className}' style='padding:0 10px;font-size:120%'>${runTime == nullTime ? '-' : secondsToHMS(runTime, true)}</td>`
-                HTMLContent += `<td class='${ILgrade.className}' style='padding:0 5px;text-align:left'>${ILgrade.grade}</td>`
+                HTMLContent += `<td class='${ILgrade.className}' style='padding:0 5px;font-size:90%'>${runTime == nullTime ? '-' : getDelta(delta)}</td>`
+                HTMLContent += `<td style='padding:0 10px;font-size:90%;color:var(--gray)'>${comparisonContents}</td>`
             } else if (index == 2) {
                 HTMLContent += `<td></td>
                 <td></td>
@@ -245,7 +246,7 @@ function generate_lss() {
             const category = categories[categoryIndex]
             const nextCategory = categories[categoryIndex + 1]
             if (nextCategory && category.info.isle != nextCategory?.info.isle) {
-                HTMLContent += `<tr style='height:24px'></tr>`
+                HTMLContent += `<tr style='height:20px'></tr>`
             }
         }
 
@@ -256,7 +257,7 @@ function generate_lss() {
 }
 function comparisonContent(type, index, time, comparison) {
     const source = type == 'split' ? 'bestSplitsPlayers' : 'bestSegmentsPlayers'
-    let HTMLContent = `<div class='container' style='gap:7px;justify-content:left'>`
+    let HTMLContent = `<div class='container' style='gap:7px;justify-content:left;color:var(--gray);font-size:90%'>`
     if (comparison == null || comparison == 'commBest') {
         const player = players.find(player => player.name == runRecap_markin[source][index].split('/')[0])
         HTMLContent += player ? getPlayerIcon(player, 24) : ''

@@ -121,9 +121,6 @@ window.firebaseUtils = {
             firebase_screen_class: gameID + '_' + mode
         })
     },
-    lastCheckedUser: () => {
-        setUserProperties(analytics, { last_checked_user: players[globalPlayerIndex].name });
-    },
     firestoreWriteMain: async () => {
         for (let i = 0; i < categories.length; i++) {
             const docRefMain = doc(db, gameID + '_main', String(i));
@@ -141,18 +138,19 @@ window.firebaseUtils = {
         let query1 = query(collectionRef)
         try {
             let querySnapshot = await getDocs(query1)
+            globalCache = []
             querySnapshot.forEach(doc => {
-                categories.push(doc.data());
+                globalCache.push(doc.data());
             });
-            resetAndGo()
-            firebaseReadSuccess()
+            if (mode != 'commBestILs') {
+                cachedCategories()
+            } else {
+                extraCategory.players = globalCache[commBestILsCategory.category].players
+                extraCategory.runs = globalCache[commBestILsCategory.category].runs
+                gapi.load("client", loadClient);
+            }
         } catch (error) {
             console.error("Error fetching documents: ", error)
         }
     },
-}
-function firebaseReadSuccess() {
-    completeLoad()
-    const boardTitleSrc = document.getElementById('boardTitleSrc')
-    boardTitleSrc.innerHTML = `<img src='images/external/firebase.png'>`
 }

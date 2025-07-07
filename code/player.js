@@ -32,7 +32,7 @@ function getPlayerDisplay(player, playerIndex) {
             HTMLContent += `<td>${getPlayerIcon(player, 18)}</td>`
         }
     }
-    const clickable = player?.rank && page != 'map' ? `onclick="openModal('player','up',${playerIndex})" class='clickable'` : ''
+    const clickable = player?.rank && !['map', 'commBest'].includes(page) ? `onclick="openModal('player','up',${playerIndex})" class='clickable'` : ''
     HTMLContent += `<td ${clickable} style='text-align:left;font-weight: bold;font-size:80%;padding-right:5px'>${getPlayerName(player ? player : playerIndex)}</td>`
     return HTMLContent
 }

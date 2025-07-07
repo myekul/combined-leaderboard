@@ -25,7 +25,7 @@ const myekulSays = {
     Mine_: `Hi Fiona`,
     Misterbutter444: `Misterbutter444 is a prolific 1.1+ runner, boasting an incredble time of 27:37. He has also held the record for OG Charge!`,
     Musically_dECLINED: `Musically_dECLINED is a relatively new runner who rose to prominence with his NMG and DLC runs. A top Charge/Spread runner, this guy revolutionized Chargimate with the discovery of the eponymously named "M-swap." With it, he's managed to get a 10:4X DLC! That's pretty sick, but it doesn't make him any less of a goon. Ha!`,
-    myekul: `Hello! My name is myekul and I a runner of many categories, perhaps best known for my dominance of Whetstone ILs. In fact, I hold every single ground boss IL world record (108/108). I also hold several fullgame world records in various Charge-centric categories, such as DLC Charge/Spread, DLC Expert, and OG Charge. I am also the inventor of the Chargimate Jutsu. Hope you're enjoying the website!`,
+    myekul: `Hello! My name is myekul and I am runner of many categories, perhaps best known for my dominance of Whetstone ILs. In fact, I hold every single ground boss IL world record (108/108). I also hold several fullgame world records in various Charge-centric categories, such as DLC Charge/Spread, DLC Expert, and OG Charge. I am also the inventor of the Chargimate Jutsu. Hope you're enjoying the website!`,
     nomit: `Winyi weria tyutteratesokamo
     <br><br>Hyarihyari Herahora Finyinyi
     <br><br>Winyi weria tyutterateni wenoa

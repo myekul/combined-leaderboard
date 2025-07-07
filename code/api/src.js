@@ -50,7 +50,7 @@ function getLeaderboard(category, query, variables, extra, altGameID) {
                             if (gameID == 'cuphead' && mode == 'levels' && !basegameILs) {
                                 window.firebaseUtils.firestoreWrite()
                             }
-                            if ((['sm64'].includes(gameID) && categories.length == 5) || ['smb1', 'sms'].includes(gameID)) {
+                            if ((['cuphead','sm64'].includes(gameID) && categories.length == 5) || ['smb1', 'sms'].includes(gameID)) {
                                 window.firebaseUtils.firestoreWriteMain()
                             }
                             prepareData()
@@ -61,8 +61,6 @@ function getLeaderboard(category, query, variables, extra, altGameID) {
                 extraCategory.runs = cleanRuns(data.data.runs)
                 if (gameID == 'cuphead') {
                     extraCategory.players = cleanPlayers(data.data.players.data)
-                    extraCategory.className = commBestILsCategory.className
-                    getPlayers(extraCategory)
                     gapi.load("client", loadClient);
                 } else {
                     if (gameID == 'sm64') {

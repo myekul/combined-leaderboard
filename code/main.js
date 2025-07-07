@@ -49,7 +49,7 @@ function getFullgame(categoryName) {
         }
     }
     resetLoad()
-    if (!(['sm64', 'smb1', 'sms'].includes(gameID) && mode == 'fullgame' && !categoryName && firstTimeFull)) {
+    if (!(['cuphead', 'sm64', 'smb1', 'sms'].includes(gameID) && mode == 'fullgame' && !categoryName && firstTimeFull)) {
         categories.forEach(category => {
             let variables = ''
             if (category.var) {
@@ -61,9 +61,13 @@ function getFullgame(categoryName) {
             getLeaderboard(category, `category/${category.id}`, variables)
         })
     } else {
-        // firstTimeFull = false
-        categories = []
-        window.firebaseUtils.firestoreReadMain()
+        if (globalCache) {
+            cachedCategories()
+        } else {
+            // firstTimeFull = false
+            categories = []
+            window.firebaseUtils.firestoreReadMain()
+        }
     }
 }
 function getLevels() {
@@ -87,16 +91,26 @@ function getCommBestILs(categoryName) {
     resetLoad()
     players = []
     playerNames = new Set()
-    let category = commBestILsCategory.category
-    let variables = `var-${category.var}=${category.subcat}`
-    if (category.var2) {
-        variables += `&var-${category.var2}=${category.subcat2}`
+    const category = commBestILsCategory.category
+    if (category > -1) {
+        if (globalCache) {
+            extraCategory.players = globalCache[category].players
+            extraCategory.runs = globalCache[category].runs
+            gapi.load("client", loadClient);
+        } else {
+            window.firebaseUtils.firestoreReadMain()
+        }
+    } else {
+        let variables = `var-${category.var}=${category.subcat}`
+        if (category.var2) {
+            variables += `&var-${category.var2}=${category.subcat2}`
+        }
+        let altGameID = false
+        if (['DLC Expert'].includes(categoryName)) {
+            altGameID = 'cuphead_category_extensions'
+        }
+        getLeaderboard(category, `category/${category.id}`, variables, true, altGameID)
     }
-    let altGameID = false
-    if (['DLC Expert'].includes(categoryName)) {
-        altGameID = 'cuphead_category_extensions'
-    }
-    getLeaderboard(category, `category/${category.id}`, variables, true, altGameID)
 }
 function updateLoadouts(categoryName) {
     let HTMLContent = ''
@@ -491,4 +505,14 @@ function resetAndGo() {
         getPlayers(category)
     })
     prepareData()
+}
+function cachedCategories() {
+    categories = globalCache
+    resetAndGo()
+    firebaseReadSuccess()
+}
+function firebaseReadSuccess() {
+    completeLoad()
+    const boardTitleSrc = document.getElementById('boardTitleSrc')
+    boardTitleSrc.innerHTML = `<img src='images/external/firebase.png'>`
 }

@@ -13,6 +13,8 @@ function loadClient() {
 }
 function fetchAllData() {
     if (gameID == 'cuphead') {
+        extraCategory.className = commBestILsCategory.className
+        getPlayers(extraCategory)
         fetchCuphead()
     } else if (gameID == 'ssbm') {
         fetchSSBM()
@@ -216,6 +218,8 @@ function loadMyekul() {
     })
 }
 function loadSheets() {
+    let url = 'https://docs.google.com/spreadsheets/d/' + MYEKUL_SHEET_ID
+    loadSheetIcon(url)
     gapi.client.sheets.spreadsheets.get({
         spreadsheetId: MYEKUL_SHEET_ID
     }).then(response => {
@@ -226,11 +230,14 @@ function loadSheets() {
             const gid = sheet.properties.sheetId;
             tabMap[name] = gid;
         });
-        const url = 'https://docs.google.com/spreadsheets/d/' + MYEKUL_SHEET_ID + '/edit?gid=' + tabMap[commBestILsCategory.tabName]
-        const boardTitleSrc = document.getElementById('boardTitleSrc')
-        boardTitleSrc.innerHTML = `<div class='clickable'>${getAnchor(url)}<img src='images/external/sheets.png'></div>`
-        boardTitleSrc.innerHTML += `<div style='margin-left:5px'>${getSRCicon()}</div>`
+        url += '/edit?gid=' + tabMap[commBestILsCategory.tabName]
+        loadSheetIcon(url, true)
     });
+}
+function loadSheetIcon(url, flash) {
+    const boardTitleSrc = document.getElementById('boardTitleSrc')
+    boardTitleSrc.innerHTML = `<div class='clickable ${flash ? 'flash' : ''}'>${getAnchor(url)}<img src='images/external/sheets.png'></div>`
+    boardTitleSrc.innerHTML += `<div style='margin-left:5px'>${getSRCicon()}</div>`
 }
 function fetchSSBM() {
     // resetLoad()

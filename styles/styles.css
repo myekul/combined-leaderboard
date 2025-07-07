@@ -559,10 +559,10 @@ svg {
 }
 
 .pulse {
-    animation: pulse 1s infinite;
+    animation: pulseSize 1s infinite;
 }
 
-@keyframes pulse {
+@keyframes pulseSize {
     0% {
         transform: scale(1);
     }
@@ -631,4 +631,31 @@ svg {
     100% {
         filter: brightness(1);
     }
+}
+
+.brightPulse {
+    animation: brightPulse 1.3s infinite;
+}
+
+@keyframes brightPulse {
+    0% {
+        filter: brightness(1);
+    }
+
+    50% {
+        filter: brightness(1.5);
+    }
+
+    100% {
+        filter: brightness(1);
+    }
+}
+
+.widgetChannel-nbV3R {
+    display: none
+}
+
+.widgetMemberAvatar-xweNxt img {
+    width: 100px;
+    height: 100px
 }
