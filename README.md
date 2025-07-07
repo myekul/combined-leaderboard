@@ -44,8 +44,6 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Melee sums fix
 - Home run contest
 - Punch Out!! Wii
-- GAPI hyperlinks
-- Username search
 - View all leaderboards at once
 
 ## Known bugs
@@ -57,3 +55,4 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Date sort is off by 1 day
 - Calculator uses real percentages instead of balanced percentages
 - Map board title
+- Comm Best Any% DLC boards merge bug

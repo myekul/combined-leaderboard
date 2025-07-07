@@ -290,7 +290,7 @@ function prepareData() {
     players.forEach((player, playerIndex) => {
         player.rank = playerIndex + 1
     })
-    // hide('loading')
+    hide('loading')
     if (mode == 'fullgame' && spotlightFlag) {
         generateSpotlightPlayer()
         show('spotlightDiv')
@@ -484,7 +484,7 @@ function resetLoad() {
     stopLeaderboards = false
     document.getElementById('boardTitleSrc').innerHTML = `<div class='loader'></div>`
     document.getElementById('progress-bar').style.width = 0;
-    // show('loading')
+    show('loading')
 }
 function completeLoad() {
     document.getElementById('progress-bar').style.width = '100%';

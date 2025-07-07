@@ -196,10 +196,13 @@ if (['cuphead'].includes(gameID)) {
 fetch('https://discord.com/api/guilds/1386406855391313960/widget.json')
     .then(response => response.json())
     .then(data => {
-        document.getElementById('discordOnline').innerHTML = `
+        discordOnline(data.presence_count)
+    })
+function discordOnline(num) {
+    document.getElementById('discordOnline').innerHTML = `
         <div class='container' style='gap:5px'>
             <img src="images/external/discord.png" class="clickable brightPulse" style="padding-left:10px;height:24px" onclick="openModal('discord','up')">
             <div style='width:8px;height:8px;background-color:limegreen;border-radius:50%'></div>
-            ${data.presence_count}
+            ${num}
         </div>`
-    })
+}

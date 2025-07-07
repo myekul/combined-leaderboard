@@ -71,7 +71,7 @@
                         <!-- <div class='clickable' style="width:25px"><img src="images/external/discord.png"
                                 style="height:20px"></div> -->
                     </div>
-                    <div id="gameSelect" class="sticky" style="display:none"></div>
+                    <div id="gameSelect" class="sticky" style="display:none;z-index:100"></div>
                     <div onclick="openModal('info','up')" class="clickable" style="width:25px"><i
                             class="fa fa-info-circle"></i></div>
                     <div id='modeSelection' class='container' style="display:none; margin:0">
@@ -91,19 +91,7 @@
                     <div style="width:70px">
                         <div id="boardTitleSrc" class="container"></div>
                     </div>
-                    <div id="tabs" class="container" style="margin:0">
-                        <div id='leaderboardButton'></div>
-                        <div id='WRsButton'></div>
-                        <div id='featuredButton'></div>
-                        <div class='container' style='width:15px;margin:0'>&#8226;</div>
-                        <div id='chartsButton'></div>
-                        <div id='mapButton'></div>
-                        <div id='sortButton'></div>
-                    </div>
                     <div id="discordOnline"></div>
-                    <!-- <div id='loading' style='position:absolute;right:40px;top:8px;color:white'>
-                        <div>Loading API...</div>
-                    </div> -->
                     <input id='input_username' type='text' placeholder='Your SRC username'
                         style='display:none;width:200px;font-size:100%;position:absolute;right:40px;top:4px;'>
                     <div id='username' onclick="showInput('username')" class='container clickable'
@@ -115,16 +103,34 @@
                 <div class="progress-container bigShadow">
                     <div id="progress-bar" class="progress-bar"></div>
                 </div>
+                <div class='headerRow' style="height:25px;margin-bottom:10px;">
+                    <div id='viableDiv' class='hide' style="display:none;position:absolute;left:24px;top:49px">
+                        <input id="checkbox_viable" onchange="getCommBestILs()" type="checkbox" checked>Run viable
+                    </div>
+                    <div id="tabs" class="container" style="padding-bottom:2px;margin:0">
+                        <div id='leaderboardButton'></div>
+                        <div class='container' style='width:15px;margin:0'>&#8226;</div>
+                        <div id='WRsButton'></div>
+                        <div id='featuredButton'></div>
+                        <div class='container' style='width:15px;margin:0'>&#8226;</div>
+                        <div id='chartsButton'></div>
+                        <div id='mapButton'></div>
+                        <div id='sortButton'></div>
+                    </div>
+                    <div id='loading' style='position:absolute;right:40px;top:49px;color:white'>
+                        <div>Loading API...</div>
+                    </div>
+                </div>
             </div>
             <div id="refreshDiv" class='clickable banner'
                 onclick="firstTimeFull=false;getFullgame();playSound('cardflip')"
-                style="display:none;position:absolute;left:25px;top:160px;height:48px;width:48px;border-radius:50px;text-align: center">
+                style="display:none;position:absolute;left:25px;top:190px;height:48px;width:48px;border-radius:50px;text-align: center">
                 <i class="fa fa-refresh" style="font-size:150%;margin-top:11px"></i>
             </div>
             <div id="spotlightDiv" class='clickable' onclick="showTab('spotlight');playSound('ready')"
-                style="position:absolute;right:20px;top:150px"></div>
+                style="position:absolute;right:20px;top:185px;"></div>
             <!-- Fullgame Categories -->
-            <div id="fullgameCategoriesSection" class='hide headerRow' style="display:none">
+            <div id="fullgameCategoriesSection" class='hide' style="display:none">
                 <div id='fullgameCategoriesButton' onclick="toggleFullgameCategories()" class='clickable container'
                     style="width:50px"><i class="fa fa-bars"></i></div>
                 <div id="fullgameCategories" style="display:none">
@@ -190,7 +196,7 @@
                 </div>
             </div>
             <!-- Individual Levels -->
-            <div id="ILsSection_cuphead" class='hide headerRow' style="display:none">
+            <div id="ILsSection_cuphead" class='hide' style="display:none">
                 <div class="container">
                     <div id='versionTabs' class='container' style="margin:0">
                         <div id='legacy' onclick="cupheadLevelSetting('legacy','nodlc')" class="button legacy"
@@ -256,7 +262,7 @@
                     </div>
                 </div>
             </div>
-            <div id="ILsSection_sm64" class='hide headerRow' style="display:none">
+            <div id="ILsSection_sm64" class='hide' style="display:none">
                 <div id='ILcategoriesButton_sm64' onclick="toggleILcategories()" class='clickable container'
                     style="width:50px"><i class="fa fa-bars"></i></div>
                 <div id='ILcategories_sm64' style="display:none">
@@ -271,9 +277,7 @@
                     </div>
                 </div>
             </div>
-            <div id="ILsSection_ssbm" class='hide headerRow' style="display:none">
-                <!-- <div id='ILcategoriesButton_ssbm' onclick="toggleILcategories()" class='clickable container'
-                    style="width:50px"><i class="fa fa-bars"></i></div> -->
+            <div id="ILsSection_ssbm" class='hide' style="display:none">
                 <div id='ILcategories_ssbm'>
                     <div class="container">
                         <div id='ILdefault_ssbm' onclick="getLevels()" class="button" style="width:50px">
@@ -284,7 +288,7 @@
                     </div>
                 </div>
             </div>
-            <div id="ILsSection_ssb64" class='hide headerRow' style="display:none">
+            <div id="ILsSection_ssb64" class='hide' style="display:none">
                 <div id='ILcategories_ssb64'>
                     <div class="container">
                         <div id='ILdefault_ssb64' onclick="getLevels()" class="button" style="width:50px">
@@ -296,8 +300,8 @@
                 </div>
             </div>
             <!-- Cuphead Comm Best ILs -->
-            <div id="commBestILsSection" class='hide headerRow' style="display:none">
-                <div id="commBestILsVersionTabs" class="container">
+            <div id="commBestILsSection" class='hide' style="display:none">
+                <div id="commBestILsVersionTabs" style="position:absolute;left:20px">
                     <div id='commBestILs_onePointOne' onclick="getCommBestILs('1.1+')" class="button onePointOne">
                         1.1+
                     </div>
@@ -309,10 +313,7 @@
                         DLC+Base
                     </div>
                 </div>
-                <div id="loadouts" class="container"></div>
-                <div class='container'>
-                    <input id="checkbox_viable" onchange="getCommBestILs()" type="checkbox" checked>Run viable
-                </div>
+                <div id="loadouts" style="position:absolute;left:120px"></div>
             </div>
             <!-- Board Title -->
             <div id="pageTitle" class="container" style="font-family: var(--font2);font-size:200%;padding:15px 0">
@@ -326,7 +327,7 @@
                         style="font-size:150%"></i>
                 </div>
             </div>
-            <div id="boardTitleDiv" class="sticky" style="top:42px;max-width: 50%;margin:0 auto;padding-top:8px">
+            <div id="boardTitleDiv" class="sticky" style="top:75px;max-width: 50%;margin:0 auto;padding-top:8px">
                 <div class="container" style="max-width:50%">
                     <div class="container" style="margin:0;gap:8px">
                         <input id="checkbox_isolate" type="checkbox" onclick='action()' style="display:none">
@@ -465,7 +466,7 @@
                 <div id="date"></div>
             </div>
             <!-- Sort -->
-            <div id="sortTab" class="tabs" style="display:none">
+            <div id="sortTab" class="tabs" style="display:none;margin-top:15px">
                 <div id='sort_options' class="container">
                     <select id="dropdown_sortCriteria">
                         <optgroup label="Runs">

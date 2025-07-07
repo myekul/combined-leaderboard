@@ -122,9 +122,9 @@ window.firebaseUtils = {
         })
     },
     firestoreWriteMain: async () => {
-        for (let i = 0; i < categories.length; i++) {
+        for (let i = 0; i < globalCache.length; i++) {
             const docRefMain = doc(db, gameID + '_main', String(i));
-            await setDoc(docRefMain, categories[i])
+            await setDoc(docRefMain, globalCache[i])
                 .then(() => {
                     console.log(`Document ${i} written`);
                 })

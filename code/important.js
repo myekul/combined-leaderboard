@@ -9,6 +9,7 @@ function showTab(newPage) {
     })
     if (mode == 'commBestILs') {
         show('commBestILsSection')
+        show('viableDiv')
     }
     if (['cuphead', 'sm64', 'nsmbw'].includes(gameID) && mode == 'fullgame') {
         show('fullgameCategoriesSection')
@@ -111,7 +112,11 @@ function pageAction() {
             show(pageTitle)
             pageTitle.innerHTML = fontAwesomeText(fontAwesomePage[1], fontAwesomePage[0])
         } else {
-            hide(pageTitle)
+            if (mode == 'commBestILs') {
+                pageTitle.innerHTML = fontAwesomeText('tasks', 'Comm Best ILs')
+            } else {
+                hide(pageTitle)
+            }
         }
     }
 }

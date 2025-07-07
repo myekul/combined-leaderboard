@@ -147,7 +147,7 @@ const fontAwesomeSet = {
     map: ['Map', 'flag'],
     sort: ['Sort', 'sort-amount-asc'],
     runRecap: ['Run Recap', 'history'],
-    commBest: ['Comm Best', 'tasks'],
+    commBest: ['Comm Best Splits', 'tasks'],
     spotlight: ['Daily Spotlight', 'user-circle-o']
 }
 function fontAwesome(icon) {
