@@ -71,7 +71,7 @@
                         <!-- <div class='clickable' style="width:25px"><img src="images/external/discord.png"
                                 style="height:20px"></div> -->
                     </div>
-                    <div id="gameSelect" class="sticky" style="display:none;z-index:100"></div>
+                    <div id="gameSelect" class="sticky" style="display:none"></div>
                     <div onclick="openModal('info','up')" class="clickable" style="width:25px"><i
                             class="fa fa-info-circle"></i></div>
                     <div id='modeSelection' class='container' style="display:none; margin:0">
@@ -109,9 +109,10 @@
                     </div>
                     <div id="tabs" class="container" style="padding-bottom:2px;margin:0">
                         <div id='leaderboardButton'></div>
-                        <div class='container' style='width:15px;margin:0'>&#8226;</div>
-                        <div id='WRsButton'></div>
                         <div id='featuredButton'></div>
+                        <div class='container' style='width:15px;margin:0'>&#8226;</div>
+                        <div id='leaderboardsButton'></div>
+                        <div id='WRsButton'></div>
                         <div class='container' style='width:15px;margin:0'>&#8226;</div>
                         <div id='chartsButton'></div>
                         <div id='mapButton'></div>
@@ -131,19 +132,24 @@
                 style="position:absolute;right:20px;top:185px;"></div>
             <!-- Fullgame Categories -->
             <div id="fullgameCategoriesSection" class='hide' style="display:none">
-                <div id='fullgameCategoriesButton' onclick="toggleFullgameCategories()" class='clickable container'
-                    style="width:50px"><i class="fa fa-bars"></i></div>
+                <div id='fullgameCategoriesButton' onclick="toggleSection('fullgameCategories')" class="toggleSection">
+                </div>
                 <div id="fullgameCategories" style="display:none">
                     <div id="cuphead_fullgameCategories" style="display:none">
-                        <div class="container">
+                        <div class="container" style="margin-bottom:10px">
                             <div id='cuphead_fullgameCategories_main' onclick="getFullgame()" class="button cuphead"
-                                style="width:150px">Main Leaderboard</div>
+                                style="width:160px;height:24px;font-size:90%">Main Leaderboard</div>
                         </div>
                         <div class="container">
                             <div id='fullgameCategories_basegame' onclick="getFullgame('basegame')"
                                 class="button cuphead" style="width:100px">Base Game</div>
                             <div id='fullgameCategories_currentPatch' onclick="getFullgame('currentPatch')"
                                 class="button cuphead" style="width:120px">Current Patch</div>
+                            <div class='container' style='width:15px;margin:0'>&#8226;</div>
+                            <div id='fullgameCategories_simple' onclick="getFullgame('simple')" class="button simple">
+                                Simple</div>
+                            <div id='fullgameCategories_expert' onclick="getFullgame('expert')" class="button expert">
+                                Expert</div>
                         </div>
                         <div class="container">
                             <div id='fullgameCategories_onePointOne' onclick="getFullgame('1.1+')"
@@ -158,8 +164,24 @@
                             <div id='fullgameCategories_dlc' onclick="getFullgame('DLC')" class="button dlc">DLC
                             </div>
                             <div id='fullgameCategories_dlcbase' onclick="getFullgame('DLC+Base')"
-                                class="button dlcbase">
-                                DLC+Base
+                                class="button dlcbase">DLC+Base</div>
+                        </div>
+                        <div id='cupheadExtraButton' onclick="toggleSection('cupheadExtra')" class="toggleSection">
+                        </div>
+                        <div id="cupheadExtra" style="display:none">
+                            <div class="container">
+                                <div id='fullgameCategories_oneGun' onclick="getFullgame('oneGun')"
+                                    class="button cuphead">One Gun</div>
+                                <select id="dropdown_oneGun_objective" class='oneGun' onchange="getFullgame('oneGun')">
+                                    <option value="mlnxnkjq" class='cuphead' selected>Base Game</option>
+                                    <option value="8104892l" class='dlc'>DLC</option>
+                                    <option value="9qj3re3l" class='dlcbase'>DLC+Base</option>
+                                </select>
+                                <select id="dropdown_oneGun_difficulty" class='oneGun' onchange="getFullgame('oneGun')">
+                                    <option value="81wmd0mq" class='simple'>Simple</option>
+                                    <option value="zqoy3v51" class='regular' selected>Regular</option>
+                                    <option value="013vm6rl" class='expert'>Expert</option>
+                                </select>
                             </div>
                         </div>
                         <!-- <div class="container">
@@ -208,8 +230,8 @@
                             class="button cuphead">Current Patch</div>
                     </div>
                     <div>
-                        <div id='ILcategoriesButton_cuphead' onclick="toggleILcategories()" class='clickable container'
-                            style="width:50px"><i class="fa fa-bars"></i></div>
+                        <div id='cupheadILcategoriesButton' onclick="toggleSection('cupheadILcategories')"
+                            class="toggleSection"></div>
                     </div>
                     <div id='categoryTabs' class='container' style="margin:0">
                         <div id='nodlcBoards' onclick="cupheadLevelSetting(cupheadVersion,'nodlc')"
@@ -218,7 +240,7 @@
                             style="width:110px">DLC Loadout</div>
                     </div>
                 </div>
-                <div id="ILcategories_cuphead" style="display:none">
+                <div id="cupheadILcategories" style="display:none">
                     <div class="container">
                         <div id="ILbosses"></div>
                         <input id='checkbox_basegameILs' type="checkbox" onchange='toggleBasegameILs()'
@@ -263,9 +285,9 @@
                 </div>
             </div>
             <div id="ILsSection_sm64" class='hide' style="display:none">
-                <div id='ILcategoriesButton_sm64' onclick="toggleILcategories()" class='clickable container'
-                    style="width:50px"><i class="fa fa-bars"></i></div>
-                <div id='ILcategories_sm64' style="display:none">
+                <div id='sm64ILcategoriesButton' onclick="toggleSection('sm64ILcategories')" class="toggleSection">
+                </div>
+                <div id='sm64ILcategories' style="display:none">
                     <div class="container">
                         <div id='ILdefault_sm64' onclick="getLevels()" class="button">All</div>
                     </div>
@@ -300,7 +322,7 @@
                 </div>
             </div>
             <!-- Cuphead Comm Best ILs -->
-            <div id="commBestILsSection" class='hide' style="display:none">
+            <div id="commBestILsSection" class='hide sticky' style="display:none;top:87px">
                 <div id="commBestILsVersionTabs" style="position:absolute;left:20px">
                     <div id='commBestILs_onePointOne' onclick="getCommBestILs('1.1+')" class="button onePointOne">
                         1.1+
@@ -318,7 +340,7 @@
             <!-- Board Title -->
             <div id="pageTitle" class="container" style="font-family: var(--font2);font-size:200%;padding:15px 0">
             </div>
-            <div id='categoriesSection' class="container hide" style="display:none">
+            <div id='categorySelect' class="container hide" style="display:none">
                 <div class="clickable" onclick="organizePlayers(sortCategoryIndex-1)"><i class="fa fa-caret-left"
                         style="font-size:150%"></i>
                 </div>
@@ -330,7 +352,6 @@
             <div id="boardTitleDiv" class="sticky" style="top:75px;max-width: 50%;margin:0 auto;padding-top:8px">
                 <div class="container" style="max-width:50%">
                     <div class="container" style="margin:0;gap:8px">
-                        <input id="checkbox_isolate" type="checkbox" onclick='action()' style="display:none">
                         <div id="boardTitle" class="container" style="margin:0"></div>
                         <div id='closeBoardTitle' class='clickable' style='display:none' onclick="showDefault()"><i
                                 class="fa fa-close"></i>
@@ -343,7 +364,7 @@
                         <div id='runRecap_time' onclick="showInput('runRecap_time')" class='container clickable'
                             style='margin:0;gap:8px'></div>
                         <div id='runRecap_player' class='container' style='margin:0;gap:8px'></div>
-                        <div id="runRecapExampleDiv">EXAMPLE</div>
+                        <div id="runRecap_example_div">EXAMPLE</div>
                     </div>
                 </div>
             </div>
@@ -369,6 +390,9 @@
                     </div>
                 </div>
                 <div id="leaderboard"></div>
+            </div>
+            <div id="leaderboardsTab" class="tabs" style="display:none">
+                <div id="leaderboards"></div>
             </div>
             <!-- WRs -->
             <div id="WRsTab" class="tabs" style="display:none">
@@ -462,9 +486,6 @@
                     </div>
                 </div>
             </div>
-            <div id="dateTab">
-                <div id="date"></div>
-            </div>
             <!-- Sort -->
             <div id="sortTab" class="tabs" style="display:none;margin-top:15px">
                 <div id='sort_options' class="container">
@@ -525,13 +546,10 @@
                                 <div class="container" style="padding:20px 0">
                                     <div class='textBlock'>
                                         Welcome to <span class="myekulColor">Run Recap</span>! This tool allows you
-                                        to
-                                        upload
+                                        to upload
                                         a <span class="myekulColor">LiveSplit .lss</span>
                                         and a <span class="myekulColor">Cuphead .sav</span> file
                                         to gain valuable insights about your recent run performance.
-                                        <!-- To get started, insert your <span class="myekulColor">run time</span> and
-                                        <span class="myekulColor">username</span>. -->
                                     </div>
                                 </div>
                             </div>
@@ -621,6 +639,12 @@
                             <div class='divider'></div>
                             <div class='button cuphead' onclick="runRecapDownload()" style='width:135px'><i
                                     class="fa fa-download"></i>&nbsp;Download .sav</div>
+                            <div id="runRecap_upload_div" class="container" style="display:none">
+                                <div class='divider'></div>
+                                <div class='button cuphead pulseSize' onclick="runRecapUploadButton()"
+                                    style='width:190px;height:30px;font-size:90%'><i
+                                        class="fa fa-cloud-upload"></i>&nbsp;Upload to database</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -691,6 +715,7 @@
     <script src="constants/other.js"></script>
 
     <script src="code/page/leaderboard.js"></script>
+    <script src="code/page/leaderboards.js"></script>
     <script src="code/page/WRs.js"></script>
     <script src="code/page/featured.js"></script>
     <script src="code/page/chart.js"></script>

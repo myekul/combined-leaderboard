@@ -45,6 +45,9 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Home run contest
 - Punch Out!! Wii
 - View all leaderboards at once
+- One Gun icons
+- Run Recap deaths
+- Run Recap database
 
 ## Known bugs
 - Leaderboard squish and stretch

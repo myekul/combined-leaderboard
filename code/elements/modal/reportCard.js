@@ -137,7 +137,7 @@ function toggleUserComparison() {
 function toggleSliders() {
     playSound('move')
     if (modalSliders) {
-        openModal('player', null, globalPlayerIndex)
+        openModal('player', null, players[globalPlayerIndex].name)
     } else {
         document.getElementById('modal_sliders').innerHTML = fontAwesome('close')
         for (let i = 0; i < categories.length; i++) {

@@ -22,10 +22,6 @@ function showTab(newPage) {
     if (gameID == 'cuphead' && mode == 'levels' || mode == 'commBestILs') {
         document.getElementById('checkbox_hp').checked = true
     }
-    if (page != 'leaderboard') {
-        document.getElementById('checkbox_isolate').checked = false
-        isolated = false
-    }
     const dropdown_sortCriteria = document.getElementById('dropdown_sortCriteria')
     const sort_options = document.getElementById('sort_options')
     if (mode == 'commBestILs' && page == 'sort') {
@@ -64,11 +60,14 @@ function action() {
         countries = {}
         document.getElementById('world-map').innerHTML = ''
     }
-    const categoriesSection = document.getElementById('categoriesSection')
-    if (['featured', 'charts', 'map', 'sort'].includes(page) || (isolated && !(mode == 'commBestILs' && sortCategoryIndex == -1))) {
-        show(categoriesSection)
+    const categorySelect = document.getElementById('categorySelect')
+    if (['leaderboards', 'featured', 'charts', 'map', 'sort'].includes(page)) {
+        show(categorySelect)
+        if(mode=='commBestILs'&&page=='leaderboards'){
+            hide(categorySelect)
+        }
     } else {
-        hide(categoriesSection)
+        hide(categorySelect)
     }
     setBoardTitle()
     updateCategories()
@@ -80,6 +79,9 @@ function pageAction() {
         switch (page) {
             case 'leaderboard':
                 generateLeaderboard();
+                break;
+            case 'leaderboards':
+                generateLeaderboards();
                 break;
             case 'WRs':
                 generateWRs();
@@ -108,15 +110,16 @@ function pageAction() {
         }
         fontAwesomePage = fontAwesomeSet[page]
         const pageTitle = document.getElementById('pageTitle')
-        if (page != 'leaderboard') {
-            show(pageTitle)
-            pageTitle.innerHTML = fontAwesomeText(fontAwesomePage[1], fontAwesomePage[0])
-        } else {
+        if (page == 'leaderboard') {
             if (mode == 'commBestILs') {
+                show(pageTitle)
                 pageTitle.innerHTML = fontAwesomeText('tasks', 'Comm Best ILs')
             } else {
                 hide(pageTitle)
             }
+        } else {
+            show(pageTitle)
+            pageTitle.innerHTML = fontAwesomeText(fontAwesomePage[1], fontAwesomePage[0])
         }
     }
 }

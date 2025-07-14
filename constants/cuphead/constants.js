@@ -1,7 +1,11 @@
 const dlcExpert = {
     name: 'DLC Expert',
     className: 'dlc',
-    id: '5dwv7g5k',
+    id: '7kjl0wz2',
+    var: 'wl3ddqo8',
+    subcat: '8104dd5l',
+    var2: 'wl3d6vw8',
+    subcat2: '12ver0dq'
 }
 const dlcLow = {
     name: 'DLC Low%',

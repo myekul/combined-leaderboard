@@ -1,32 +1,19 @@
 function setBoardTitle() {
     if (sortCategoryIndex > -1) {
-        if (page == 'leaderboard') {
-            show('checkbox_isolate')
-        }
         show('closeBoardTitle')
     } else {
-        if (mode != 'commBestILs') {
-            hide('checkbox_isolate')
-        }
         hide('closeBoardTitle')
-    }
-    if (mode == 'commBestILs') {
-        if (page == 'leaderboard') {
-            show('checkbox_isolate')
-        } else {
-            hide('checkbox_isolate')
-        }
     }
     let HTMLContent = generateBoardTitle()
     const boardTitle = document.getElementById('boardTitle')
     boardTitle.innerHTML = HTMLContent
 }
-function generateBoardTitle(extra, categoryIndex) {
+function generateBoardTitle(extra, categoryIndex, commBest) {
     let worldRecord
     const imgSize = 32
     if (categoryIndex == null) {
         categoryIndex = sortCategoryIndex
-    } else {
+    } else if (page == 'WRs') {
         worldRecord = true
     }
     let HTMLContent = `<div><table class='boardTitleTable'><tr>`
@@ -37,7 +24,7 @@ function generateBoardTitle(extra, categoryIndex) {
         category = bosses[bossILindex]
         imgsrc = category.id
         let className = category.className ? category.className : imgsrc
-        let cellContent = category.name
+        let cellContent = extra ? '' : category.name
         const content = `<div class='container' style='gap:4px'>${getImage(imgsrc, imgSize) + cellContent}</div>`
         HTMLContent += boardTitleCell('container ' + className, content)
     }
@@ -93,6 +80,24 @@ function generateBoardTitle(extra, categoryIndex) {
             HTMLContent += boardTitleCell('cuphead', 'Base Game')
         } else if (fullgameCategory == 'currentPatch') {
             HTMLContent += boardTitleCell('cuphead', 'Current Patch')
+        } else if (fullgameCategory == 'simple') {
+            HTMLContent += boardTitleCell('simple', 'Simple')
+        } else if (fullgameCategory == 'expert') {
+            HTMLContent += boardTitleCell('expert', 'Expert')
+        } else if (fullgameCategory == 'oneGun') {
+            HTMLContent += boardTitleCell('cuphead', 'One Gun')
+            const selectElem = document.getElementById('dropdown_oneGun_objective');
+            const selectedOption = selectElem.options[selectElem.selectedIndex];
+            const optionHTML = selectedOption.innerHTML;
+            if (optionHTML != 'Base Game') {
+                HTMLContent += boardTitleCell('cuphead', optionHTML)
+            }
+            const selectElem2 = document.getElementById('dropdown_oneGun_difficulty');
+            const selectedOption2 = selectElem2.options[selectElem2.selectedIndex];
+            const optionHTML2 = selectedOption2.innerHTML;
+            if (optionHTML2 != 'Regular') {
+                HTMLContent += boardTitleCell(optionHTML2.toLowerCase(), optionHTML2)
+            }
         } else {
             HTMLContent += boardTitleCell(categorySet[fullgameCategory][0].className, fullgameCategory)
         }
@@ -115,13 +120,14 @@ function generateBoardTitle(extra, categoryIndex) {
         }
     }
     if (mode == 'commBestILs') {
+        const category = commBest ? commBestILs[commBest] : commBestILsCategory
         const shotSize = categoryIndex > -1 ? 30 : 30
-        HTMLContent += boardTitleCell(commBestILsCategory.className, commBestILsCategory.name)
-        HTMLContent += commBestILsCategory.shot1 ? `<td id='commBestILsWeapons' class='container' style='margin:0;gap:4px;padding:0 3px'>` : ''
-        HTMLContent += commBestILsCategory.shot1 ? cupheadShot(commBestILsCategory.shot1, shotSize) : ''
-        HTMLContent += commBestILsCategory.shot2 ? cupheadShot(commBestILsCategory.shot2, shotSize) : ''
-        HTMLContent += commBestILsCategory.shot1 ? `</td>` : ''
-        HTMLContent += commBestILsCategory.subcat ? boardTitleCell('', commBestILsCategory.subcat) : ''
+        HTMLContent += boardTitleCell(category.className, category.name)
+        HTMLContent += category.shot1 ? `<td id='commBestILsWeapons' class='container' style='margin:0;gap:4px;padding:0 3px'>` : ''
+        HTMLContent += category.shot1 ? cupheadShot(category.shot1, shotSize) : ''
+        HTMLContent += category.shot2 ? cupheadShot(category.shot2, shotSize) : ''
+        HTMLContent += category.shot1 ? `</td>` : ''
+        HTMLContent += category.subcat ? boardTitleCell('', category.subcat) : ''
     }
     if (page == 'charts' && sortCategoryIndex == -1 && mode != 'commBestILs') {
         HTMLContent += boardTitleCell('banner', 'Player Score')

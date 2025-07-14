@@ -105,15 +105,15 @@ function getColorClass() {
 function getScore(category, runTime) {
     const wrTime = getWorldRecord(category)
     let percentage = wrTime / runTime
-    if ((gameID == 'cuphead' && mode == 'levels')) {
-        if (runTime > category.info.time) {
-            percentage = 0
-        } else {
-            percentage = (category.info.time - runTime) / (category.info.time - wrTime);
-        }
-    } else if (category.reverse) {
-        percentage = runTime / wrTime
-    }
+    // if ((gameID == 'cuphead' && mode == 'levels')) {
+    //     if (runTime > category.info.time) {
+    //         percentage = 0
+    //     } else {
+    //         percentage = (category.info.time - runTime) / (category.info.time - wrTime);
+    //     }
+    // } else if (category.reverse) {
+    //     percentage = runTime / wrTime
+    // }
     return getPercentage(percentage)
 }
 function getTrophy(place) {
@@ -141,6 +141,7 @@ function trophyCase(object) {
 }
 const fontAwesomeSet = {
     leaderboard: ['Leaderboard', 'home'],
+    leaderboards: ['Leaderboards', 'cubes'],
     WRs: ['World Records', 'trophy',],
     featured: ['Featured', 'star'],
     charts: ['Charts', 'bar-chart'],
@@ -233,7 +234,6 @@ function getNumCols() {
 function showDefault() {
     playSound('equip_move')
     sortCategoryIndex = -1
-    document.getElementById('checkbox_isolate').checked = false
     sortPlayers(players)
     action()
 }
@@ -336,22 +336,28 @@ function normalize50(percentage) {
 function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-function getEveryRun(numRuns, sortRange) {
+function getEveryRun(numRuns, sortRange, extra) {
     const everyRun = []
     players.slice(0, numRuns).forEach((player, playerIndex) => {
-        if (sortCategoryIndex == -1) {
-            player.runs.forEach((run, runIndex) => {
+        if (extra && mode == 'commBestILs') {
+            if (player.extra && commBest) {
+                everyRun.push({ run: player.extra, playerIndex: playerIndex })
+            }
+        } else {
+            if (sortCategoryIndex == -1) {
+                player.runs.forEach((run, runIndex) => {
+                    if (run) {
+                        if ((sortRange && sortLogic(run, sortRange)) || !sortRange) {
+                            everyRun.push({ run: run, playerIndex: playerIndex, categoryIndex: runIndex })
+                        }
+                    }
+                })
+            } else {
+                const run = player.runs[sortCategoryIndex]
                 if (run) {
                     if ((sortRange && sortLogic(run, sortRange)) || !sortRange) {
-                        everyRun.push({ run: run, playerIndex: playerIndex, categoryIndex: runIndex })
+                        everyRun.push({ run: run, playerIndex: playerIndex, categoryIndex: sortCategoryIndex })
                     }
-                }
-            })
-        } else {
-            const run = player.runs[sortCategoryIndex]
-            if (run) {
-                if ((sortRange && sortLogic(run, sortRange)) || !sortRange) {
-                    everyRun.push({ run: run, playerIndex: playerIndex, categoryIndex: sortCategoryIndex })
                 }
             }
         }
@@ -395,6 +401,19 @@ function hide(elem) {
         elem = document.getElementById(elem)
     }
     elem.style.display = 'none'
+}
+function toggleSection(section) {
+    playSound('move')
+    const toggleButton = document.getElementById(section + 'Button')
+    if (toggleButton.dataset.flag == 'true') {
+        toggleButton.dataset.flag = 'false'
+        hide(section)
+        toggleButton.innerHTML = fontAwesome('bars')
+    } else {
+        toggleButton.dataset.flag = 'true'
+        show(section)
+        toggleButton.innerHTML = fontAwesome('close')
+    }
 }
 function cupheadShot(shot, size, extra) {
     if (shot) {

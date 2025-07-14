@@ -6,7 +6,7 @@ function fancyRun(run, categoryIndex, extra) {
     }
     if (sortCategoryIndex == -1 && mode != 'fullgame') {
         HTMLContent += `<td style='padding:0 5px'>`
-        HTMLContent += category.info?.id && bossILindex == -1 ? `<div class='container ${category.info.id}' style='border-radius:5px;width:50px;height:50px'>${getImage(category.info.id)}</div>` : ''
+        HTMLContent += category?.info?.id && bossILindex == -1 ? `<div class='container ${category.info.id}' style='border-radius:5px;width:50px;height:50px'>${getImage(category.info.id)}</div>` : ''
         HTMLContent += sortCategoryIndex == -1 && mode != 'commBestILs' ? categorySpan(category) : ''
         HTMLContent += `</td>`
     }
@@ -33,7 +33,7 @@ function fancyTime(run, categoryIndex, extra) {
     const trophy = getTrophy(run.place)
     HTMLContent += `<div class='container' ${trophy ? `style='gap:5px'` : ''}>
     <div>${trophy}</div>
-    <div class='${category.className}' style='font-size:140%;border-radius:5px;padding:0 4px'>${secondsToHMS(run.score)}</div>
+    <div class='${category?.className}' style='font-size:140%;border-radius:5px;padding:0 4px'>${secondsToHMS(run.score)}</div>
     </div>`
     HTMLContent += !extra ? `<div style='font-size:80%;padding-top:4px'>${scoreGradeSpan(run.percentage)}</div>` : ''
     HTMLContent += `</td>`
@@ -44,6 +44,6 @@ function fancyPlayer(playerIndex) {
     let HTMLContent = ''
     HTMLContent += `<td style='padding-left:8px'>${getPlayerFlag(player, 20)}</td>`
     HTMLContent += `<td style='padding:0 5px'>${getPlayerIcon(player, 48)}</td>`
-    HTMLContent += `<td ${sortCategoryIndex == -1 ? `class='clickable' onclick="openModal('player','up',${playerIndex})"` : ''} style='font-size:120%;text-align:left;padding-right:8px'>${getPlayerName(player)}</td>`
+    HTMLContent += `<td ${sortCategoryIndex == -1 ? `class='clickable' onclick="openModal('player','up','${player.name}')"` : ''} style='font-size:120%;text-align:left;padding-right:8px'>${getPlayerName(player)}</td>`
     return HTMLContent
 }

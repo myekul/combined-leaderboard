@@ -264,7 +264,7 @@ select {
 }
 
 #fullgameCategories .button,
-#ILcategories_sm64 .button,
+#sm64ILcategories .button,
 #WRsTabs .button,
 #commBestILsVersionTabs div {
     width: 85px
@@ -558,7 +558,7 @@ svg {
     background-color: var(--gray) !important;
 }
 
-.pulse {
+.pulseSize {
     animation: pulseSize 1s infinite;
 }
 

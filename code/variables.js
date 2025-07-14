@@ -77,7 +77,6 @@ let basegameILs = false
 let firstTime = true
 let firstTimeFull = true
 let showModal = false
-let isolated = false
 let displayNumRuns = false
 let milliseconds = false
 let showGameSelect = false

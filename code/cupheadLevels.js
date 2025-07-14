@@ -153,33 +153,6 @@ function getBossIL(bossName) {
     })
     getCupheadSRC()
 }
-function toggleFullgameCategories() {
-    playSound('move')
-    const fullgameCategoriesButton = document.getElementById('fullgameCategoriesButton')
-    if (showFullgameCategories) {
-        showFullgameCategories = false
-        hide('fullgameCategories')
-        fullgameCategoriesButton.innerHTML = fontAwesome('bars')
-    } else {
-        showFullgameCategories = true
-        show('fullgameCategories')
-        fullgameCategoriesButton.innerHTML = fontAwesome('close')
-    }
-}
-function toggleILcategories() {
-    playSound('move')
-    const ILcategoriesButton = document.getElementById('ILcategoriesButton_' + gameID)
-    const ILcategoriesElem = document.getElementById('ILcategories_' + gameID)
-    if (ILcategories) {
-        ILcategories = false
-        hide(ILcategoriesElem)
-        ILcategoriesButton.innerHTML = fontAwesome('bars')
-    } else {
-        ILcategories = true
-        show(ILcategoriesElem)
-        ILcategoriesButton.innerHTML = fontAwesome('close')
-    }
-}
 function toggleBasegameILs() {
     if (basegameILs) {
         basegameILs = false
@@ -237,7 +210,6 @@ function disableLevelModes() {
     bossILindex = -1
     isleIndex = -1
     groundPlane = null
-    document.getElementById('checkbox_isolate').checked = false
     document.getElementById('allLevels').classList.remove('selected')
 }
 function updateILbosses() {

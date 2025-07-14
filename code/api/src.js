@@ -50,7 +50,7 @@ function getLeaderboard(category, query, variables, extra, altGameID) {
                             if (gameID == 'cuphead' && mode == 'levels' && !basegameILs) {
                                 window.firebaseUtils.firestoreWrite()
                             }
-                            if ((['cuphead', 'sm64'].includes(gameID) && categories.length == 5) || ['smb1', 'sms'].includes(gameID)) {
+                            if (((['cuphead', 'sm64'].includes(gameID) && categories.length == 5) || ['smb1', 'sms'].includes(gameID)) && !fullgameCategory) {
                                 globalCache = categories
                                 window.firebaseUtils.firestoreWriteMain()
                             }

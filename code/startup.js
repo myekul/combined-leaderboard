@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 function gameTabs() {
     let HTMLContent = ''
-    const games = [['cuphead'], ['sm64', 'sms'], ['smb1', 'smbtll'], ['smb2', 'smb3'], ['nsmbds', 'nsmbw'], ['nsmbu', 'nslu'], ['dkc', 'dkc2', 'dkc3'], ['mtpo', 'spo'], ['ssb64', 'ssbm'], ['tetris', 'titanfall_2']]
+    const games = [['cuphead'], ['sm64', 'sms'], ['smb1', 'smbtll'], ['smb2', 'smb3'], ['nsmbds', 'nsmbw'], ['nsmbu', 'nslu'], ['dkc', 'dkc2', 'dkc3'], ['mtpo', 'spo'], ['ssb64', 'ssbm'], ['titanfall_2']]
     games.forEach(gameSet => {
         HTMLContent += `<div class='container'>`
         gameSet.forEach(game => {
@@ -150,7 +150,13 @@ document.querySelectorAll('.options').forEach(elem => {
         toggleOptions()
     })
 });
-['leaderboard', 'WRs', 'featured', 'charts', 'map', 'sort'].forEach(pageName => {
+document.querySelectorAll('.toggleSection').forEach(elem => {
+    elem.innerHTML = fontAwesome('bars')
+    elem.classList.add('container')
+    elem.classList.add('clickable')
+    elem.style.width = '50px'
+});
+['leaderboard', 'leaderboards', 'WRs', 'featured', 'charts', 'map', 'sort'].forEach(pageName => {
     const button = document.getElementById(pageName + 'Button')
     button.innerHTML = fontAwesome(fontAwesomeSet[pageName][1])
     button.classList.add('button')
@@ -174,7 +180,9 @@ document.querySelectorAll('select').forEach(elem => {
                     break;
             }
         } else {
-            action()
+            if (!elem.classList.includes('oneGun')) {
+                action()
+            }
         }
     })
 })
@@ -200,8 +208,8 @@ fetch('https://discord.com/api/guilds/1386406855391313960/widget.json')
     })
 function discordOnline(num) {
     document.getElementById('discordOnline').innerHTML = `
-        <div class='container' style='gap:5px'>
-            <img src="images/external/discord.png" class="clickable brightPulse" style="padding-left:10px;height:24px" onclick="openModal('discord','up')">
+        <div class='container clickable' style='gap:5px' onclick="openModal('discord','up')">
+            <img src="images/external/discord.png" class="brightPulse" style="padding-left:10px;height:24px">
             <div style='width:8px;height:8px;background-color:limegreen;border-radius:50%'></div>
             ${num}
         </div>`

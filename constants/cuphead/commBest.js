@@ -163,6 +163,12 @@ const commBestILs = {
                 score: '10:59.66',
                 playerName: 'myekul',
                 url: 'https://youtu.be/HRwuUPAstSc'
+            },
+            {
+                date: '2023-07-02',
+                score: '11:17.31',
+                playerName: 'Quincely0',
+                url: 'https://youtu.be/brsxI8S5ZiM'
             }
         ]
     },

@@ -39,17 +39,25 @@ function openModal(modal, sound, param) {
             modalTitle = 'INFO'
             modalBody = modalInfo()
             break
-        case 'runRecapInfo':
-            modalTitle = 'INFO'
-            modalBody = runRecapInfo()
-            break
         case 'country':
             modalTitle = 'COUNTRY'
             modalBody = countryModal(param)
             break
+        case 'runRecapInfo':
+            modalTitle = 'INFO'
+            modalBody = runRecapInfo()
+            break
         case 'runRecapSegment':
             modalTitle = 'SEGMENT INFO'
             modalBody = runRecapSegment(param)
+            break
+        case 'runRecapDatabase':
+            modalTitle = 'DATABASE'
+            modalBody = runRecapDatabase()
+            break
+        case 'runRecapUpload':
+            modalTitle = 'UPLOAD'
+            modalBody = runRecapUpload()
             break
         case 'discord':
             modalTitle = 'DISCORD'
@@ -79,18 +87,11 @@ function closeModal() {
         hide(modal)
     }, 200);
 }
-function playerModal(playerIndex) {
+function playerModal(playerName) {
+    const playerIndex = players.findIndex(player => player.name == playerName)
     globalPlayerIndex = playerIndex
     document.addEventListener("keydown", modalKeyPress);
     let player = players[globalPlayerIndex]
-    // if (sortCategoryIndex > -1) {
-    //     const oldIndex = sortCategoryIndex
-    //     sortCategoryIndex = -1
-    //     sortPlayers(players)
-    //     sortCategoryIndex = oldIndex
-    //     player = players[globalPlayerIndex]
-    //     sortPlayers(players)
-    // }
     document.getElementById('modal-subtitle').innerHTML = getPlayerProfile(globalPlayerIndex)
     let pagesContent = `<div onclick="modalLeft()" class='clickable'>${fontAwesome('caret-left')}</div>`;
     for (let i = 0; i <= numModalPages; i++) {
@@ -307,7 +308,7 @@ function modalKeyPress() {
             event.preventDefault();
             if (globalPlayerIndex > 0 && sortCategoryIndex == -1 && page == 'leaderboard') {
                 globalPlayerIndex--
-                openModal('player', 'flip', globalPlayerIndex)
+                openModal('player', 'flip', players[globalPlayerIndex].name)
             } else {
                 playSound('locked')
             }
@@ -316,7 +317,7 @@ function modalKeyPress() {
             event.preventDefault();
             if (globalPlayerIndex < 300 && globalPlayerIndex < players.length - 1 && sortCategoryIndex == -1 && page == 'leaderboard') {
                 globalPlayerIndex++
-                openModal('player', 'flip', globalPlayerIndex)
+                openModal('player', 'flip', players[globalPlayerIndex].name)
             } else {
                 playSound('locked')
             }
@@ -326,7 +327,7 @@ function modalKeyPress() {
 function modalLeft() {
     if (modalIndex > 0) {
         modalIndex--
-        openModal('player', 'move', globalPlayerIndex)
+        openModal('player', 'move', players[globalPlayerIndex].name)
     } else {
         playSound('locked')
     }
@@ -334,7 +335,7 @@ function modalLeft() {
 function modalRight() {
     if (modalIndex < numModalPages) {
         modalIndex++
-        openModal('player', 'move', globalPlayerIndex)
+        openModal('player', 'move', players[globalPlayerIndex].name)
     } else {
         playSound('locked')
     }

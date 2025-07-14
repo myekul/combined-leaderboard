@@ -97,7 +97,7 @@ function generateDropbox(elem) {
     if (fileUploaded) {
         cellContent = elem == 'sav' ? fontAwesome('folder') : `<img src="images/livesplit.png" style="width:30px">`
         HTMLContent += `<div class='container' style='padding-top:20px'>
-        <div onclick="runRecapViewPage('content','${elem}')" class='button cuphead pulse' style="font-family:'cuphead-vogue';font-size:150%;width:200px;height:50px">${cellContent}&nbsp;View .${elem}</div>
+        <div onclick="runRecapViewPage('content','${elem}')" class='button cuphead pulseSize' style="font-family:'cuphead-vogue';font-size:150%;width:200px;height:50px">${cellContent}&nbsp;View .${elem}</div>
         </div>`
         HTMLContent += `<div onclick="runRecapUnload('${elem}')" class='clickable' style='position:absolute;bottom:8px;right:10px;font-size:130%'>${fontAwesome('trash')}</div>`
     }
@@ -202,6 +202,25 @@ function runRecapInfo() {
                     </div>`
     return HTMLContent
 }
+function runRecapDatabase() {
+    let HTMLContent = ''
+    HTMLContent += `<div>Coming soon!</div>`
+    return HTMLContent
+}
+function runRecapUploadButton() {
+    if (localStorage.getItem('username') && runRecapTime != 'XX:XX') {
+        window.firebaseUtils.firestoreWriteRR()
+    } else {
+        openModal('runRecapUpload')
+    }
+}
+function runRecapUpload() {
+    let HTMLContent = ''
+    HTMLContent += `
+    <div style='margin-bottom:20px'>${myekulColor(fontAwesome('warning'))} Please insert your run time and username.</div>
+    <div>Fraudulent or duplicate submissions are subject to deletion.</div>`
+    return HTMLContent
+}
 function runRecapViewPage(newPage, elem, shh) {
     sortCategoryIndex = -1
     runRecapView = newPage
@@ -238,9 +257,11 @@ function runRecapViewPage(newPage, elem, shh) {
         }
     }
     if (runRecapExample) {
-        show('runRecapExampleDiv')
+        show('runRecap_example_div')
+        // hide('runRecap_upload_div')
     } else {
-        hide('runRecapExampleDiv')
+        hide('runRecap_example_div')
+        // show('runRecap_upload_div')
     }
 }
 function runRecapUpdateComparison() {
@@ -256,12 +277,12 @@ function runRecapHome() {
         runRecapUnload('sav', true)
         runRecapUnload('lss', true)
         runRecapExample = false
-        hide('runRecapExampleDiv')
+        hide('runRecap_example_div')
     }
     if (localStorage.getItem('username')) {
         document.getElementById('runRecap_player').innerHTML = runRecapPlayer('runRecap_player')
     }
-    let HTMLContent = `<table class='bigShadow'>`
+    let HTMLContent = `<div><table class='bigShadow'>`
     players.slice(0, commBestILsCategory.numRuns).forEach((player, playerIndex) => {
         if (player.extra) {
             HTMLContent += `<tr class='${getRowColor(playerIndex)} clickable' onclick="processSavFile(${playerIndex});playSound('category_select')">`
@@ -274,6 +295,14 @@ function runRecapHome() {
         }
     })
     HTMLContent += `</table>`
+    HTMLContent += `
+    <div class='container' style='margin-top:10px'>
+        <div class='button cuphead' style='gap:5px;width:170px' onclick="openModal('runRecapDatabase','up')">
+            ${fontAwesome('cloud')}
+            Browse database
+        </div>
+    </div>`
+    HTMLContent += `</div>`
     document.getElementById('runRecap_examples').innerHTML = HTMLContent
 }
 function runRecapGrade(delta) {

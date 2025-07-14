@@ -23,7 +23,7 @@ function getPlayerIcon(player, size) {
 }
 function getPlayerDisplay(player, playerIndex) {
     let HTMLContent = ''
-    HTMLContent += mode != 'commBestILs' && !isolated ? `<td class='${placeClass(player.rank)}' style='font-size:90%'>${player.rank}</td>` : ''
+    HTMLContent += mode != 'commBestILs' && page != 'leaderboards' ? `<td class='${placeClass(player.rank)}' style='font-size:90%'>${player.rank}</td>` : ''
     if (gameID != 'tetris') {
         if (document.getElementById('checkbox_flags').checked && page != 'commBest') {
             HTMLContent += `<td>${getPlayerFlag(player, 12)}</td>`
@@ -32,7 +32,7 @@ function getPlayerDisplay(player, playerIndex) {
             HTMLContent += `<td>${getPlayerIcon(player, 18)}</td>`
         }
     }
-    const clickable = player?.rank && !['map', 'commBest'].includes(page) ? `onclick="openModal('player','up',${playerIndex})" class='clickable'` : ''
+    const clickable = player?.rank && !['map', 'commBest'].includes(page) ? `onclick="openModal('player','up','${player.name}')" class='clickable'` : ''
     HTMLContent += `<td ${clickable} style='text-align:left;font-weight: bold;font-size:80%;padding-right:5px'>${getPlayerName(player ? player : playerIndex)}</td>`
     return HTMLContent
 }

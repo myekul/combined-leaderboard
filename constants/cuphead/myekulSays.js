@@ -18,14 +18,14 @@ const myekulSays = {
     Kaleva: `Ever heard of a Kaleva swap? Yup, this is THAT Kaleva. Kaleva is an all-around excellent runner, putting up great times in all the main categories.`,
     Kirthar: `Kirthar is one of the undisputed all-time greats, with some of his accomplishments dating back to 2018! Very impressive, considering he's still active and improving his times. He is also a top Low% runner. Kirthar instantly earns my respect for being a DLC Charge/Spread main.` + cupheadGods('Kirthar'),
     Quincely0: `Quincely0 is an absolutely DOMINANT runner who very quickly mastered the game and climbed his way to the top of the leaderboards. He is an extremely accomplished runner who seems to demolish every category he touches. He currently holds the NMG world record!` + cupheadProdigies('Quincely0'),
-    Lewzr: `#1 in the UK! Lewzr is a relatively new runner who entered the scene and, within a year, managed to get a 10:XX DLC and a 28:XX 1.1+. Bro CLAWED.`,
+    Lewzr: `#1 in the UK! Lewzr is a relatively new runner who entered the scene and, within a year, managed to get a 10:XX DLC and a 27:XX 1.1+. Bro CLAWED.`,
     luigi100: `Ever heard of a Luigi swap? Well, they're named after this guy. luigi100 is a longtime runner and a pioneer of Legacy runs.`,
     MarkinSws: 'MarkinSws is an UNSTOPPABLE force in current patch categories, sweeping the competition in NMG, DLC, and DLC+Base. He also holds the NMG All Flags and Full Clear world records. Incredible! An inspiration for many, myself included.',
     minamikori: `See that 28:27? That was played on version 1.2. That's crazy. minamikori is an exceptional runner with a very unique set of skills. He is also a former DLC 100% world record holder.`,
     Mine_: `Hi Fiona`,
     Misterbutter444: `Misterbutter444 is a prolific 1.1+ runner, boasting an incredble time of 27:37. He has also held the record for OG Charge!`,
     Musically_dECLINED: `Musically_dECLINED is a relatively new runner who rose to prominence with his NMG and DLC runs. A top Charge/Spread runner, this guy revolutionized Chargimate with the discovery of the eponymously named "M-swap." With it, he's managed to get a 10:4X DLC! That's pretty sick, but it doesn't make him any less of a goon. Ha!`,
-    myekul: `Hello! My name is myekul and I am runner of many categories, perhaps best known for my dominance of Whetstone ILs. In fact, I hold every single ground boss IL world record (108/108). I also hold several fullgame world records in various Charge-centric categories, such as DLC Charge/Spread, DLC Expert, and OG Charge. I am also the inventor of the Chargimate Jutsu. Hope you're enjoying the website!`,
+    myekul: `Hello! My name is myekul and I am runner of many categories, perhaps best known for my dominance of Whetstone ILs. I hold every single ground boss IL world record (108/108). I also hold several fullgame world records in various Charge-centric categories, such as DLC Charge/Spread, DLC Expert, and OG Charge. Fun fact, I also discovered the Chargimate Jutsu. Hope you're enjoying the website!`,
     nomit: `Winyi weria tyutteratesokamo
     <br><br>Hyarihyari Herahora Finyinyi
     <br><br>Winyi weria tyutterateni wenoa
@@ -38,7 +38,7 @@ const myekulSays = {
     <br><br>Nonowineni nononeo
     <br><br>Honyahi wininee
     <br><br>Honyahi nininununa Na`,
-    PorcoBrabo: `YIPPIEEE`,
+    PorcoBrabo: `YIPPIEEE! PorcoBrabo is a prominent Brazilian Cuphead runner boasting some impressive milestones such as 30:XX 1.1 and an 11:1X DLC. Heh, not bad for an old timer.`,
     SBDWolf: `SBDWolf is one of those people who decides they want to learn a speedrun, spends hours studying and practicing the optimal strats, and then DOMINATES the competition in a matter of weeks. His Legacy and 1.1+ runs are great examples of this. He also runs some other awesome games such as Castlevania, DKC2, and Gimmick!` + cupheadGods('SBDWolf'),
     SlimsyLeader: `SlimsyLeader is a top IL runner with an impressive resume, perhaps best known for DOMINATING Esther Winchester ILs. In fact, he has all six Esther world records! Also, 25 TRIO!!!`,
     Spaceboy321: `Spaceboy is a MASTERFUL Whetstone IL runner, best known for making an absolute TEAR on several plane bosses. In fact, he holds every world record on Hilda, Djimmi, and Cala. Incredible!`,

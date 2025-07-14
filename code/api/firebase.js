@@ -8,7 +8,7 @@ const firebaseConfig = {
 };
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
-import { getFirestore, doc, setDoc, getDocs, getDoc, collection, query, limit, where } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+import { getFirestore, doc, addDoc, setDoc, getDocs, getDoc, collection, query, limit, where } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
 import { getAnalytics, logEvent, setUserProperties } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-analytics.js"
 
 const app = initializeApp(firebaseConfig);
@@ -152,5 +152,22 @@ window.firebaseUtils = {
         } catch (error) {
             console.error("Error fetching documents: ", error)
         }
+    },
+    firestoreWriteRR: async () => {
+        const obj = {
+            sav: runRecap_savFile,
+            username: localStorage.getItem('username'),
+            category: commBestILsCategory.name,
+            time: runRecapTime,
+            date: new Date()
+        }
+        console.log(obj)
+        // await addDoc(collection(db, 'runRecap'), obj)
+        //     .then(() => {
+        //         console.log(`Run Recap written`);
+        //     })
+        //     .catch((error) => {
+        //         console.error(`Error writing document ${i}: `, error);
+        //     });
     },
 }

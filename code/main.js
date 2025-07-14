@@ -5,11 +5,40 @@ function getFullgame(categoryName) {
     if (gameID == 'cuphead') {
         categories = categorySet['main']
         if (categoryName) {
-            if (['basegame', 'currentPatch'].includes(categoryName)) {
+            if (['basegame', 'currentPatch', 'simple', 'expert', 'oneGun'].includes(categoryName)) {
                 if (categoryName == 'basegame') {
                     categories = categorySet['main'].slice(0, 3)
                 } else if (categoryName == 'currentPatch') {
                     categories = categorySet['main'].slice(2, 5)
+                } else if (categoryName == 'simple') {
+                    categories = categorySet['main']
+                    const simple = ['zqoeg95l', 'jq6owpvq', 'jqz5w02q']
+                    simple.forEach((subcat, index) => {
+                        categories[index].subcat = subcat
+                    })
+                    categories[3].subcat2 = '192g6pyq'
+                    categories[4].subcat2 = 'ln86pool'
+                } else if (categoryName == 'expert') {
+                    categories = categorySet['main']
+                    const expert = ['rqv209r1', '81w2j9m1', 'gq74o7yq']
+                    expert.forEach((subcat, index) => {
+                        categories[index].subcat = subcat
+                    })
+                    categories[3].subcat2 = '12ver0dq'
+                    categories[4].subcat2 = '10ve8ool'
+                } else if (categoryName == 'oneGun') {
+                    // const objective = categoryName.split('_')[1]
+                    categories = categorySet['One Gun']
+                    categories.forEach(category => {
+                        category.id = 'jdz8ro3d'
+                        category.var = 'kn049kdl'
+                        category.var2 = 'dlo67y5l'
+                        category.subcat2 = document.getElementById('dropdown_oneGun_objective').value
+                        category.var3 = 'ql6gwyx8'
+                        category.subcat3 = document.getElementById('dropdown_oneGun_difficulty').value
+                        category.var4 = 'wl36rvyl'
+                        category.subcat4 = '4qyndmd1'
+                    })
                 }
                 fullgameCategory = categoryName
                 buttonClick('fullgameCategories_' + categoryName, 'fullgameCategories', 'active')
@@ -19,6 +48,7 @@ function getFullgame(categoryName) {
                 buttonClick('fullgameCategories_' + categories[0].className, 'fullgameCategories', 'active')
             }
         } else {
+            fullgameCategory = null
             spotlightFlag = true
         }
     } else {
@@ -58,7 +88,17 @@ function getFullgame(categoryName) {
             if (category.var2) {
                 variables += `&var-${category.var2}=${category.subcat2}`
             }
-            getLeaderboard(category, `category/${category.id}`, variables)
+            if (category.var3) {
+                variables += `&var-${category.var3}=${category.subcat3}`
+            }
+            if (category.var4) {
+                variables += `&var-${category.var4}=${category.subcat4}`
+            }
+            let game
+            if (categoryName == 'oneGun') {
+                game = 'cuphead_category_extensions'
+            }
+            getLeaderboard(category, `category/${category.id}`, variables, '', game)
         })
     } else {
         if (globalCache) {
@@ -105,11 +145,7 @@ function getCommBestILs(categoryName) {
         if (category.var2) {
             variables += `&var-${category.var2}=${category.subcat2}`
         }
-        let altGameID = false
-        if (['DLC Expert'].includes(categoryName)) {
-            altGameID = 'cuphead_category_extensions'
-        }
-        getLeaderboard(category, `category/${category.id}`, variables, true, altGameID)
+        getLeaderboard(category, `category/${category.id}`, variables, true)
     }
 }
 function updateLoadouts(categoryName) {

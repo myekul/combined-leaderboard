@@ -4,16 +4,15 @@ function parseCheckboxes() {
     displayCheck.forEach(checkbox => {
         displayBoolean.push(document.getElementById('checkbox_' + checkbox).checked)
     })
-    isolated = document.getElementById('checkbox_isolate').checked
     displayNumRuns = document.getElementById('checkbox_numRuns').checked
     milliseconds = document.getElementById('checkbox_milliseconds').checked
 }
-function playersTable(playersArray) {
-    let HTMLContent = `<div class='bigShadow' ${!isolated ? `style='align-self: flex-end;'` : ''}><div style='overflow-x:scroll;'><table>`
-    if (page != 'map' && !(mode == 'commBestILs' && sortCategoryIndex == -1 && isolated)) {
+function playersTable(playersArray, categoryIndex) {
+    let HTMLContent = `<div class='bigShadow' ${page != 'leaderboards' ? `style='align-self: flex-end;'` : ''}><div style='overflow-x:scroll;'><table>`
+    if (!['leaderboards', 'map'].includes(page)) {
         HTMLContent +=
             `<tr style='${getHeaderSize()}'>
-        <th colspan=10 class='clickable gray ${!(sortCategoryIndex > -1 || isolated) ? 'selected' : ''}' onclick="showDefault()">Player</th>
+        <th colspan=10 class='clickable gray ${!(sortCategoryIndex > -1) ? 'selected' : ''}' onclick="showDefault()">Player</th>
         </tr>`
     }
     if (mode == 'commBestILs') {
@@ -21,8 +20,8 @@ function playersTable(playersArray) {
     }
     playersArray.forEach((player, playerIndex) => {
         if (sortCategoryIndex == -1 || player.runs[sortCategoryIndex]) {
-            if (!(mode == 'commBestILs' && sortCategoryIndex == -1 && isolated && !player.extra)) {
-                HTMLContent += parsePlayer(player, playerIndex)
+            if (!(mode == 'commBestILs' && sortCategoryIndex == -1 && page == 'leaderboards' && !player.extra)) {
+                HTMLContent += parsePlayer(player, playerIndex, categoryIndex)
             }
         }
     })
@@ -53,7 +52,7 @@ function generateHeader(category, categoryIndex) {
         cellContent = getImage(category.info.id)
     }
     if (gameID == 'cuphead' && mode == 'levels' && big5()) {
-        if (isolated) {
+        if (page == 'leaderboards') {
             cellContent = category.name
         } else {
             cellContent = trimDifficulty(category.name)
@@ -63,72 +62,66 @@ function generateHeader(category, categoryIndex) {
     if (mode == 'levels' && big5()) {
         colorClass = category.difficulty
     }
-    HTMLContent += `<th colspan=${getNumCols()} class='clickable ${!isolated ? isSelected(categoryIndex) : ''} ${colorClass}' onclick="organizePlayers(${categoryIndex})">${cellContent}</td>`
+    HTMLContent += `<th colspan=${getNumCols()} class='clickable ${page != 'leaderboards' ? isSelected(categoryIndex) : ''} ${colorClass}' onclick="organizePlayers(${categoryIndex})">${cellContent}</td>`
     return HTMLContent
 }
 function generateLeaderboard() {
     playersCopy = [...players].slice(0, getNumDisplay())
     let HTMLContent = `<div class="container" style='align-items:flex-start'>`
     HTMLContent += playersTable(playersCopy)
-    if (!(mode == 'commBestILs' && sortCategoryIndex == -1 && isolated)) {
-        HTMLContent +=
-            `<div id='leaderboardContainer' class='bigShadow'>
+    HTMLContent +=
+        `<div id='leaderboardContainer' class='bigShadow'>
         <table>`
-        if (displayNumRuns) {
-            categories.forEach(category => {
-                let numRuns = category.runs.length
-                let runs = numRuns > 1 ? 'runs' : 'run'
-                if (numRuns == 300) {
-                    numRuns += '+'
-                }
-                HTMLContent += `<th colspan=${getNumCols()}>${numRuns} ${runs}</th>`
+    if (displayNumRuns) {
+        categories.forEach(category => {
+            let numRuns = category.runs.length
+            let runs = numRuns > 1 ? 'runs' : 'run'
+            if (numRuns == 300) {
+                numRuns += '+'
+            }
+            HTMLContent += `<th colspan=${getNumCols()}>${numRuns} ${runs}</th>`
+        })
+    }
+    HTMLContent += `</tr>`
+    const numCols = getNumCols()
+    if (page != 'leaderboards') {
+        HTMLContent += fancyHeader(numCols)
+    }
+    if (numCols) {
+        HTMLContent += `<tr style='${getHeaderSize()}'>`
+        if (page == 'leaderboards') {
+            HTMLContent += generateHeader(categories[sortCategoryIndex], sortCategoryIndex)
+        } else {
+            categories.forEach((category, categoryIndex) => {
+                HTMLContent += generateHeader(category, categoryIndex)
+            })
+        }
+    }
+    if (mode != 'commBestILs' && page != 'leaderboards') {
+        HTMLContent += !['tetris', 'mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID) ? `<th>Sum</td>` : ''
+        HTMLContent += !['mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID) ? `<th>GPA</td>` : ''
+        HTMLContent += mode != 'fullgame' ? `<th>N/A</td>` : ''
+    }
+    HTMLContent +=
+        `</tr>`
+    if (mode == 'commBestILs') {
+        HTMLContent += `<tr>`
+        if (page == 'leaderboards') {
+            const category = categories[sortCategoryIndex]
+            HTMLContent += category.runs[0] ? `<td colspan=${numCols} class='first'>${secondsToHMS(getWorldRecord(category))}</td>` : `<td></td>`
+        } else {
+            categories.forEach((category, categoryIndex) => {
+                HTMLContent += category.runs[0] ? `<th colspan=${numCols} class='first ${isSelected(categoryIndex)}'>${secondsToHMS(getWorldRecord(category))}</th>` : `<td></td>`
             })
         }
         HTMLContent += `</tr>`
-        const numCols = getNumCols()
-        if (!isolated) {
-            HTMLContent += fancyHeader(numCols)
-        }
-        if (numCols) {
-            HTMLContent += `<tr style='${getHeaderSize()}'>`
-            if (isolated) {
-                HTMLContent += generateHeader(categories[sortCategoryIndex], sortCategoryIndex)
-            } else {
-                categories.forEach((category, categoryIndex) => {
-                    HTMLContent += generateHeader(category, categoryIndex)
-                })
-            }
-        }
-        if (mode != 'commBestILs' && !isolated) {
-            HTMLContent += !['tetris', 'mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID) ? `<th>Sum</td>` : ''
-            HTMLContent += !['mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID) ? `<th>GPA</td>` : ''
-            HTMLContent += mode != 'fullgame' ? `<th>N/A</td>` : ''
-        }
-        HTMLContent +=
-            `</tr>`
-        if (mode == 'commBestILs') {
-            HTMLContent += `<tr>`
-            if (isolated) {
-                const category = categories[sortCategoryIndex]
-                HTMLContent += category.runs[0] ? `<td colspan=${numCols} class='first'>${secondsToHMS(getWorldRecord(category))}</td>` : `<td></td>`
-            } else {
-                categories.forEach((category, categoryIndex) => {
-                    HTMLContent += category.runs[0] ? `<th colspan=${numCols} class='first ${isSelected(categoryIndex)}'>${secondsToHMS(getWorldRecord(category))}</th>` : `<td></td>`
-                })
-            }
-            HTMLContent += `</tr>`
-        }
-        players.slice(0, getNumDisplay()).forEach((player, playerIndex) => {
-            if (sortCategoryIndex == -1 || player.runs[sortCategoryIndex]) {
-                HTMLContent += parsePlayerRuns(player, playerIndex)
-            }
-        })
-        HTMLContent += `</table></div>`
     }
-    if (isolated) {
-        const everyRun = getEveryRun(10)
-        HTMLContent += `<div style='padding-left:40px'>${fancyTable(everyRun, 10)}</div>`
-    }
+    players.slice(0, getNumDisplay()).forEach((player, playerIndex) => {
+        if (sortCategoryIndex == -1 || player.runs[sortCategoryIndex]) {
+            HTMLContent += parsePlayerRuns(player, playerIndex)
+        }
+    })
+    HTMLContent += `</table></div>`
     HTMLContent += `</div>`
     if (!showMore && (sortCategoryIndex == -1 ? players.length > getNumDisplay() : categories[sortCategoryIndex].runs.length > getNumDisplay())) {
         HTMLContent += `<div onclick="showMorePlayers()" class='button' style='margin:0 auto;margin-top:15px'>Show More</div>`
@@ -137,14 +130,13 @@ function generateLeaderboard() {
     }
     let leaderboardContainer = document.getElementById('leaderboardContainer')
     const scrollLeft = leaderboardContainer ? leaderboardContainer.scrollLeft : ''
-    const leaderboard = document.getElementById('leaderboard')
-    leaderboard.innerHTML = HTMLContent
+    document.getElementById('leaderboard').innerHTML = HTMLContent
     leaderboardContainer = document.getElementById('leaderboardContainer')
     if (leaderboardContainer) {
         leaderboardContainer.scrollLeft = scrollLeft;
     }
 }
-function parsePlayer(player, playerIndex) {
+function parsePlayer(player, playerIndex, categoryIndex) {
     let HTMLContent = ''
     player.numRuns = 0
     player.runs.forEach(run => {
@@ -165,6 +157,18 @@ function parsePlayer(player, playerIndex) {
     const letterGrade = getLetterGrade(player.score)
     const pulseClass = localStorage.getItem('username') == player.name ? 'pulseClass' : ''
     HTMLContent += `<tr class='${getRowColor(playerIndex)} categoryLabel ${pulseClass}' style='height:23px'>`
+    if (categoryIndex > -1) {
+        const categoryName = categories[categoryIndex].name
+        if (['DLC', 'DLC+Base'].includes(categoryName) && !fullgameCategory) {
+            if (player.runs[categoryIndex].percentage > 90) {
+                HTMLContent += `<td>${cupheadShot(determineShot1(player, categoryName), 20, true)}</td>`
+                HTMLContent += `<td>${cupheadShot('spread', 20, true)}</td>`
+            } else {
+                HTMLContent += `<td></td><td></td>`
+            }
+        }
+        HTMLContent += parseRun(player, playerIndex, categories[categoryIndex], categoryIndex)
+    }
     if (page == 'sort') {
         const sortCriteria = document.getElementById('dropdown_sortCriteria').value
         if (sortCriteria == 'joindate') {
@@ -190,7 +194,7 @@ function parsePlayer(player, playerIndex) {
         HTMLContent += mode != 'commBestILs' ? `<td style='padding:0 15px'></td>` : ''
     }
     HTMLContent += page == 'map' ? `<td class='${placeClass(playerIndex + 1)}'>${playerIndex + 1}</td>` : ''
-    if (mode != 'commBestILs' && !isolated) {
+    if (mode != 'commBestILs' && page != 'leaderboards') {
         if (!['mtpo', 'spo'].includes(gameID)) {
             HTMLContent += `<td style='font-size:75%'>${displayPercentage(player.score)}</td>`
         }
@@ -237,13 +241,8 @@ function determineShot1(player, categoryName) {
 }
 function parsePlayerRuns(player, playerIndex) {
     let HTMLContent = `<tr class=${getRowColor(playerIndex)} style='height:23px'>`
-    if (isolated) {
+    if (page == 'leaderboards') {
         HTMLContent += parseRun(player, playerIndex, categories[sortCategoryIndex], sortCategoryIndex)
-        const categoryName = categories[sortCategoryIndex].name
-        if (player.runs[sortCategoryIndex].percentage > 90 && ['DLC', 'DLC+Base'].includes(categoryName)) {
-            HTMLContent += `<td>${cupheadShot(determineShot1(player, categoryName), 20, true)}</td>`
-            HTMLContent += `<td>${cupheadShot('spread', 20, true)}</td>`
-        }
     } else {
         categories.forEach((category, categoryIndex) => {
             HTMLContent += parseRun(player, playerIndex, category, categoryIndex)

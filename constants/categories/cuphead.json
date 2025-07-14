@@ -164,6 +164,15 @@
             "subcat2": "xqkvrnkl"
         },
         {
+            "name": "All Flags",
+            "className": "dlcbase",
+            "id": "xk95z7g2",
+            "var": "wlekk5el",
+            "subcat": "jq6dee71",
+            "var2": "wlek63rl",
+            "subcat2": "1dk79epl"
+        },
+        {
             "name": "300%",
             "className": "dlcbase",
             "id": "xk95z7g2",
@@ -171,6 +180,44 @@
             "subcat": "jq6dee71",
             "var2": "wlek63rl",
             "subcat2": "gq78nxd1"
+        }
+    ],
+    "One Gun": [
+        {
+            "name": "Peashooter",
+            "subcat": "gq7j42nq"
+        },
+        {
+            "name": "Chaser",
+            "subcat": "mlny02o1"
+        },
+        {
+            "name": "Spreadshot",
+            "subcat": "8105mdoq"
+        },
+        {
+            "name": "Roundabout",
+            "subcat": "9qjz4871"
+        },
+        {
+            "name": "Charge",
+            "subcat": "jq64xev1"
+        },
+        {
+            "name": "Lobber",
+            "subcat": "5lmx4m81"
+        },
+        {
+            "name": "Twist-Up",
+            "subcat": "21d0wo5q"
+        },
+        {
+            "name": "Crackshot",
+            "subcat": "5q8yor3l"
+        },
+        {
+            "name": "Converge",
+            "subcat": "4qy0r82l"
         }
     ]
 }
