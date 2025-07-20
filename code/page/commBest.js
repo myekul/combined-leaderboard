@@ -12,17 +12,17 @@ function generateCommBest() {
         <th style='color:var(--gray)'>WR</th>
         <th colspan=4 class='gray'>Comm Best Splits</th>
         </tr>`
-        splitInfo.id.forEach((id, index) => {
+        splitInfo.forEach((split, index) => {
             const player = players.find(player => player.name == runRecap_markin.bestSplitsPlayers[index].split('/')[0])
             const wrSplit = runRecap_markin.wrSplits[index]
             HTMLContent += `<tr class='${getRowColor(index)}'>`
             HTMLContent += `<td style='font-size:70%;color:var(--gray)'>${secondsToHMS(wrSplit, true)}</td>`
-            HTMLContent += `<td class='container ${id}'>${getImage(id, 24)}</td>`
-            HTMLContent += `<td class='${id}' style='padding:0 5px'>${secondsToHMS(runRecap_markin.bestSplits[index], true)}</td>`
+            HTMLContent += `<td class='container ${split.id}'>${getImage(split.id, 24)}</td>`
+            HTMLContent += `<td class='${split.id}' style='padding:0 5px'>${secondsToHMS(runRecap_markin.bestSplits[index], true)}</td>`
             HTMLContent += getPlayerDisplay(player)
             HTMLContent += `</tr>`
-            const nextSplit = splitInfo.isle[index + 1]
-            if (nextSplit != splitInfo.isle[index]) {
+            const nextIsle = splitInfo[index + 1]?.isle
+            if (nextIsle != split.isle) {
                 HTMLContent += `<tr style='height:16px'></tr>`
             }
         })
@@ -34,7 +34,7 @@ function generateCommBest() {
         <th colspan=4 class='gray'>Comm Best Segments</th>
         </tr>`
         let sum = 0
-        splitInfo.id.forEach((id, index) => {
+        splitInfo.forEach((split, index) => {
             const playerName = runRecap_markin.bestSegmentsPlayers[index].split('/')[0]
             const player = players.find(player => player.name == playerName)
             const bestSegment = runRecap_markin.bestSegments[index]
@@ -42,12 +42,12 @@ function generateCommBest() {
             sum += bestSegment
             HTMLContent += `<tr class='${getRowColor(index)}'>`
             HTMLContent += `<td style='font-size:70%;color:var(--gray)'>${secondsToHMS(wrSegment, true)}</td>`
-            HTMLContent += `<td class='container ${id}'>${getImage(id, 24)}</td>`
-            HTMLContent += `<td class='${id}' style='padding:0 5px'>${secondsToHMS(bestSegment, true)}</td>`
+            HTMLContent += `<td class='container ${split.id}'>${getImage(split.id, 24)}</td>`
+            HTMLContent += `<td class='${split.id}' style='padding:0 5px'>${secondsToHMS(bestSegment, true)}</td>`
             HTMLContent += getPlayerDisplay(player ? player : playerName)
             HTMLContent += `</tr>`
-            const nextSplit = splitInfo.isle[index + 1]
-            if (nextSplit != splitInfo.isle[index]) {
+            const nextIsle = splitInfo[index + 1]?.isle
+            if (nextIsle != split.isle) {
                 const content = index > 0 ? secondsToHMS(sum, true) : ''
                 HTMLContent += `<tr style='height:16px'><td></td><td></td><td style='font-size:70%;color:var(--gray)'>${content}</td></tr>`
             }

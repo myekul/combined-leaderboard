@@ -69,6 +69,8 @@ function WRs() {
     categories.forEach((category, categoryIndex) => {
         if (mode == 'fullgame' && gameID != 'tetris') {
             HTMLContent += `<tr class='${getRowColor(categoryIndex)}'>`
+            getEveryRun(categoryIndex)
+            HTMLContent += fancyTable(category.runs)
             HTMLContent += fancyRun(category.runs[0], categoryIndex, true)
             players.some((player, playerIndex) => {
                 if (player.runs[categoryIndex].place == 1) {

@@ -146,37 +146,39 @@ async function runRecapHandleFile(event, elem) {
             }
             if (elem == 'sav') {
                 runRecap_savFile = JSON.parse(content)
+                let category
                 if ('isPlayer1Mugman' in runRecap_savFile) {
                     if (getCupheadLevel(mausoleumID, true).completed) {
                         if (runRecap_savFile.loadouts.playerOne.primaryWeapon == 1467024095) { // Lobber
                             if (getCupheadLevel(bossIDs['therootpack'], true).completed) {
-                                getCommBestILs('DLC+Base L/S')
+                                category = 'DLC+Base L/S'
                             } else {
-                                getCommBestILs('DLC L/S')
+                                category = 'DLC L/S'
                             }
                         } else if (runRecap_savFile.loadouts.playerOne.primaryWeapon == 1466416941) { // Charge
                             if (getCupheadLevel(bossIDs['therootpack'], true).completed) {
-                                getCommBestILs('DLC+Base C/S')
+                                category = 'DLC+Base C/S'
                             } else if (runRecap_savFile.loadouts.playerOne.secondaryWeapon == 1568276855) { // Twist-Up
-                                getCommBestILs('DLC C/T')
+                                category = 'DLC C/T'
                             } else if (getCupheadLevel(bossIDs['glumstonethegiant'], true).difficultyBeaten == 2) {
-                                getCommBestILs('DLC Expert')
+                                category = 'DLC Expert'
                             } else {
-                                getCommBestILs('DLC C/S')
+                                category = 'DLC C/S'
                             }
                         } else {
-                            getCommBestILs('DLC Low%')
+                            category = 'DLC Low%'
                         }
                     } else {
-                        getCommBestILs('NMG')
+                        category = 'NMG'
                     }
                 } else {
                     if (runRecap_savFile.loadouts.playerOne.secondaryWeapon == 1466518900) { // Roundabout
-                        getCommBestILs('Legacy')
+                        category = 'Legacy'
                     } else {
-                        getCommBestILs('1.1+')
+                        category = '1.1+'
                     }
                 }
+                getCommBestILs(category)
             } else {
                 read_lss(content)
             }
@@ -329,7 +331,7 @@ function runRecap_chart(times, deltas, lss) {
     times.forEach((time, index) => {
         let colorClass
         if (lss) {
-            colorClass = index >= getOffset() ? splitInfo.id[index] : ''
+            colorClass = index >= getOffset() ? splitInfo[index].id : ''
         } else {
             colorClass = categories[index].info.id
         }

@@ -8,18 +8,25 @@ function read_lss(content) {
     const xmlDoc = parser.parseFromString(content, "application/xml");
     // console.log(xmlDoc)
     runRecap_lssFile = {}
-    runRecap_lssFile = { bestSplits: [], bestSegments: [], pbSplits: [], pbSegments: [], attemptHistory: [], segmentHistory: [] }
+    runRecap_lssFile = { bestSplits: [], bestSegments: [], pbSplits: [], pbSegments: [], attemptHistory: [] }
     runRecap_lssFile.attemptCount = xmlDoc.querySelector('AttemptCount').innerHTML
-    const attempts = Array.from(xmlDoc.querySelectorAll("AttemptHistory > Attempt"))
-    const finishedAttempts = attempts.filter(attempt => attempt.querySelector("GameTime"));
+    const allAttempts = Array.from(xmlDoc.querySelectorAll("AttemptHistory > Attempt"))
+    const finishedAttempts = allAttempts.filter(attempt => attempt.querySelector("GameTime"));
     const attemptHistory = finishedAttempts.map(attempt => {
         return {
             id: attempt.getAttribute("id"),
-            start: convertDateToISO(attempt.getAttribute("started")),
-            end: convertDateToISO(attempt.getAttribute("ended")),
+            date: convertDateToISO(attempt.getAttribute("ended")),
             gameTime: convertToSeconds(attempt.querySelector("GameTime").textContent.slice(3)),
             segments: [],
             splits: []
+        }
+    })
+    runRecap_lssFile.attemptSet = {}
+    allAttempts.forEach(attempt => {
+        runRecap_lssFile.attemptSet[attempt.id] = {
+            segments: [],
+            splits: [],
+            date: convertDateToISO(attempt.getAttribute("ended"))
         }
     })
     const segments = xmlDoc.querySelectorAll("Segment");
@@ -34,24 +41,46 @@ function read_lss(content) {
         }
         runRecap_lssFile.pbSegments.push(segmentTime)
         const segmentAttempts = Array.from(segment.querySelectorAll('SegmentHistory > Time'))
-        // console.log(segmentAttempts[0].querySelector("GameTime"))
-        const result = segmentAttempts.map(attempt => {
+        segmentAttempts.forEach(attempt => {
             const timeMode = attempt.querySelector("GameTime") ? 'GameTime' : 'RealTime'
+            const id = attempt.getAttribute("id")
             if (attempt.hasChildNodes()) {
-                return {
-                    id: attempt.getAttribute("id"),
-                    gameTime: convertToSeconds(attempt.querySelector(timeMode).textContent.slice(3))
-                }
+                const segmentTime = convertToSeconds(attempt.querySelector(timeMode).textContent.slice(3))
+                runRecap_lssFile.attemptSet[id]?.segments.push(segmentTime)
+            } else {
+                runRecap_lssFile.attemptSet[id]?.segments.push(null)
             }
         })
-        runRecap_lssFile.segmentHistory.push(result)
     })
+    runRecap_lssFile.segmentHistory = Array.from({ length: runRecap_lssFile.bestSegments.length }, () => []);
+    Object.entries(runRecap_lssFile.attemptSet).forEach(([key, attempt]) => {
+        attempt.segments?.forEach((segment, index) => {
+            let split = segment
+            if (index > 0) {
+                const prevSplit = attempt.splits[index - 1]
+                if (prevSplit) {
+                    split = prevSplit + segment
+                } else {
+                    split = attempt.splits[index - 2] + segment
+                }
+                if (!split) {
+                    split = segment
+                }
+                if (split == prevSplit) {
+                    split = null
+                }
+            }
+            attempt.splits.push(split);
+            if (segment && !(index > 0 && attempt.splits[index - 1] == null)) {
+                runRecap_lssFile.segmentHistory[index].push({ id: key, segment: segment, split: split });
+            }
+        });
+    });
     attemptHistory.forEach(attempt => {
-        if (runRecap_lssFile.segmentHistory[0].find(segmentAttempt => segmentAttempt.id == attempt.id)) {
+        if (runRecap_lssFile.attemptSet[attempt.id]) {
             runRecap_lssFile.attemptHistory.push(attempt)
         }
     })
-    runRecap_lssFile.attemptHistory.findIndex(attempt => attempt.splits[attempt.splits.length - 1])
     let HTMLContent = ''
     const reverseAttempts = runRecap_lssFile.attemptHistory.reverse()
     let firstAttempt = 0
@@ -62,7 +91,7 @@ function read_lss(content) {
         if (index == 0) {
             firstAttempt = attempt.id
         }
-        HTMLContent += `<option value="${attempt.id}">${secondsToHMS(attempt.gameTime)} - ${attempt.start}</option>`
+        HTMLContent += `<option value="${attempt.id}">${secondsToHMS(attempt.gameTime)} - ${attempt.date}</option>`
         if (attempt.gameTime > pbTime && attempt.gameTime < prevPB) {
             prevPB = attempt.gameTime
             prevPBIndex = attempt.id
@@ -89,13 +118,10 @@ function read_lss(content) {
     })
     runRecap_lssFile.attemptHistory.forEach(attempt => {
         let total = 0
-        runRecap_lssFile.segmentHistory.forEach(segment => {
-            const time = segment.find(segmentAttempt => segmentAttempt.id == attempt.id).gameTime
-            if (time) {
-                attempt.segments.push(time)
-                total += time
-                attempt.splits.push(total)
-            }
+        runRecap_lssFile.attemptSet[attempt.id].segments.forEach(segment => {
+            attempt.segments.push(segment)
+            total += segment
+            attempt.splits.push(total)
         })
     })
     runRecap_lssFile.bestSplits = Array(runRecap_lssFile.bestSegments.length).fill(Infinity);
@@ -110,29 +136,19 @@ function read_lss(content) {
     // console.log(runRecap_lssFile)
 }
 function runRecap_lss_splitInfo() {
-    splitInfo.id = []
-    splitInfo.name = []
-    splitInfo.isle = []
+    splitInfo = []
     for (let index = 0; index < runRecap_markin.bestSplits.length && index < categories.length + getOffset(); index++) {
         const categoryIndex = index - getOffset()
         if (index == 0) {
-            splitInfo.id.push('other/forestfollies')
-            splitInfo.name.push('Forest Follies')
-            splitInfo.isle.push(null)
+            splitInfo.push({ id: 'other/forestfollies', name: 'Forest Follies', isle: null })
         } else if (index == 1 && ['DLC', 'DLC+Base'].includes(commBestILsCategory.name)) {
-            splitInfo.id.push('other/mausoleum')
-            splitInfo.name.push('Mausoleum')
-            splitInfo.isle.push(null)
+            splitInfo.push({ id: 'other/mausoleum', name: 'Mausoleum', isle: null })
         } else if (index == 2 && commBestILsCategory.shot1 == 'charge') {
-            splitInfo.id.push('other/chalicetutorial')
-            splitInfo.name.push('Chalice Tutorial')
-            splitInfo.isle.push(null)
+            splitInfo.push({ id: 'other/chalicetutorial', name: 'Chalice Tutorial', isle: null })
         } else {
             const category = categories[categoryIndex]
             if (category) {
-                splitInfo.id.push(category.info.id)
-                splitInfo.name.push(category.name)
-                splitInfo.isle.push(category.info.isle)
+                splitInfo.push({ id: category.info.id, name: category.name, isle: category.info.isle })
             }
         }
     }
@@ -176,12 +192,11 @@ function generate_lss() {
     for (let index = 0; index < runRecap_lssFile.pbSplits.length && index < categories.length + getOffset(); index++) {
         const comparisonSegment = segmentComparison(comparison, index)
         const categoryIndex = index - getOffset()
-        // HTMLContent += `<td class='${className}' style='text-align:left'>${name}</td>`
         const currentSegment = segmentComparison(currentRun, index, true)
         const delta = currentSegment - comparisonSegment
         const trueDelta = Math.trunc(delta * 100) / 100
         const grade = runRecapGrade(trueDelta)
-        const className = splitInfo.id[index]
+        const className = splitInfo[index].id
         const image = `<td class='${className}'><div class='container'>${getImage(className, 24)}</div></td>`
         HTMLContent += `<tr class='${getRowColor(index)} ${!runRecapExample ? `clickable' onclick='openModal("runRecapSegment","up",${index})` : ''}'>`
         // HTMLContent += `<tr class='${getRowColor(index)} clickable'>`
@@ -337,64 +352,83 @@ function markinExample() {
     })
 }
 function runRecapSegment(index) {
-    const id = splitInfo.id[index]
+    const split = splitInfo[index]
     let HTMLContent = ''
-    HTMLContent += `<div class='container ${id}' style='gap:10px;margin-bottom:10px;padding:5px;border-radius:5px'>`
-    HTMLContent += getImage(id, 36)
-    HTMLContent += `<div style='font-size:20px;font-weight:bold'>${splitInfo.name[index]}</div>`
+    HTMLContent += `<div class='container ${split.id}' style='gap:10px;margin-top:10px;padding:5px;border-radius:5px'>`
+    HTMLContent += getImage(split.id, 36)
+    HTMLContent += `<div style='font-size:20px;font-weight:bold'>${split.name}</div>`
     HTMLContent += `</div>`
+    document.getElementById('modal-subtitle').innerHTML = HTMLContent
+    HTMLContent = ''
     const thisSegment = runRecap_lssFile.segmentHistory[index].length
     let prevSegment = runRecap_lssFile.segmentHistory[index - 1]?.length
     if (!prevSegment) {
         prevSegment = 0
     }
     const numResets = Math.abs(prevSegment - thisSegment)
-    const resetRate = getPercentage(numResets / runRecap_lssFile.attemptCount)
+    const segmentAttemptCount = index == 0 ? runRecap_lssFile.attemptCount : thisSegment
+    const resetRate = getPercentage(numResets / segmentAttemptCount)
     const display = resetRate ? displayPercentage(resetRate) : 0
     const grade = getLetterGrade(100 - resetRate)
     HTMLContent += `<div class='container' style='gap:8px'>`
     HTMLContent += `<div>Reset rate:</div>`
+    HTMLContent += `<div class='${grade.className}' style='border-radius:5px;padding:5px;${grade.grade == 'F' ? 'color:white' : ''}'>${display}%</div>`
+    HTMLContent += `<div>=</div>`
     HTMLContent += `<div style='font-size:80%'>
         <div class='container'>${numResets} reset${numResets == 1 ? '' : 's'}</div>
         <div style='margin: 5px 0;border-bottom: 2px solid white;width: 100px;'></div>
-        <div class='container'>${runRecap_lssFile.attemptCount} attempts</div>
+        <div class='container'>${segmentAttemptCount} attempts</div>
     </div>`
-    HTMLContent += `<div>=</div>`
-    HTMLContent += `<div class='${grade.className}' style='border-radius:5px;padding:5px;${grade.grade == 'F' ? 'color:white' : ''}'>${display}%</div>`
     HTMLContent += `</div>`
-    const sortedSegments = runRecap_lssFile.segmentHistory[index].sort((a, b) => a.gameTime - b.gameTime)
-    HTMLContent += `<div class='container' style='gap:30px;padding-top:15px'>`
+    HTMLContent += `<div class='container' style='gap:20px'>`
+    const sortedSplits = runRecap_lssFile.segmentHistory[index].sort((a, b) => a.split - b.split)
+    HTMLContent += splitSegmentInfo(sortedSplits, index, 'Split')
+    const sortedSegments = runRecap_lssFile.segmentHistory[index].sort((a, b) => a.segment - b.segment)
+    HTMLContent += splitSegmentInfo(sortedSegments, index, 'Segment')
+    HTMLContent += `</div>`
+    HTMLContent += `</div>`
+    return HTMLContent
+}
+function splitSegmentInfo(array, index, type) {
+    const split = splitInfo[index]
+    let HTMLContent = ''
+    HTMLContent += `<div style='padding-top:15px'>`
     HTMLContent += `<table>
-    <tr class='gray'><th colspan=5>Your best segments</th></tr>`
-    sortedSegments.slice(0, 10).forEach((segmentAttempt, segmentIndex) => {
-        const run = runRecap_lssFile.attemptHistory.find(attempt => attempt.id == segmentAttempt.id)
-        const date = run?.start
+    <tr class='gray'><th colspan=6>Your Top 10 ${type}s</th></tr>`
+    const numSegments = 10
+    let sum = 0
+    array.slice(0, numSegments).forEach((arrayAttempt, segmentIndex) => {
+        const run = runRecap_lssFile.attemptHistory.find(attempt => attempt.id == arrayAttempt.id)
+        const date = runRecap_lssFile.attemptSet[arrayAttempt.id].date
         const trophy = getTrophy(segmentIndex + 1)
+        const time = arrayAttempt[type.toLowerCase()]
+        sum += time
         HTMLContent += `<tr class='${getRowColor(segmentIndex)}'>
         <td style='font-size:70%;text-align:right;padding:0 5px'>${date ? daysAgo(getDateDif(new Date(), new Date(date))) : ''}</td>
-        <td class='${placeClass(segmentIndex + 1)}' style='font-size:70%;padding:0 5px'>${trophy ? `<div class='container trophy'>${trophy}` : segmentIndex + 1}</td>
-        <td class='${id}' style='padding:0 5px'>${secondsToHMS(segmentAttempt.gameTime, true)}</td>
+        <td class='${placeClass(segmentIndex + 1)}' style='font-size:70%;padding:0 3px'>${trophy ? `<div class='container trophy'>${trophy}` : segmentIndex + 1}</td>
+        <td class='${split.id}' style='padding:0 5px'>${secondsToHMS(time, true)}</td>
         <td class='${run ? commBestILsCategory.className : ''}' style='font-size:80%;padding:0 5px'>${run ? secondsToHMS(run.gameTime, true) : ''}</td>
         <td style='font-size:70%;padding:0 5px'>${date ? date : ''}</td>
+        <td style='font-size:50%'>${arrayAttempt.id}</td>
         </tr>`
     })
     HTMLContent += `</table>`
-    HTMLContent += `<div>`
+    HTMLContent += `<div class='container' style='padding-top:15px'><table><tr class='gray'><th>Your Top 10 Average</th></tr><tr><td class='${split.id}'>${secondsToHMS(sum / numSegments, true)}</td></tr></table></div>`
+    HTMLContent += `<div class='container' style='padding-top:15px;gap:8px'>`
     HTMLContent += `<table>
         <tr class='gray'><th colspan=2>Comm Best</th></tr>
         <tr>
-            <td>${getPlayerIcon(players.find(player => player.name == runRecap_markin.bestSegmentsPlayers[index].split('/')[0]), 24)}</td>
-            <td class='${id}' style='padding:0 5px'>${secondsToHMS(runRecap_markin.bestSegments[index], true)}</td>
+            <td>${getPlayerIcon(players.find(player => player.name == runRecap_markin[type == 'Split' ? 'bestSplitsPlayers' : 'bestSegmentsPlayers'][index].split('/')[0]), 24)}</td>
+            <td class='${split.id}' style='padding:0 5px'>${secondsToHMS(runRecap_markin[type == 'Split' ? 'bestSplits' : 'bestSegments'][index], true)}</td>
         </tr>
     </table>`
     HTMLContent += `<table>
         <tr class='gray'><th colspan=2>World Record</th></tr>
         <tr>
             <td>${getPlayerIcon(players[0], 24)}</td>
-            <td class='${id}' style='padding:0 5px'>${secondsToHMS(runRecap_markin.wrSegments[index], true)}</td>
+            <td class='${split.id}' style='padding:0 5px'>${secondsToHMS(runRecap_markin[type == 'Split' ? 'wrSplits' : 'wrSegments'][index], true)}</td>
         </tr>
     </table>`
-    HTMLContent += `</div>`
-    HTMLContent += `</div>`
+    HTMLContent += `</div></div>`
     return HTMLContent
 }

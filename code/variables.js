@@ -57,7 +57,7 @@ let runRecapElem = 'sav'
 let runRecapTime
 let runRecapTab = 'times'
 let runRecapExample = false
-let splitInfo = {}
+let splitInfo = []
 
 // Big 5
 let allILs = true

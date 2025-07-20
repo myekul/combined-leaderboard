@@ -134,6 +134,7 @@ function runRecapCategory(categoryIndex) {
     const category = categories[categoryIndex]
     const level = getCupheadLevel(categoryIndex)
     const runTime = level?.bestTime
+    category.IGT = runTime
     category.runTime = runTime
     const prevCategory = categories[categoryIndex - 1]
     if (prevCategory) {
@@ -292,4 +293,18 @@ function runRecapSums() {
     </tr>`
     HTMLContent += `</table></div>`
     return HTMLContent
+}
+function runRecapCopy() {
+    let clipboardContent = ''
+    categories.forEach(category => {
+        let time = secondsToHMS(category.IGT, true, true)
+        if (!runRecapExample) {
+            time = time.replace(/^0:/, "");
+        }
+        clipboardContent += `[${time}] ${category.name}\n`
+    })
+    navigator.clipboard.writeText(clipboardContent)
+        .then(() => {
+            // Success!
+        })
 }

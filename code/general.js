@@ -6,7 +6,7 @@ function getLetterGrade(percentage) {
     }
     return grades[grades.length - 1]
 }
-function secondsToHMS(seconds, exception) {
+function secondsToHMS(seconds, exception, raw) {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const secs = Math.floor(seconds % 60);
@@ -17,19 +17,19 @@ function secondsToHMS(seconds, exception) {
         HTMLContent = `${minutes}:${secs.toString().padStart(2, '0')}`;
     }
     if ((milliseconds && page != 'charts') || exception) {
-        HTMLContent += displayDecimals(seconds)
+        HTMLContent += displayDecimals(seconds, null, raw)
     }
     return HTMLContent
 }
-function displayDecimals(value, exception) {
-    let ms = Math.round((value % 1) * 1000)
-    if (ms) {
-        const twoDecimals = ['cuphead', 'mtpo', 'ssbm', 'ssb64'].includes(gameID) || exception
-        ms = twoDecimals ? ms / 10 : ms
-        const padding = twoDecimals ? 2 : 3
-        return `.<span style='font-size:75%'>${Math.round(ms).toString().padStart(padding, '0')}</span>`
+function displayDecimals(value, exception, raw) {
+    let msString = value.toString().split('.')[1] || '';
+    const twoDecimals = ['cuphead', 'mtpo', 'ssbm', 'ssb64'].includes(gameID) || exception;
+    const length = twoDecimals ? 2 : 3;
+    msString = msString.padEnd(3, '0').slice(0, length);
+    if (parseInt(msString)) {
+        return raw ? '.' + msString : `.<span style='font-size:75%'>${msString}</span>`;
     }
-    return ''
+    return '';
 }
 function convertToSeconds(time) {
     if (time.includes(":")) {

@@ -180,7 +180,7 @@ document.querySelectorAll('select').forEach(elem => {
                     break;
             }
         } else {
-            if (!elem.classList.includes('oneGun')) {
+            if (!elem.classList.contains('oneGun')) {
                 action()
             }
         }

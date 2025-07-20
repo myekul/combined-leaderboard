@@ -90,7 +90,7 @@ function generateBoardTitle(extra, categoryIndex, commBest) {
             const selectedOption = selectElem.options[selectElem.selectedIndex];
             const optionHTML = selectedOption.innerHTML;
             if (optionHTML != 'Base Game') {
-                HTMLContent += boardTitleCell('cuphead', optionHTML)
+                HTMLContent += boardTitleCell(optionHTML.toLowerCase(), optionHTML)
             }
             const selectElem2 = document.getElementById('dropdown_oneGun_difficulty');
             const selectedOption2 = selectElem2.options[selectElem2.selectedIndex];

@@ -148,7 +148,7 @@ const commBestILs = {
         tabName: 'DLC C/T',
         className: 'dlc',
         category: 3,
-        numRuns: 2,
+        numRuns: 3,
         shot1: 'charge',
         shot2: 'twistup',
         extraRuns: [
