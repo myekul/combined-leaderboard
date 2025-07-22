@@ -39,10 +39,8 @@ function bootMarkinExample() {
         elem.innerHTML = ''
         hide(elem)
     })
+    document.getElementById('dropdown_runRecap_lss_current').value = 'yourPB'
     document.getElementById('dropdown_runRecap_lss_comparison').value = 'commBest'
-    document.querySelectorAll('.lss_hide').forEach(elem => {
-        hide(elem)
-    })
 }
 function refreshRunRecap() {
     const dropdown_runRecap = document.getElementById('dropdown_runRecap')
@@ -171,8 +169,8 @@ function getComparisonTime(categoryIndex) {
         return commBestILsCategory.top3[categoryIndex]
     } else if (comparison == 'top3Best') {
         return commBestILsCategory.top3Best[categoryIndex]
-    } else if (comparison == 'humanTheory') {
-        return commBestILsCategory.humanTheory[categoryIndex]
+    } else if (comparison == 'theoryRun') {
+        return commBestILsCategory.theoryRun[categoryIndex]
     } else if (comparison == 'commBest') {
         return getWorldRecord(categories[categoryIndex])
     } else if (comparison.split('_')[0] == 'player') {
@@ -236,7 +234,7 @@ function updateComparisonInfo() {
         case 'top3Best':
             HTMLContent = "Best of top 3 players' boss times in their PBs"
             break
-        case 'humanTheory':
+        case 'theoryRun':
             HTMLContent = "Top 3 players' PB boss times averaged with comm best ILs"
             break
         case 'commBest':

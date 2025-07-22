@@ -182,7 +182,7 @@ function loadMyekul() {
         commBestILsCategory.top3 = []
         commBestILsCategory.top3Best = new Array(commBestILsCategory.runs[0].length).fill(Infinity)
         commBestILsCategory.top3BestPlayers = new Array(commBestILsCategory.runs[0].length).fill(null)
-        commBestILsCategory.humanTheory = []
+        commBestILsCategory.theoryRun = []
         categories.forEach((category, categoryIndex) => {
             let levelSum = 0
             commBestILsCategory.runs.forEach((run, index) => {
@@ -196,7 +196,7 @@ function loadMyekul() {
                 }
             })
             commBestILsCategory.top3.push(levelSum / numRuns)
-            commBestILsCategory.humanTheory.push((levelSum + categories[categoryIndex].runs[0].score) / (numRuns + 1))
+            commBestILsCategory.theoryRun.push((levelSum + categories[categoryIndex].runs[0].score) / (numRuns + 1))
         })
     }
     if (page == 'runRecap') {

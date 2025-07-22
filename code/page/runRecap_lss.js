@@ -8,7 +8,7 @@ function read_lss(content) {
     const xmlDoc = parser.parseFromString(content, "application/xml");
     // console.log(xmlDoc)
     runRecap_lssFile = {}
-    runRecap_lssFile = { bestSplits: [], bestSegments: [], pbSplits: [], pbSegments: [], attemptHistory: [] }
+    runRecap_lssFile = { bestSplits: [], bestSegments: [], sob: [], pbSplits: [], pbSegments: [], attemptHistory: [] }
     runRecap_lssFile.attemptCount = xmlDoc.querySelector('AttemptCount').innerHTML
     const allAttempts = Array.from(xmlDoc.querySelectorAll("AttemptHistory > Attempt"))
     const finishedAttempts = allAttempts.filter(attempt => attempt.querySelector("GameTime"));
@@ -31,7 +31,9 @@ function read_lss(content) {
     })
     const segments = xmlDoc.querySelectorAll("Segment");
     segments.forEach((segment, index) => {
-        runRecap_lssFile.bestSegments.push(convertToSeconds(segment.querySelector("BestSegmentTime GameTime")?.textContent.slice(3)))
+        const bestSegmentTime = convertToSeconds(segment.querySelector("BestSegmentTime GameTime")?.textContent.slice(3))
+        runRecap_lssFile.bestSegments.push(bestSegmentTime)
+        runRecap_lssFile.sob.push(index == 0 ? bestSegmentTime : runRecap_lssFile.sob[index - 1] + bestSegmentTime)
         const splitTime = convertToSeconds(segment.querySelector('SplitTimes SplitTime GameTime')?.textContent.slice(3))
         runRecap_lssFile.pbSplits.push(splitTime)
         let segmentTime = splitTime
@@ -76,6 +78,19 @@ function read_lss(content) {
             }
         });
     });
+    runRecap_lssFile.theorySegments = []
+    runRecap_lssFile.theorySplits = []
+    runRecap_lssFile.segmentHistory.forEach((segment, index) => {
+        segment.sort((a, b) => a.segment - b.segment)
+        let sum = 0
+        segment.slice(0, 10).forEach(attempt => {
+            sum += attempt.segment
+        })
+        const segmentTime = sum / 10
+        runRecap_lssFile.theorySegments.push(segmentTime)
+        runRecap_lssFile.theorySplits.push(index == 0 ? segmentTime : runRecap_lssFile.theorySplits[index - 1] + segmentTime)
+
+    })
     attemptHistory.forEach(attempt => {
         if (runRecap_lssFile.attemptSet[attempt.id]) {
             runRecap_lssFile.attemptHistory.push(attempt)
@@ -108,13 +123,10 @@ function read_lss(content) {
     if (reverseAttempts[0].gameTime == pbTime) {
         comparisonValue = prevPBIndex
     }
+    document.getElementById('dropdown_runRecap_lss_current').value = firstAttempt
     document.getElementById('dropdown_runRecap_lss_comparison').value = comparisonValue
-    document.getElementById('dropdown_runRecap_lss_vs').value = firstAttempt
     document.querySelectorAll('.lss_yourPB').forEach(elem => {
         elem.innerHTML = secondsToHMS(runRecap_lssFile.pbSplits[runRecap_lssFile.pbSplits.length - 1]) + ' - Your PB'
-    })
-    document.querySelectorAll('.lss_hide').forEach(elem => {
-        show(elem)
     })
     runRecap_lssFile.attemptHistory.forEach(attempt => {
         let total = 0
@@ -162,8 +174,13 @@ function getOffset() {
 }
 function generate_lss() {
     runRecap_lss_splitInfo()
+    const currentRun = document.getElementById('dropdown_runRecap_lss_current').value
     const comparison = document.getElementById('dropdown_runRecap_lss_comparison').value
-    const currentRun = document.getElementById('dropdown_runRecap_lss_vs').value
+    if (['yourBest', 'sob', 'theoryRun'].includes(currentRun)) {
+        runRecapTheoretical = true
+    } else {
+        runRecapTheoretical = false
+    }
     let HTMLContent = ''
     HTMLContent += `<div class='container'><table class='bigShadow'>`
     HTMLContent += `<tr style='font-size:60%'>`
@@ -171,7 +188,13 @@ function generate_lss() {
     HTMLContent += `<td></td>`
     HTMLContent += `<td>Splits</td>`
     HTMLContent += `<td></td>`
-    HTMLContent += `<td>${comparison == 'yourBest' ? 'Your BPE' : comparisonTitle}</td>`
+    let splitTitle = comparisonTitle
+    if (comparison == 'yourBest') {
+        splitTitle = 'Your BPE'
+    } else if (comparison == 'sob') {
+        splitTitle = 'Your SoB'
+    }
+    HTMLContent += `<td>${splitTitle}</td>`
     HTMLContent += `<td></td>`
     HTMLContent += `<td></td>`
     HTMLContent += `<td></td>`
@@ -190,9 +213,9 @@ function generate_lss() {
     const splits = []
     const deltas = []
     for (let index = 0; index < runRecap_lssFile.pbSplits.length && index < categories.length + getOffset(); index++) {
+        const currentSegment = segmentComparison(currentRun, index, true)
         const comparisonSegment = segmentComparison(comparison, index)
         const categoryIndex = index - getOffset()
-        const currentSegment = segmentComparison(currentRun, index, true)
         const delta = currentSegment - comparisonSegment
         const trueDelta = Math.trunc(delta * 100) / 100
         const grade = runRecapGrade(trueDelta)
@@ -249,7 +272,7 @@ function generate_lss() {
             } else {
                 const levelID = index == 0 ? runNguns['forestfollies'] : mausoleumID
                 const level = getCupheadLevel(levelID, true)
-                HTMLContent += `<td></td>
+                HTMLContent += `
                 <td>${level.bestTime != nullTime ? image : ''}</td>
                 <td>${level.bestTime != nullTime ? secondsToHMS(level.bestTime, true) : ''}</td>
                 <td></td>
@@ -280,15 +303,34 @@ function comparisonContent(type, index, time, comparison) {
     HTMLContent += `<div>${secondsToHMS(time, true)}</div></div>`
     return HTMLContent
 }
-function segmentComparison(comparison, index, vs) {
+function segmentComparison(comparison, index, current) {
     if (comparison == 'yourBest') {
+        if (current) {
+            setRunRecapTime('bestSplits')
+        }
         if (index == null) {
             return 'Your Golds'
         }
         return runRecap_lssFile.bestSegments[index]
+    } else if (comparison == 'sob') {
+        if (current) {
+            setRunRecapTime('sob')
+        }
+        if (index == null) {
+            return 'Your Golds'
+        }
+        return runRecap_lssFile.bestSegments[index]
+    } else if (comparison == 'theoryRun') {
+        if (current) {
+            setRunRecapTime('theorySplits')
+        }
+        if (index == null) {
+            return 'Theory'
+        }
+        return runRecap_lssFile.theorySegments[index]
     } else if (comparison == 'yourPB') {
-        if (vs) {
-            document.getElementById('runRecap_time').innerHTML = runRecapTimeElem(secondsToHMS(runRecap_lssFile.pbSplits[runRecap_lssFile.pbSplits.length - 1]))
+        if (current) {
+            setRunRecapTime('pbSplits')
         }
         if (index == null) {
             return 'Your PB'
@@ -304,9 +346,14 @@ function segmentComparison(comparison, index, vs) {
             return 'Comm Best'
         }
         return runRecap_markin.bestSegments[index]
+    } else if (comparison == 'commSoB') {
+        if (index == null) {
+            return 'Comm SoB'
+        }
+        return runRecap_markin.bestSegments[index]
     } else {
         const attempt = runRecap_lssFile.attemptHistory.find(attempt => attempt.id == comparison)
-        if (vs) {
+        if (current) {
             document.getElementById('runRecap_time').innerHTML = runRecapTimeElem(secondsToHMS(attempt.gameTime))
         }
         if (index == null) {
@@ -315,29 +362,40 @@ function segmentComparison(comparison, index, vs) {
         return attempt.segments[index]
     }
 }
+function setRunRecapTime(src) {
+    document.getElementById('runRecap_time').innerHTML = runRecapTimeElem(secondsToHMS(runRecap_lssFile[src].at(-1)))
+}
 function splitComparison(comparison, index) {
     if (comparison == 'yourBest') {
         return runRecap_lssFile.bestSplits[index]
+    } else if (comparison == 'sob') {
+        return runRecap_lssFile.sob[index]
+    } else if (comparison == 'theoryRun') {
+        return runRecap_lssFile.theorySplits[index]
     } else if (comparison == 'yourPB') {
         return runRecap_lssFile.pbSplits[index]
     } else if (comparison == 'wr') {
         return runRecap_markin.wrSplits[index]
     } else if (comparison == 'commBest') {
         return runRecap_markin.bestSplits[index]
+    } else if (comparison == 'commSoB') {
+        return runRecap_markin.commSoB[index]
     } else {
         return runRecap_lssFile.attemptHistory.find(attempt => attempt.id == comparison).splits[index]
     }
 }
 function loadMarkin() {
     const values = markinSheets[commBestILsCategory.markin]
-    runRecap_markin = { tabName: commBestILsCategory.tabName, bestSplits: [], bestSplitsPlayers: [], wrSplits: [], bestSegments: [], bestSegmentsPlayers: [], wrSegments: [] }
-    values.forEach(row => {
+    runRecap_markin = { tabName: commBestILsCategory.tabName, bestSplits: [], bestSplitsPlayers: [], wrSplits: [], bestSegments: [], bestSegmentsPlayers: [], wrSegments: [], commSoB: [] }
+    values.forEach((row, index) => {
         runRecap_markin.bestSplits.push(convertToSeconds(row.values[0].formattedValue))
         runRecap_markin.bestSplitsPlayers.push(row.values[1].formattedValue)
         runRecap_markin.wrSplits.push(convertToSeconds(row.values[2].formattedValue))
         runRecap_markin.bestSegments.push(convertToSeconds(row.values[3].formattedValue))
         runRecap_markin.bestSegmentsPlayers.push(row.values[4].formattedValue)
         runRecap_markin.wrSegments.push(convertToSeconds(row.values[5].formattedValue))
+        const bestSegment = runRecap_markin.bestSegments[index]
+        runRecap_markin.commSoB.push(index == 0 ? bestSegment : runRecap_markin.commSoB[index - 1] + bestSegment)
     })
     runRecap_lss_splitInfo()
     prepareData()
@@ -395,9 +453,8 @@ function splitSegmentInfo(array, index, type) {
     HTMLContent += `<div style='padding-top:15px'>`
     HTMLContent += `<table>
     <tr class='gray'><th colspan=6>Your Top 10 ${type}s</th></tr>`
-    const numSegments = 10
     let sum = 0
-    array.slice(0, numSegments).forEach((arrayAttempt, segmentIndex) => {
+    array.slice(0, 10).forEach((arrayAttempt, segmentIndex) => {
         const run = runRecap_lssFile.attemptHistory.find(attempt => attempt.id == arrayAttempt.id)
         const date = runRecap_lssFile.attemptSet[arrayAttempt.id].date
         const trophy = getTrophy(segmentIndex + 1)
@@ -413,7 +470,7 @@ function splitSegmentInfo(array, index, type) {
         </tr>`
     })
     HTMLContent += `</table>`
-    HTMLContent += `<div class='container' style='padding-top:15px'><table><tr class='gray'><th>Your Top 10 Average</th></tr><tr><td class='${split.id}'>${secondsToHMS(sum / numSegments, true)}</td></tr></table></div>`
+    HTMLContent += `<div class='container' style='padding-top:15px'><table><tr class='gray'><th>Your Top 10 Average</th></tr><tr><td class='${split.id}'>${secondsToHMS(sum / 10, true)}</td></tr></table></div>`
     HTMLContent += `<div class='container' style='padding-top:15px;gap:8px'>`
     HTMLContent += `<table>
         <tr class='gray'><th colspan=2>Comm Best</th></tr>

@@ -365,6 +365,7 @@
                             style='margin:0;gap:8px'></div>
                         <div id='runRecap_player' class='container' style='margin:0;gap:8px'></div>
                         <div id="runRecap_example_div">EXAMPLE</div>
+                        <div id="runRecap_theoretical_div">THEORETICAL</div>
                     </div>
                 </div>
             </div>
@@ -590,20 +591,30 @@
                         <input id='checkbox_runRecap_harsh' onclick="action()" type="checkbox" checked>Harsh Grading
                     </div>
                     <div class="container" style='padding-bottom:3px'>
-                        <div id="runRecap_lss_comparison" class="container" style="margin: 0">
-                            <div style="font-family:'cuphead-vogue';padding-right:10px">.lss</div>&Delta;
-                            <select id="dropdown_runRecap_lss_vs" class="onePointOne">
+                        <div id="runRecap_lss_comparison" class="container lss_hide" style="margin: 0">
+                            <div style="font-family:'cuphead-vogue';padding-right:10px">.lss</div>
+                            <select id="dropdown_runRecap_lss_current" class="onePointOne">
                                 <option class='lss_yourPB' value="yourPB" selected>Your PB</option>
+                                <optgroup label="Theoretical">
+                                    <option value="yourBest">Best Pace Ever</option>
+                                    <option value="sob">Sum of Best</option>
+                                    <option value="theoryRun">Your "Theory Run"</option>
+                                </optgroup>
                                 <optgroup class="lss_recentRuns" label="Recent Runs"></optgroup>
                             </select>
-                            <div>vs.</div>
+                            <div>&Delta;</div>
                             <select id="dropdown_runRecap_lss_comparison">
-                                <option class="lss_hide" value="yourBest" selected>Your Best Splits</option>
-                                <option class="lss_hide lss_yourPB" value="yourPB">Your PB</option>
-                                <option id="lss_prevPB" class="lss_hide">Previous PB</option>
+                                <option class="lss_yourPB" value="yourPB">Your PB</option>
+                                <option id="lss_prevPB">Previous PB</option>
+                                <optgroup label="Theoretical">
+                                    <option value="yourBest" selected>Best Pace Ever</option>
+                                    <option value="sob">Sum of Best</option>
+                                    <option value="theoryRun">Your "Theory Run"</option>
+                                </optgroup>
                                 <optgroup label="Comm Best Sheet">
-                                    <option class="lss_hide" value="wr">World Record</option>
+                                    <option value="wr">World Record</option>
                                     <option value="commBest">Comm Best</option>
+                                    <option value="commSoB">Comm SoB</option>
                                 </optgroup>
                                 <optgroup class="lss_recentRuns" label="Recent Runs"></optgroup>
                             </select>
@@ -615,12 +626,12 @@
                                 Sums</div>
                         </div>
                         <div id="runRecap_sav_comparison" class="container" style="margin: 0">
-                            <div class="divider"></div>
+                            <div class="divider lss_hide"></div>
                             <div style="font-family:'cuphead-vogue';padding-right:10px">.sav</div>&Delta;
                             <select id="dropdown_runRecap_sav_comparison">
                                 <option value="top3" selected>Top 3 Average</option>
                                 <option value="top3Best">Top 3 Best</option>
-                                <option value="humanTheory">"Human Theory"</option>
+                                <option value="theoryRun">"Theory Run"</option>
                                 <option value="commBest">Comm Best</option>
                                 <optgroup id='runRecap_optgroup' label="Players"></optgroup>
                             </select>
@@ -640,7 +651,7 @@
                             <div class='button cuphead' onclick="runRecapDownload()" style='width:135px'><i
                                     class="fa fa-download"></i>&nbsp;Download .sav</div>
                             <div class='divider'></div>
-                            <div class='button cuphead' onclick="runRecapCopy()" style='width:160px'><i
+                            <div class='button cuphead' onclick="runRecapCopy()" style='width:165px'><i
                                     class="fa fa-clone"></i>&nbsp;Copy to clipboard</div>
                             <div id="runRecap_upload_div" class="container" style="display:none">
                                 <div class='divider'></div>

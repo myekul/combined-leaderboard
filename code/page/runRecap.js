@@ -236,8 +236,8 @@ function runRecapViewPage(newPage, elem, shh) {
         }
     }
     updateComparisonInfo()
-    show('runRecap_' + newPage)
-    if (newPage == 'home') {
+    show('runRecap_' + runRecapView)
+    if (runRecapView == 'home') {
         runRecapUpdateComparison()
         runRecapHome()
     } else {
@@ -259,11 +259,24 @@ function runRecapViewPage(newPage, elem, shh) {
         }
     }
     if (runRecapExample) {
+        if (runRecapElem == 'lss') {
+            document.querySelectorAll('.lss_hide').forEach(elem => {
+                hide(elem)
+            })
+        }
         show('runRecap_example_div')
         // hide('runRecap_upload_div')
     } else {
+        document.querySelectorAll('.lss_hide').forEach(elem => {
+            show(elem)
+        })
         hide('runRecap_example_div')
         // show('runRecap_upload_div')
+    }
+    if (runRecapView != 'home' && runRecapTheoretical) {
+        show('runRecap_theoretical_div')
+    } else {
+        hide('runRecap_theoretical_div')
     }
 }
 function runRecapUpdateComparison() {
