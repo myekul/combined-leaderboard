@@ -214,3 +214,4 @@ function discordOnline(num) {
             ${num}
         </div>`
 }
+setFooter('2024-2025')

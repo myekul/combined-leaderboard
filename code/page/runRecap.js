@@ -258,18 +258,19 @@ function runRecapViewPage(newPage, elem, shh) {
             generate_lss()
         }
     }
-    if (runRecapExample) {
-        if (runRecapElem == 'lss') {
-            document.querySelectorAll('.lss_hide').forEach(elem => {
-                hide(elem)
-            })
-        }
-        show('runRecap_example_div')
-        // hide('runRecap_upload_div')
-    } else {
+    if (runRecapElem == 'lss' && !runRecapExample) {
         document.querySelectorAll('.lss_hide').forEach(elem => {
             show(elem)
         })
+    } else {
+        document.querySelectorAll('.lss_hide').forEach(elem => {
+            hide(elem)
+        })
+    }
+    if (runRecapExample) {
+        show('runRecap_example_div')
+        // hide('runRecap_upload_div')
+    } else {
         hide('runRecap_example_div')
         // show('runRecap_upload_div')
     }

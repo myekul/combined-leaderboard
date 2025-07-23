@@ -7,12 +7,16 @@
     <link rel="stylesheet" href="styles/grades.css">
     <link rel="stylesheet" href="styles/modal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://myekul.github.io/shared-assets/styles.css">
+    <link rel="stylesheet" href="https://myekul.github.io/shared-assets/myekul/footer.css">
     <link id='favicon' rel="shortcut icon" href='images/external/myekul.png'>
     <title>Combined Leaderboard</title>
     <script src="https://apis.google.com/js/api.js"></script>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/seedrandom@3.0.5/seedrandom.min.js"></script>
+    <script src="https://myekul.github.io/shared-assets/utils.js"></script>
 </head>
 
 <body>
@@ -428,14 +432,6 @@
             </div>
             <!-- Featured -->
             <div id="featuredTab" class="tabs" style="display:none">
-                <div id='featured_options_button' class='options'></div>
-                <div id='featured_options' class="container" style="display:none;padding:10px 0">
-                    <select id="dropdown_featured" class='container'>
-                        <option value="recent" selected>Recent</option>
-                        <option value="top5">Top 5</option>
-                    </select>
-                </div>
-
                 <div id="featured"></div>
             </div>
             <!-- Charts -->
@@ -687,30 +683,7 @@
                 <div id='modal-pages' class="container" style="display:none"></div>
             </div>
         </main>
-        <footer>
-            <div class="container" style="padding-top:10px">
-                <a href="https://www.speedrun.com/users/myekul" target="_blank">
-                    <img src="images/external/src.png" class="clickable">
-                </a>
-                <a href="https://www.twitch.tv/myekul" target="_blank">
-                    <img src="images/external/twitch.png" class="clickable">
-                </a>
-                <a href="https://www.youtube.com/@myekul/videos" target="_blank">
-                    <img src="images/external/youtube.png" class="clickable">
-                </a>
-                <a href="https://discord.gg/U5xyYCbhEM" target="_blank">
-                    <img src="images/external/discord.png" class="clickable">
-                </a>
-                <a href="https://www.github.com/myekul/combined-leaderboard" target="_blank">
-                    <img id='github' src="images/external/github.png" class="clickable">
-                </a>
-                <div class="footerText">myekul</div>
-                <a href="https://www.github.com/myekul" target="_blank">
-                    <img src="images/external/myekul.png" class="myekul clickable">
-                </a>
-                <div class="footerText">2024-2025</div>
-            </div>
-        </footer>
+        <footer></footer>
     </div>
     <script type='module' src="code/api/firebase.js"></script>
     <script src="code/api/sheets.js"></script>

@@ -43,7 +43,7 @@ function getWorldRecordPlayers(categoryIndex) {
         }
     }
     const className = mode == 'fullgame' ? 'first' : classNameLogic(category)
-    HTMLContent += `<td class='${className}' style='padding:0 8px'>${tetrisCheck(category, worldRecord)}</td>`
+    HTMLContent += `<td class='${className}' style='padding:0 5px'>${tetrisCheck(category, worldRecord)}</td>`
     let count = 0
     category.runs.forEach(run => {
         if (run.place == 1) {
@@ -66,23 +66,19 @@ function getWorldRecordPlayers(categoryIndex) {
 }
 function WRs() {
     let HTMLContent = ''
-    categories.forEach((category, categoryIndex) => {
-        if (mode == 'fullgame' && gameID != 'tetris') {
-            HTMLContent += `<tr class='${getRowColor(categoryIndex)}'>`
-            getEveryRun(categoryIndex)
-            HTMLContent += fancyTable(category.runs)
-            HTMLContent += fancyRun(category.runs[0], categoryIndex, true)
-            players.some((player, playerIndex) => {
-                if (player.runs[categoryIndex].place == 1) {
-                    HTMLContent += fancyPlayer(playerIndex)
-                }
-            })
-        } else {
+    if (mode == 'fullgame' && gameID != 'tetris') {
+        let everyRun = getEveryRun()
+        everyRun.sort((a, b) => b.run.percentage - a.run.percentage)
+        everyRun = everyRun.slice(0, categories.length)
+        everyRun.sort((a, b) => a.categoryIndex - b.categoryIndex)
+        HTMLContent += fancyTable(everyRun)
+    } else {
+        categories.forEach((category, categoryIndex) => {
             HTMLContent += WRsCategoryDisplay(category, categoryIndex)
             HTMLContent += getWorldRecordPlayers(categoryIndex)
-        }
-        HTMLContent += `</tr>`
-    })
+            HTMLContent += `</tr>`
+        })
+    }
     return HTMLContent
 }
 function WRsCategoryDisplay(category, categoryIndex) {

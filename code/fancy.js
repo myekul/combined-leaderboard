@@ -47,3 +47,14 @@ function fancyPlayer(playerIndex) {
     HTMLContent += `<td ${sortCategoryIndex == -1 ? `class='clickable' onclick="openModal('player','up','${player.name}')"` : ''} style='font-size:120%;text-align:left;padding-right:8px'>${getPlayerName(player)}</td>`
     return HTMLContent
 }
+function fancyTable(runs, numRuns = 5) {
+    let HTMLContent = `<table class='bigShadow' style='border-collapse:collapse;border:4px solid var(--background)'>`
+    runs.slice(0, numRuns).forEach((run, runIndex) => {
+        HTMLContent += `<tr class='${getRowColor(runIndex)}'>`
+        HTMLContent += fancyRun(run.run, run.categoryIndex)
+        HTMLContent += fancyPlayer(run.playerIndex)
+        HTMLContent += `</tr>`
+    })
+    HTMLContent += `</table>`
+    return HTMLContent
+}

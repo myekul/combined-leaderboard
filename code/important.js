@@ -63,7 +63,7 @@ function action() {
     const categorySelect = document.getElementById('categorySelect')
     if (['leaderboards', 'featured', 'charts', 'map', 'sort'].includes(page)) {
         show(categorySelect)
-        if(mode=='commBestILs'&&page=='leaderboards'){
+        if (mode == 'commBestILs' && page == 'leaderboards') {
             hide(categorySelect)
         }
     } else {

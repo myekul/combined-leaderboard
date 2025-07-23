@@ -80,6 +80,7 @@ function read_lss(content) {
     });
     runRecap_lssFile.theorySegments = []
     runRecap_lssFile.theorySplits = []
+    runRecap_lssFile.bestSplits = Array(runRecap_lssFile.bestSegments.length).fill(Infinity);
     runRecap_lssFile.segmentHistory.forEach((segment, index) => {
         segment.sort((a, b) => a.segment - b.segment)
         let sum = 0
@@ -89,7 +90,11 @@ function read_lss(content) {
         const segmentTime = sum / 10
         runRecap_lssFile.theorySegments.push(segmentTime)
         runRecap_lssFile.theorySplits.push(index == 0 ? segmentTime : runRecap_lssFile.theorySplits[index - 1] + segmentTime)
-
+        segment.forEach(attempt => {
+            if (attempt.split < runRecap_lssFile.bestSplits[index]) {
+                runRecap_lssFile.bestSplits[index] = attempt.split
+            }
+        })
     })
     attemptHistory.forEach(attempt => {
         if (runRecap_lssFile.attemptSet[attempt.id]) {
@@ -134,14 +139,6 @@ function read_lss(content) {
             attempt.segments.push(segment)
             total += segment
             attempt.splits.push(total)
-        })
-    })
-    runRecap_lssFile.bestSplits = Array(runRecap_lssFile.bestSegments.length).fill(Infinity);
-    runRecap_lssFile.attemptHistory.forEach(attempt => {
-        attempt.splits.forEach((split, index) => {
-            if (split < runRecap_lssFile.bestSplits[index]) {
-                runRecap_lssFile.bestSplits[index] = split
-            }
         })
     })
     generateDropbox('lss')
