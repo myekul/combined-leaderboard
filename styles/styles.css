@@ -24,13 +24,6 @@
 }
 
 body {
-    font-family: var(--font);
-    font-size: 17px;
-    color: white;
-    margin: 0;
-    overscroll-behavior: none;
-    overflow-x: hidden;
-    overflow-y: scroll;
     white-space: nowrap;
     background: repeating-linear-gradient(45deg,
             var(--background),

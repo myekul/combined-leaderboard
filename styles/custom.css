@@ -1,16 +1,3 @@
-.myekul {
-    width: 48px;
-    height: auto;
-    filter: drop-shadow(0.5px 0 0 black)
-        /* Right shadow */
-        drop-shadow(-0.5px 0 0 black)
-        /* Left shadow */
-        drop-shadow(0 0.5px 0 black)
-        /* Bottom shadow */
-        drop-shadow(0 -0.5px 0 black);
-    padding: 0
-}
-
 .myekulColor {
     color: #F0C03E;
     white-space: nowrap;
