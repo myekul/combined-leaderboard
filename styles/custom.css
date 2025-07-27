@@ -1,10 +1,5 @@
-.myekulColor {
-    color: #F0C03E;
-    white-space: nowrap;
-}
-
 .first {
-    background-color: var(--cuphead-yellow) !important;
+    background-color: var(--cuphead) !important;
     color: black
 }
 
@@ -34,7 +29,7 @@
 }
 
 .dlc {
-    background-color: var(--cuphead-green) !important;
+    background-color: var(--cupheadDLC) !important;
     color: var(--dlc-font) !important
 }
 

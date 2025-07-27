@@ -176,7 +176,7 @@ function cleanPlayers(thePlayers) {
     return newPlayers
 }
 function getSRCicon() {
-    return getAnchor('https://www.speedrun.com/' + gameID) + `<img src='images/external/src.png' class='clickable'>`
+    return getAnchor('https://www.speedrun.com/' + gameID) + `<img src='images/external/src.png' class='grow'>`
 }
 function findUndefined(obj, path = '') {
     let results = [];

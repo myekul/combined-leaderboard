@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://myekul.github.io/shared-assets/styles.css">
+    <link rel="stylesheet" href="https://myekul.github.io/shared-assets/myekul/myekul.css">
     <link rel="stylesheet" href="styles/custom.css">
     <link rel="stylesheet" href="styles/games.css">
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="stylesheet" href="styles/grades.css">
     <link rel="stylesheet" href="styles/modal.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://myekul.github.io/shared-assets/styles.css">
-    <link rel="stylesheet" href="https://myekul.github.io/shared-assets/myekul/myekul.css">
     <link id='favicon' rel="shortcut icon" href='images/external/myekul.png'>
     <title>Combined Leaderboard</title>
     <script src="https://apis.google.com/js/api.js"></script>
@@ -24,33 +24,19 @@
         <header>
             <div id='srcGame' class="container" style="position:absolute;top:5px;left:25px"></div>
             <div class="container" style="gap:4px;padding-top:12px">
-                <a href="https://www.github.com/myekul" target="_blank">
-                    <img class='myekul clickable' src="images/external/myekul.png" style="height:80px;width:80px">
+                <a href="https://myekul.github.io" target="_blank">
+                    <img class='myekul grow' src="images/external/myekul.png" style="height:80px;width:80px">
                 </a>
                 <div>
-                    <div class="container">
-                        <!-- <img class='gameIcon'> -->
-                        <div>
-                            <div class="container" style="justify-content: left;">
-                                <div id='gameTitle' style="font-size:140%;text-align: center;">myekul's
-                                </div>
-                            </div>
-                            <div id='subtitle'
-                                style="transform: translate(0px, -2px);font-size:175%;font-family:var(--font2)">
-                                COMBINED LEADERBOARD
-                            </div>
-                        </div>
-                        <!-- <img class='gameIcon'> -->
-                    </div>
-                    <div id='titleDesc' class='container'
-                        style="transform: translate(0px, -5px);font-size:90%;justify-content: left;">
+                    <div id="title"></div>
+                    <div class='container' style="transform: translate(0px, -5px);font-size:90%;justify-content: left;">
                         <div>The best overall players across each category</div>
-                        <div onclick="openModal('info','up')" class="clickable" style="padding-left:10px;width:25px"><i
+                        <div onclick="openModal('info','up')" class="grow" style="padding-left:10px;width:25px"><i
                                 class="fa fa-info-circle"></i></div>
                     </div>
                 </div>
             </div>
-            <div class="cupheadButton onePointOne clickable container" style="display:none;top:7px;"
+            <div class="cupheadButton onePointOne button" style="display:none;top:6px;right:18px"
                 onclick="runRecapHandle('runRecap');playSound('category_select')">
                 <div><i class="fa fa-history"></i>&nbsp;Run Recap</div>
             </div>
@@ -67,38 +53,27 @@
             </div>
         </header>
         <main>
-            <div class="background sticky">
+            <div class="background1 sticky">
                 <div class="container headerRow">
-                    <div id='gameSelectButton' class="clickable container" onclick="toggleGameSelect()">
+                    <div id='gameSelectButton' class="grow container" onclick="toggleGameSelect()">
                         <div style="margin-right:10px"><i class="fa fa-bars"></i></div>
                         <img id='gameLogoButton' src="">
-                        <!-- <div class='clickable' style="width:25px"><img src="images/external/discord.png"
-                                style="height:20px"></div> -->
                     </div>
                     <div id="gameSelect" class="sticky" style="display:none"></div>
-                    <div onclick="openModal('info','up')" class="clickable" style="width:25px"><i
+                    <div onclick="openModal('info','up')" class="grow" style="width:25px"><i
                             class="fa fa-info-circle"></i></div>
                     <div id='modeSelection' class='container' style="display:none; margin:0">
                         <div id='fullgameButton' class='button' onclick="getFullgame()">Full Game</div>
                         <div id='levelsButton' class='button' onclick="getLevels()">Individual
                             Levels</div>
                     </div>
-                    <!-- <div id='modeSelection' class='container' style="display:none; margin:0">
-                        <div id='fullgameButton' class='button' onclick="getFullgame()">Full Game</div>
-                        <div id='levelsButton' class='button' onclick="getLevels()">Individual
-                            Levels</div>
-                        <div id='commBestILsButton' class='button' style='display:none' onclick="getCommBestILs()">Comm
-                            Best
-                            ILs
-                        </div>
-                    </div> -->
                     <div style="width:70px">
                         <div id="boardTitleSrc" class="container"></div>
                     </div>
                     <div id="discordOnline"></div>
                     <input id='input_username' type='text' placeholder='Your SRC username'
                         style='display:none;width:200px;font-size:100%;position:absolute;right:40px;top:4px;'>
-                    <div id='username' onclick="showInput('username')" class='container clickable'
+                    <div id='username' onclick="showInput('username')" class='container grow'
                         style='display:none;position:absolute;right:40px;color:white;gap:8px'>
                         Your Username...
                         <i class="fa fa-edit" style="font-size:130%"></i>
@@ -127,12 +102,12 @@
                     </div>
                 </div>
             </div>
-            <div id="refreshDiv" class='clickable banner'
+            <div id="refreshDiv" class='grow banner'
                 onclick="firstTimeFull=false;getFullgame();playSound('cardflip')"
                 style="display:none;position:absolute;left:25px;top:190px;height:48px;width:48px;border-radius:50px;text-align: center">
                 <i class="fa fa-refresh" style="font-size:150%;margin-top:11px"></i>
             </div>
-            <div id="spotlightDiv" class='clickable' onclick="showTab('spotlight');playSound('ready')"
+            <div id="spotlightDiv" class='grow' onclick="showTab('spotlight');playSound('ready')"
                 style="position:absolute;right:20px;top:185px;"></div>
             <!-- Fullgame Categories -->
             <div id="fullgameCategoriesSection" class='hide' style="display:none">
@@ -248,7 +223,7 @@
                     <div class="container">
                         <div id="ILbosses"></div>
                         <input id='checkbox_basegameILs' type="checkbox" onchange='toggleBasegameILs()'
-                            style="accent-color: var(--cuphead-green);" checked>
+                            style="accent-color: var(--cupheadDLC);" checked>
                     </div>
                     <div id='difficultyTabs' class="container">
                         <div>
@@ -345,11 +320,11 @@
             <div id="pageTitle" class="container" style="font-family: var(--font2);font-size:200%;padding:15px 0">
             </div>
             <div id='categorySelect' class="container hide" style="display:none">
-                <div class="clickable" onclick="organizePlayers(sortCategoryIndex-1)"><i class="fa fa-caret-left"
+                <div class="grow" onclick="organizePlayers(sortCategoryIndex-1)"><i class="fa fa-caret-left"
                         style="font-size:150%"></i>
                 </div>
                 <div id="categoriesElem"></div>
-                <div class="clickable" onclick="organizePlayers(sortCategoryIndex+1)"><i class="fa fa-caret-right"
+                <div class="grow" onclick="organizePlayers(sortCategoryIndex+1)"><i class="fa fa-caret-right"
                         style="font-size:150%"></i>
                 </div>
             </div>
@@ -357,7 +332,7 @@
                 <div class="container" style="max-width:50%">
                     <div class="container" style="margin:0;gap:8px">
                         <div id="boardTitle" class="container" style="margin:0"></div>
-                        <div id='closeBoardTitle' class='clickable' style='display:none' onclick="showDefault()"><i
+                        <div id='closeBoardTitle' class='grow' style='display:none' onclick="showDefault()"><i
                                 class="fa fa-close"></i>
                         </div>
                     </div>
@@ -365,7 +340,7 @@
                         style='display:none;padding-left:25px;margin:0;gap:20px'>
                         <input id='input_runRecap_time' type='text' placeholder='XX:XX'
                             style='display:none;width:65px;font-size:100%'>
-                        <div id='runRecap_time' onclick="showInput('runRecap_time')" class='container clickable'
+                        <div id='runRecap_time' onclick="showInput('runRecap_time')" class='container grow'
                             style='margin:0;gap:8px'></div>
                         <div id='runRecap_player' class='container' style='margin:0;gap:8px'></div>
                         <div id="runRecap_example_div">EXAMPLE</div>
@@ -588,7 +563,7 @@
                     </div>
                     <div class="container" style='padding-bottom:3px'>
                         <div id="runRecap_lss_comparison" class="container lss_hide" style="margin: 0">
-                            <div style="font-family:'cuphead-vogue';padding-right:10px">.lss</div>
+                            <div style="font-family:'var(--font2)';padding-right:10px">.lss</div>
                             <select id="dropdown_runRecap_lss_current" class="onePointOne">
                                 <option class='lss_yourPB' value="yourPB" selected>Your PB</option>
                                 <optgroup label="Theoretical">
@@ -623,7 +598,7 @@
                         </div>
                         <div id="runRecap_sav_comparison" class="container" style="margin: 0">
                             <div class="divider lss_hide"></div>
-                            <div style="font-family:'cuphead-vogue';padding-right:10px">.sav</div>&Delta;
+                            <div style="font-family:'var(--font2)';padding-right:10px">.sav</div>&Delta;
                             <select id="dropdown_runRecap_sav_comparison">
                                 <option value="top3" selected>Top 3 Average</option>
                                 <option value="top3Best">Top 3 Best</option>
@@ -631,7 +606,7 @@
                                 <option value="commBest">Comm Best</option>
                                 <optgroup id='runRecap_optgroup' label="Players"></optgroup>
                             </select>
-                            <i class='fa fa-info-circle clickable'
+                            <i class='fa fa-info-circle grow'
                                 onclick="playSound('move');toggleVisibility('comparisonInfo')"
                                 style='padding-left:5px'></i>
                         </div>
@@ -670,10 +645,10 @@
             <!-- Modal -->
             <div id="modal" class="modal">
                 <div id="modal-content">
-                    <span id="close-modal" class="clickable" onclick="closeModal()" style="position: absolute;
+                    <span id="close-modal" class="grow" onclick="closeModal()" style="position: absolute;
                     right: 5px;font-size: 120%;color: var(--bannerText)"><i class="fa fa-close"></i></span>
                     <div id="modal-header">
-                        <h1 id="modal-title" class="container"></h1>
+                        <div id="modal-title" class="container" style="font-family:var(--font2);font-size:180%"></div>
                     </div>
                     <div id="modal-subtitle" style="padding:0 40px;padding-bottom:8px;"></div>
                     <div id="modal-more">

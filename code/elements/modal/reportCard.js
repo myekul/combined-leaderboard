@@ -47,10 +47,10 @@ function reportCard(player) {
     if (mode != 'commBestILs') {
         HTMLContent += `<div class='container' style='gap:8px'>`
         if (player.hasAllRuns) {
-            HTMLContent += `<div id='modal_sliders' onclick="toggleSliders()" class='clickable'>${fontAwesome('sliders')}</div>`
+            HTMLContent += `<div id='modal_sliders' onclick="toggleSliders()" class='grow'>${fontAwesome('sliders')}</div>`
         }
         HTMLContent +=
-            `<div class='textBox'><table class='otherColor'>
+            `<div class='textBox'><table class='background2'>
             <tr>
                 <td>Rank:</td>
                 <td id='modal_rank' style='padding:0 5px'>${player.rank}</td>
@@ -64,20 +64,20 @@ function reportCard(player) {
         }
         HTMLContent += `<td colspan=2 id='modal_scoreGradeSpan'>${scoreGradeSpan(player.score)}</td>`
         HTMLContent += `</table></div>`
-        HTMLContent += `<div id='modal_refresh' onclick="toggleSliders();toggleSliders()" class='clickable' style='display:none'>${fontAwesome('refresh')}</div>`
+        HTMLContent += `<div id='modal_refresh' onclick="toggleSliders();toggleSliders()" class='grow' style='display:none'>${fontAwesome('refresh')}</div>`
         HTMLContent += `</div>`
     }
     const myekulSaysCheck = myekulSays[player.name]
     const iconSize = 26
     HTMLContent += `<div class='container' style='align-items:center'>`
-    HTMLContent += myekulSaysCheck ? `<div id='myekulSaysButton' class='clickable' onclick="myekulSaysAction()"><img src='images/external/myekul.png' style='width:${iconSize}px;height:auto'></div>` : `<div style='width:${iconSize}px;height:${iconSize}px'></div>`
+    HTMLContent += myekulSaysCheck ? `<div id='myekulSaysButton' class='grow' onclick="myekulSaysAction()"><img src='images/external/myekul.png' style='width:${iconSize}px;height:auto'></div>` : `<div style='width:${iconSize}px;height:${iconSize}px'></div>`
     HTMLContent += myekulSaysCheck ? `<div id='myekulSaysEmpty' style='display:none;width:${iconSize}px;height:auto'></div>` : ''
     HTMLContent += `<div class='container'></div>`
     if (mode != 'commBestILs') {
         const iconSize2 = 30
         const user = players.find(player => player.name == localStorage.getItem('username'))
-        HTMLContent += user ? `<div id='modal_userComparison' onclick="toggleUserComparison()" class='clickable' style='width:${iconSize2}px;text-align:center'>${fontAwesome('exchange')}</div>` : ''
-        HTMLContent += `<div id='modal_sliders' onclick="scoreBreakdownInfo()" class='clickable ${player.explanation ? 'myekulColor' : ''}' style='width:${iconSize2}px;text-align:center'>${fontAwesome('info-circle')}</div>`
+        HTMLContent += user ? `<div id='modal_userComparison' onclick="toggleUserComparison()" class='grow' style='width:${iconSize2}px;text-align:center'>${fontAwesome('exchange')}</div>` : ''
+        HTMLContent += `<div id='modal_sliders' onclick="scoreBreakdownInfo()" class='grow ${player.explanation ? 'myekulColor' : ''}' style='width:${iconSize2}px;text-align:center'>${fontAwesome('info-circle')}</div>`
     } else {
         HTMLContent += `<div class='container'></div>`
     }
@@ -91,7 +91,7 @@ function reportCard(player) {
     return HTMLContent
 }
 function myekulSaysDiv() {
-    return `<div class='container' style='justify-content:left'>
+    return `<div class='container' style='justify-content:left;margin:0'>
     <img src='images/external/myekul.png' style='height:30px;width:auto;padding-right:5px'>
     <div style='font-size:110%'>${myekulColor('myekul')} says...</div>
     </div>`
@@ -170,7 +170,7 @@ function reportCardSection(category, categoryIndex, score, percentage) {
         <td id='modal_category_${categoryIndex}_place' class='${classNameLogic(category)}' style='display:none;font-size:75%;min-width:25px'>${place}</td>
         <td id='modal_category_${categoryIndex}_score' class='${classNameLogic(category)}' style='padding:0 3px'>${tetrisCheck(category, score)}</td>
         ${userComparison(categoryIndex)}
-        <td id='modal_category_${categoryIndex}_visual_div' class='background' style='border-right:1px solid white'><div id='modal_category_${categoryIndex}_visual' class='${className}' style='color:transparent !important;width:${percentage == 100 ? 102 : normalize50(percentage)}%'>dummy</div></td>
+        <td id='modal_category_${categoryIndex}_visual_div' class='background1' style='border-right:1px solid white'><div id='modal_category_${categoryIndex}_visual' class='${className}' style='color:transparent !important;width:${percentage == 100 ? 102 : normalize50(percentage)}%'>dummy</div></td>
         <td id='modal_category_${categoryIndex}_slider_div' style='display:none'><input id='modal_category_${categoryIndex}_slider' style='width:300px;accent-color:${accentColor}' type='range' oninput='adjustGrade(${categoryIndex})' step='0.1' min='50' max='${category.runs[0].percentage}' value='${Math.round(percentage)}'></td>`
     } else {
         HTMLContent += `<td></td><td></td>${truePercentage(categoryIndex)}`

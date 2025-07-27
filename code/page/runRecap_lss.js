@@ -1,3 +1,4 @@
+const NUM_SPLITS = 20
 function convertDateToISO(dateString) {
     const [month, day, year] = dateString.slice(0, 10).split('/')
     const date = new Date(`${year}-${month}-${day}`)
@@ -84,10 +85,10 @@ function read_lss(content) {
     runRecap_lssFile.segmentHistory.forEach((segment, index) => {
         segment.sort((a, b) => a.segment - b.segment)
         let sum = 0
-        segment.slice(0, 10).forEach(attempt => {
+        segment.slice(0, NUM_SPLITS).forEach(attempt => {
             sum += attempt.segment
         })
-        const segmentTime = sum / 10
+        const segmentTime = sum / NUM_SPLITS
         runRecap_lssFile.theorySegments.push(segmentTime)
         runRecap_lssFile.theorySplits.push(index == 0 ? segmentTime : runRecap_lssFile.theorySplits[index - 1] + segmentTime)
         segment.forEach(attempt => {
@@ -451,7 +452,7 @@ function splitSegmentInfo(array, index, type) {
     HTMLContent += `<table>
     <tr class='gray'><th colspan=6>Your Top 10 ${type}s</th></tr>`
     let sum = 0
-    array.slice(0, 10).forEach((arrayAttempt, segmentIndex) => {
+    array.slice(0, NUM_SPLITS).forEach((arrayAttempt, segmentIndex) => {
         const run = runRecap_lssFile.attemptHistory.find(attempt => attempt.id == arrayAttempt.id)
         const date = runRecap_lssFile.attemptSet[arrayAttempt.id].date
         const trophy = getTrophy(segmentIndex + 1)
@@ -467,7 +468,7 @@ function splitSegmentInfo(array, index, type) {
         </tr>`
     })
     HTMLContent += `</table>`
-    HTMLContent += `<div class='container' style='padding-top:15px'><table><tr class='gray'><th>Your Top 10 Average</th></tr><tr><td class='${split.id}'>${secondsToHMS(sum / 10, true)}</td></tr></table></div>`
+    HTMLContent += `<div class='container' style='padding-top:15px'><table><tr class='gray'><th>Your Top 10 Average</th></tr><tr><td class='${split.id}'>${secondsToHMS(sum / NUM_SPLITS, true)}</td></tr></table></div>`
     HTMLContent += `<div class='container' style='padding-top:15px;gap:8px'>`
     HTMLContent += `<table>
         <tr class='gray'><th colspan=2>Comm Best</th></tr>

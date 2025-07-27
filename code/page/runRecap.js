@@ -89,7 +89,7 @@ function generateDropbox(elem) {
     }
 
     if (elem == 'sav') {
-        HTMLContent += `<div onclick="openModal('runRecapInfo','up')" class='clickable' style="padding-left:5px">${fontAwesome('info-circle')}</div>`
+        HTMLContent += `<div onclick="openModal('runRecapInfo','up')" class='grow' style="padding-left:5px">${fontAwesome('info-circle')}</div>`
         HTMLContent += `<div class='divider'></div>
     <div onclick="processSavFile()" class="button cuphead" style="width:110px">${fontAwesome('plus')}&nbsp;Empty file</div>`
     }
@@ -99,7 +99,7 @@ function generateDropbox(elem) {
         HTMLContent += `<div class='container' style='padding-top:20px'>
         <div onclick="runRecapViewPage('content','${elem}')" class='button cuphead pulseSize' style="font-family:'cuphead-vogue';font-size:150%;width:200px;height:50px">${cellContent}&nbsp;View .${elem}</div>
         </div>`
-        HTMLContent += `<div onclick="runRecapUnload('${elem}')" class='clickable' style='position:absolute;bottom:8px;right:10px;font-size:130%'>${fontAwesome('trash')}</div>`
+        HTMLContent += `<div onclick="runRecapUnload('${elem}')" class='grow' style='position:absolute;bottom:8px;right:10px;font-size:130%'>${fontAwesome('trash')}</div>`
     }
     HTMLContent += `</div>
                     </div>`

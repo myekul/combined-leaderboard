@@ -14,7 +14,7 @@ function modalInfo() {
             First, to calculate a given run score (0-100), ${myekulColor(`the world record is divided by the run time`)}.
             <br><br>
             <div class='container textBox' style='justify-content:left'>
-            <div onclick='generateInfoExample()' class='clickable' style='width:25px;text-align:center;padding-right:3px'><i class='fa fa-refresh'></i></div>
+            <div onclick='generateInfoExample()' class='grow' style='width:25px;text-align:center;padding-right:3px'><i class='fa fa-refresh'></i></div>
             <div id='infoExample'>${infoExample()}</div></div>
 
             <div class='textBox'><i class='fa fa-exclamation-triangle myekulColor'></i> If a player has a run score worse than the average of their best score and
@@ -68,9 +68,6 @@ function modalInfo() {
         It is also open source, ad-free, nonprofit, and costs $0 to use, host, and maintain. Enjoy!`
     HTMLContent += `</div><img src='images/external/myekul.png' class='container' style='height:50px;width:50px;padding:10px 0'>`
     return HTMLContent
-}
-function myekulColor(content) {
-    return `<span class='myekulColor'>${content}</span>`
 }
 function infoTitle(title) {
     return `<br><div style='font-family: var(--font2);font-size: 140%;color: var(--bannerText);padding: 0 10px;background-color: var(--banner);border-radius: 5px;'>${title}</div>`

@@ -160,7 +160,7 @@ function flagArmy() {
     HTMLContent = ''
     countriesArray.forEach(country => {
         for (i = 0; i < country.count; i++) {
-            HTMLContent += `<div onclick="openModal('country','up','${country.name}')" class='container clickable'>${getFlag(country.code, country.name, 20)}</div>`
+            HTMLContent += `<div onclick="openModal('country','up','${country.name}')" class='container grow'>${getFlag(country.code, country.name, 20)}</div>`
         }
     })
     document.getElementById('flagArmy').innerHTML = HTMLContent

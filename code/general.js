@@ -182,9 +182,6 @@ function createArray(object) {
     }
     return array
 }
-function getRowColor(index) {
-    return index % 2 == 0 ? 'otherColor' : 'background'
-}
 function addOpacityToCSSVar(color) { // ChatGPT
     const rgb = color.trim().match(/rgb\((\d+), (\d+), (\d+)\)/);
     if (rgb) {
@@ -280,7 +277,7 @@ function getColorFromClass(className, textColor) {
     return color;
 }
 function getBackgroundColor() {
-    return rootStyles.getPropertyValue('--otherColor')
+    return rootStyles.getPropertyValue('--background2')
 }
 function getFont() {
     return rootStyles.getPropertyValue('--font')

@@ -40,14 +40,13 @@ function gameTabs() {
     games.forEach(gameSet => {
         HTMLContent += `<div class='container'>`
         gameSet.forEach(game => {
-            HTMLContent += `<a href='?game=${game}' class="container clickable ${game}" style='width:100%'><img src="images/logo/${game}.png"></a>`
+            HTMLContent += `<a href='?game=${game}' class="container grow ${game}" style='width:100%'><img src="images/logo/${game}.png"></a>`
         })
         HTMLContent += `</div>`
     })
     document.getElementById('gameSelect').innerHTML = HTMLContent
 }
 document.getElementById('gameLogoButton').src = `images/logo/${gameID}.png`
-const subtitle = document.getElementById('subtitle')
 const header = document.querySelector('header')
 // const gameIcons = document.querySelectorAll('.gameIcon')
 // if (gameID == 'tetris' || categorySet[gameID]) {
@@ -145,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
 document.querySelectorAll('.options').forEach(elem => {
     elem.innerHTML = fontAwesome('ellipsis-h')
     elem.classList.add('container')
-    elem.classList.add('clickable')
+    elem.classList.add('grow')
     elem.addEventListener('click', () => {
         toggleOptions()
     })
@@ -153,7 +152,7 @@ document.querySelectorAll('.options').forEach(elem => {
 document.querySelectorAll('.toggleSection').forEach(elem => {
     elem.innerHTML = fontAwesome('bars')
     elem.classList.add('container')
-    elem.classList.add('clickable')
+    elem.classList.add('grow')
     elem.style.width = '50px'
 });
 ['leaderboard', 'leaderboards', 'WRs', 'featured', 'charts', 'map', 'sort'].forEach(pageName => {
@@ -208,10 +207,11 @@ fetch('https://discord.com/api/guilds/1386406855391313960/widget.json')
     })
 function discordOnline(num) {
     document.getElementById('discordOnline').innerHTML = `
-        <div class='container clickable' style='gap:5px' onclick="openModal('discord','up')">
+        <div class='container grow' style='gap:5px' onclick="openModal('discord','up')">
             <img src="images/external/discord.png" class="brightPulse" style="padding-left:10px;height:24px">
             <div style='width:8px;height:8px;background-color:limegreen;border-radius:50%'></div>
             ${num}
         </div>`
 }
+setTitle('COMBINED LEADERBOARD')
 setFooter('2024-2025')

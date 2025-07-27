@@ -39,7 +39,7 @@
 
 #modal-content {
     position: absolute;
-    background-color: var(--background);
+    background-color: var(--background1);
     left: 50%;
     transform: translateX(-50%);
     border: 2px solid var(--gray);

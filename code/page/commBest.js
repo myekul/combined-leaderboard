@@ -4,7 +4,7 @@ function generateCommBest() {
         HTMLContent += `<div>`
         HTMLContent += `<div class='container' style='padding-bottom:10px;gap:10px'>
         <div class='button cuphead' style='width:180px' onclick="processSavFile(0,true);playSound('ready')">View World Record</div>
-        <div class='clickable'><a href="https://docs.google.com/spreadsheets/d/1JgTjjonfC7bh4976NI4pCPeFp8LbA3HMKdvS_47-WtQ" target="_blank"><img src='images/external/sheets.png' style='height:25px'></a></div>
+        <div class='grow'><a href="https://docs.google.com/spreadsheets/d/1JgTjjonfC7bh4976NI4pCPeFp8LbA3HMKdvS_47-WtQ" target="_blank"><img src='images/external/sheets.png' style='height:25px'></a></div>
         </div>`
         HTMLContent += `<div class='container' style='gap:30px'>`
         HTMLContent += `<table>`

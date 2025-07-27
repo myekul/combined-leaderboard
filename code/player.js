@@ -53,7 +53,7 @@ function getPlayerProfile(playerIndex) {
         const socials = ['src', 'twitch', 'youtube']
         socials.forEach(social => {
             const anchor = getAnchor(getSocial(player, social))
-            HTMLContent += anchor ? `${anchor}<img src='images/external/${social}.png' class='clickable container' style='height:18px;width:auto'></a>` : ''
+            HTMLContent += anchor ? `${anchor}<img src='images/external/${social}.png' class='grow container' style='height:18px;width:auto'></a>` : ''
         })
         HTMLContent += `</div>`
     }

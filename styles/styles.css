@@ -1,22 +1,7 @@
 :root {
     --mtpo: #4240FF;
     --spo: #107ac4;
-    --background: #343434;
-    --otherColor: #3C3C3C;
     --modal-height: 30%
-}
-
-.background {
-    background-color: var(--background) !important;
-}
-
-.banner {
-    background-color: var(--banner) !important;
-    color: var(--bannerText) !important
-}
-
-.gray {
-    background-color: var(--gray);
 }
 
 .hiddenText {
@@ -25,47 +10,6 @@
 
 body {
     white-space: nowrap;
-    background: repeating-linear-gradient(45deg,
-            var(--background),
-            var(--background) 10px,
-            var(--otherColor) 10px,
-            var(--otherColor) 20px);
-}
-
-#bodyContent {
-    min-height: 100vh;
-    flex-direction: column;
-    display: flex
-}
-
-main {
-    flex: 1;
-}
-
-a {
-    text-decoration: none;
-    color: inherit
-}
-
-input {
-    font-family: var(--font);
-    accent-color: var(--banner)
-}
-
-header {
-    background-color: var(--banner);
-    color: var(--bannerText);
-    height: 100px;
-}
-
-footer {
-    background-color: var(--banner);
-    color: var(--bannerText);
-}
-
-h1 {
-    font-family: var(--font2);
-    margin-bottom: 0;
 }
 
 .textBlock {
@@ -74,7 +18,7 @@ h1 {
 }
 
 .textBox {
-    background-color: var(--otherColor);
+    background-color: var(--background2);
     border-radius: 5px;
     padding: 3px;
     margin: 5px;
@@ -87,11 +31,7 @@ td {
 
 table {
     table-layout: fixed;
-    background-color: var(--background);
-}
-
-.otherColor {
-    background-color: var(--otherColor);
+    background-color: var(--background1);
 }
 
 #modal-img img {
@@ -108,13 +48,6 @@ th {
     font-size: 75%
 }
 
-select {
-    border-radius: 15px;
-    padding: 0 3px;
-    margin: 0 3px;
-    color: black
-}
-
 .active:hover,
 .active:active,
 .active2:hover,
@@ -122,7 +55,9 @@ select {
 .selected:hover,
 .selected:active {
     opacity: 1 !important;
-    cursor: default !important
+    cursor: default !important;
+    transition: none !important;
+    transform: none !important;
 }
 
 .boardTitleTable {
@@ -130,10 +65,6 @@ select {
     border-radius: 5px;
     font-weight: bold;
     font-size: 110%
-}
-
-progress::-webkit-progress-value {
-    background-color: var(--cuphead-yellow)
 }
 
 .active {
@@ -155,10 +86,6 @@ progress::-webkit-progress-value {
 .selected {
     background-color: white !important;
     color: black !important;
-}
-
-select {
-    font-family: var(--font)
 }
 
 .chartTab {
@@ -248,8 +175,8 @@ select {
 }
 
 #world-map {
-    background: var(--otherColor);
-    border: 3px solid var(--background);
+    background: var(--background2);
+    border: 3px solid var(--background1);
     margin-top: 10px
 }
 
@@ -288,7 +215,7 @@ select {
 
 .headerRow {
     padding: 5px 0;
-    background-color: var(--otherColor);
+    background-color: var(--background2);
 
 }
 
@@ -336,7 +263,7 @@ svg {
     left: 0;
     top: 50px;
     width: 300px;
-    background-color: var(--background);
+    background-color: var(--background1);
     opacity: 1;
     z-index: 10;
     transform: translateX(-100%);
@@ -387,24 +314,6 @@ svg {
     width: 0;
     background-color: var(--banner);
     transition: width 0.15s ease;
-}
-
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: var(--banner);
-    border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background-color: var(--gray);
-}
-
-::-webkit-scrollbar-track {
-    background-color: var(--background);
 }
 
 .grayscale {
@@ -479,7 +388,7 @@ svg {
 }
 
 .rrSec {
-    font-family: 'cuphead-vogue';
+    font-family: var(--font2);
     font-size: 120%;
     padding: 0 20px
 }
@@ -495,7 +404,7 @@ svg {
     right: 20px;
     border-radius: 15px;
     text-align: center;
-    font-family: 'cuphead-vogue';
+    font-family: var(--font2);
     font-size: 120%
 }
 

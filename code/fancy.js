@@ -48,7 +48,7 @@ function fancyPlayer(playerIndex) {
     return HTMLContent
 }
 function fancyTable(runs, numRuns = 5) {
-    let HTMLContent = `<table class='bigShadow' style='border-collapse:collapse;border:4px solid var(--background)'>`
+    let HTMLContent = `<table class='bigShadow' style='border-collapse:collapse;border:4px solid var(--background1)'>`
     runs.slice(0, numRuns).forEach((run, runIndex) => {
         HTMLContent += `<tr class='${getRowColor(runIndex)}'>`
         HTMLContent += fancyRun(run.run, run.categoryIndex)

@@ -200,7 +200,7 @@ function updateRunRecapIL(categoryIndex) {
     generate_sav()
 }
 function runRecapIL(runTime, categoryIndex) {
-    return `<div class='clickable' onclick="runRecapPlaceholder('${runTime}',${categoryIndex})" style='font-size:130%;padding:0 8px'>${secondsToHMS(runTime, true)}</div>`
+    return `<div class='grow' onclick="runRecapPlaceholder('${runTime}',${categoryIndex})" style='font-size:130%;padding:0 8px'>${secondsToHMS(runTime, true)}</div>`
 }
 function runRecapInput(categoryIndex, value) {
     return `<input id='input_runRecapIL_${categoryIndex}' type='text' placeholder='X:XX' ${value ? `value='${value}'` : ''} style='font-size:100%;width:45px' onblur="updateRunRecapIL(${categoryIndex})">`

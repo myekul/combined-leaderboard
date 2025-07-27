@@ -93,7 +93,7 @@ function playerModal(playerName) {
     document.addEventListener("keydown", modalKeyPress);
     let player = players[globalPlayerIndex]
     document.getElementById('modal-subtitle').innerHTML = getPlayerProfile(globalPlayerIndex)
-    let pagesContent = `<div onclick="modalLeft()" class='clickable'>${fontAwesome('caret-left')}</div>`;
+    let pagesContent = `<div onclick="modalLeft()" class='grow'>${fontAwesome('caret-left')}</div>`;
     for (let i = 0; i <= numModalPages; i++) {
         pagesContent += `<div style='gap:10px'>`
         if (i == modalIndex) {
@@ -103,7 +103,7 @@ function playerModal(playerName) {
         }
         pagesContent += `</div>`
     }
-    pagesContent += `<div onclick="modalRight()" class='clickable'>${fontAwesome('caret-right')}</div>`
+    pagesContent += `<div onclick="modalRight()" class='grow'>${fontAwesome('caret-right')}</div>`
     document.getElementById('modal-pages').innerHTML = pagesContent
     let modalPageNames = ['reportCard', 'videoCollection', 'gradeTable']
     if (mode == 'commBestILs') {
@@ -156,7 +156,7 @@ function getYouTubeID(link) {
 function getThumbnail(link, videoID, size) {
     const thumbnailSize = size ? 'width:224px;height:126px' : 'width:160px;height:90px'
     const src = link.includes('twitch') ? 'images/twitch.png' : `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`
-    return getAnchor(link) + `<img src='${src}' class='clickable' style="${thumbnailSize}"></img></a>`
+    return getAnchor(link) + `<img src='${src}' class='grow' style="${thumbnailSize}"></img></a>`
 }
 function videoCollection(player) {
     let HTMLContent = `<div class='container'><table style='border-collapse:collapse'>`

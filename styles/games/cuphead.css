@@ -9,7 +9,7 @@
 }
 
 .regular {
-    background-color: var(--cuphead-yellow);
+    background-color: var(--cuphead);
     color: black
 }
 
@@ -40,7 +40,7 @@
 
 .hildaberg {
     background-color: brown;
-    color: var(--cuphead-yellow)
+    color: var(--cuphead)
 }
 
 .cagneycarnation {
@@ -104,7 +104,7 @@
 }
 
 .calamaria {
-    background-color: var(--cuphead-green);
+    background-color: var(--cupheadDLC);
     color: var(--dlc-font)
 }
 
@@ -120,7 +120,7 @@
 
 .thedevil {
     background-color: black;
-    color: var(--cuphead-yellow)
+    color: var(--cuphead)
 }
 
 .glumstonethegiant {
@@ -130,7 +130,7 @@
 
 .moonshinemob {
     background-color: teal;
-    color: var(--cuphead-yellow)
+    color: var(--cuphead)
 }
 
 .thehowlingaces {
@@ -145,7 +145,7 @@
 
 .estherwinchester {
     background-color: chocolate;
-    color: var(--cuphead-yellow)
+    color: var(--cuphead)
 }
 
 .chefsaltbaker {
