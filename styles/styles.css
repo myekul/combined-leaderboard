@@ -48,18 +48,6 @@ th {
     font-size: 75%
 }
 
-.active:hover,
-.active:active,
-.active2:hover,
-.active2:active,
-.selected:hover,
-.selected:active {
-    opacity: 1 !important;
-    cursor: default !important;
-    transition: none !important;
-    transform: none !important;
-}
-
 .boardTitleTable {
     border: 3px solid var(--banner);
     border-radius: 5px;
@@ -67,25 +55,11 @@ th {
     font-size: 110%
 }
 
-.active {
-    border: 4px solid white
-}
-
-.active2 {
-    color: var(--bannerText);
-    background-color: var(--banner) !important;
-}
-
 #chart {
     padding-top: 5px;
     height: 500px;
     width: 75%;
     margin: 0 auto;
-}
-
-.selected {
-    background-color: white !important;
-    color: black !important;
 }
 
 .chartTab {

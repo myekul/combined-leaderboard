@@ -74,6 +74,22 @@ function assignIsles() {
 }
 function runRecapTimes() {
     let HTMLContent = ''
+    const numDeaths = runRecap_savFile.statictics.playerOne.numDeaths
+    if (numDeaths) {
+        show('runRecap_ghost')
+        document.getElementById('runRecap_numDeaths').innerHTML = numDeaths
+        let char = 'cuphead'
+        if (runRecap_savFile.isPlayer1Mugman) {
+            char = 'mugman'
+        }
+        if (['DLC', 'DLC+Base'].includes(commBestILsCategory.name)) {
+            char = 'chalice'
+        }
+        document.getElementById('runRecap_ghost').src = `images/cuphead/ghost_${char}.png`
+    } else {
+        hide('runRecap_ghost')
+        document.getElementById('runRecap_numDeaths').innerHTML = ''
+    }
     assignIsles()
     HTMLContent += `<div class='container' style='gap:25px'>`
     const follies = getCupheadLevel(runNguns['forestfollies'], true)
@@ -213,7 +229,7 @@ function runRecapPlaceholder(runTime, categoryIndex) {
 }
 function generate_sav(tab) {
     runRecapTab = tab ? tab : runRecapTab
-    buttonClick('runRecap_' + runRecapTab, 'runRecap_sav_tabs', 'active2')
+    buttonClick('runRecap_' + runRecapTab, 'runRecap_sav_tabs', 'activeBanner')
     const runRecapElem = document.getElementById('runRecap')
     if (runRecapTab == 'times') {
         runRecapElem.innerHTML = runRecapTimes()

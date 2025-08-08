@@ -1,40 +1,25 @@
-.first {
-    background-color: var(--cuphead) !important;
-    color: black
-}
-
-.second {
-    background-color: silver !important;
-    color: black
-}
-
-.third {
-    background-color: darkorange !important;
-    color: black
-}
-
 .onePointOne {
-    background-color: mediumpurple !important;
+    background-color: mediumpurple;
     color: black
 }
 
 .legacy {
-    background-color: lightseagreen !important;
+    background-color: lightseagreen;
     color: black
 }
 
 .nmg {
-    background-color: lightcoral !important;
+    background-color: lightcoral;
     color: black
 }
 
 .dlc {
-    background-color: var(--cupheadDLC) !important;
+    background-color: var(--cupheadDLC);
     color: var(--dlc-font) !important
 }
 
 .dlcbase {
-    background-color: khaki !important;
+    background-color: khaki;
     color: black
 }
 

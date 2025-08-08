@@ -175,9 +175,9 @@ function getOtherLevels(section) {
             categories = data
             resetLoad()
             if (section) {
-                buttonClick(section, 'ILcategories_' + gameID, 'active2')
+                buttonClick(section, 'ILcategories_' + gameID, 'activeBanner')
             } else {
-                buttonClick('ILdefault_' + gameID, 'ILcategories_' + gameID, 'active2')
+                buttonClick('ILdefault_' + gameID, 'ILcategories_' + gameID, 'activeBanner')
             }
             if (['sm64', 'mtpo', 'spo', 'ssbm', 'ssb64'].includes(gameID)) {
                 const style = document.createElement('style');

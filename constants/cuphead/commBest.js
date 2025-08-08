@@ -101,16 +101,16 @@ const commBestILs = {
         shot2: 'spread',
         extraRuns: [
             {
+                date: '2025-08-01',
+                score: '10:49.22',
+                playerName: 'GamerAttack27',
+                url: 'https://youtu.be/ELZcRtoi76E'
+            },
+            {
                 date: '2024-08-07',
                 score: '10:50.69',
                 playerName: 'Quincely0',
                 url: 'https://youtu.be/9NmKTKqQUdg'
-            },
-            {
-                date: '2023-12-24',
-                score: '10:59.85',
-                playerName: 'GamerAttack27',
-                url: 'https://youtu.be/AKyBN0Hhy0U'
             },
             {
                 date: '2022-08-25',
@@ -226,10 +226,17 @@ const commBestILs = {
         numRuns: 1,
         shot1: 'lobber',
         shot2: 'spread',
+        extraRuns: [
+            {
+                date: '2025-01-03',
+                score: '38:16.45',
+                playerName: 'GamerAttack27',
+                url: 'https://youtu.be/LvZxBu8y4rk'
+            }
+        ],
         extraPlayers: [
             'BlackTower',
             'ExclamationMarkYT',
-            'GamerAttack27',
             'Grondious',
             'HappyWolf',
             'jaan_971',
@@ -255,15 +262,10 @@ const commBestILs = {
                 playerName: 'Quincely0',
                 url: 'https://youtu.be/u_w4cHV-rqU'
             },
-            {
-                date: '2024-12-24',
-                score: '39:36.74',
-                playerName: 'GamerAttack27',
-                url: 'https://youtu.be/AKyBN0Hhy0U'
-            },
         ],
         extraPlayers: [
             "myekul",
+            'GamerAttack27',
             "Kirthar",
             "Musically_dECLINED",
             "Jason2890",

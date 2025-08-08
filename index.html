@@ -24,7 +24,7 @@
         <header>
             <div id='srcGame' class="container" style="position:absolute;top:5px;left:25px"></div>
             <div class="container" style="gap:4px;padding-top:12px">
-                <a href="https://myekul.github.io" target="_blank">
+                <a href="https://myekul.github.io">
                     <img class='myekul grow' src="images/external/myekul.png" style="height:80px;width:80px">
                 </a>
                 <div>
@@ -102,13 +102,15 @@
                     </div>
                 </div>
             </div>
-            <div id="refreshDiv" class='grow banner'
-                onclick="firstTimeFull=false;getFullgame();playSound('cardflip')"
+            <div id="refreshDiv" class='grow banner' onclick="firstTimeFull=false;getFullgame();playSound('cardflip')"
                 style="display:none;position:absolute;left:25px;top:190px;height:48px;width:48px;border-radius:50px;text-align: center">
                 <i class="fa fa-refresh" style="font-size:150%;margin-top:11px"></i>
             </div>
             <div id="spotlightDiv" class='grow' onclick="showTab('spotlight');playSound('ready')"
                 style="position:absolute;right:20px;top:185px;"></div>
+            <div id="musicDiv" class='grow' onclick="runRecapMusic()"
+                style="display:none;position:absolute;right:20px;top:185px;"><img src="images/cuphead/gramophone.png"
+                    style="height:80px"></div>
             <!-- Fullgame Categories -->
             <div id="fullgameCategoriesSection" class='hide' style="display:none">
                 <div id='fullgameCategoriesButton' onclick="toggleSection('fullgameCategories')" class="toggleSection">
@@ -562,8 +564,8 @@
                         <input id='checkbox_runRecap_harsh' onclick="action()" type="checkbox" checked>Harsh Grading
                     </div>
                     <div class="container" style='padding-bottom:3px'>
-                        <div id="runRecap_lss_comparison" class="container lss_hide" style="margin: 0">
-                            <div style="font-family:'var(--font2)';padding-right:10px">.lss</div>
+                        <div id="runRecap_lss_comparison" class="container" style="margin: 0">
+                            <div style="font-family:var(--font2);padding-right:10px">.lss</div>
                             <select id="dropdown_runRecap_lss_current" class="onePointOne">
                                 <option class='lss_yourPB' value="yourPB" selected>Your PB</option>
                                 <optgroup label="Theoretical">
@@ -597,8 +599,8 @@
                                 Sums</div>
                         </div>
                         <div id="runRecap_sav_comparison" class="container" style="margin: 0">
-                            <div class="divider lss_hide"></div>
-                            <div style="font-family:'var(--font2)';padding-right:10px">.sav</div>&Delta;
+                            <div id="runRecap_divider" class="divider"></div>
+                            <div style="font-family:var(--font2);padding-right:10px">.sav</div>&Delta;
                             <select id="dropdown_runRecap_sav_comparison">
                                 <option value="top3" selected>Top 3 Average</option>
                                 <option value="top3Best">Top 3 Best</option>
@@ -609,6 +611,8 @@
                             <i class='fa fa-info-circle grow'
                                 onclick="playSound('move');toggleVisibility('comparisonInfo')"
                                 style='padding-left:5px'></i>
+                            <img id="runRecap_ghost" style="height:40px;padding-left:20px">
+                            <div id="runRecap_numDeaths" style="padding-left:5px"></div>
                         </div>
                     </div>
                     <div id='comparisonInfo' class='textBlock container' style='display:none;font-size:75%'></div>

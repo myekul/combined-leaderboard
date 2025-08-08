@@ -75,7 +75,7 @@ function generateDropbox(elem) {
     let HTMLContent = ''
     HTMLContent += `<div id='${dropBoxInnerID}' class="dropBox ${fileUploaded ? extraCategory.className + ' flash' : ''}">
                         <div>
-                            <div class="container" style="font-family: 'cuphead-vogue';font-size:150%">.${elem}&nbsp;`
+                            <div class="container" style="font-family:var(--font2);font-size:150%">.${elem}&nbsp;`
     if (fileUploaded) {
         HTMLContent += fontAwesome('check')
     }
@@ -97,7 +97,7 @@ function generateDropbox(elem) {
     if (fileUploaded) {
         cellContent = elem == 'sav' ? fontAwesome('folder') : `<img src="images/livesplit.png" style="width:30px">`
         HTMLContent += `<div class='container' style='padding-top:20px'>
-        <div onclick="runRecapViewPage('content','${elem}')" class='button cuphead pulseSize' style="font-family:'cuphead-vogue';font-size:150%;width:200px;height:50px">${cellContent}&nbsp;View .${elem}</div>
+        <div onclick="runRecapViewPage('content','${elem}')" class='button cuphead pulseSize' style="font-family:var(--font2);font-size:150%;width:200px;height:50px">${cellContent}&nbsp;View .${elem}</div>
         </div>`
         HTMLContent += `<div onclick="runRecapUnload('${elem}')" class='grow' style='position:absolute;bottom:8px;right:10px;font-size:130%'>${fontAwesome('trash')}</div>`
     }
@@ -259,13 +259,14 @@ function runRecapViewPage(newPage, elem, shh) {
         }
     }
     if (runRecapElem == 'lss' && !runRecapExample) {
-        document.querySelectorAll('.lss_hide').forEach(elem => {
-            show(elem)
-        })
+        show('runRecap_lss_comparison')
     } else {
-        document.querySelectorAll('.lss_hide').forEach(elem => {
-            hide(elem)
-        })
+        hide('runRecap_lss_comparison')
+    }
+    if (runRecapElem == 'lss' && (!runRecap_savFile || runRecapExample)) {
+        hide('runRecap_divider')
+    } else {
+        show('runRecap_divider')
     }
     if (runRecapExample) {
         show('runRecap_example_div')
@@ -394,4 +395,10 @@ function runRecapDefault() {
     <div style='font-size:150%'>XX:XX</div>
     <div style='font-size:160%'>${fontAwesome('edit')}</div>`
     runRecapTime = 'XX:XX'
+}
+function runRecapMusic() {
+    const src = ['DLC', 'DLC+Base'].includes(commBestILsCategory.name) ? `https://www.youtube.com/embed/L6T3fpUGSmE?si=CY3h0TbNYkQ003eZ` : `https://www.youtube.com/embed/cdvSNkW3Uyk?si=VcZ9Du_FsD5A8O6g`
+    document.getElementById('musicDiv').innerHTML = `
+    <iframe width="150" height="150" src="${src}&amp;controls=0" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    `
 }

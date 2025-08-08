@@ -18,7 +18,7 @@ function showTab(newPage) {
         show('ILsSection_' + gameID)
     }
     show(page + 'Tab')
-    buttonClick(page + 'Button', 'tabs', 'active2')
+    buttonClick(page + 'Button', 'tabs', 'activeBanner')
     if (gameID == 'cuphead' && mode == 'levels' || mode == 'commBestILs') {
         document.getElementById('checkbox_hp').checked = true
     }
@@ -121,13 +121,18 @@ function pageAction() {
             show(pageTitle)
             pageTitle.innerHTML = fontAwesomeText(fontAwesomePage[1], fontAwesomePage[0])
         }
+        if (page == 'runRecap') {
+            show('musicDiv')
+        } else {
+            hide('musicDiv')
+        }
     }
 }
 function setMode(newMode) {
     mode = newMode
     url.searchParams.set('mode', mode);
     window.history.pushState({}, '', url);
-    buttonClick(mode + 'Button', 'modeSelection', 'active2')
+    buttonClick(mode + 'Button', 'modeSelection', 'activeBanner')
     if (mode != 'levels') {
         disableLevelModes()
     }

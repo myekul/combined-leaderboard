@@ -71,7 +71,6 @@ switch (gameID) {
         document.querySelectorAll('.options').forEach(elem => hide(elem))
         hide('featuredButton')
         hide('mapButton')
-        invertGithub()
         break;
     case 'nsmbw':
         show('modeSelection')
@@ -79,12 +78,7 @@ switch (gameID) {
     case 'ssbm':
         hide('featuredButton')
         hide('mapButton')
-        invertGithub()
         break;
-}
-function invertGithub() {
-    const github = document.getElementById('github');
-    github.style.filter = 'brightness(0) invert(1)';
 }
 if (['smb1', 'smbtll', 'mtpo', 'spo', 'titanfall_2', 'ssbm', 'ssb64'].includes(gameID)) {
     document.getElementById('checkbox_milliseconds').checked = true;
@@ -190,7 +184,7 @@ if (gameID != 'tetris') {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            document.getElementById('srcGame').innerHTML = `${getAnchor('https://www.speedrun.com/' + gameID)}<img src='${data.data.assets['cover-tiny'].uri}' height='90px' class='clickable'></a>`
+            document.getElementById('srcGame').innerHTML = `${getAnchor('https://www.speedrun.com/' + gameID)}<img src='${data.data.assets['cover-tiny'].uri}' height='90px' class='grow'></a>`
             // console.log(data.data)
         })
 }
@@ -200,11 +194,14 @@ if (['cuphead'].includes(gameID)) {
     link.href = `styles/games/${gameID}.css`;
     document.head.appendChild(link);
 }
-fetch('https://discord.com/api/guilds/1386406855391313960/widget.json')
-    .then(response => response.json())
-    .then(data => {
-        discordOnline(data.presence_count)
-    })
+function fetchDiscord() {
+    fetch('https://discord.com/api/guilds/1386406855391313960/widget.json')
+        .then(response => response.json())
+        .then(data => {
+            discordData = data
+            discordOnline(data.presence_count)
+        })
+}
 function discordOnline(num) {
     document.getElementById('discordOnline').innerHTML = `
         <div class='container grow' style='gap:5px' onclick="openModal('discord','up')">
@@ -212,6 +209,16 @@ function discordOnline(num) {
             <div style='width:8px;height:8px;background-color:limegreen;border-radius:50%'></div>
             ${num}
         </div>`
+}
+fetchDiscord()
+if (['ssbm', 'tetris'].includes(gameID)) {
+    const style = document.createElement('style');
+    style.innerHTML = `
+        #github {
+            filter: brightness(0) invert(1);
+        }
+    `;
+    document.head.appendChild(style);
 }
 setTitle('COMBINED LEADERBOARD')
 setFooter('2024-2025')

@@ -42,6 +42,7 @@ let extraCategory = {}
 let gapiClientLoaded = false
 let spotlightPlayerIndex
 let spotlightFlag
+let discordData
 
 let countries = {}
 let globalCountryName

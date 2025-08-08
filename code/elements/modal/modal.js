@@ -263,36 +263,29 @@ function countryModal(countryName) {
     return `<div class='container'>${playersTable(playersCopy)}</div>`
 }
 function discord() {
-    fetch('https://discord.com/api/guilds/1386406855391313960/widget.json')
-        .then(response => response.json())
-        .then(data => {
-            let HTMLContent = ''
-            HTMLContent += `<div class='textBlock' style='max-width:500px;font-size:90%'>Join our vibrant community of Combined Leaderboard enjoyers in ${myekulColor('myekul castle')}! Stay up-to-date with all the latest features and behind-the-scenes glimpses of the website.</div>`
-            HTMLContent += `
+    let HTMLContent = ''
+    HTMLContent += `<div class='textBlock' style='max-width:500px;font-size:90%'>Join our vibrant community of Combined Leaderboard enjoyers in ${myekulColor('myekul castle')}! Stay up-to-date with all the latest features and behind-the-scenes glimpses of the website.</div>`
+    HTMLContent += `
             <div class='container' style='padding:16px 0;gap:8px'>
             <img src='images/external/discord.png' style='height:24px'></img>
-                ${getAnchor(data.instant_invite)}<div class='button banner'>Join Server!</div></a>
+                ${getAnchor(discordData.instant_invite)}<div class='button banner'>Join Server!</div></a>
                 <div style='width:8px;height:8px;background-color:limegreen;border-radius:50%'></div>
-                ${data.presence_count}
+                ${discordData.presence_count}
             </div>`
-            HTMLContent += `<div class='container'><table>`
-            data.members.forEach(member => {
-                if (member.username == 'm...') {
-                    member.username = 'myekul'
-                }
-                const srcMember = players.find(player => player.name == member.username)
-                HTMLContent += `<tr>`
-                HTMLContent += `<td><img src='${member.avatar_url}' style='height:30px;border-radius:15px'></td>`
-                HTMLContent += `<td style='text-align:left;padding-left:5px'>${srcMember ? getPlayerName(srcMember) : member.username}</td>`
-                HTMLContent += member.game ? `<td style='padding-left:10px;color:var(--gray);text-align:left'>${member.game.name}</td>` : ''
-                HTMLContent += `</tr>`
-            })
-            HTMLContent += `</table></div>`
-            document.getElementById('modal-body').innerHTML = HTMLContent
-            discordOnline(data.presence_count)
-        })
-    // console.log(`https://discord.com/api/guilds/1386406855391313960/widget.json`)
-    // return `<iframe src="https://discord.com/widget?id=1386406855391313960&theme=dark" width="350" height="400" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>`
+    HTMLContent += `<div class='container'><table>`
+    discordData.members.forEach(member => {
+        if (member.username == 'm...') {
+            member.username = 'myekul'
+        }
+        const srcMember = players.find(player => player.name == member.username)
+        HTMLContent += `<tr>`
+        HTMLContent += `<td><img src='${member.avatar_url}' style='height:30px;border-radius:15px'></td>`
+        HTMLContent += `<td style='text-align:left;padding-left:5px'>${srcMember ? getPlayerName(srcMember) : member.username}</td>`
+        HTMLContent += member.game ? `<td style='padding-left:10px;color:var(--gray);text-align:left'>${member.game.name}</td>` : ''
+        HTMLContent += `</tr>`
+    })
+    HTMLContent += `</table></div>`
+    return HTMLContent
 }
 function modalKeyPress() {
     switch (event.key) {

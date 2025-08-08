@@ -1,5 +1,5 @@
 function modalInfo() {
-    let HTMLContent = `<img src='images/external/myekul.png' class='container' style='height:50px;width:50px'><div class='textBlock' style='font-family:"cuphead-memphis"'>`
+    let HTMLContent = `<img src='images/external/myekul.png' class='container' style='height:50px;width:50px'><div class='textBlock'>`
     HTMLContent += `Hello! My name is ${myekulColor(`myekul`)} and I am a Cuphead speedrunner and web developer.
         This is my ${myekulColor(`Combined Leaderboard`)} project, a tool that organizes and ranks players based on their overall domination of a game's leaderboards.
         <br>
@@ -60,7 +60,7 @@ function modalInfo() {
     HTMLContent += `<br>I'd like to dedicate this section to the Cuphead speedrunning community for cultivating an incredible and friendly online space for people to engage in this niche hobby.
     It's cheesy, but I wouldn't be the person I am today if it weren't for you guys. Much love.`
     if (gameID == 'cuphead') {
-        HTMLContent += `<br><br>Thank you MarkinSws for creating and maintaining the Comm Best Pace / SoB sheet, and allowing Run Recap integration.
+        HTMLContent += `<br><br>Thank you MarkinSws for creating and maintaining the Comm Best Pace / SoB sheet, and accomodating Run Recap integration.
     <br>Thank you to all runners who have contributed to my Comm Best ILs sheet.`
     }
     HTMLContent += `<br><br>This is a static site written entirely in raw HTML / CSS / JavaScript, which makes it extremely lightweight and efficient.

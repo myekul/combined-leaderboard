@@ -387,7 +387,7 @@ function sortObjectArray(arr) {
 }
 function showWRsTab(tab) {
     WRsTab = tab
-    buttonClick('WRs_' + WRsTab, 'WRsTabs', 'active2')
+    buttonClick('WRs_' + WRsTab, 'WRsTabs', 'activeBanner')
     document.getElementById('WRsChart').innerHTML = ''
     if (WRsTab == 'chart') {
         show('WRsChartSection')

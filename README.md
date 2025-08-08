@@ -37,7 +37,6 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Score chart should be grades, not 0-100?
 - 1.1 ILs (Goopy, Ribby, Sally, Werner)
 - Chalice Tutorial toggle?
-- Copy and paste boss times
 - 10:XX Trifecta
 - Melee sums fix
 - Home run contest
