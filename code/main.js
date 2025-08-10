@@ -330,9 +330,9 @@ function prepareData() {
     if (mode == 'fullgame' && spotlightFlag) {
         generateSpotlightPlayer()
         generateROTDrun()
-        show('spotlightDiv')
+        show('spotlight')
     } else {
-        hide('spotlightDiv')
+        hide('spotlight')
     }
     if (mode == 'fullgame' && firstTimeFull) {
         show('refreshDiv')
