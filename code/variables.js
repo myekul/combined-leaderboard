@@ -43,6 +43,8 @@ let gapiClientLoaded = false
 let spotlightPlayerIndex
 let spotlightFlag
 let discordData
+let aMinusPlayers
+let aPlusRuns
 
 let countries = {}
 let globalCountryName

@@ -89,7 +89,7 @@ function generateDropbox(elem) {
     }
 
     if (elem == 'sav') {
-        HTMLContent += `<div onclick="openModal('runRecapInfo','up')" class='grow' style="padding-left:5px">${fontAwesome('info-circle')}</div>`
+        HTMLContent += `<div onclick="openModalCL('runRecapInfo','up')" class='grow' style="padding-left:5px">${fontAwesome('info-circle')}</div>`
         HTMLContent += `<div class='divider'></div>
     <div onclick="processSavFile()" class="button cuphead" style="width:110px">${fontAwesome('plus')}&nbsp;Empty file</div>`
     }
@@ -213,7 +213,7 @@ function runRecapUploadButton() {
     if (localStorage.getItem('username') && runRecapTime != 'XX:XX') {
         window.firebaseUtils.firestoreWriteRR()
     } else {
-        openModal('runRecapUpload')
+        openModalCL('runRecapUpload')
     }
 }
 function runRecapUpload() {
@@ -314,7 +314,7 @@ function runRecapHome() {
     HTMLContent += `</table>`
     HTMLContent += `
     <div class='container' style='margin-top:10px'>
-        <div class='button cuphead' style='gap:5px;width:170px' onclick="openModal('runRecapDatabase','up')">
+        <div class='button cuphead' style='gap:5px;width:170px' onclick="openModalCL('runRecapDatabase','up')">
             ${fontAwesome('cloud')}
             Browse database
         </div>

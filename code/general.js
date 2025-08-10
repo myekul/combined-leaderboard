@@ -149,7 +149,7 @@ const fontAwesomeSet = {
     sort: ['Sort', 'sort-amount-asc'],
     runRecap: ['Run Recap', 'history'],
     commBest: ['Comm Best Splits', 'tasks'],
-    spotlight: ['Daily Spotlight', 'user-circle-o']
+    physics: ['Physics', 'smile-o']
 }
 function fontAwesomeText(icon, text) {
     return fontAwesome(icon) + `&nbsp;&nbsp;` + text

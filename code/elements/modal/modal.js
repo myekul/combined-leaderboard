@@ -1,10 +1,12 @@
-function openModal(modal, sound, param) {
+function openModalCL(modal, sound, param) {
     if (sound == 'up') {
         playSound('cardup')
     } else if (sound == 'move') {
         playSound('equip_move')
     } else if (sound == 'flip') {
         playSound('cardflip')
+    } else if (sound == 'ready') {
+        playSound('ready')
     }
     modalSliders = false
     showModal = true
@@ -23,76 +25,50 @@ function openModal(modal, sound, param) {
     } else {
         show('modal-pages')
     }
-    document.addEventListener('keydown', function (event) {
-        if (event.key == 'Escape' && showModal) {
-            closeModal()
-        }
-    });
-    let modalTitle = ''
-    let modalBody = ''
-    document.getElementById('modal-subtitle').innerHTML = ''
     switch (modal) {
         case 'player':
-            modalBody = playerModal(param)
+            playerModal(param)
             break
         case 'info':
-            modalTitle = 'INFO'
-            modalBody = modalInfo()
+            openModal(modalInfo(), 'INFO')
             break
         case 'country':
-            modalTitle = 'COUNTRY'
-            modalBody = countryModal(param)
+            openModal(countryModal(param), 'COUNTRY')
             break
         case 'runRecapInfo':
-            modalTitle = 'INFO'
-            modalBody = runRecapInfo()
+            openModal(runRecapInfo(), 'INFO')
             break
         case 'runRecapSegment':
-            modalTitle = 'SEGMENT INFO'
-            modalBody = runRecapSegment(param)
+            openModal(runRecapSegment(param), 'SEGMENT INFO')
             break
         case 'runRecapDatabase':
-            modalTitle = 'DATABASE'
-            modalBody = runRecapDatabase()
+            openModal(runRecapDatabase(), 'DATABASE')
             break
         case 'runRecapUpload':
-            modalTitle = 'UPLOAD'
-            modalBody = runRecapUpload()
+            openModal(runRecapUpload(), 'UPLOAD')
             break
         case 'discord':
-            modalTitle = 'DISCORD'
-            modalBody = discord()
+            openModal(discord(), 'DISCORD')
+            break
+        case 'spotlight':
+            openModal(generateSpotlight(), 'DAILY SPOTLIGHT')
+            break
+        case 'ROTD':
+            openModal(generateROTD(), 'RUN OF THE DAY')
             break
     }
-    if (modalTitle) {
-        document.getElementById('modal-title').innerHTML = modalTitle
-    }
-    document.getElementById('modal-body').innerHTML = modalBody
-    const modalElem = document.getElementById("modal");
-    modalElem.style.backgroundColor = 'rgba(0, 0, 0, 0.4)';
-    modalElem.style.display = "block";
-    const modalContent = document.getElementById('modal-content')
-    modalContent.style.animation = 'slideUp 0.25s ease-out forwards';
 }
-function closeModal() {
+function closeModalCL() {
     showModal = false
     playSound('carddown')
     document.removeEventListener("keydown", modalKeyPress);
-    const modal = document.getElementById("modal");
-    modal.style.backgroundColor = 'rgba(0, 0, 0, 0)';
-    const modalContent = document.getElementById('modal-content')
-    modalContent.style.animation = 'slideDown 0.25s ease-out forwards';
     hide('modal-pages')
-    setTimeout(() => {
-        hide(modal)
-    }, 200);
 }
 function playerModal(playerName) {
     const playerIndex = players.findIndex(player => player.name == playerName)
     globalPlayerIndex = playerIndex
     document.addEventListener("keydown", modalKeyPress);
     let player = players[globalPlayerIndex]
-    document.getElementById('modal-subtitle').innerHTML = getPlayerProfile(globalPlayerIndex)
     let pagesContent = `<div onclick="modalLeft()" class='grow'>${fontAwesome('caret-left')}</div>`;
     for (let i = 0; i <= numModalPages; i++) {
         pagesContent += `<div style='gap:10px'>`
@@ -113,20 +89,14 @@ function playerModal(playerName) {
         modalPageNames.splice(1, 1)
     }
     const modalPage = modalPageNames[modalIndex]
-    let modalTitle
-    let modalBody
+    const subtitle = getPlayerProfile(globalPlayerIndex)
     if (modalPage == 'reportCard') {
-        modalTitle = 'REPORT CARD'
-        modalBody = reportCard(player)
+        openModal(reportCard(player), 'REPORT CARD', subtitle)
     } else if (modalPage == 'videoCollection') {
-        modalTitle = 'VIDEO COLLECTION'
-        modalBody = videoCollection(player)
+        openModal(videoCollection(player), 'VIDEO COLLECTION', subtitle)
     } else if (modalPage == 'gradeTable') {
-        modalTitle = 'GRADE TABLE'
-        modalBody = gradeTable(player)
+        openModal(gradeTable(player), 'GRADE TABLE', subtitle)
     }
-    document.getElementById('modal-title').innerHTML = modalTitle
-    return modalBody
 }
 function scoreFromGrade(category, percentage) {
     const worldRecord = getWorldRecord(category)
@@ -301,7 +271,7 @@ function modalKeyPress() {
             event.preventDefault();
             if (globalPlayerIndex > 0 && sortCategoryIndex == -1 && page == 'leaderboard') {
                 globalPlayerIndex--
-                openModal('player', 'flip', players[globalPlayerIndex].name)
+                openModalCL('player', 'flip', players[globalPlayerIndex].name)
             } else {
                 playSound('locked')
             }
@@ -310,7 +280,7 @@ function modalKeyPress() {
             event.preventDefault();
             if (globalPlayerIndex < 300 && globalPlayerIndex < players.length - 1 && sortCategoryIndex == -1 && page == 'leaderboard') {
                 globalPlayerIndex++
-                openModal('player', 'flip', players[globalPlayerIndex].name)
+                openModalCL('player', 'flip', players[globalPlayerIndex].name)
             } else {
                 playSound('locked')
             }
@@ -320,7 +290,7 @@ function modalKeyPress() {
 function modalLeft() {
     if (modalIndex > 0) {
         modalIndex--
-        openModal('player', 'move', players[globalPlayerIndex].name)
+        openModalCL('player', 'move', players[globalPlayerIndex].name)
     } else {
         playSound('locked')
     }
@@ -328,7 +298,7 @@ function modalLeft() {
 function modalRight() {
     if (modalIndex < numModalPages) {
         modalIndex++
-        openModal('player', 'move', players[globalPlayerIndex].name)
+        openModalCL('player', 'move', players[globalPlayerIndex].name)
     } else {
         playSound('locked')
     }

@@ -1,7 +1,6 @@
 :root {
     --mtpo: #4240FF;
     --spo: #107ac4;
-    --modal-height: 30%
 }
 
 .hiddenText {
@@ -420,4 +419,15 @@ svg {
     100% {
         filter: brightness(1);
     }
+}
+
+.ball {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    user-select: none;
+    cursor: grab;
+    user-select: none;
+    z-index: 2
 }

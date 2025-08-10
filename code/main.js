@@ -329,6 +329,7 @@ function prepareData() {
     hide('loading')
     if (mode == 'fullgame' && spotlightFlag) {
         generateSpotlightPlayer()
+        generateROTDrun()
         show('spotlightDiv')
     } else {
         hide('spotlightDiv')

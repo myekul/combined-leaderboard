@@ -7,18 +7,28 @@ function seededShuffle(array, seed) {
     }
     return arr;
 }
-function getDailyRandomIndex() {
+function getDailyRandomIndex(array) {
     const today = new Date().toISOString().slice(0, 10);
-    const eligible = players.filter(p => p.score >= 90);
-    if (eligible.length === 0) return 0;
-    const shuffled = seededShuffle(eligible, today);
+    const shuffled = seededShuffle(array, today);
     const selected = shuffled[0];
-    return players.indexOf(selected);
+    return array.indexOf(selected);
 }
 function generateSpotlightPlayer() {
-    spotlightPlayerIndex = getDailyRandomIndex()
+    aMinusPlayers = players.filter(p => p.score >= 90)
+    spotlightPlayerIndex = getDailyRandomIndex(aMinusPlayers)
     const player = players[spotlightPlayerIndex]
     document.getElementById('spotlightDiv').innerHTML = getPlayerIcon(player, 64)
+}
+function generateROTDrun() {
+    aPlusRuns = getEveryRun().filter(run => run.run.percentage >= 97)
+    ROTDindex = getDailyRandomIndex(aPlusRuns)
+    const run = aPlusRuns[ROTDindex]
+    let HTMLContent = ''
+    HTMLContent += `<div class='button ${categories[run.categoryIndex].className}' style='width:94px;height:28px;justify-content:left'>`
+    HTMLContent += `<div>${getPlayerIcon(players[run.playerIndex], 32)}</div>
+    <div class='container' style='font-size:150%'>${secondsToHMS(run.run.score)}</div>`
+    HTMLContent += `</div>`
+    document.getElementById('ROTDdiv').innerHTML = HTMLContent
 }
 function generateSpotlight() {
     const player = players[spotlightPlayerIndex]
@@ -45,5 +55,17 @@ function generateSpotlight() {
         HTMLContent += `<div class='container textBlock' style='font-size:80%'>${myekulSaysText}</div>`
         HTMLContent += `</div>`
     }
-    document.getElementById('spotlight').innerHTML = HTMLContent
+    return HTMLContent
+}
+function generateROTD() {
+    let HTMLContent = ''
+    const run = aPlusRuns[ROTDindex]
+    HTMLContent += `
+    <table>
+    <tr>
+    ${fancyRun(run.run, run.categoryIndex)}
+    ${fancyPlayer(run.playerIndex)}
+    </tr>
+    </table>`
+    return HTMLContent
 }

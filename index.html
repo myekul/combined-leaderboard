@@ -16,6 +16,7 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/seedrandom@3.0.5/seedrandom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
     <script src="https://myekul.github.io/shared-assets/utils.js"></script>
 </head>
 
@@ -31,7 +32,7 @@
                     <div id="title"></div>
                     <div class='container' style="transform: translate(0px, -5px);font-size:90%;justify-content: left;">
                         <div>The best overall players across each category</div>
-                        <div onclick="openModal('info','up')" class="grow" style="padding-left:10px;width:25px"><i
+                        <div onclick="openModalCL('info','up')" class="grow" style="padding-left:10px;width:25px"><i
                                 class="fa fa-info-circle"></i></div>
                     </div>
                 </div>
@@ -60,7 +61,7 @@
                         <img id='gameLogoButton' src="">
                     </div>
                     <div id="gameSelect" class="sticky" style="display:none"></div>
-                    <div onclick="openModal('info','up')" class="grow" style="width:25px"><i
+                    <div onclick="openModalCL('info','up')" class="grow" style="width:25px"><i
                             class="fa fa-info-circle"></i></div>
                     <div id='modeSelection' class='container' style="display:none; margin:0">
                         <div id='fullgameButton' class='button' onclick="getFullgame()">Full Game</div>
@@ -96,6 +97,8 @@
                         <div id='chartsButton'></div>
                         <div id='mapButton'></div>
                         <div id='sortButton'></div>
+                        <div class='container' style='width:15px;margin:0'>&#8226;</div>
+                        <div id='physicsButton'></div>
                     </div>
                     <div id='loading' style='position:absolute;right:40px;top:49px;color:white'>
                         <div>Loading API...</div>
@@ -106,7 +109,9 @@
                 style="display:none;position:absolute;left:25px;top:190px;height:48px;width:48px;border-radius:50px;text-align: center">
                 <i class="fa fa-refresh" style="font-size:150%;margin-top:11px"></i>
             </div>
-            <div id="spotlightDiv" class='grow' onclick="showTab('spotlight');playSound('ready')"
+            <div id="ROTDdiv" class="grow" onclick="openModalCL('ROTD','ready')"
+                style="position:absolute;right:100px;top:185px;"></div>
+            <div id="spotlightDiv" class='grow' onclick="openModalCL('spotlight','ready')"
                 style="position:absolute;right:20px;top:185px;"></div>
             <div id="musicDiv" class='grow' onclick="runRecapMusic()"
                 style="display:none;position:absolute;right:20px;top:185px;"><img src="images/cuphead/gramophone.png"
@@ -642,25 +647,12 @@
             <div id="commBestTab" class="tabs" style="display:none">
                 <div id="commBest" class="container" style="padding-top:20px"></div>
             </div>
-            <!-- Spotlight -->
-            <div id="spotlightTab" class="tabs" style="display:none">
-                <div id="spotlight" style="padding-top:20px"></div>
+            <!-- Physics -->
+            <div id="physicsTab" class="tabs" style="display:none">
+                <div id="physics" class="container"></div>
             </div>
             <!-- Modal -->
-            <div id="modal" class="modal">
-                <div id="modal-content">
-                    <span id="close-modal" class="grow" onclick="closeModal()" style="position: absolute;
-                    right: 5px;font-size: 120%;color: var(--bannerText)"><i class="fa fa-close"></i></span>
-                    <div id="modal-header">
-                        <div id="modal-title" class="container" style="font-family:var(--font2);font-size:180%"></div>
-                    </div>
-                    <div id="modal-subtitle" style="padding:0 40px;padding-bottom:8px;"></div>
-                    <div id="modal-more">
-                        <div id="modal-body"></div>
-                    </div>
-                </div>
-                <div id='modal-pages' class="container" style="display:none"></div>
-            </div>
+            <div id="modal"></div>
         </main>
         <footer></footer>
     </div>
@@ -671,8 +663,10 @@
     <script src="code/elements/modal/modal.js"></script>
     <script src="code/elements/modal/reportCard.js"></script>
     <script src="code/elements/modal/info.js"></script>
+    <script src="code/elements/modal/spotlight.js"></script>
 
     <script src="code/elements/boardtitle.js"></script>
+    <script src="code/elements/physics.js"></script>
 
     <script src="constants/cuphead/constants.js"></script>
     <script src="constants/cuphead/bosses.js"></script>
@@ -691,7 +685,6 @@
     <script src="code/page/runRecap_sav.js"></script>
     <script src="code/page/runRecap_lss.js"></script>
     <script src="code/page/commBest.js"></script>
-    <script src="code/page/spotlight.js"></script>
 
     <script src="code/cupheadLevels.js"></script>
 

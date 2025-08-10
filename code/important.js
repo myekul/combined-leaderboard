@@ -104,8 +104,8 @@ function pageAction() {
             case 'commBest':
                 generateCommBest()
                 break
-            case 'spotlight':
-                generateSpotlight()
+            case 'physics':
+                physics()
                 break
         }
         fontAwesomePage = fontAwesomeSet[page]
@@ -117,6 +117,8 @@ function pageAction() {
             } else {
                 hide(pageTitle)
             }
+        } else if (page == 'physics') {
+            hide(pageTitle)
         } else {
             show(pageTitle)
             pageTitle.innerHTML = fontAwesomeText(fontAwesomePage[1], fontAwesomePage[0])

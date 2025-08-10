@@ -149,7 +149,7 @@ document.querySelectorAll('.toggleSection').forEach(elem => {
     elem.classList.add('grow')
     elem.style.width = '50px'
 });
-['leaderboard', 'leaderboards', 'WRs', 'featured', 'charts', 'map', 'sort'].forEach(pageName => {
+['leaderboard', 'leaderboards', 'WRs', 'featured', 'charts', 'map', 'sort','physics'].forEach(pageName => {
     const button = document.getElementById(pageName + 'Button')
     button.innerHTML = fontAwesome(fontAwesomeSet[pageName][1])
     button.classList.add('button')
@@ -204,7 +204,7 @@ function fetchDiscord() {
 }
 function discordOnline(num) {
     document.getElementById('discordOnline').innerHTML = `
-        <div class='container grow' style='gap:5px' onclick="openModal('discord','up')">
+        <div class='container grow' style='gap:5px' onclick="openModalCL('discord','up')">
             <img src="images/external/discord.png" class="brightPulse" style="padding-left:10px;height:24px">
             <div style='width:8px;height:8px;background-color:limegreen;border-radius:50%'></div>
             ${num}
@@ -219,6 +219,11 @@ if (['ssbm', 'tetris'].includes(gameID)) {
         }
     `;
     document.head.appendChild(style);
+}
+const closeModalOG = closeModal
+closeModal = function () {
+    closeModalOG()
+    closeModalCL()
 }
 setTitle('COMBINED LEADERBOARD')
 setFooter('2024-2025')

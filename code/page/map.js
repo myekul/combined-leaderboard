@@ -144,7 +144,7 @@ function countryCount() {
                 <td style='text-align:right;font-size:75%'>${displayPercentage(getPercentage(country.count / total, 1))}%</td>
                 <td>${country.count}</td>
                 <td>${getFlag(country.code, country.name, 15)}</td>
-                <td onclick="openModal('country','up','${country.name}')" class='clickable' style='text-align:left'>${country.name}</td>
+                <td onclick="openModalCL('country','up','${country.name}')" class='clickable' style='text-align:left'>${country.name}</td>
                 ${trophyCase(country)}
                 </tr>`
     })
@@ -160,7 +160,7 @@ function flagArmy() {
     HTMLContent = ''
     countriesArray.forEach(country => {
         for (i = 0; i < country.count; i++) {
-            HTMLContent += `<div onclick="openModal('country','up','${country.name}')" class='container grow'>${getFlag(country.code, country.name, 20)}</div>`
+            HTMLContent += `<div onclick="openModalCL('country','up','${country.name}')" class='container grow'>${getFlag(country.code, country.name, 20)}</div>`
         }
     })
     document.getElementById('flagArmy').innerHTML = HTMLContent
@@ -241,7 +241,7 @@ function createMap() {
                 })
                 .on("click", (event, d) => {
                     if (d.properties.value) {
-                        openModal('country', 'up', d.properties.value.name)
+                        openModalCL('country', 'up', d.properties.value.name)
                     }
                 })
         });
