@@ -36,9 +36,7 @@ function fetchTetris(category, categoryIndex) {
         let data = values.slice(1);
         let lastIndex = data.length
         data.forEach((run, runIndex) => {
-            if (!run[0].trim()) {
-                lastIndex = runIndex
-            }
+            if (!run[0].trim()) lastIndex = runIndex
         })
         data = data.slice(0, lastIndex)
         const objects = data.map(row => {
@@ -128,9 +126,7 @@ function loadMyekul() {
     let ILindex = 0
     let lastIndex = 0
     values[0].values.forEach((value, valueIndex) => {
-        if (value.userEnteredValue?.formulaValue?.includes('=INDEX')) {
-            ILindex = valueIndex
-        }
+        if (value.userEnteredValue?.formulaValue?.includes('=INDEX')) ILindex = valueIndex
         lastIndex = valueIndex
     })
     if (!ILindex) {
@@ -138,9 +134,7 @@ function loadMyekul() {
     }
     const viable = new Array(categories.length).fill(true)
     categories.forEach((category, categoryIndex) => {
-        if (values[categoryIndex].values[ILindex + 1]) {
-            viable[categoryIndex] = false
-        }
+        if (values[categoryIndex].values[ILindex + 1]) viable[categoryIndex] = false
     })
     const numRuns = commBestILsCategory.numRuns
     const checkbox_viable = document.getElementById('checkbox_viable').checked
@@ -200,9 +194,7 @@ function loadMyekul() {
         })
     }
     if (page == 'runRecap') {
-        if (runRecapExample) {
-            processSavFile(0, true)
-        }
+        if (runRecapExample) processSavFile(0, true)
         generateDropbox('sav')
         generateDropbox('lss')
     } else if (runRecapExample) {
@@ -262,16 +254,10 @@ function loadSSBM() {
         const playerName = playerRow[0]
         const sum = playerRow[2]
         const newPlayer = addPlayer({ name: playerName, sum: sum })
-        if (!newPlayer) {
-            players.find(player => player.name == playerName).sum = sum
-        }
+        if (!newPlayer) players.find(player => player.name == playerName).sum = sum
         playerRow.forEach((cell, index) => {
             const category = categories[index - 3]
-            if (index > 2) {
-                if (cell) {
-                    category.runs.push({ score: convertToSeconds(cell), player: { name: playerName } })
-                }
-            }
+            if (cell & index > 2) category.runs.push({ score: convertToSeconds(cell), player: { name: playerName } })
         })
     })
     categories.forEach(category => {

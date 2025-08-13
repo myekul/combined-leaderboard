@@ -17,9 +17,7 @@ function openModalCL(modal, sound, param) {
     } else {
         numModalPages = 2
     }
-    if (modalIndex > numModalPages) {
-        modalIndex = 0
-    }
+    if (modalIndex > numModalPages) modalIndex = 0
     if (modal != 'player') {
         modalIndex = 0
     } else {

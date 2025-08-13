@@ -9,12 +9,8 @@ function getLeaderboard(category, query, variables, extra, altGameID) {
     })
         .then(response => response.json())
         .then(data => {
-            if ((!data.data)) {
-                throw new Error('Wrong data!')
-            }
-            if (stopLeaderboards) {
-                throw new Error('Leaderboards have stopped.')
-            }
+            if ((!data.data)) throw new Error('Wrong data!')
+            if (stopLeaderboards) throw new Error('Leaderboards have stopped.')
             if (!extra) {
                 // console.log(data.data)
                 category.runs = cleanRuns(data.data.runs)
@@ -93,9 +89,7 @@ function cleanRuns(runs) {
     runs.forEach(run => {
         const theRun = run.run
         let playerContent = { rel: theRun.players[0].rel, id: theRun.players[0].id }
-        if (theRun.players[0].name) {
-            playerContent = { name: theRun.players[0].name }
-        }
+        if (theRun.players[0].name) playerContent = { name: theRun.players[0].name }
         let url = null
         if (theRun.videos) {
             if (theRun.videos.links) {
@@ -121,9 +115,7 @@ function cleanRuns(runs) {
 function cleanPlayers(thePlayers) {
     const newPlayers = []
     thePlayers.forEach(player => {
-        if (!player.name) {
-            player.name = player.names.international
-        }
+        if (!player.name) player.name = player.names.international
         const img = player.assets?.image.uri ? player.assets.image.uri.split('=')[1] : null
         let color1 = '#fff', color2 = '#fff'
         if (player['name-style']) {
@@ -153,24 +145,12 @@ function cleanPlayers(thePlayers) {
             location: location,
             signup: player.signup ? player.signup.slice(0, 10) : null
         }
-        if (!cleanPlayer.id) {
-            delete cleanPlayer.id
-        }
-        if (!location) {
-            delete cleanPlayer.location
-        }
-        if (!cleanPlayer.signup) {
-            delete cleanPlayer.signup
-        }
-        if (!cleanPlayer.links.img) {
-            delete cleanPlayer.links.img
-        }
-        if (player.twitch) {
-            cleanPlayer.links.twitch = player.twitch.uri.split('twitch.tv/')[1]
-        }
-        if (player.youtube) {
-            cleanPlayer.links.youtube = player.youtube.uri
-        }
+        if (!cleanPlayer.id) delete cleanPlayer.id
+        if (!location) delete cleanPlayer.location
+        if (!cleanPlayer.signup) delete cleanPlayer.signup
+        if (!cleanPlayer.links.img) delete cleanPlayer.links.img
+        if (player.twitch) cleanPlayer.links.twitch = player.twitch.uri.split('twitch.tv/')[1]
+        if (player.youtube) cleanPlayer.links.youtube = player.youtube.uri
         newPlayers.push(cleanPlayer)
     })
     return newPlayers

@@ -143,6 +143,9 @@ function toggleSliders() {
         for (let i = 0; i < categories.length; i++) {
             toggleVisibility('modal_category_' + i + '_slider_div')
             toggleVisibility('modal_category_' + i + '_place')
+            toggleVisibility('modal_category_' + i + '_visual_div')
+            toggleVisibility('modal_category_' + i + '_leftArrow')
+            toggleVisibility('modal_category_' + i + '_rightArrow')
         }
         // show('modal_rankComparison')
         modalSliders = true
@@ -170,12 +173,20 @@ function reportCardSection(category, categoryIndex, score, percentage) {
         <td id='modal_category_${categoryIndex}_place' class='${classNameLogic(category)}' style='display:none;font-size:75%;min-width:25px'>${place}</td>
         <td id='modal_category_${categoryIndex}_score' class='${classNameLogic(category)}' style='padding:0 3px'>${tetrisCheck(category, score)}</td>
         ${userComparison(categoryIndex)}
+        <td id='modal_category_${categoryIndex}_leftArrow' class='grow' style='display:none;padding-left:7px' onclick="moveSlider(${categoryIndex},-0.1)">${fontAwesome('toggle-left')}</td>
+        <td id='modal_category_${categoryIndex}_rightArrow' class='grow' style='display:none;padding-right:5px' onclick="moveSlider(${categoryIndex})">${fontAwesome('toggle-right')}</td>
         <td id='modal_category_${categoryIndex}_visual_div' class='background1' style='border-right:1px solid white'><div id='modal_category_${categoryIndex}_visual' class='${className}' style='color:transparent !important;width:${percentage == 100 ? 102 : normalize50(percentage)}%'>dummy</div></td>
-        <td id='modal_category_${categoryIndex}_slider_div' style='display:none'><input id='modal_category_${categoryIndex}_slider' style='width:300px;accent-color:${accentColor}' type='range' oninput='adjustGrade(${categoryIndex})' step='0.1' min='50' max='${category.runs[0].percentage}' value='${Math.round(percentage)}'></td>`
+        <td id='modal_category_${categoryIndex}_slider_div' style='display:none'><input id='modal_category_${categoryIndex}_slider' style='width:250px;accent-color:${accentColor}' type='range' oninput='adjustGrade(${categoryIndex})' step='0.1' min='50' max='${category.runs[0].percentage}' value='${Math.round(percentage)}'></td>`
     } else {
         HTMLContent += `<td></td><td></td>${truePercentage(categoryIndex)}`
     }
     return HTMLContent
+}
+function moveSlider(categoryIndex, amount = 0.1) {
+    const slider = document.getElementById(`modal_category_${categoryIndex}_slider`);
+    slider.value = (parseFloat(slider.value) + amount);
+    playSound('move')
+    adjustGrade(categoryIndex)
 }
 function truePercentage(categoryIndex) {
     const player = players[globalPlayerIndex]
@@ -214,8 +225,6 @@ function adjustGrade(categoryIndex) {
     const category = categories[categoryIndex]
     modalPercentages[categoryIndex] = parseFloat(newPercentage)
     scoreElem.innerHTML = tetrisCheck(category, scoreFromGrade(category, newPercentage))
-    const visualElem = document.getElementById('modal_category_' + categoryIndex + '_visual')
-    visualElem.style.width = normalize50(newPercentage) + '%'
     let newPlayerPercentage = 0
     modalPercentages.forEach(modalPercentage => {
         newPlayerPercentage += modalPercentage

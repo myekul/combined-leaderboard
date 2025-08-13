@@ -3,7 +3,7 @@ function getFullgame(categoryName) {
     sortCategoryIndex = -1
     spotlightFlag = false
     if (gameID == 'cuphead') {
-        categories = categorySet['main']
+        categories = categorySet['main'].map(obj => ({ ...obj }))
         if (categoryName) {
             if (['basegame', 'currentPatch', 'simple', 'expert', 'oneGun'].includes(categoryName)) {
                 if (categoryName == 'basegame') {
@@ -11,7 +11,6 @@ function getFullgame(categoryName) {
                 } else if (categoryName == 'currentPatch') {
                     categories = categorySet['main'].slice(2, 5)
                 } else if (categoryName == 'simple') {
-                    categories = categorySet['main']
                     const simple = ['zqoeg95l', 'jq6owpvq', 'jqz5w02q']
                     simple.forEach((subcat, index) => {
                         categories[index].subcat = subcat
@@ -19,7 +18,6 @@ function getFullgame(categoryName) {
                     categories[3].subcat2 = '192g6pyq'
                     categories[4].subcat2 = 'ln86pool'
                 } else if (categoryName == 'expert') {
-                    categories = categorySet['main']
                     const expert = ['rqv209r1', '81w2j9m1', 'gq74o7yq']
                     expert.forEach((subcat, index) => {
                         categories[index].subcat = subcat

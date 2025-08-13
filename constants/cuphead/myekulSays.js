@@ -1,5 +1,5 @@
 function cupheadGods(name) {
-    return `<br><br>In my headcanon, ${name} is one of the 4 OG Cuphead gods (Grondious, Jason2890, Kirthar, SBDWolf).`
+    return `<br><br>In my headcanon, ${name} is one of the 4 OG Cuphead gods (Grondious, Kirthar, SBDWolf, Jason2890).`
 }
 function cupheadProdigies(name) {
     return `<br><br>In my headcanon, ${name} is one of the 3 Cuphead prodigies (Quincely0, GamerAttack27, and ExclamationMarkYT).`

@@ -15,6 +15,7 @@ function getDailyRandomIndex(array) {
 }
 function generateSpotlightPlayer() {
     aMinusPlayers = players.filter(p => p.score >= 90)
+    aMinusPlayers = aMinusPlayers.filter(p => p.links.img)
     spotlightPlayerIndex = getDailyRandomIndex(aMinusPlayers)
     const player = players[spotlightPlayerIndex]
     document.getElementById('spotlightDiv').innerHTML = getPlayerIcon(player, 64)
@@ -50,7 +51,7 @@ function generateSpotlight() {
     HTMLContent += `</div></div>`
     const myekulSaysText = myekulSays[player.name]
     if (myekulSaysText) {
-        HTMLContent += `<div style='width:500px;margin:0 auto;margin-top:20px'>`
+        HTMLContent += `<div style='width:500px;margin:20px auto;'>`
         HTMLContent += myekulSaysDiv()
         HTMLContent += `<div class='container textBlock' style='font-size:80%'>${myekulSaysText}</div>`
         HTMLContent += `</div>`

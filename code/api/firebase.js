@@ -20,9 +20,7 @@ function getCollection() {
     return cupheadVersion + DLCnoDLC
 }
 function fixIndex(index) {
-    if (index < 10) {
-        return index = '0' + index
-    }
+    if (index < 10) return index = '0' + index
     return index
 }
 function docRef() {

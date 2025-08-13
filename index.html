@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="styles/games.css">
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="stylesheet" href="styles/grades.css">
-    <link rel="stylesheet" href="styles/modal.css">
     <link id='favicon' rel="shortcut icon" href='images/external/myekul.png'>
     <title>Combined Leaderboard</title>
     <script src="https://apis.google.com/js/api.js"></script>
@@ -16,8 +15,10 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/seedrandom@3.0.5/seedrandom.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
     <script src="https://myekul.github.io/shared-assets/utils.js"></script>
+    <script src="https://myekul.github.io/shared-assets/ballpit.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <script src="https://myekul.github.io/shared-assets/ballpit.js"></script>
 </head>
 
 <body>
@@ -26,7 +27,8 @@
             <div id='srcGame' class="container" style="position:absolute;top:5px;left:25px"></div>
             <div class="container" style="gap:4px;padding-top:12px">
                 <a href="https://myekul.github.io">
-                    <img class='myekul grow' src="images/external/myekul.png" style="height:80px;width:80px">
+                    <img id='myekulHeader' class='myekul grow' src="images/external/myekul.png"
+                        style="height:80px;width:80px">
                 </a>
                 <div>
                     <div id="title"></div>
@@ -43,7 +45,7 @@
             </div>
             <div class="cupheadButton grade-a" style="display:none;top:42px;padding-bottom:24px">
                 <div class="container">
-                    <div><i class="fa fa-tasks"></i>&nbsp;Comm Best</div>
+                    <div style="color:black"><i class="fa fa-tasks"></i>&nbsp;Comm Best</div>
                 </div>
                 <div class="container" style="font-size:90%;font-family:var(--font)">
                     <div onclick="page='leaderboard';getCommBestILs()" class="grade-a-plus button" style="width:70px">
@@ -98,7 +100,7 @@
                         <div id='mapButton'></div>
                         <div id='sortButton'></div>
                         <div class='container' style='width:15px;margin:0'>&#8226;</div>
-                        <div id='physicsButton'></div>
+                        <div id='ballpitButton'></div>
                     </div>
                     <div id='loading' style='position:absolute;right:40px;top:49px;color:white'>
                         <div>Loading API...</div>
@@ -649,9 +651,13 @@
             <div id="commBestTab" class="tabs" style="display:none">
                 <div id="commBest" class="container" style="padding-top:20px"></div>
             </div>
-            <!-- Physics -->
-            <div id="physicsTab" class="tabs" style="display:none">
-                <div id="physics" class="container"></div>
+            <!-- Ballpit -->
+            <div id="ballpitTab" class="tabs" style="display:none">
+                <div class="container">
+                    <div class="button" style='border-radius:50%;width:40px;height:40px;font-size:150%;margin-top:10px'
+                        onclick="action()"><i class="fa fa-refresh"></i></div>
+                </div>
+                <div id="ballpit" class="container"></div>
             </div>
             <!-- Modal -->
             <div id="modal"></div>
@@ -668,7 +674,6 @@
     <script src="code/elements/modal/spotlight.js"></script>
 
     <script src="code/elements/boardtitle.js"></script>
-    <script src="code/elements/physics.js"></script>
 
     <script src="constants/cuphead/constants.js"></script>
     <script src="constants/cuphead/bosses.js"></script>
@@ -687,6 +692,7 @@
     <script src="code/page/runRecap_sav.js"></script>
     <script src="code/page/runRecap_lss.js"></script>
     <script src="code/page/commBest.js"></script>
+    <script src="code/page/ballpit.js"></script>
 
     <script src="code/cupheadLevels.js"></script>
 

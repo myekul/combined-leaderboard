@@ -137,7 +137,6 @@ const commBestILs = {
             "halfword",
             "AssasinNarga",
             "PorcoBrabo",
-            "Rookie_Gamer_Tlax",
             'WoskiBoy',
             'Mine_',
             'nomit'

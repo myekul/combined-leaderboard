@@ -149,7 +149,7 @@ document.querySelectorAll('.toggleSection').forEach(elem => {
     elem.classList.add('grow')
     elem.style.width = '50px'
 });
-['leaderboard', 'leaderboards', 'WRs', 'featured', 'charts', 'map', 'sort','physics'].forEach(pageName => {
+['leaderboard', 'leaderboards', 'WRs', 'featured', 'charts', 'map', 'sort', 'ballpit'].forEach(pageName => {
     const button = document.getElementById(pageName + 'Button')
     button.innerHTML = fontAwesome(fontAwesomeSet[pageName][1])
     button.classList.add('button')

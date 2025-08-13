@@ -13,9 +13,7 @@ function showInput(elem) {
     show(input_elem)
     input_elem.focus()
     input_elem.select()
-    if (elem == 'runRecap_time') {
-        playSound('win_time_loop')
-    }
+    if (elem == 'runRecap_time') playSound('win_time_loop')
     let handled = false;
     input_elem.addEventListener('change', () => {
         if (!handled) {

@@ -69,6 +69,9 @@ function action() {
     } else {
         hide(categorySelect)
     }
+    if (localStorage.getItem('username') == 'Narcis Prince') {
+        document.getElementById('myekulHeader').src = 'images/levels/spo/narcisprince.webp'
+    }
     setBoardTitle()
     updateCategories()
 }
@@ -104,8 +107,8 @@ function pageAction() {
             case 'commBest':
                 generateCommBest()
                 break
-            case 'physics':
-                physics()
+            case 'ballpit':
+                ballpit()
                 break
         }
         fontAwesomePage = fontAwesomeSet[page]
@@ -117,7 +120,7 @@ function pageAction() {
             } else {
                 hide(pageTitle)
             }
-        } else if (page == 'physics') {
+        } else if (page == 'ballpit') {
             hide(pageTitle)
         } else {
             show(pageTitle)
