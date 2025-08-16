@@ -173,10 +173,10 @@ function reportCardSection(category, categoryIndex, score, percentage) {
         <td id='modal_category_${categoryIndex}_place' class='${classNameLogic(category)}' style='display:none;font-size:75%;min-width:25px'>${place}</td>
         <td id='modal_category_${categoryIndex}_score' class='${classNameLogic(category)}' style='padding:0 3px'>${tetrisCheck(category, score)}</td>
         ${userComparison(categoryIndex)}
-        <td id='modal_category_${categoryIndex}_leftArrow' class='grow' style='display:none;padding-left:7px' onclick="moveSlider(${categoryIndex},-0.1)">${fontAwesome('toggle-left')}</td>
-        <td id='modal_category_${categoryIndex}_rightArrow' class='grow' style='display:none;padding-right:5px' onclick="moveSlider(${categoryIndex})">${fontAwesome('toggle-right')}</td>
+        <td id='modal_category_${categoryIndex}_leftArrow' class='grow' style='display:none;padding-left:7px' onclick="moveSlider(${categoryIndex})">${fontAwesome('toggle-left')}</td>
+        <td id='modal_category_${categoryIndex}_rightArrow' class='grow' style='display:none;padding-right:5px' onclick="moveSlider(${categoryIndex},-0.1)">${fontAwesome('toggle-right')}</td>
         <td id='modal_category_${categoryIndex}_visual_div' class='background1' style='border-right:1px solid white'><div id='modal_category_${categoryIndex}_visual' class='${className}' style='color:transparent !important;width:${percentage == 100 ? 102 : normalize50(percentage)}%'>dummy</div></td>
-        <td id='modal_category_${categoryIndex}_slider_div' style='display:none'><input id='modal_category_${categoryIndex}_slider' style='width:250px;accent-color:${accentColor}' type='range' oninput='adjustGrade(${categoryIndex})' step='0.1' min='50' max='${category.runs[0].percentage}' value='${Math.round(percentage)}'></td>`
+        <td id='modal_category_${categoryIndex}_slider_div' style='display:none'><input id='modal_category_${categoryIndex}_slider' style='width:250px;accent-color:${accentColor}' class='reverse' type='range' oninput='adjustGrade(${categoryIndex})' step='0.1' min='50' max='${category.runs[0].percentage}' value='${Math.round(percentage)}'></td>`
     } else {
         HTMLContent += `<td></td><td></td>${truePercentage(categoryIndex)}`
     }

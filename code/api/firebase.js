@@ -145,7 +145,7 @@ window.firebaseUtils = {
             } else {
                 extraCategory.players = globalCache[commBestILsCategory.category].players
                 extraCategory.runs = globalCache[commBestILsCategory.category].runs
-                gapi.load("client", loadClient);
+                fetchAllData()
             }
         } catch (error) {
             console.error("Error fetching documents: ", error)

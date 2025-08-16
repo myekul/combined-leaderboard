@@ -1,16 +1,3 @@
-function loadClient() {
-    if (!gapiClientLoaded) {
-        gapiClientLoaded = true
-        gapi.client.setApiKey(API_KEY);
-        return gapi.client.load("https://sheets.googleapis.com/$discovery/rest?version=v4")
-            .then(() => {
-                console.log("GAPI client loaded for API");
-                fetchAllData()
-            }, (err) => console.error("Error loading GAPI client for API", err));
-    } else {
-        fetchAllData()
-    }
-}
 function fetchAllData() {
     if (gameID == 'cuphead') {
         extraCategory.className = commBestILsCategory.className

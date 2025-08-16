@@ -71,11 +71,6 @@ th {
     cursor: default !important
 }
 
-#tabs .button {
-    width: 40px;
-    font-size: 110%
-}
-
 #fullgameCategories .button,
 #sm64ILcategories .button,
 #WRsTabs .button,
@@ -186,17 +181,6 @@ th {
     width: auto
 }
 
-.headerRow {
-    padding: 5px 0;
-    background-color: var(--background2);
-
-}
-
-.headerRow,
-.shadow {
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
-}
-
 .bigShadow,
 svg {
     box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.2),
@@ -211,12 +195,6 @@ svg {
 #loadouts img {
     height: 20px;
     width: auto
-}
-
-.sticky {
-    position: sticky;
-    top: 0;
-    z-index: 1
 }
 
 #gameSelectButton {
@@ -300,10 +278,11 @@ svg {
     padding: 0 10px
 }
 
-#videoCollection div {
+.videoCollection div {
     display: flex;
     margin: auto;
     justify-content: center;
+    width: 100px
 }
 
 .trophy {
@@ -419,4 +398,9 @@ svg {
     100% {
         filter: brightness(1);
     }
+}
+
+.reverse {
+    transform: scaleX(-1);
+    transform-origin: center;
 }

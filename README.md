@@ -43,6 +43,8 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Punch Out!! Wii
 - One Gun icons
 - Run Recap database
+- Basketball hoop
+- Titanfall 2 fullgame
 
 ## Known bugs
 - Leaderboard squish and stretch

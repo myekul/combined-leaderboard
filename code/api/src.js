@@ -33,7 +33,7 @@ function getLeaderboard(category, query, variables, extra, altGameID) {
                         } else if (gameID == 'spo') {
                             getLeaderboard(spo, `category/${spo.id}`, '', true)
                         } else if (gameID == 'ssbm' && !ssbVar) {
-                            gapi.load("client", loadClient);
+                            fetchAllData()
                         } else {
                             const boardTitleSrc = document.getElementById('boardTitleSrc')
                             boardTitleSrc.innerHTML = getSRCicon()
@@ -58,7 +58,7 @@ function getLeaderboard(category, query, variables, extra, altGameID) {
                 extraCategory.runs = cleanRuns(data.data.runs)
                 if (gameID == 'cuphead') {
                     extraCategory.players = cleanPlayers(data.data.players.data)
-                    gapi.load("client", loadClient);
+                    fetchAllData()
                 } else {
                     if (gameID == 'sm64') {
                         extraCategory.className = categorySet[0].className

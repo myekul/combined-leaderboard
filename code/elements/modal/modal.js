@@ -140,7 +140,7 @@ function videoCollection(player) {
                 fetchYouTube(videoID).then(data => {
                     if (data) {
                         // console.log(data)
-                        let innerHTMLContent = `<div id='videoCollection'>`
+                        let innerHTMLContent = `<div class='videoCollection'>`
                         const viewCount = data.statistics.viewCount
                         innerHTMLContent += `<div>${parseInt(viewCount).toLocaleString()} view${viewCount == 1 ? '' : 's'}</div>`
                         innerHTMLContent += `<div>${parseInt(data.statistics.likeCount).toLocaleString()}&nbsp;${fontAwesome('thumbs-up')}</div>`

@@ -91,23 +91,13 @@ function loadJSFile(path, callback) {
     script.onload = callback;
     document.head.appendChild(script);
 }
-document.addEventListener('DOMContentLoaded', function () {
+function DOMloaded() {
     if (!['tetris', 'mtpo', 'spo', 'titanfall_2', 'ssbm', 'ssb64'].includes(gameID)) {
         fetch(`constants/categories/${gameID}.json`)
             .then(response => response.json())
             .then(data => {
                 categorySet = data
-                if (gameID == 'cuphead') {
-                    loadJSFile('constants/cuphead/commBest.js', function () {
-                        commBestILsCategory = commBestILs['1.1+']
-                        generateDropbox('sav')
-                        generateDropbox('lss')
-                        runRecapDefault()
-                        refreshLeaderboard()
-                    })
-                } else {
-                    refreshLeaderboard()
-                }
+                refreshLeaderboard()
             }).catch(error => {
                 console.error('Error loading categories:', error);
                 generateCategories(gameID)
@@ -134,6 +124,23 @@ document.addEventListener('DOMContentLoaded', function () {
         audioElement.src = 'sfx/' + gameID + '/' + audio + '.wav';
         document.body.appendChild(audioElement);
     });
+}
+document.addEventListener('DOMContentLoaded', function () {
+    if (gameID == 'cuphead') {
+        gapi.load("client", loadClient);
+        loadJSFile('constants/cuphead/commBest.js', function () {
+            commBestILsCategory = commBestILs['1.1+']
+            generateDropbox('sav')
+            generateDropbox('lss')
+            runRecapDefault()
+            DOMloaded()
+        })
+    } else if (gameID == 'ssbm') {
+        gapi.load("client", loadClient);
+        DOMloaded()
+    } else {
+        DOMloaded()
+    }
 })
 document.querySelectorAll('.options').forEach(elem => {
     elem.innerHTML = fontAwesome('ellipsis-h')
@@ -149,14 +156,6 @@ document.querySelectorAll('.toggleSection').forEach(elem => {
     elem.classList.add('grow')
     elem.style.width = '50px'
 });
-['leaderboard', 'leaderboards', 'WRs', 'featured', 'charts', 'map', 'sort', 'ballpit'].forEach(pageName => {
-    const button = document.getElementById(pageName + 'Button')
-    button.innerHTML = fontAwesome(fontAwesomeSet[pageName][1])
-    button.classList.add('button')
-    button.addEventListener('click', () => {
-        showTab(pageName)
-    })
-})
 document.querySelectorAll('select').forEach(elem => {
     elem.addEventListener('change', () => {
         playSound('cardflip')
@@ -227,3 +226,4 @@ closeModal = function () {
 }
 setTitle('COMBINED LEADERBOARD')
 setFooter('2024-2025')
+setTabs(['leaderboard', 'featured', null, 'WRs', 'leaderboards', null, 'charts', 'map', 'sort', null, 'ballpit'])

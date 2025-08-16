@@ -39,7 +39,6 @@ let fullgameCategory
 let sm64ILsSection
 let ssbVar = false
 let extraCategory = {}
-let gapiClientLoaded = false
 let spotlightPlayerIndex
 let spotlightFlag
 let discordData

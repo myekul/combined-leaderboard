@@ -134,7 +134,7 @@ function getCommBestILs(categoryName) {
         if (globalCache) {
             extraCategory.players = globalCache[category].players
             extraCategory.runs = globalCache[category].runs
-            gapi.load("client", loadClient);
+            fetchAllData()
         } else {
             window.firebaseUtils.firestoreReadMain()
         }
@@ -324,7 +324,7 @@ function prepareData() {
     players.forEach((player, playerIndex) => {
         player.rank = playerIndex + 1
     })
-    hide('loading')
+    // hide('loading')
     if (mode == 'fullgame' && spotlightFlag) {
         generateSpotlightPlayer()
         generateROTDrun()
@@ -499,7 +499,7 @@ function refreshLeaderboard() {
     sortCategoryIndex = -1
     if (gameID == 'tetris') {
         categories = tetris['main']
-        gapi.load("client", loadClient);
+        fetchAllData()
     } else if (mode == 'fullgame' && !categorySet) {
         generateCategories(gameID)
     } else {
@@ -519,7 +519,7 @@ function resetLoad() {
     stopLeaderboards = false
     document.getElementById('boardTitleSrc').innerHTML = `<div class='loader'></div>`
     document.getElementById('progress-bar').style.width = 0;
-    show('loading')
+    // show('loading')
 }
 function completeLoad() {
     document.getElementById('progress-bar').style.width = '100%';

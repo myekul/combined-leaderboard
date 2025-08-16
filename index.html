@@ -56,7 +56,7 @@
             </div>
         </header>
         <main>
-            <div class="background1 sticky">
+            <div class="sticky">
                 <div class="container headerRow">
                     <div id='gameSelectButton' class="grow container" onclick="toggleGameSelect()">
                         <div style="margin-right:10px"><i class="fa fa-bars"></i></div>
@@ -85,41 +85,29 @@
                 <div class="progress-container bigShadow">
                     <div id="progress-bar" class="progress-bar"></div>
                 </div>
-                <div class='headerRow' style="height:25px;margin-bottom:10px;">
-                    <div id='viableDiv' class='hide' style="display:none;position:absolute;left:24px;top:49px">
-                        <input id="checkbox_viable" onchange="getCommBestILs()" type="checkbox" checked>Run viable
-                    </div>
-                    <div id="tabs" class="container" style="padding-bottom:2px;margin:0">
-                        <div id='leaderboardButton'></div>
-                        <div id='featuredButton'></div>
-                        <div class='container' style='width:15px;margin:0'>&#8226;</div>
-                        <div id='leaderboardsButton'></div>
-                        <div id='WRsButton'></div>
-                        <div class='container' style='width:15px;margin:0'>&#8226;</div>
-                        <div id='chartsButton'></div>
-                        <div id='mapButton'></div>
-                        <div id='sortButton'></div>
-                        <div class='container' style='width:15px;margin:0'>&#8226;</div>
-                        <div id='ballpitButton'></div>
-                    </div>
-                    <div id='loading' style='position:absolute;right:40px;top:49px;color:white'>
+                <div id="tabsDiv"></div>
+                <div id='viableDiv' class='hide' style="display:none;position:absolute;left:24px;top:49px">
+                    <input id="checkbox_viable" onchange="getCommBestILs()" type="checkbox" checked>Run viable
+                </div>
+                <!-- <div id='loading' style='position:absolute;right:40px;top:49px;color:white'>
                         <div>Loading API...</div>
-                    </div>
+                    </div> -->
+                <div id="refreshDiv" class='grow banner'
+                    onclick="firstTimeFull=false;getFullgame();playSound('cardflip')"
+                    style="display:none;position:absolute;left:25px;top:60px;height:48px;width:48px;border-radius:50px;text-align: center">
+                    <i class="fa fa-refresh" style="font-size:150%;margin-top:11px"></i>
+                </div>
+                <div id="spotlight">
+                    <div id="ROTDdiv" class="grow" onclick="openModalCL('ROTD','ready')"
+                        style="position:absolute;right:100px;top:55px;"></div>
+                    <div id="spotlightDiv" class='grow' onclick="openModalCL('spotlight','ready')"
+                        style="position:absolute;right:20px;top:55px;"></div>
+                </div>
+                <div id="musicDiv" class='grow' onclick="runRecapMusic()"
+                    style="display:none;position:absolute;right:20px;top:55px;">
+                    <img src="images/cuphead/gramophone.png" style="height:80px">
                 </div>
             </div>
-            <div id="refreshDiv" class='grow banner' onclick="firstTimeFull=false;getFullgame();playSound('cardflip')"
-                style="display:none;position:absolute;left:25px;top:190px;height:48px;width:48px;border-radius:50px;text-align: center">
-                <i class="fa fa-refresh" style="font-size:150%;margin-top:11px"></i>
-            </div>
-            <div id="spotlight">
-                <div id="ROTDdiv" class="grow" onclick="openModalCL('ROTD','ready')"
-                    style="position:absolute;right:100px;top:185px;"></div>
-                <div id="spotlightDiv" class='grow' onclick="openModalCL('spotlight','ready')"
-                    style="position:absolute;right:20px;top:185px;"></div>
-            </div>
-            <div id="musicDiv" class='grow' onclick="runRecapMusic()"
-                style="display:none;position:absolute;right:20px;top:185px;"><img src="images/cuphead/gramophone.png"
-                    style="height:80px"></div>
             <!-- Fullgame Categories -->
             <div id="fullgameCategoriesSection" class='hide' style="display:none">
                 <div id='fullgameCategoriesButton' onclick="toggleSection('fullgameCategories')" class="toggleSection">
@@ -339,7 +327,7 @@
                         style="font-size:150%"></i>
                 </div>
             </div>
-            <div id="boardTitleDiv" class="sticky" style="top:75px;max-width: 50%;margin:0 auto;padding-top:8px">
+            <div id="boardTitleDiv" class="sticky" style="top:80px;max-width: 50%;margin:0 auto;padding-top:8px">
                 <div class="container" style="max-width:50%">
                     <div class="container" style="margin:0;gap:8px">
                         <div id="boardTitle" class="container" style="margin:0"></div>
@@ -653,14 +641,9 @@
             </div>
             <!-- Ballpit -->
             <div id="ballpitTab" class="tabs" style="display:none">
-                <div class="container">
-                    <div class="button" style='border-radius:50%;width:40px;height:40px;font-size:150%;margin-top:10px'
-                        onclick="action()"><i class="fa fa-refresh"></i></div>
-                </div>
+                <div id="ballpitRefresh"></div>
                 <div id="ballpit" class="container"></div>
             </div>
-            <!-- Modal -->
-            <div id="modal"></div>
         </main>
         <footer></footer>
     </div>
