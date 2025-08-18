@@ -13,7 +13,7 @@ function generateBoardTitle(extra, categoryIndex, commBest) {
     const imgSize = 32
     if (categoryIndex == null) {
         categoryIndex = sortCategoryIndex
-    } else if (page == 'WRs') {
+    } else if (globalTab == 'WRs') {
         worldRecord = true
     }
     let HTMLContent = `<div><table class='boardTitleTable'><tr>`
@@ -129,7 +129,7 @@ function generateBoardTitle(extra, categoryIndex, commBest) {
         HTMLContent += category.shot1 ? `</td>` : ''
         HTMLContent += category.subcat ? boardTitleCell('', category.subcat) : ''
     }
-    if (page == 'charts' && sortCategoryIndex == -1 && mode != 'commBestILs') {
+    if (globalTab == 'charts' && sortCategoryIndex == -1 && mode != 'commBestILs') {
         HTMLContent += boardTitleCell('banner', 'Player Score')
     }
     HTMLContent += `</tr></table></div>`

@@ -141,11 +141,11 @@ function toggleSliders() {
     } else {
         document.getElementById('modal_sliders').innerHTML = fontAwesome('close')
         for (let i = 0; i < categories.length; i++) {
-            toggleVisibility('modal_category_' + i + '_slider_div')
-            toggleVisibility('modal_category_' + i + '_place')
-            toggleVisibility('modal_category_' + i + '_visual_div')
-            toggleVisibility('modal_category_' + i + '_leftArrow')
-            toggleVisibility('modal_category_' + i + '_rightArrow')
+            show('modal_category_' + i + '_slider_div')
+            show('modal_category_' + i + '_place')
+            hide('modal_category_' + i + '_visual_div')
+            show('modal_category_' + i + '_leftArrow')
+            show('modal_category_' + i + '_rightArrow')
         }
         // show('modal_rankComparison')
         modalSliders = true
@@ -205,7 +205,8 @@ function userComparison(categoryIndex) {
         return `<td id='modal_category_${categoryIndex}_userDelta' style='display:none;min-width:30px;font-size:80%;padding:0 2px;${redGreen(delta)}'>${getDelta((delta).toFixed(2))}</td>
     <td id='modal_category_${categoryIndex}_userComparison' style='display:none;min-width:30px;font-size:80%;padding:0 2px'>${tetrisCheck(categories[categoryIndex], userScore)}</td>`
     }
-    return `<td></td><td></td>`
+    return `<td id='modal_category_${categoryIndex}_userDelta' style='display:none'></td>
+    <td id='modal_category_${categoryIndex}_userComparison' style='display:none'></td>`
 }
 function adjustGrade(categoryIndex) {
     show('modal_refresh')
@@ -230,7 +231,8 @@ function adjustGrade(categoryIndex) {
         newPlayerPercentage += modalPercentage
     })
     newPlayerPercentage = newPlayerPercentage / categories.length
-    document.getElementById('modal_gpa').innerHTML = getGPA(newPlayerPercentage)
+    const gpa = document.getElementById('modal_gpa')
+    if (gpa) gpa.innerHTML = getGPA(newPlayerPercentage)
     let runIndex = 0
     let run = categories[categoryIndex].runs[runIndex]
     while (newPercentage < run?.percentage) {

@@ -115,7 +115,7 @@ window.firebaseUtils = {
     },
     screenView: () => {
         logEvent(analytics, 'screen_view', {
-            firebase_screen: page,
+            firebase_screen: globalTab,
             firebase_screen_class: gameID + '_' + mode
         })
     },

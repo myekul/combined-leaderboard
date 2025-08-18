@@ -1,7 +1,5 @@
-function showTab(newPage) {
-    page = newPage
+function showTabCL(tab) {
     window.firebaseUtils.screenView()
-    window.history.pushState(null, null, '#' + page);
     hideTabs()
     tooltipStyle?.remove()
     document.querySelectorAll('.hide').forEach(elem => {
@@ -17,14 +15,13 @@ function showTab(newPage) {
     if (['cuphead', 'sm64', 'ssb64', 'ssbm'].includes(gameID) && mode == 'levels') {
         show('ILsSection_' + gameID)
     }
-    show(page + 'Tab')
-    buttonClick(page + 'Button', 'tabs', 'activeBanner')
+    show(tab + 'Tab')
     if (gameID == 'cuphead' && mode == 'levels' || mode == 'commBestILs') {
         document.getElementById('checkbox_hp').checked = true
     }
     const dropdown_sortCriteria = document.getElementById('dropdown_sortCriteria')
     const sort_options = document.getElementById('sort_options')
-    if (mode == 'commBestILs' && page == 'sort') {
+    if (mode == 'commBestILs' && tab == 'sort') {
         dropdown_sortCriteria.value = 'player'
         hide(sort_options)
     } else if (['tetris', 'ssbm'].includes(gameID)) {
@@ -40,34 +37,33 @@ function showTab(newPage) {
         hide(WRs_cupheadILs_options)
     }
     const runRecap_details = document.getElementById('runRecap_details')
-    if (page == 'runRecap') {
+    if (tab == 'runRecap') {
         show(runRecap_details)
     } else {
         hide(runRecap_details)
     }
-    action()
 }
 function action() {
     parseCheckboxes()
-    pageAction()
-    if (page != 'leaderboard') {
+    tabAction()
+    if (globalTab != 'leaderboard') {
         document.getElementById('leaderboard').innerHTML = ''
     }
-    if (page != 'charts') {
+    if (globalTab != 'charts') {
         document.getElementById('chart').innerHTML = ''
     }
-    if (page != 'map') {
+    if (globalTab != 'map') {
         countries = {}
         document.getElementById('world-map').innerHTML = ''
     }
-    const categorySelect = document.getElementById('categorySelect')
-    if (['leaderboards', 'featured', 'charts', 'map', 'sort'].includes(page)) {
-        show(categorySelect)
-        if (mode == 'commBestILs' && page == 'leaderboards') {
-            hide(categorySelect)
+    console.log(globalTab)
+    if (['leaderboards', 'featured', 'charts', 'map', 'sort'].includes(globalTab)) {
+        show('categorySelect')
+        if (mode == 'commBestILs' && globalTab == 'leaderboards') {
+            hide('categorySelect')
         }
     } else {
-        hide(categorySelect)
+        hide('categorySelect')
     }
     if (localStorage.getItem('username') == 'Narcis Prince') {
         document.getElementById('myekulHeader').src = 'images/levels/spo/narcisprince.webp'
@@ -75,11 +71,11 @@ function action() {
     setBoardTitle()
     updateCategories()
 }
-function pageAction() {
-    if (['runRecap', 'commBest'].includes(page) && mode != 'commBestILs' || (page == 'spotlight' && mode != 'fullgame')) {
+function tabAction() {
+    if (['runRecap', 'commBest'].includes(globalTab) && mode != 'commBestILs' || (globalTab == 'spotlight' && mode != 'fullgame')) {
         showTab('leaderboard')
     } else {
-        switch (page) {
+        switch (globalTab) {
             case 'leaderboard':
                 generateLeaderboard();
                 break;
@@ -111,22 +107,22 @@ function pageAction() {
                 ballpit()
                 break
         }
-        fontAwesomePage = fontAwesomeSet[page]
+        fontAwesomePage = fontAwesomeSet[globalTab]
         const pageTitle = document.getElementById('pageTitle')
-        if (page == 'leaderboard') {
+        if (globalTab == 'leaderboard') {
             if (mode == 'commBestILs') {
                 show(pageTitle)
                 pageTitle.innerHTML = fontAwesomeText('tasks', 'Comm Best ILs')
             } else {
                 hide(pageTitle)
             }
-        } else if (page == 'ballpit') {
+        } else if (globalTab == 'ballpit') {
             hide(pageTitle)
         } else {
             show(pageTitle)
             pageTitle.innerHTML = fontAwesomeText(fontAwesomePage[1], fontAwesomePage[0])
         }
-        if (page == 'runRecap') {
+        if (globalTab == 'runRecap') {
             show('musicDiv')
         } else {
             hide('musicDiv')

@@ -44,6 +44,7 @@ let spotlightFlag
 let discordData
 let aMinusPlayers
 let aPlusRuns
+let numModalPages = 3
 
 let countries = {}
 let globalCountryName

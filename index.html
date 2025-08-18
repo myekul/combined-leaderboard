@@ -48,7 +48,7 @@
                     <div style="color:black"><i class="fa fa-tasks"></i>&nbsp;Comm Best</div>
                 </div>
                 <div class="container" style="font-size:90%;font-family:var(--font)">
-                    <div onclick="page='leaderboard';getCommBestILs()" class="grade-a-plus button" style="width:70px">
+                    <div onclick="globalTab='leaderboard';getCommBestILs()" class="grade-a-plus button" style="width:70px">
                         ILs</div>
                     <div onclick="runRecapHandle('commBest')" class="grade-a-plus button" style="width:70px">Splits
                     </div>
@@ -318,7 +318,7 @@
             <!-- Board Title -->
             <div id="pageTitle" class="container" style="font-family: var(--font2);font-size:200%;padding:15px 0">
             </div>
-            <div id='categorySelect' class="container hide" style="display:none">
+            <div id='categorySelect' class="container" style="display:none">
                 <div class="grow" onclick="organizePlayers(sortCategoryIndex-1)"><i class="fa fa-caret-left"
                         style="font-size:150%"></i>
                 </div>
@@ -664,18 +664,18 @@
     <script src="constants/cuphead/myekulSays.js"></script>
     <script src="constants/other.js"></script>
 
-    <script src="code/page/leaderboard.js"></script>
-    <script src="code/page/leaderboards.js"></script>
-    <script src="code/page/WRs.js"></script>
-    <script src="code/page/featured.js"></script>
-    <script src="code/page/chart.js"></script>
-    <script src="code/page/map.js"></script>
-    <script src="code/page/sort.js"></script>
-    <script src="code/page/runRecap.js"></script>
-    <script src="code/page/runRecap_sav.js"></script>
-    <script src="code/page/runRecap_lss.js"></script>
-    <script src="code/page/commBest.js"></script>
-    <script src="code/page/ballpit.js"></script>
+    <script src="code/tab/leaderboard.js"></script>
+    <script src="code/tab/leaderboards.js"></script>
+    <script src="code/tab/WRs.js"></script>
+    <script src="code/tab/featured.js"></script>
+    <script src="code/tab/chart.js"></script>
+    <script src="code/tab/map.js"></script>
+    <script src="code/tab/sort.js"></script>
+    <script src="code/tab/runRecap.js"></script>
+    <script src="code/tab/runRecap_sav.js"></script>
+    <script src="code/tab/runRecap_lss.js"></script>
+    <script src="code/tab/commBest.js"></script>
+    <script src="code/tab/ballpit.js"></script>
 
     <script src="code/cupheadLevels.js"></script>
 

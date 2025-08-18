@@ -1,9 +1,9 @@
-function runRecapHandle(newTab) {
+function runRecapHandle(tab) {
     if (mode != 'commBestILs') {
-        page = newTab
+        globalTab = tab
         getCommBestILs()
     } else {
-        showTab(newTab)
+        showTab(tab)
     }
 }
 function showInput(elem) {
@@ -79,11 +79,11 @@ function generateDropbox(elem) {
     }
     HTMLContent += `</div>
                     <div class="container">
-                        <input type='file' id='${page}_${elem}_input' ${elem == 'lss' ? "accept='lss'" : ''} onchange="runRecapHandleFile(event,'${elem}')" style='display:none'>`
+                        <input type='file' id='runRecap_${elem}_input' ${elem == 'lss' ? "accept='lss'" : ''} onchange="runRecapHandleFile(event,'${elem}')" style='display:none'>`
     if (unsupported) {
         HTMLContent += `<div>Category not supported!</div>`
     } else {
-        HTMLContent += `<div onclick="document.getElementById('${page}_${elem}_input').click()" class='button cuphead'>${fontAwesome('upload')}&nbsp;Upload file</div>`
+        HTMLContent += `<div onclick="document.getElementById('runRecap_${elem}_input').click()" class='button cuphead'>${fontAwesome('upload')}&nbsp;Upload file</div>`
     }
 
     if (elem == 'sav') {

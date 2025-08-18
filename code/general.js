@@ -16,7 +16,7 @@ function secondsToHMS(seconds, exception, raw) {
     } else {
         HTMLContent = `${minutes}:${secs.toString().padStart(2, '0')}`;
     }
-    if ((milliseconds && page != 'charts') || exception) {
+    if ((milliseconds && globalTab != 'charts') || exception) {
         HTMLContent += displayDecimals(seconds, null, raw)
     }
     return HTMLContent
@@ -165,7 +165,7 @@ function getWorldRecord(category) {
     return category.runs[0]?.score
 }
 function toggleOptions(name) {
-    let elemName = name ? name : page
+    let elemName = name ? name : globalTab
     elemName += '_options'
     playSound('move')
     const visible = toggleVisibility(elemName)
@@ -243,7 +243,7 @@ function tetrisCheck(category, score) {
     return ''
 }
 function getNumDisplay() {
-    if (page == 'sort') {
+    if (globalTab == 'sort') {
         return showMore ? 1000 : 300
     }
     return mode == 'fullgame' ? showMore ? 300 : 100 : showMore ? 100 : 20

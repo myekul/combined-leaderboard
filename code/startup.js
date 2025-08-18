@@ -1,5 +1,4 @@
-const hash = window.location.hash
-let page = hash ? hash.slice(1) : 'leaderboard'
+initializeHash('leaderboard')
 const url = new URL(window.location.href);
 const params = new URLSearchParams(window.location.search);
 let gameParam = params.get('game');
@@ -18,7 +17,6 @@ if (['fullgame', 'levels', 'commBestILs'].includes(modeParam)) {
 if (['cuphead', 'sm64', 'nsmbw'].includes(gameID)) {
     show(gameID + '_fullgameCategories')
 }
-let numModalPages = 3
 if (['tetris', 'smb1', 'smb2', 'smb3', 'nsmbds'].includes(gameID)) {
     setMode('fullgame')
     url.searchParams.delete('mode');
@@ -57,29 +55,6 @@ const header = document.querySelector('header')
 document.documentElement.style.setProperty('--banner', getColorFromClass(gameID));
 document.documentElement.style.setProperty('--bannerText', getColorFromClass(gameID, true));
 const title = document.querySelector('title')
-switch (gameID) {
-    case 'cuphead':
-        show('modeSelection')
-        document.querySelectorAll('.cupheadButton').forEach(elem => {
-            show(elem)
-        })
-        break;
-    case 'sm64':
-        show('modeSelection')
-        break;
-    case 'tetris':
-        document.querySelectorAll('.options').forEach(elem => hide(elem))
-        hide('featuredButton')
-        hide('mapButton')
-        break;
-    case 'nsmbw':
-        show('modeSelection')
-        break;
-    case 'ssbm':
-        hide('featuredButton')
-        hide('mapButton')
-        break;
-}
 if (['smb1', 'smbtll', 'mtpo', 'spo', 'titanfall_2', 'ssbm', 'ssb64'].includes(gameID)) {
     document.getElementById('checkbox_milliseconds').checked = true;
 }
@@ -224,6 +199,41 @@ closeModal = function () {
     closeModalOG()
     closeModalCL()
 }
+const showTabOG = showTab;
+showTab = function (...args) {
+    showTabOG(...args)
+    showTabCL(...args)
+}
 setTitle('COMBINED LEADERBOARD')
 setFooter('2024-2025')
 setTabs(['leaderboard', 'featured', null, 'WRs', 'leaderboards', null, 'charts', 'map', 'sort', null, 'ballpit'])
+    .then(() => {
+        document.querySelectorAll('#tabs .button').forEach(elem => {
+            elem.addEventListener('click', () => {
+                playSound('category_select')
+            })
+        })
+        switch (gameID) {
+            case 'cuphead':
+                show('modeSelection')
+                document.querySelectorAll('.cupheadButton').forEach(elem => {
+                    show(elem)
+                })
+                break;
+            case 'sm64':
+                show('modeSelection')
+                break;
+            case 'tetris':
+                document.querySelectorAll('.options').forEach(elem => hide(elem))
+                hide('featuredButton')
+                hide('mapButton')
+                break;
+            case 'nsmbw':
+                show('modeSelection')
+                break;
+            case 'ssbm':
+                hide('featuredButton')
+                hide('mapButton')
+                break;
+        }
+    })

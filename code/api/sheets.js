@@ -180,7 +180,7 @@ function loadMyekul() {
             commBestILsCategory.theoryRun.push((levelSum + categories[categoryIndex].runs[0].score) / (numRuns + 1))
         })
     }
-    if (page == 'runRecap') {
+    if (globalTab == 'runRecap') {
         if (runRecapExample) processSavFile(0, true)
         generateDropbox('sav')
         generateDropbox('lss')

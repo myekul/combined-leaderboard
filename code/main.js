@@ -343,7 +343,7 @@ function prepareData() {
         document.getElementById('username').innerHTML = runRecapPlayer('username')
     }
     show('username')
-    showTab(page)
+    showTab(globalTab)
 }
 function assignRuns(category, categoryIndex) {
     category.runs.forEach((run, runIndex) => {
@@ -395,17 +395,16 @@ function generateRanks() {
         const ideal = player.bestScore > threshold ? (threshold + player.bestScore) / 2 : player.bestScore
         player.percentageSum = 0
         const missingRuns = []
-        const good = player.runs.some(run => run?.percentage >= threshold)
         player.runs.forEach((run, runIndex) => {
             const category = categories[runIndex]
             if (run) {
-                const newScore = goodRunCheck(run, good, ideal)
+                const newScore = goodRunCheck(run, ideal)
                 player.percentageSum += newScore
                 player.truePercentages[runIndex] = newScore
             } else {
                 // NMG run in place of a 1.1 run
                 if ((category.name == '1.1+') && player.runs[2]) {
-                    placeholderRun(player, good, ideal, 2, 0)
+                    placeholderRun(player, ideal, 2, 0)
                     // } else if (player.runs[0].score > run.score) {
                     //     player.runs[0] = runCopy
                     //     const oldScore = getScore(onePointOne, onePointOneRun.score)
@@ -413,7 +412,7 @@ function generateRanks() {
                     //     player.percentageSum -= newOldScore
                     //     player.percentageSum += newScore
                 } else if (mode == 'levels' && big5() && runIndex % 2 == 0 && (player.runs[runIndex + 1])) {
-                    placeholderRun(player, good, ideal, runIndex + 1, runIndex)
+                    placeholderRun(player, ideal, runIndex + 1, runIndex)
                 } else {
                     missingRuns.push(runIndex)
                 }
@@ -421,25 +420,22 @@ function generateRanks() {
         })
         // player.explanation = ''
         missingRuns.forEach(runIndex => {
-            const penalty = gameID == 'cuphead' && mode == 'levels' ? applyPenalty(player, runIndex, threshold) : ''
-            const numCats = cupheadNumCats(categories[runIndex])
-            const placeholder = penalty ? penalty : big4() ? 100 * ((numCats - 1) / numCats) : ideal
-            player.percentageSum += placeholder
-            player.truePercentages[runIndex] = placeholder
+            player.percentageSum += ideal
+            player.truePercentages[runIndex] = ideal
         })
         player.score = player.percentageSum / categories.length
     })
 }
-function goodRunCheck(run, good, ideal) {
+function goodRunCheck(run, ideal) {
     return run.percentage >= ideal ? run.percentage : ideal
 }
-function placeholderRun(player, good, ideal, copyIndex, pasteIndex) {
+function placeholderRun(player, ideal, copyIndex, pasteIndex) {
     const runCopy = { ...player.runs[copyIndex] }
     runCopy.percentage = getScore(categories[pasteIndex], runCopy.score)
     runCopy.place = runCopy.percentage >= 100 ? 1 : '-'
     runCopy.first = false
     runCopy.untied = false
-    const newScore = goodRunCheck(runCopy, good, ideal)
+    const newScore = goodRunCheck(runCopy, ideal)
     player.runs[pasteIndex] = runCopy
     player.percentageSum += newScore
     player.truePercentages[pasteIndex] = newScore
