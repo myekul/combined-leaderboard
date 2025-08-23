@@ -73,7 +73,7 @@ function getFullgame(categoryName) {
         }
     }
     resetLoad()
-    if (!(['cuphead', 'sm64', 'smb1', 'sms'].includes(gameID) && mode == 'fullgame' && !categoryName && firstTimeFull)) {
+    if (!(['cuphead', 'sm64', 'smb1', 'sms', 'bfbb'].includes(gameID) && mode == 'fullgame' && !categoryName && firstTimeFull)) {
         categories.forEach(category => {
             let variables = ''
             if (category.var) {

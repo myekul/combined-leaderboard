@@ -83,7 +83,7 @@ function generateCategories(gameID) {
             console.log(data)
             const catties = []
             data.data.forEach(category => {
-                if (!category.miscellaneous) {
+                if (!category.miscellaneous || gameID == 'facade') {
                     catties.push({ name: category.name, id: category.id })
                 }
             })

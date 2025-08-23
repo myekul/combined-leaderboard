@@ -1,6 +1,6 @@
 function generateLeaderboards() {
     let HTMLContent = ''
-    HTMLContent += `<div class='container' style='gap:10px;${sortCategoryIndex == -1 && mode != 'commBestILs' ? 'overflow-x:scroll;justify-content:left;margin:0 auto' : ''}align-items:flex-start'>`
+    HTMLContent += `<div class='container' style='gap:10px;${sortCategoryIndex == -1 && mode != 'commBestILs' ? 'overflow-x:scroll;margin:0 auto' : ''}align-items:flex-start'>`
     if (sortCategoryIndex == -1 && mode != 'commBestILs') {
         categories.forEach((category, categoryIndex) => {
             HTMLContent += `<div>`
