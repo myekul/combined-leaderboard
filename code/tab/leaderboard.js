@@ -15,9 +15,7 @@ function playersTable(playersArray, categoryIndex) {
         <th colspan=10 class='clickable gray ${!(sortCategoryIndex > -1) ? 'selected' : ''}' onclick="showDefault()">Player</th>
         </tr>`
     }
-    if (mode == 'commBestILs') {
-        HTMLContent += `<tr></tr>`
-    }
+    if (mode == 'commBestILs') HTMLContent += `<tr></tr>`
     playersArray.forEach((player, playerIndex) => {
         if (sortCategoryIndex == -1 || player.runs[sortCategoryIndex]) {
             if (!(mode == 'commBestILs' && sortCategoryIndex == -1 && globalTab == 'leaderboards' && !player.extra)) {
@@ -318,10 +316,6 @@ function showMorePlayers() {
 }
 // Comm Best IL mugshot width
 function getHeaderSize() {
-    if (bossILindex > -1) {
-        return 'width:150px'
-    }
-    if (big4()) {
-        return ''
-    }
+    if (bossILindex > -1) return 'width:150px'
+    if (big4()) return ''
 }

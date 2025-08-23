@@ -56,3 +56,4 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Calculator uses real percentages instead of balanced percentages
 - Map board title
 - Comm Best Any% DLC boards merge bug
+- Firebase not loading on startup

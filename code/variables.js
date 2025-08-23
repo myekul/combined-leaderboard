@@ -83,7 +83,6 @@ let firstTimeFull = true
 let showModal = false
 let displayNumRuns = false
 let milliseconds = false
-let showGameSelect = false
 let categorySet
 const grades = [
     { grade: 'A+', className: 'grade-a-plus', threshold: 97 },

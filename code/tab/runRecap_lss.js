@@ -66,12 +66,8 @@ function read_lss(content) {
                 } else {
                     split = attempt.splits[index - 2] + segment
                 }
-                if (!split) {
-                    split = segment
-                }
-                if (split == prevSplit) {
-                    split = null
-                }
+                if (!split) split = segment
+                if (split == prevSplit) split = null
             }
             attempt.splits.push(split);
             if (segment && !(index > 0 && attempt.splits[index - 1] == null)) {
@@ -109,9 +105,7 @@ function read_lss(content) {
     let prevPB = Infinity
     let prevPBIndex = 0
     reverseAttempts.forEach((attempt, index) => {
-        if (index == 0) {
-            firstAttempt = attempt.id
-        }
+        if (index == 0) firstAttempt = attempt.id
         HTMLContent += `<option value="${attempt.id}">${secondsToHMS(attempt.gameTime)} - ${attempt.date}</option>`
         if (attempt.gameTime > pbTime && attempt.gameTime < prevPB) {
             prevPB = attempt.gameTime
@@ -174,11 +168,7 @@ function generate_lss() {
     runRecap_lss_splitInfo()
     const currentRun = document.getElementById('dropdown_runRecap_lss_current').value
     const comparison = document.getElementById('dropdown_runRecap_lss_comparison').value
-    if (['yourBest', 'sob', 'theoryRun'].includes(currentRun)) {
-        runRecapTheoretical = true
-    } else {
-        runRecapTheoretical = false
-    }
+    runRecapTheoretical = ['yourBest', 'sob', 'theoryRun'].includes(currentRun)
     let HTMLContent = ''
     HTMLContent += `<div class='container'><table class='bigShadow'>`
     HTMLContent += `<tr style='font-size:60%'>`
@@ -192,20 +182,22 @@ function generate_lss() {
     } else if (comparison == 'sob') {
         splitTitle = 'Your SoB'
     }
-    HTMLContent += `<td>${splitTitle}</td>`
-    HTMLContent += `<td></td>`
-    HTMLContent += `<td></td>`
-    HTMLContent += `<td></td>`
-    HTMLContent += `<td>Segments</td>`
-    HTMLContent += `<td></td>`
-    HTMLContent += `<td>${comparisonTitle}</td>`
+    HTMLContent += `
+    <td>${splitTitle}</td>
+    <td></td>
+    <td></td>
+    <td></td
+    <td>Segments</td>
+    <td></td>
+    <td>${comparisonTitle}</td>`
     if (runRecap_savFile) {
-        HTMLContent += `<td></td>`
-        HTMLContent += `<td></td>`
-        HTMLContent += `<td></td>`
-        HTMLContent += `<td>.sav ILs</td>`
-        HTMLContent += `<td></td>`
-        HTMLContent += `<td>Comparison</td>`
+        HTMLContent += `
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>.sav ILs</td>
+        <td></td>
+        <td>Comparison</td>`
     }
     // Offset for Follies, Mausoleum, Chalice Tutorial
     const splits = []
@@ -262,7 +254,8 @@ function generate_lss() {
                 HTMLContent += `<td class='${ILgrade.className}' style='padding:0 5px;font-size:90%'>${runTime == nullTime ? '-' : getDelta(delta)}</td>`
                 HTMLContent += `<td style='padding:0 10px;font-size:90%;color:var(--gray)'>${comparisonContents}</td>`
             } else if (index == 2) {
-                HTMLContent += `<td></td>
+                HTMLContent += `
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>

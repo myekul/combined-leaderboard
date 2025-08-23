@@ -78,16 +78,12 @@ function runRecapTimes() {
     if (numDeaths) {
         show('runRecap_ghost')
         document.getElementById('runRecap_numDeaths').innerHTML = numDeaths
-        let char = 'cuphead'
-        if (runRecap_savFile.isPlayer1Mugman) {
-            char = 'mugman'
-        }
+        let char = runRecap_savFile.isPlayer1Mugman ? 'mugman' : 'cuphead'
         if (['DLC', 'DLC+Base'].includes(commBestILsCategory.name)) {
             char = 'chalice'
         }
         document.getElementById('runRecap_ghost').src = `images/cuphead/ghost_${char}.png`
     } else {
-        hide('runRecap_ghost')
         document.getElementById('runRecap_numDeaths').innerHTML = ''
     }
     assignIsles()
@@ -151,9 +147,7 @@ function runRecapCategory(categoryIndex) {
     category.IGT = runTime
     category.runTime = runTime
     const prevCategory = categories[categoryIndex - 1]
-    if (prevCategory) {
-        category.runTime += prevCategory.runTime
-    }
+    if (prevCategory) category.runTime += prevCategory.runTime
     let HTMLContent = ''
     const done = runTime && runTime != nullTime
     const comparisonTime = getComparisonTime(categoryIndex)
@@ -201,9 +195,7 @@ function updateRunRecapIL(categoryIndex) {
     playSound('category_select')
     const level = getCupheadLevel(categoryIndex)
     let userInput = document.getElementById('input_runRecapIL_' + categoryIndex).value
-    if (userInput?.includes(':')) {
-        userInput = convertToSeconds(userInput)
-    }
+    if (userInput?.includes(':')) userInput = convertToSeconds(userInput)
     if (!userInput) {
         userInput = nullTime
         level.completed = false

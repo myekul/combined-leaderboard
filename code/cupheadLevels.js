@@ -139,9 +139,7 @@ function getBossIL(bossName) {
     playSound('category_select')
     disableLevelModes()
     bosses.forEach((boss, bossIndex) => {
-        if (boss.id == bossName) {
-            bossILindex = bossIndex
-        }
+        if (boss.id == bossName) bossILindex = bossIndex
     })
     if (bossILindex >= 19) {
         cupheadVersion = 'currentPatch'
@@ -154,11 +152,7 @@ function getBossIL(bossName) {
     getCupheadSRC()
 }
 function toggleBasegameILs() {
-    if (basegameILs) {
-        basegameILs = false
-    } else {
-        basegameILs = true
-    }
+    basegameILs = !basegameILs
     if (bossILindex == -1 && isleIndex == -1) {
         refreshLeaderboard()
     } else {

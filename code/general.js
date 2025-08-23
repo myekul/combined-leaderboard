@@ -1,8 +1,6 @@
 function getLetterGrade(percentage) {
     for (let grade of grades) {
-        if (percentage >= grade.threshold) {
-            return grade;
-        }
+        if (percentage >= grade.threshold) return grade;
     }
     return grades[grades.length - 1]
 }
@@ -94,12 +92,8 @@ function getImage(image, heightParam) {
     return `<img src='images/levels/${gameID}/${image}.${extension}' style='height:${height}px;width:auto'>`
 }
 function getColorClass() {
-    if (mode == 'commBestILs') {
-        return commBestILsCategory.className
-    }
-    if (cupheadVersion == 'legacy') {
-        return 'legacy'
-    }
+    if (mode == 'commBestILs') return commBestILsCategory.className
+    if (cupheadVersion == 'legacy') return 'legacy'
     return gameID == 'cuphead' ? DLCnoDLC == 'dlc' ? 'dlc' : 'cuphead' : ''
 }
 function getScore(category, runTime) {
@@ -213,9 +207,7 @@ function getNumCols() {
             numCols++
         }
     })
-    if (mode == 'commBestILs') {
-        numCols = 1
-    }
+    if (mode == 'commBestILs') numCols = 1
     return numCols
 }
 function showDefault() {
@@ -247,22 +239,6 @@ function getNumDisplay() {
         return showMore ? 1000 : 300
     }
     return mode == 'fullgame' ? showMore ? 300 : 100 : showMore ? 100 : 20
-}
-function toggleGameSelect() {
-    const gameSelect = document.getElementById('gameSelect')
-    if (showGameSelect) {
-        showGameSelect = false
-        gameSelect.classList.add('hidden')
-        setTimeout(() => {
-            hide(gameSelect)
-        }, 200);
-        playSound('carddown')
-    } else {
-        showGameSelect = true
-        gameSelect.classList.remove('hidden')
-        show(gameSelect)
-        playSound('cardup')
-    }
 }
 function classNameLogic(category) {
     return category.info ? category.info.id : category.className

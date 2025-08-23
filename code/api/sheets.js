@@ -36,9 +36,7 @@ function fetchTetris(category, categoryIndex) {
                     rowObject.player = player || null;
                     addPlayer(player)
                 } else {
-                    if (header == 'Video PB') {
-                        header = 'score'
-                    }
+                    if (header == 'Video PB') header = 'score'
                     rowObject[header.toLowerCase()] = row[index] || null;
                 }
             });
@@ -116,9 +114,7 @@ function loadMyekul() {
         if (value.userEnteredValue?.formulaValue?.includes('=INDEX')) ILindex = valueIndex
         lastIndex = valueIndex
     })
-    if (!ILindex) {
-        ILindex = lastIndex + 1
-    }
+    if (!ILindex) ILindex = lastIndex + 1
     const viable = new Array(categories.length).fill(true)
     categories.forEach((category, categoryIndex) => {
         if (values[categoryIndex].values[ILindex + 1]) viable[categoryIndex] = false

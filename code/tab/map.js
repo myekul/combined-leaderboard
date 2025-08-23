@@ -17,47 +17,33 @@ function generateMap() {
         player.runs.forEach(run => {
             if (run) {
                 if (mapMode == 'WRs') {
-                    if (run.place == 1) {
-                        goated = true
-                    }
+                    goated = run.place == 1
                 } else if (mapMode == 'trophies') {
-                    if ([1, 2, 3].includes(run.place)) {
-                        goated = true
-                    }
+                    goated = [1, 2, 3].includes(run.place)
                 } else {
                     goated = true
                 }
             }
         })
-        if (goated) {
-            country = countries[getLocation(player, countries)]
-        }
+        if (goated) country = countries[getLocation(player, countries)]
         categories.forEach((category, categoryIndex) => {
             goated = false
             const run = player.runs[categoryIndex]
             if (run) {
                 if (mapMode == 'WRs') {
-                    if (run.place == 1) {
-                        goated = true
-                    }
+                    goated = run.place == 1
                 } else if (mapMode == 'trophies') {
-                    if ([1, 2, 3].includes(run.place)) {
-                        goated = true
-                    }
+                    goated = [1, 2, 3].includes(run.place)
                 } else {
                     goated = true
                 }
             }
             if (goated) {
                 getLocation(player, category.countries)
-                if (country && mapValue == 'runs') {
-                    country.count++
-                }
+                if (country && mapValue == 'runs') country.count++
             }
         })
-        if (country && mapValue == 'runs') {
-            country.count--
-        }
+        if (country && mapValue == 'runs') country.count--
     })
     document.getElementById('countryTable').innerHTML = countryCount()
     createMap()

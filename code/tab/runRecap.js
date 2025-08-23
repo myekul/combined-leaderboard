@@ -73,7 +73,7 @@ function generateDropbox(elem) {
     let HTMLContent = ''
     HTMLContent += `<div id='${dropBoxInnerID}' class="dropBox ${fileUploaded ? extraCategory.className + ' flash' : ''}">
                         <div>
-                            <div class="container" style="font-family:var(--font2);font-size:150%">.${elem}&nbsp;`
+                            <div class="container font2" style="font-size:150%">.${elem}&nbsp;`
     if (fileUploaded) {
         HTMLContent += fontAwesome('check')
     }
@@ -95,7 +95,7 @@ function generateDropbox(elem) {
     if (fileUploaded) {
         cellContent = elem == 'sav' ? fontAwesome('folder') : `<img src="images/livesplit.png" style="width:30px">`
         HTMLContent += `<div class='container' style='padding-top:20px'>
-        <div onclick="runRecapViewPage('content','${elem}')" class='button cuphead pulseSize' style="font-family:var(--font2);font-size:150%;width:200px;height:50px">${cellContent}&nbsp;View .${elem}</div>
+        <div onclick="runRecapViewPage('content','${elem}')" class='button cuphead pulseSize font2' style="font-size:150%;width:200px;height:50px">${cellContent}&nbsp;View .${elem}</div>
         </div>`
         HTMLContent += `<div onclick="runRecapUnload('${elem}')" class='grow' style='position:absolute;bottom:8px;right:10px;font-size:130%'>${fontAwesome('trash')}</div>`
     }
@@ -120,14 +120,8 @@ function generateDropbox(elem) {
     });
 }
 function runRecapUnload(elem, shh) {
-    if (!shh) {
-        playSound('carddown')
-    }
-    if (elem == 'sav') {
-        runRecap_savFile = null
-    } else {
-        runRecap_lssFile = {}
-    }
+    if (!shh) playSound('carddown')
+    runRecap_savFile = elem == 'sav' ? null : {}
     generateDropbox(elem)
 }
 async function runRecapHandleFile(event, elem) {
@@ -137,11 +131,7 @@ async function runRecapHandleFile(event, elem) {
             const content = await file.text()
             playSound('cardup')
             const checkbox_runRecap_harsh = document.getElementById('checkbox_runRecap_harsh')
-            if (runRecapTime != 'XX:XX' && getScore(extraCategory, convertToSeconds(runRecapTime)) < 90) {
-                checkbox_runRecap_harsh.checked = false
-            } else {
-                checkbox_runRecap_harsh.checked = true
-            }
+            checkbox_runRecap_harsh.checked = !(runRecapTime != 'XX:XX' && getScore(extraCategory, convertToSeconds(runRecapTime)) < 90)
             if (elem == 'sav') {
                 runRecap_savFile = JSON.parse(content)
                 let category
@@ -229,9 +219,7 @@ function runRecapViewPage(newPage, elem, shh) {
     })
     if (elem) {
         runRecapElem = elem
-        if (!shh) {
-            playSound('ready')
-        }
+        if (!shh) playSound('ready')
     }
     updateComparisonInfo()
     show('runRecap_' + runRecapView)
@@ -256,11 +244,7 @@ function runRecapViewPage(newPage, elem, shh) {
             generate_lss()
         }
     }
-    if (runRecapElem == 'lss' && !runRecapExample) {
-        show('runRecap_lss_comparison')
-    } else {
-        hide('runRecap_lss_comparison')
-    }
+    if (runRecapElem == 'lss' && !runRecapExample) show('runRecap_lss_comparison')
     if (runRecapElem == 'lss' && (!runRecap_savFile || runRecapExample)) {
         hide('runRecap_divider')
     } else {
@@ -273,11 +257,7 @@ function runRecapViewPage(newPage, elem, shh) {
         hide('runRecap_example_div')
         // show('runRecap_upload_div')
     }
-    if (runRecapView != 'home' && runRecapTheoretical) {
-        show('runRecap_theoretical_div')
-    } else {
-        hide('runRecap_theoretical_div')
-    }
+    if (runRecapView != 'home' && runRecapTheoretical) show('runRecap_theoretical_div')
 }
 function runRecapUpdateComparison() {
     let HTMLContent = ''

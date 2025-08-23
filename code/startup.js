@@ -27,12 +27,7 @@ if (['titanfall_2', 'mtpo', 'spo', 'ssbm', 'ssb64'].includes(gameID)) {
     url.searchParams.delete('mode');
     window.history.pushState({}, '', url);
 }
-// Stylization
-document.addEventListener('DOMContentLoaded', function () {
-    gameTabs()
-    show('bodyContent')
-})
-function gameTabs() {
+function generateSidebar() {
     let HTMLContent = ''
     const games = [['cuphead'], ['sm64', 'sms'], ['smb1', 'smbtll'], ['smb2', 'smb3'], ['nsmbds', 'nsmbw'], ['nsmbu', 'nslu'], ['dkc', 'dkc2', 'dkc3'], ['mtpo', 'spo'], ['ssb64', 'ssbm'], ['titanfall_2']]
     games.forEach(gameSet => {
@@ -42,19 +37,10 @@ function gameTabs() {
         })
         HTMLContent += `</div>`
     })
-    document.getElementById('gameSelect').innerHTML = HTMLContent
+    return HTMLContent
 }
-document.getElementById('gameLogoButton').src = `images/logo/${gameID}.png`
-const header = document.querySelector('header')
-// const gameIcons = document.querySelectorAll('.gameIcon')
-// if (gameID == 'tetris' || categorySet[gameID]) {
-//     gameIcons.forEach(gameIcon => {
-//         gameIcon.src = `images/favicon/${gameID}.png`
-//     })
-// }
 document.documentElement.style.setProperty('--banner', getColorFromClass(gameID));
 document.documentElement.style.setProperty('--bannerText', getColorFromClass(gameID, true));
-const title = document.querySelector('title')
 if (['smb1', 'smbtll', 'mtpo', 'spo', 'titanfall_2', 'ssbm', 'ssb64'].includes(gameID)) {
     document.getElementById('checkbox_milliseconds').checked = true;
 }
@@ -101,6 +87,7 @@ function DOMloaded() {
     });
 }
 document.addEventListener('DOMContentLoaded', function () {
+    show('bodyContent')
     if (gameID == 'cuphead') {
         gapi.load("client", loadClient);
         loadJSFile('constants/cuphead/commBest.js', function () {
@@ -204,8 +191,21 @@ showTab = function (...args) {
     showTabOG(...args)
     showTabCL(...args)
 }
+const toggleSidebarOG = toggleSidebar;
+toggleSidebar = function (...args) {
+    toggleSidebarOG(...args)
+    if (document.getElementById('sidebar').classList.contains('hidden')) {
+        playSound('carddown')
+    } else {
+        playSound('cardup')
+    }
+}
 setTitle('COMBINED LEADERBOARD')
 setFooter('2024-2025')
+setSidebar(generateSidebar())
+    .then(() => {
+        document.getElementById('sidebarLogo').src = `images/logo/${gameID}.png`
+    })
 setTabs(['leaderboard', 'featured', null, 'WRs', 'leaderboards', null, 'charts', 'map', 'sort', null, 'ballpit'])
     .then(() => {
         document.querySelectorAll('#tabs .button').forEach(elem => {

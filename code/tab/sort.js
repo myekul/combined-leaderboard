@@ -5,18 +5,10 @@ function generateSort() {
         show('extraSortCriteria')
         show('sortDPS')
     } else {
-        hide('extraSortCriteria')
-        hide('sortDPS')
-        if (sortCriteria.value == 'dps') {
-            sortCriteria.value = 'score'
-        }
+        if (sortCriteria.value == 'dps') sortCriteria.value = 'score'
     }
-    if (sortCriteria.value == 'date') {
-        show('sortDateOptions')
-    } else {
-        hide('sortDateOptions')
-    }
-    HTMLContent = ''
+    if (sortCriteria.value == 'date') show('sortDateOptions')
+    let HTMLContent = ''
     if (['player', 'joindate', 'bestScore'].includes(sortCriteria.value)) {
         hide('sortChartDiv')
         HTMLContent += `<div class='container'><table class='bigShadow'>`
@@ -37,9 +29,7 @@ function generateSort() {
                 goated = false
                 player.runs.forEach(run => {
                     if (run) {
-                        if (sortLogic(run, sortRange)) {
-                            goated = true
-                        }
+                        if (sortLogic(run, sortRange)) goated = true
                     }
                 })
                 HTMLContent += goated ? parsePlayer(player, playerIndex) : ''
@@ -113,8 +103,6 @@ function sortRuns(sortRange) {
             drawSortChart(everyRun, sortCriteria, minDate)
         });
         show('sortChartDiv')
-    } else {
-        hide('sortChartDiv')
     }
     let HTMLContent = `<div class='container'><table class='bigShadow'>`
     everyRun.slice(0, getNumDisplay()).forEach((run, runIndex) => {
@@ -210,13 +198,9 @@ function drawSortChart(runs, sortCriteria, minDate) {
     if (sortCriteria == 'date' && ['month', 'dayofweek', 'season'].includes(sortDateOptions)) {
         units.forEach(unit => {
             let unitName = unit
-            if (sortDateOptions == 'season') {
-                unitName = unit.name
-            }
+            if (sortDateOptions == 'season') unitName = unit.name
             const newEntry = [unitName, frequencyData[unitName]]
-            if (sortDateOptions == 'season') {
-                newEntry.push(unit.color)
-            }
+            if (sortDateOptions == 'season') newEntry.push(unit.color)
             fullData.push(newEntry)
         })
     } else {
@@ -240,9 +224,6 @@ function drawSortChart(runs, sortCriteria, minDate) {
     if (sortCriteria == 'date' && ['season', 'month', 'dayofweek'].includes(sortDateOptions)) {
         show(sortPieChart)
         drawSortPieChart(chartData)
-    } else {
-        sortPieChart.innerHTML = ''
-        hide(sortPieChart)
     }
     var data = google.visualization.arrayToDataTable(chartData);
     var options = {

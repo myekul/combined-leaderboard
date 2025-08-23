@@ -8,11 +8,7 @@ function WRsPlayers() {
             assignHP()
         }
     }
-    if (gameID == 'cuphead' && mode == 'levels') {
-        HTMLContent += cupheadLevelWRs()
-    } else {
-        HTMLContent += WRs()
-    }
+    HTMLContent += gameID == 'cuphead' && mode == 'levels' ? cupheadLevelWRs() : WRs()
     HTMLContent += `</table></div>`
     sortCategoryIndex = -1
     sortPlayers(players)
@@ -28,9 +24,7 @@ function getWorldRecordPlayers(categoryIndex) {
     // }
     const category = categories[categoryIndex]
     let worldRecord = getWorldRecord(category)
-    if (!worldRecord) {
-        worldRecord = ''
-    }
+    if (!worldRecord) worldRecord = ''
     if (document.getElementById('checkbox_WRs_date').checked) {
         HTMLContent += gameID != 'tetris' && mode != 'commBestILs' ? `<td>${playersCopy[0].runs[sortCategoryIndex].date}</td>` : ''
     }
@@ -46,9 +40,7 @@ function getWorldRecordPlayers(categoryIndex) {
     HTMLContent += `<td class='${className}' style='padding:0 5px'>${tetrisCheck(category, worldRecord)}</td>`
     let count = 0
     category.runs.forEach(run => {
-        if (run.place == 1) {
-            count++
-        }
+        if (run.place == 1) count++
     })
     if (count > 4) {
         HTMLContent += `<td></td><td class='clickable' style='text-align:left' onclick="showTab('leaderboard');organizePlayers(${categoryIndex})">-- ${count}-way tie --</td>`
@@ -95,9 +87,7 @@ function cupheadLevelWRs() {
     let HTMLContent = ''
     let categoryIndex = 0
     const loadoutsChecked = document.getElementById('checkbox_WRs_loadouts').checked
-    if (loadoutsChecked && !categories[0].loadout) {
-        assignLoadouts()
-    }
+    if (loadoutsChecked && !categories[0].loadout) assignLoadouts()
     while (categoryIndex < categories.length) {
         const category = categories[categoryIndex]
         const numCats = cupheadNumCats(category)
@@ -164,9 +154,7 @@ function WRsSumsCuphead() {
         HTMLContent += `<tr class='${getRowColor(categoryIndex)}'>`
         HTMLContent += `<td class='${category.info.id}' style='text-align:right'>${category.info.name}</td>`
         HTMLContent += `<th class='${category.info.id} container'>${getImage(category.info.id, 21)}</th>`
-        if (numCats == 4) {
-            HTMLContent += `<td></td><td></td>`
-        }
+        if (numCats == 4) HTMLContent += `<td></td><td></td>`
         let sum = 0
         let thisCategory
         for (let i = 1; i <= numCats; i++) {
@@ -201,9 +189,7 @@ function WRsChart() {
         let worldRecord = getWorldRecord(category)
         worldRecord = worldRecord ? worldRecord.toString().split('.')[0] : 0
         const worldRecordObject = { score: worldRecord }
-        if (checkbox_hp) {
-            worldRecordObject.categoryIndex = categoryIndex
-        }
+        if (checkbox_hp) worldRecordObject.categoryIndex = categoryIndex
         if (dropdown_WRsChart == 'isle') {
             sortObject = isleObject
             sortObject[category.info.isle].push(worldRecordObject)
@@ -236,11 +222,8 @@ function WRsChart() {
                 const category = categories[categoryIndex]
                 const newEntry = [worldRecord]
                 for (let i = 0; i < Object.keys(sortObject).length; i++) {
-                    if (i == sortObjectIndex) {
-                        newEntry.push(category.hp)
-                    } else {
-                        newEntry.push(Infinity)
-                    }
+                    const entry = i == sortObjectIndex ? category.hp : Infinity
+                    newEntry.push(entry)
                 }
                 if (!objectReference) {
                     newEntry.push('color: ' + getColorFromClass(category.info.id))
@@ -396,15 +379,9 @@ function showWRsTab(tab) {
         } else {
             document.getElementById('dropdown_WRsChart').value = 'default'
             document.getElementById('checkbox_hp').checked = false
-            hide('WRsChart_options')
         }
-    } else {
-        hide('WRsChartSection')
-        hide('WRsChart_options')
     }
-    if (gameID == 'tetris') {
-        hide('WRsTabs')
-    }
+    if (gameID == 'tetris') hide('WRsTabs')
     if (WRsTab == 'players') {
         WRsPlayers()
     } else if (WRsTab == 'sums') {
@@ -452,13 +429,16 @@ function assignHP() {
     categories.forEach((category, categoryIndex) => {
         const hp = bossHP[category.info.id]
         let hpIndex
-        const difficulty = category.difficulty
-        if (difficulty == 'simple') {
-            hpIndex = 0
-        } else if (difficulty == 'regular') {
-            hpIndex = 1
-        } else if (difficulty == 'expert') {
-            hpIndex = 2
+        switch (category.difficulty) {
+            case 'simple':
+                hpIndex = 0
+                break
+            case 'regular':
+                hpIndex = 1
+                break
+            case 'expert':
+                hpIndex = 2
+                break
         }
         if (hp.length == 6) {
             hpIndex *= 2

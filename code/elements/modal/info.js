@@ -70,7 +70,7 @@ function modalInfo() {
     return HTMLContent
 }
 function infoTitle(title) {
-    return `<br><div style='font-family: var(--font2);font-size: 140%;color: var(--bannerText);padding: 0 10px;background-color: var(--banner);border-radius: 5px;'>${title}</div>`
+    return `<br><div class='banner font2' style='font-size: 140%;padding: 0 10px;border-radius: 5px;'>${title}</div>`
 }
 function infoExample() {
     const categoryIndex = getRandomNumber(0, categories.length - 1)

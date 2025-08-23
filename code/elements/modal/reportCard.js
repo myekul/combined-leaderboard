@@ -161,10 +161,7 @@ function reportCardSection(category, categoryIndex, score, percentage) {
         const grade = getLetterGrade(percentage)
         const accentColor = ''
         // const accentColor=getColorFromClass(classNameLogic(category))
-        let className = classNameLogic(category)
-        if (!className) {
-            className = 'banner'
-        }
+        const className = classNameLogic(category) || 'banner'
         const place = players[globalPlayerIndex].runs[categoryIndex].place
         HTMLContent =
             `<td id='modal_category_${categoryIndex}_grade' class='${grade.className}' style='font-size:90%;text-align:left;min-width:25px'>${grade.grade}</td>
@@ -175,7 +172,7 @@ function reportCardSection(category, categoryIndex, score, percentage) {
         ${userComparison(categoryIndex)}
         <td id='modal_category_${categoryIndex}_leftArrow' class='grow' style='display:none;padding-left:7px' onclick="moveSlider(${categoryIndex})">${fontAwesome('toggle-left')}</td>
         <td id='modal_category_${categoryIndex}_rightArrow' class='grow' style='display:none;padding-right:5px' onclick="moveSlider(${categoryIndex},-0.1)">${fontAwesome('toggle-right')}</td>
-        <td id='modal_category_${categoryIndex}_visual_div' class='background1' style='border-right:1px solid white'><div id='modal_category_${categoryIndex}_visual' class='${className}' style='color:transparent !important;width:${percentage == 100 ? 102 : normalize50(percentage)}%'>dummy</div></td>
+        <td id='modal_category_${categoryIndex}_visual_div' class='background1 container' style='justify-content:right'><div class='${className}' style='height:23px;color:transparent !important;width:${percentage == 100 ? 102 : normalize50(percentage)}%'>dummy</div></td>
         <td id='modal_category_${categoryIndex}_slider_div' style='display:none'><input id='modal_category_${categoryIndex}_slider' style='width:250px;accent-color:${accentColor}' class='reverse' type='range' oninput='adjustGrade(${categoryIndex})' step='0.1' min='50' max='${category.runs[0].percentage}' value='${Math.round(percentage)}'></td>`
     } else {
         HTMLContent += `<td></td><td></td>${truePercentage(categoryIndex)}`
@@ -246,13 +243,9 @@ function adjustGrade(categoryIndex) {
     while (newPlayerPercentage < player?.score) {
         playerIndex++
         player = players[playerIndex]
-        if (players[globalPlayerIndex].rank == playerIndex) {
-            thisPlayer = true
-        }
+        thisPlayer = players[globalPlayerIndex].rank == playerIndex
     }
-    if (thisPlayer) {
-        playerIndex--
-    }
+    if (thisPlayer) playerIndex--
     playerIndex++
     document.getElementById('modal_rank').innerHTML = playerIndex
     document.getElementById('modal_scoreGradeSpan').innerHTML = scoreGradeSpan(newPlayerPercentage)

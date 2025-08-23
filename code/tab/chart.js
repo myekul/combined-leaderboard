@@ -23,12 +23,8 @@ function drawChart() {
             maxValue = 3600
         }
     }
-    if (mode == 'commBestILs') {
-        normalized = false
-    }
-    if (normalized) {
-        maxValue = 100
-    }
+    if (mode == 'commBestILs') normalized = false
+    if (normalized) maxValue = 100
     const numBars = document.getElementById('dropdown_top').value
     const annotation = numBars <= 30
     const rows = []

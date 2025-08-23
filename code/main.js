@@ -51,9 +51,7 @@ function getFullgame(categoryName) {
         }
     } else {
         categories = categorySet
-        if (!categories) {
-            categories = generateCategories(gameID)
-        }
+        if (!categories) categories = generateCategories(gameID)
         if (categoryName) {
             if (gameID == 'sm64') {
                 if (categoryName == 'long') {
@@ -63,9 +61,7 @@ function getFullgame(categoryName) {
                 }
             }
             if (gameID == 'nsmbw') {
-                if (categoryName == 'main3') {
-                    categories = categorySet.slice(0, 3)
-                }
+                if (categoryName == 'main3') categories = categorySet.slice(0, 3)
             }
             buttonClick('fullgameCategories_' + categoryName, 'fullgameCategories', 'active')
         }
@@ -104,14 +100,14 @@ function getFullgame(categoryName) {
         } else {
             // firstTimeFull = false
             categories = []
-            window.firebaseUtils.firestoreReadMain()
+            setTimeout(() => {
+                window.firebaseUtils.firestoreReadMain()
+            }, 500)
         }
     }
 }
 function getLevels() {
-    if (gameID == 'cuphead' && mode != 'levels') {
-        allILs = true
-    }
+    if (gameID == 'cuphead' && mode != 'levels') allILs = true
     setMode('levels')
     if (gameID == 'cuphead') {
         cupheadLevelSetting()
@@ -125,7 +121,7 @@ function getCommBestILs(categoryName) {
     categoryName = categoryName != null ? categoryName : commBestILsCategory.tabName
     commBestILsCategory = commBestILs[categoryName]
     updateLoadouts(categoryName)
-    buttonClick('commBestILs_' + commBestILsCategory.className, 'commBestILsVersionTabs', 'active')
+    buttonClick('commBestILs_' + commBestILsCategory.className, 'commBestILsVersionTabs', 'selected')
     resetLoad()
     players = []
     playerNames = new Set()
@@ -140,9 +136,7 @@ function getCommBestILs(categoryName) {
         }
     } else {
         let variables = `var-${category.var}=${category.subcat}`
-        if (category.var2) {
-            variables += `&var-${category.var2}=${category.subcat2}`
-        }
+        if (category.var2) variables += `&var-${category.var2}=${category.subcat2}`
         getLeaderboard(category, `category/${category.id}`, variables, true)
     }
 }
@@ -158,7 +152,7 @@ function updateLoadouts(categoryName) {
     }
     fullgameCategories.forEach(category => {
         const thisCategory = commBestILs[category]
-        HTMLContent += `<div onclick="playSound('category_select');getCommBestILs('${category}')" class="button ${commBestILsCategory.className} container ${categoryName == category ? 'active' : ''}">`
+        HTMLContent += `<div onclick="playSound('category_select');getCommBestILs('${category}')" class="button ${commBestILsCategory.className} container ${categoryName == category ? 'selected' : ''}">`
         HTMLContent += thisCategory.shot1 ? cupheadShot(thisCategory.shot1) : ''
         HTMLContent += thisCategory.shot2 ? cupheadShot(thisCategory.shot2) : ''
         HTMLContent += thisCategory.subcat ? thisCategory.subcat : ''
@@ -317,33 +311,25 @@ function prepareData() {
         }
         generateRanks()
         sortCategoryIndex = -1
-        if (!(gameID == 'ssbm' && !ssbVar)) {
-            sortPlayers(players)
-        }
+        if (!(gameID == 'ssbm' && !ssbVar)) sortPlayers(players)
     }
     players.forEach((player, playerIndex) => {
         player.rank = playerIndex + 1
     })
     // hide('loading')
+    showTab(globalTab)
     if (mode == 'fullgame' && spotlightFlag) {
         generateSpotlightPlayer()
         generateROTDrun()
         show('spotlight')
-    } else {
-        hide('spotlight')
     }
-    if (mode == 'fullgame' && firstTimeFull) {
-        show('refreshDiv')
-    } else {
-        hide('refreshDiv')
-    }
+    if (mode == 'fullgame' && firstTimeFull) show('refreshDiv')
     const username = localStorage.getItem('username')
     if (username && !runRecapExample) {
         document.getElementById('input_username').value = username
         document.getElementById('username').innerHTML = runRecapPlayer('username')
     }
     show('username')
-    showTab(globalTab)
 }
 function assignRuns(category, categoryIndex) {
     category.runs.forEach((run, runIndex) => {
@@ -444,9 +430,7 @@ function organizePlayers(categoryIndex, shh) {
     if (categoryIndex > categories.length - 1 || categoryIndex < 0) {
         playSound('locked')
     } else {
-        if (!shh) {
-            playSound('equip_move')
-        }
+        if (!shh) playSound('equip_move')
         sortCategoryIndex = categoryIndex
         sortPlayers(players)
         action()
@@ -464,9 +448,7 @@ function sortPlayers(playersArray, customCategoryIndex) {
             });
         } else {
             let criteria = 'score'
-            if (mode == 'commBestILs') {
-                criteria == 'rank'
-            }
+            if (mode == 'commBestILs') criteria == 'rank'
             playersArray.sort((a, b) => {
                 return b[criteria] - a[criteria];
             });

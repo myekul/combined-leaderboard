@@ -1,12 +1,6 @@
 function setBoardTitle() {
-    if (sortCategoryIndex > -1) {
-        show('closeBoardTitle')
-    } else {
-        hide('closeBoardTitle')
-    }
-    let HTMLContent = generateBoardTitle()
-    const boardTitle = document.getElementById('boardTitle')
-    boardTitle.innerHTML = HTMLContent
+    if (sortCategoryIndex > -1) show('closeBoardTitle')
+    document.getElementById('boardTitle').innerHTML=generateBoardTitle()
 }
 function generateBoardTitle(extra, categoryIndex, commBest) {
     let worldRecord
@@ -16,10 +10,8 @@ function generateBoardTitle(extra, categoryIndex, commBest) {
     } else if (globalTab == 'WRs') {
         worldRecord = true
     }
-    let HTMLContent = `<div><table class='boardTitleTable'><tr>`
-    if (worldRecord) {
-        HTMLContent += boardTitleCell('first', secondsToHMS(getWorldRecord(categories[categoryIndex])))
-    }
+    let HTMLContent = ''
+    if (worldRecord) HTMLContent += boardTitleCell('first', secondsToHMS(getWorldRecord(categories[categoryIndex])))
     if (mode == 'levels' & bossILindex > -1) {
         category = bosses[bossILindex]
         imgsrc = category.id
@@ -37,21 +29,13 @@ function generateBoardTitle(extra, categoryIndex, commBest) {
     if (categoryIndex > -1 && extra != 2) {
         let category = categories[categoryIndex]
         let imgsrc
-        if (category.info) {
-            imgsrc = category.info.id
-        }
+        if (category.info) imgsrc = category.info.id
         let className = category.className ? category.className : imgsrc
         let image = ''
-        if (imgsrc) {
-            image = getImage(imgsrc, imgSize)
-        }
+        if (imgsrc) image = getImage(imgsrc, imgSize)
         let cellContent = category.name
-        if (gameID == 'cuphead' && big4()) {
-            cellContent = category.info.name
-        }
-        if (mode != 'fullgame' && extra) {
-            cellContent = ''
-        }
+        if (gameID == 'cuphead' && big4()) cellContent = category.info.name
+        if (mode != 'fullgame' && extra) cellContent = ''
         if (['cuphead', 'sm64', 'mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID) && bossILindex == -1) {
             const content = `<div class='container' style='gap:4px'>${image + cellContent}</div>`
             HTMLContent += boardTitleCell('container ' + className, content)
@@ -132,14 +116,7 @@ function generateBoardTitle(extra, categoryIndex, commBest) {
     if (globalTab == 'charts' && sortCategoryIndex == -1 && mode != 'commBestILs') {
         HTMLContent += boardTitleCell('banner', 'Player Score')
     }
-    HTMLContent += `</tr></table></div>`
-    if (HTMLContent == `<div><table class='boardTitleTable'><tr></tr></table></div>`) {
-        return ''
-    }
-    return HTMLContent
-}
-function boardTitleCell(className, content) {
-    return `<td class='${className}' style='height:32px;padding:0 5px'>${content}</td>`
+    return boardTitleWrapper(HTMLContent)
 }
 function updateCategories() {
     let HTMLContent = `<table>`
@@ -151,16 +128,12 @@ function updateCategories() {
             HTMLContent += `<th onclick="organizePlayers(${categoryIndex})" class='${category.info.id} clickable ${isSelected(categoryIndex)}'>${getImage(category.info.id)}</th>`
         } else {
             let categoryName = category.name
-            if (bossILindex > -1) {
-                className = category.difficulty
-            }
+            if (bossILindex > -1) className = category.difficulty
             if (mode == 'levels' && big4()) {
                 categoryName = trimDifficulty(category.name)
                 className = category.difficulty
             }
-            if (!className) {
-                className = 'gray'
-            }
+            if (!className) className = 'gray'
             HTMLContent += `<th onclick="organizePlayers(${categoryIndex})" class='${className} clickable ${isSelected(categoryIndex)} chartTab'>${categoryName}</th>`
         }
     })

@@ -7,7 +7,9 @@ function showTabCL(tab) {
     })
     if (mode == 'commBestILs') {
         show('commBestILsSection')
-        show('viableDiv')
+        if (!['runRecap', 'commBest', 'ballpit'].includes(globalTab)) {
+            show('viableDiv')
+        }
     }
     if (['cuphead', 'sm64', 'nsmbw'].includes(gameID) && mode == 'fullgame') {
         show('fullgameCategoriesSection')
@@ -30,17 +32,12 @@ function showTabCL(tab) {
     } else {
         show(sort_options)
     }
-    const WRs_cupheadILs_options = document.getElementById('WRs_cupheadILs_options')
     if (gameID == 'cuphead' && mode == 'levels' || mode == 'commBestILs') {
-        show(WRs_cupheadILs_options)
-    } else {
-        hide(WRs_cupheadILs_options)
+        show('WRs_cupheadILs_options')
     }
     const runRecap_details = document.getElementById('runRecap_details')
     if (tab == 'runRecap') {
         show(runRecap_details)
-    } else {
-        hide(runRecap_details)
     }
 }
 function action() {
@@ -56,7 +53,6 @@ function action() {
         countries = {}
         document.getElementById('world-map').innerHTML = ''
     }
-    console.log(globalTab)
     if (['leaderboards', 'featured', 'charts', 'map', 'sort'].includes(globalTab)) {
         show('categorySelect')
         if (mode == 'commBestILs' && globalTab == 'leaderboards') {
@@ -72,7 +68,7 @@ function action() {
     updateCategories()
 }
 function tabAction() {
-    if (['runRecap', 'commBest'].includes(globalTab) && mode != 'commBestILs' || (globalTab == 'spotlight' && mode != 'fullgame')) {
+    if (['runRecap', 'commBest'].includes(globalTab) && mode != 'commBestILs') {
         showTab('leaderboard')
     } else {
         switch (globalTab) {
@@ -122,11 +118,7 @@ function tabAction() {
             show(pageTitle)
             pageTitle.innerHTML = fontAwesomeText(fontAwesomePage[1], fontAwesomePage[0])
         }
-        if (globalTab == 'runRecap') {
-            show('musicDiv')
-        } else {
-            hide('musicDiv')
-        }
+        if (globalTab == 'runRecap') show('musicDiv')
     }
 }
 function setMode(newMode) {
@@ -134,7 +126,5 @@ function setMode(newMode) {
     url.searchParams.set('mode', mode);
     window.history.pushState({}, '', url);
     buttonClick(mode + 'Button', 'modeSelection', 'activeBanner')
-    if (mode != 'levels') {
-        disableLevelModes()
-    }
+    if (mode != 'levels') disableLevelModes()
 }
