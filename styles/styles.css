@@ -335,3 +335,7 @@ svg {
     transform: scaleX(-1);
     transform-origin: center;
 }
+
+#tabs {
+    width: 500px !important;
+}

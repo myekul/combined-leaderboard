@@ -149,12 +149,6 @@ if (gameID != 'tetris') {
             // console.log(data.data)
         })
 }
-if (['cuphead'].includes(gameID)) {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = `styles/games/${gameID}.css`;
-    document.head.appendChild(link);
-}
 function fetchDiscord() {
     fetch('https://discord.com/api/guilds/1386406855391313960/widget.json')
         .then(response => response.json())

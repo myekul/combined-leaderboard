@@ -89,7 +89,9 @@ function stopSound(sfx) {
 function getImage(image, heightParam) {
     const extension = gameID == 'spo' ? 'webp' : 'png'
     const height = heightParam ? heightParam : 36
-    return `<img src='images/levels/${gameID}/${image}.${extension}' style='height:${height}px;width:auto'>`
+    let src = `images/levels/${gameID}/${image}.${extension}`
+    if (gameID == 'cuphead') src = `https://myekul.github.io/shared-assets/cuphead/images/${image}.png`
+    return `<img src='${src}' style='height:${height}px;width:auto'>`
 }
 function getColorClass() {
     if (mode == 'commBestILs') return commBestILsCategory.className
