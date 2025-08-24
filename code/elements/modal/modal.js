@@ -242,9 +242,9 @@ function discord() {
             </div>`
     HTMLContent += `<div class='container'><table>`
     discordData.members.forEach(member => {
-        if (member.username == 'm...') {
-            member.username = 'myekul'
-        }
+        // if (member.username == 'm...') {
+        //     member.username = 'myekul'
+        // }
         const srcMember = players.find(player => player.name == member.username)
         HTMLContent += `<tr>`
         HTMLContent += `<td><img src='${member.avatar_url}' style='height:30px;border-radius:15px'></td>`

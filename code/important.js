@@ -108,7 +108,7 @@ function tabAction() {
         if (globalTab == 'leaderboard') {
             if (mode == 'commBestILs') {
                 show(pageTitle)
-                pageTitle.innerHTML = fontAwesomeText('tasks', 'Comm Best ILs')
+                setPageTitle('tasks', 'Comm Best ILs')
             } else {
                 hide(pageTitle)
             }
@@ -116,7 +116,7 @@ function tabAction() {
             hide(pageTitle)
         } else {
             show(pageTitle)
-            pageTitle.innerHTML = fontAwesomeText(fontAwesomePage[1], fontAwesomePage[0])
+            setPageTitle(fontAwesomePage[1], fontAwesomePage[0])
         }
         if (globalTab == 'runRecap') show('musicDiv')
     }

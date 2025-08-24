@@ -71,21 +71,6 @@ function placeClass(place) {
     }
     return null
 }
-function playSound(sfx) {
-    if (['cuphead', 'smb3', 'sm64', 'ssbm'].includes(gameID)) {
-        const sound = document.getElementById(sfx)
-        if (sound) {
-            sound.currentTime = 0
-            sound.volume = 0.2
-            sound.play()
-        }
-    }
-}
-function stopSound(sfx) {
-    const sound = document.getElementById(sfx)
-    sound.pause()
-    sound.currentTime = 0
-}
 function getImage(image, heightParam) {
     const extension = gameID == 'spo' ? 'webp' : 'png'
     const height = heightParam ? heightParam : 36
@@ -146,9 +131,6 @@ const fontAwesomeSet = {
     runRecap: ['Run Recap', 'history'],
     commBest: ['Comm Best Splits', 'tasks'],
     ballpit: ['Ballpit', 'smile-o']
-}
-function fontAwesomeText(icon, text) {
-    return fontAwesome(icon) + `&nbsp;&nbsp;` + text
 }
 function getAnchor(url) {
     return url ? `<a href="${url}" target='_blank'>` : ''
@@ -245,15 +227,6 @@ function getNumDisplay() {
 function classNameLogic(category) {
     return category.info ? category.info.id : category.className
 }
-function getColorFromClass(className, textColor) {
-    const field = textColor ? 'color' : 'backgroundColor'
-    const tempEl = document.createElement('div');
-    tempEl.className = className;
-    document.body.appendChild(tempEl);
-    const color = getComputedStyle(tempEl)[field];
-    document.body.removeChild(tempEl);
-    return color;
-}
 function getBackgroundColor() {
     return rootStyles.getPropertyValue('--background2')
 }
@@ -297,9 +270,6 @@ function normalize50(percentage) {
         return 0
     }
     return ((percentage - 50) / (100 - 50)) * 100
-}
-function getRandomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 function getEveryRun(numRuns, sortRange, extra) {
     const everyRun = []

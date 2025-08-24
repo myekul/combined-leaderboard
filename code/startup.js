@@ -1,4 +1,11 @@
 initializeHash('leaderboard')
+setTitle('COMBINED LEADERBOARD')
+setFooter('2024-2025')
+setCupheadProjects()
+setSidebar(generateSidebar())
+    .then(() => {
+        document.getElementById('sidebarLogo').src = `images/logo/${gameID}.png`
+    })
 const url = new URL(window.location.href);
 const params = new URLSearchParams(window.location.search);
 let gameParam = params.get('game');
@@ -194,12 +201,6 @@ toggleSidebar = function (...args) {
         playSound('cardup')
     }
 }
-setTitle('COMBINED LEADERBOARD')
-setFooter('2024-2025')
-setSidebar(generateSidebar())
-    .then(() => {
-        document.getElementById('sidebarLogo').src = `images/logo/${gameID}.png`
-    })
 setTabs(['leaderboard', 'featured', null, 'WRs', 'leaderboards', null, 'charts', 'map', 'sort', null, 'ballpit'])
     .then(() => {
         document.querySelectorAll('#tabs .button').forEach(elem => {

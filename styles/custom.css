@@ -1,28 +1,3 @@
-.onePointOne {
-    background-color: mediumpurple;
-    color: black
-}
-
-.legacy {
-    background-color: lightseagreen;
-    color: black
-}
-
-.nmg {
-    background-color: lightcoral;
-    color: black
-}
-
-.dlc {
-    background-color: var(--cupheadDLC);
-    color: var(--dlc-font) !important
-}
-
-.dlcbase {
-    background-color: khaki;
-    color: black
-}
-
 .isle1 {
     background-color: cornflowerblue;
     color: black

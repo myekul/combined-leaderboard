@@ -121,7 +121,11 @@ function generateDropbox(elem) {
 }
 function runRecapUnload(elem, shh) {
     if (!shh) playSound('carddown')
-    runRecap_savFile = elem == 'sav' ? null : {}
+    if (elem == 'sav') {
+        runRecap_savFile = null
+    } else {
+        runRecap_lssFile = {}
+    }
     generateDropbox(elem)
 }
 async function runRecapHandleFile(event, elem) {
@@ -285,18 +289,18 @@ function runRecapHome() {
             HTMLContent += `<td class='${placeClass(playerIndex + 1)}' style='padding:0 4px'>${secondsToHMS(player.extra.score)}</td>`
             HTMLContent += `<td>${getPlayerFlag(player, 12)}</td>`
             HTMLContent += `<td style='padding:0 3px'>${getPlayerIcon(player, 28)}</td>`
-            HTMLContent += `<td style='padding-right:4px;text-align:left'>${getPlayerName(player)}</td>`
+            HTMLContent += `<td style='padding-right:10px;text-align:left'>${getPlayerName(player)}</td>`
             HTMLContent += `</tr>`
         }
     })
     HTMLContent += `</table>`
-    HTMLContent += `
-    <div class='container' style='margin-top:10px'>
-        <div class='button cuphead' style='gap:5px;width:170px' onclick="openModalCL('runRecapDatabase','up')">
-            ${fontAwesome('cloud')}
-            Browse database
-        </div>
-    </div>`
+    // HTMLContent += `
+    // <div class='container' style='margin-top:10px'>
+    //     <div class='button cuphead' style='gap:5px;width:170px' onclick="openModalCL('runRecapDatabase','up')">
+    //         ${fontAwesome('cloud')}
+    //         Browse database
+    //     </div>
+    // </div>`
     HTMLContent += `</div>`
     document.getElementById('runRecap_examples').innerHTML = HTMLContent
 }
