@@ -14,9 +14,7 @@ function secondsToHMS(seconds, exception, raw) {
     } else {
         HTMLContent = `${minutes}:${secs.toString().padStart(2, '0')}`;
     }
-    if ((milliseconds && globalTab != 'chart') || exception) {
-        HTMLContent += displayDecimals(seconds, null, raw)
-    }
+    if (milliseconds || exception) HTMLContent += displayDecimals(seconds, null, raw)
     return HTMLContent
 }
 function displayDecimals(value, exception, raw) {
@@ -241,11 +239,11 @@ function getSocial(player, social) {
     }
     return ''
 }
-function normalize50(percentage) {
-    if (percentage < 50) {
+function normalize(percentage, value = 50) {
+    if (percentage < value) {
         return 0
     }
-    return ((percentage - 50) / (100 - 50)) * 100
+    return ((percentage - value) / (100 - value)) * 100
 }
 function getEveryRun(numRuns, sortRange, extra) {
     const everyRun = []

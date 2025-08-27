@@ -1,4 +1,7 @@
 function generateLeaderboards() {
+    if (sortCategoryIndex == -1) {
+        sortCategoryIndex = 0
+    }
     let HTMLContent = ''
     HTMLContent += `<div class='container' style='gap:10px;${sortCategoryIndex == -1 && mode != 'commBestILs' ? 'overflow-x:scroll;margin:0 auto' : ''}align-items:flex-start'>`
     if (sortCategoryIndex == -1 && mode != 'commBestILs') {
@@ -12,8 +15,13 @@ function generateLeaderboards() {
         HTMLContent += leaderboardsSection(sortCategoryIndex)
     }
     if (sortCategoryIndex > -1 || mode == 'commBestILs') {
+        sortPlayers(players)
         const everyRun = getEveryRun(10, null, true)
-        HTMLContent += `<div style='padding-left:40px'>${fancyTable(everyRun, 10)}</div>`
+        HTMLContent += `<div style='padding-left:20px'>${fancyTable(everyRun, 10)}</div>`
+        const store = sortCategoryIndex
+        sortCategoryIndex = -1
+        sortPlayers(players)
+        sortCategoryIndex = store
     }
     HTMLContent += `</div>`
     document.getElementById('leaderboards').innerHTML = HTMLContent

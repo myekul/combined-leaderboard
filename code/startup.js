@@ -172,6 +172,9 @@ closeModal = function () {
 }
 const showTabOG = showTab;
 showTab = function (...args) {
+    if (globalTab == 'leaderboards') {
+        sortCategoryIndex = -1
+    }
     showTabOG(...args)
     showTabCL(...args)
 }
@@ -184,7 +187,7 @@ toggleSidebar = function (...args) {
         playSound('cardup')
     }
 }
-setTabs(['leaderboard', 'featured', null, 'WRs', 'leaderboards', null, 'chart', 'map', 'sort', null, 'ballpit'])
+setTabs(['leaderboard', 'featured', 'leaderboards', null, 'WRs', 'map', 'sort', null, 'ballpit'])
     .then(() => {
         switch (gameID) {
             case 'cuphead':
@@ -215,7 +218,6 @@ const fontAwesomeSet = {
     leaderboards: ['Leaderboards', 'cubes'],
     WRs: ['World Records', 'trophy',],
     featured: ['Featured', 'star'],
-    chart: ['Chart', 'bar-chart'],
     map: ['Map', 'flag'],
     sort: ['Sort', 'sort-amount-asc'],
     runRecap: ['Run Recap', 'history'],

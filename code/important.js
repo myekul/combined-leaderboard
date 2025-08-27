@@ -33,7 +33,7 @@ function showTabCL(tab) {
 function action() {
     parseCheckboxes()
     tabAction()
-    if (['leaderboards', 'featured', 'chart', 'map', 'sort'].includes(globalTab)) {
+    if (['leaderboards', 'featured', 'map', 'sort'].includes(globalTab)) {
         show('categorySelect')
         if (mode == 'commBestILs' && globalTab == 'leaderboards') {
             hide('categorySelect')
@@ -63,9 +63,6 @@ function tabAction() {
                 break;
             case 'featured':
                 generateFeatured();
-                break;
-            case 'chart':
-                generateChart();
                 break;
             case 'map':
                 generateMap();

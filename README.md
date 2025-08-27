@@ -20,10 +20,6 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 ### Featured
 - Shows the 5 most recent runs with an A- or better
 
-### Chart
-- Visualizes the competition 
-- Compares player scores and run scores
-
 ### Map
 - Displays where in the world the top players are from
 
@@ -60,3 +56,4 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Switching from Run Recap to fullgame is buggy
 - Leaderboards scroll is bugged
 - Country modal subtitle broken
+- Leaderboards tab is bugged upon page refresh

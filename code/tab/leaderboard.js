@@ -155,6 +155,7 @@ function parsePlayer(player, playerIndex, categoryIndex) {
     const letterGrade = getLetterGrade(player.score)
     const pulseClass = localStorage.getItem('username') == player.name ? 'pulseClass' : ''
     HTMLContent += `<tr class='${getRowColor(playerIndex)} categoryLabel ${pulseClass}' style='height:23px'>`
+    HTMLContent += sortCategoryIndex > -1 ? `<td class='container' style='justify-content:right'><div class='${classNameLogic(categories[sortCategoryIndex])}' style='height:20px;color:transparent !important;width:${normalize(player.runs[sortCategoryIndex]?.percentage, 80)}%'>dummydummy</div></td>` : ''
     if (categoryIndex > -1) {
         const categoryName = categories[categoryIndex].name
         if (['DLC', 'DLC+Base'].includes(categoryName) && !fullgameCategory) {

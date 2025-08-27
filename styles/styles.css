@@ -47,17 +47,6 @@ th {
     font-size: 75%
 }
 
-#chart {
-    padding-top: 5px;
-    height: 500px;
-    width: 75%;
-    margin: 0 auto;
-}
-
-.chartTab {
-    width: 80px;
-}
-
 .grayedOut {
     opacity: 0.4 !important;
     cursor: default !important
@@ -344,4 +333,17 @@ svg {
 
 .invert img {
     filter: brightness(0) invert(1)
+}
+
+td.short-border {
+    position: relative;
+}
+
+td.short-border::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: var(--border-width, 100%);
+    border-bottom: 2px solid var(--border-color, dimgray);
 }

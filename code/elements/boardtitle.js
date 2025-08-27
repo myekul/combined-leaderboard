@@ -117,9 +117,6 @@ function generateBoardTitle(extra, categoryIndex, commBest) {
         HTMLContent += category.shot1 ? `</td>` : ''
         HTMLContent += category.subcat ? boardTitleCell('', category.subcat) : ''
     }
-    if (globalTab == 'chart' && sortCategoryIndex == -1 && mode != 'commBestILs') {
-        HTMLContent += boardTitleCell('banner', 'Player Score')
-    }
     return boardTitleWrapper(HTMLContent)
 }
 function updateCategories() {
@@ -138,7 +135,7 @@ function updateCategories() {
                 className = category.difficulty
             }
             if (!className) className = 'gray'
-            HTMLContent += `<th onclick="organizePlayers(${categoryIndex})" class='${className} clickable ${isSelected(categoryIndex)} chartTab'>${categoryName}</th>`
+            HTMLContent += `<th onclick="organizePlayers(${categoryIndex})" class='${className} clickable ${isSelected(categoryIndex)}' style='width:80px'>${categoryName}</th>`
         }
     })
     HTMLContent += `</tr></table>`

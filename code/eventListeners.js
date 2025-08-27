@@ -8,7 +8,7 @@ window.addEventListener('hashchange', () => {
 });
 document.addEventListener('keydown', function (event) {
     if (!showModal && (event.key == 'ArrowLeft' || event.key == 'ArrowRight')) {
-        if (['leaderboard', 'leaderboards', 'featured', 'chart', 'map', 'sort'].includes(globalTab)) {
+        if (['leaderboard', 'leaderboards', 'featured', 'map', 'sort'].includes(globalTab)) {
             let success = false
             switch (event.key) {
                 case 'ArrowLeft':
