@@ -1,6 +1,10 @@
 function setBoardTitle() {
-    if (sortCategoryIndex > -1) show('closeBoardTitle')
-    document.getElementById('boardTitle').innerHTML=generateBoardTitle()
+    if (sortCategoryIndex > -1) {
+        show('closeBoardTitle')
+    } else {
+        hide('closeBoardTitle')
+    }
+    document.getElementById('boardTitle').innerHTML = generateBoardTitle()
 }
 function generateBoardTitle(extra, categoryIndex, commBest) {
     let worldRecord
@@ -113,7 +117,7 @@ function generateBoardTitle(extra, categoryIndex, commBest) {
         HTMLContent += category.shot1 ? `</td>` : ''
         HTMLContent += category.subcat ? boardTitleCell('', category.subcat) : ''
     }
-    if (globalTab == 'charts' && sortCategoryIndex == -1 && mode != 'commBestILs') {
+    if (globalTab == 'chart' && sortCategoryIndex == -1 && mode != 'commBestILs') {
         HTMLContent += boardTitleCell('banner', 'Player Score')
     }
     return boardTitleWrapper(HTMLContent)

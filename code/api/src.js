@@ -156,26 +156,5 @@ function cleanPlayers(thePlayers) {
     return newPlayers
 }
 function getSRCicon() {
-    return getAnchor('https://www.speedrun.com/' + gameID) + `<img src='images/external/src.png' class='grow'>`
-}
-function findUndefined(obj, path = '') {
-    let results = [];
-    if (Array.isArray(obj)) {
-        obj.forEach((item, i) => {
-            if (item === undefined) {
-                results.push(`${path}[${i}]`);
-            } else if (typeof item === 'object' && item !== null) {
-                results = results.concat(findUndefined(item, `${path}[${i}]`));
-            }
-        });
-    } else if (typeof obj === 'object' && obj !== null) {
-        Object.keys(obj).forEach(key => {
-            if (obj[key] === undefined) {
-                results.push(`${path}.${key}`);
-            } else if (typeof obj[key] === 'object' && obj[key] !== null) {
-                results = results.concat(findUndefined(obj[key], `${path}.${key}`));
-            }
-        });
-    }
-    return results;
+    return getAnchor('https://www.speedrun.com/' + gameID) + `<div class='grow'>${sharedAssetsImg('src')}</div>`
 }

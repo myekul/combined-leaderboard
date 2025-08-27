@@ -21,7 +21,7 @@ function generateSpotlightPlayer() {
     document.getElementById('spotlightDiv').innerHTML = getPlayerIcon(player, 64)
 }
 function generateROTDrun() {
-    aPlusRuns = getEveryRun().filter(run => run.run.percentage >= 97)
+    aPlusRuns = getEveryRun().filter(run => run.run.percentage >= 97 && players[run.playerIndex].links.img)
     ROTDindex = getDailyRandomIndex(aPlusRuns)
     const run = aPlusRuns[ROTDindex]
     let HTMLContent = ''

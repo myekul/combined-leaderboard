@@ -87,7 +87,7 @@ function generateDropbox(elem) {
     }
 
     if (elem == 'sav') {
-        HTMLContent += `<div onclick="openModalCL('runRecapInfo','up')" class='grow' style="padding-left:5px">${fontAwesome('info-circle')}</div>`
+        HTMLContent += `<div onclick="openModal(runRecapInfo(), 'INFO')" class='grow' style="padding-left:5px">${fontAwesome('info-circle')}</div>`
         HTMLContent += `<div class='divider'></div>
     <div onclick="processSavFile()" class="button cuphead" style="width:110px">${fontAwesome('plus')}&nbsp;Empty file</div>`
     }
@@ -205,15 +205,15 @@ function runRecapUploadButton() {
     if (localStorage.getItem('username') && runRecapTime != 'XX:XX') {
         window.firebaseUtils.firestoreWriteRR()
     } else {
-        openModalCL('runRecapUpload')
+        openModal(runRecapUpload(), 'UPLOAD', '', true)
     }
-}
-function runRecapUpload() {
-    let HTMLContent = ''
-    HTMLContent += `
+    function runRecapUpload() {
+        let HTMLContent = ''
+        HTMLContent += `
     <div style='margin-bottom:20px'>${myekulColor(fontAwesome('warning'))} Please insert your run time and username.</div>
     <div>Fraudulent or duplicate submissions are subject to deletion.</div>`
-    return HTMLContent
+        return HTMLContent
+    }
 }
 function runRecapViewPage(newPage, elem, shh) {
     sortCategoryIndex = -1
@@ -296,7 +296,7 @@ function runRecapHome() {
     HTMLContent += `</table>`
     // HTMLContent += `
     // <div class='container' style='margin-top:10px'>
-    //     <div class='button cuphead' style='gap:5px;width:170px' onclick="openModalCL('runRecapDatabase','up')">
+    //     <div class='button cuphead' style='gap:5px;width:170px' onclick="openModal(runRecapDatabase(), 'DATABASE')">
     //         ${fontAwesome('cloud')}
     //         Browse database
     //     </div>

@@ -102,10 +102,10 @@ function cupheadLevelWRs() {
             const thisCategory = categories[categoryIndex]
             if (loadoutsChecked) {
                 const loadout = thisCategory.loadout
-                HTMLContent += loadout[0] ? `<td><img src='images/cuphead/inventory/weapons/${loadout[0]}.png' class='container'></td>` : `<td></td>`
-                HTMLContent += loadout[1] ? `<td><img src='images/cuphead/inventory/weapons/${loadout[1]}.png' class='container'></td>` : `<td></td>`
-                HTMLContent += loadout[2] ? `<td><img src='images/cuphead/inventory/supers/${loadout[2]}.png' class='container'></td>` : `<td></td>`
-                HTMLContent += loadout[3] ? `<td><img src='images/cuphead/inventory/charms/${loadout[3]}.png' class='container'></td>` : `<td></td>`
+                HTMLContent += `<td>${loadout[0] ? cupheadShot(loadout[0], '', true) : ''}</td>`
+                HTMLContent += `<td>${loadout[1] ? cupheadShot(loadout[1], '', true) : ''}</td>`
+                HTMLContent += loadout[2] ? `<td><img src='https://myekul.github.io/shared-assets/cuphead/images/inventory/super/${loadout[2]}.png' class='container'></td>` : `<td></td>`
+                HTMLContent += loadout[3] ? `<td><img src='https://myekul.github.io/shared-assets/cuphead/images/inventory/charm/${loadout[3]}.png' class='container'></td>` : `<td></td>`
             }
             if (big5()) {
                 HTMLContent += `<td class='${thisCategory.difficulty}' style='width:6px'></td>`

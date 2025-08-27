@@ -70,7 +70,7 @@ function reportCard(player) {
     const myekulSaysCheck = myekulSays[player.name]
     const iconSize = 26
     HTMLContent += `<div class='container' style='align-items:center'>`
-    HTMLContent += myekulSaysCheck ? `<div id='myekulSaysButton' class='grow' onclick="myekulSaysAction()"><img src='images/external/myekul.png' style='width:${iconSize}px;height:auto'></div>` : `<div style='width:${iconSize}px;height:${iconSize}px'></div>`
+    HTMLContent += myekulSaysCheck ? `<div id='myekulSaysButton' class='grow' onclick="myekulSaysAction()"><img src='${sharedAssetsURL('myekul')}' style='width:${iconSize}px;height:auto'></div>` : `<div style='width:${iconSize}px;height:${iconSize}px'></div>`
     HTMLContent += myekulSaysCheck ? `<div id='myekulSaysEmpty' style='display:none;width:${iconSize}px;height:auto'></div>` : ''
     HTMLContent += `<div class='container'></div>`
     if (mode != 'commBestILs') {
@@ -92,7 +92,7 @@ function reportCard(player) {
 }
 function myekulSaysDiv() {
     return `<div class='container' style='justify-content:left;margin:0'>
-    <img src='images/external/myekul.png' style='height:30px;width:auto;padding-right:5px'>
+    <img src='${sharedAssetsURL('myekul')}' style='height:30px;width:auto;padding-right:5px'>
     <div style='font-size:110%'>${myekulColor('myekul')} says...</div>
     </div>`
 }
@@ -137,7 +137,7 @@ function toggleUserComparison() {
 function toggleSliders() {
     playSound('move')
     if (modalSliders) {
-        openModalCL('player', null, players[globalPlayerIndex].name)
+        openModalCL('player', true, players[globalPlayerIndex].name)
     } else {
         document.getElementById('modal_sliders').innerHTML = fontAwesome('close')
         for (let i = 0; i < categories.length; i++) {

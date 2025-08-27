@@ -21,39 +21,19 @@ function showTabCL(tab) {
     if (gameID == 'cuphead' && mode == 'levels' || mode == 'commBestILs') {
         document.getElementById('checkbox_hp').checked = true
     }
-    const dropdown_sortCriteria = document.getElementById('dropdown_sortCriteria')
-    const sort_options = document.getElementById('sort_options')
-    if (mode == 'commBestILs' && tab == 'sort') {
-        dropdown_sortCriteria.value = 'player'
-        hide(sort_options)
-    } else if (['tetris', 'ssbm'].includes(gameID)) {
-        dropdown_sortCriteria.value = 'score'
-        hide(sort_options)
-    } else {
-        show(sort_options)
-    }
     if (gameID == 'cuphead' && mode == 'levels' || mode == 'commBestILs') {
         show('WRs_cupheadILs_options')
     }
     const runRecap_details = document.getElementById('runRecap_details')
-    if (tab == 'runRecap') {
+    if (globalTab == 'runRecap') {
         show(runRecap_details)
+        show('musicDiv')
     }
 }
 function action() {
     parseCheckboxes()
     tabAction()
-    if (globalTab != 'leaderboard') {
-        document.getElementById('leaderboard').innerHTML = ''
-    }
-    if (globalTab != 'charts') {
-        document.getElementById('chart').innerHTML = ''
-    }
-    if (globalTab != 'map') {
-        countries = {}
-        document.getElementById('world-map').innerHTML = ''
-    }
-    if (['leaderboards', 'featured', 'charts', 'map', 'sort'].includes(globalTab)) {
+    if (['leaderboards', 'featured', 'chart', 'map', 'sort'].includes(globalTab)) {
         show('categorySelect')
         if (mode == 'commBestILs' && globalTab == 'leaderboards') {
             hide('categorySelect')
@@ -84,8 +64,8 @@ function tabAction() {
             case 'featured':
                 generateFeatured();
                 break;
-            case 'charts':
-                refreshCharts();
+            case 'chart':
+                generateChart();
                 break;
             case 'map':
                 generateMap();
@@ -104,21 +84,19 @@ function tabAction() {
                 break
         }
         fontAwesomePage = fontAwesomeSet[globalTab]
-        const pageTitle = document.getElementById('pageTitle')
         if (globalTab == 'leaderboard') {
             if (mode == 'commBestILs') {
-                show(pageTitle)
+                show('pageTitle')
                 setPageTitle('tasks', 'Comm Best ILs')
             } else {
-                hide(pageTitle)
+                hide('pageTitle')
             }
         } else if (globalTab == 'ballpit') {
-            hide(pageTitle)
+            hide('pageTitle')
         } else {
-            show(pageTitle)
+            show('pageTitle')
             setPageTitle(fontAwesomePage[1], fontAwesomePage[0])
         }
-        if (globalTab == 'runRecap') show('musicDiv')
     }
 }
 function setMode(newMode) {

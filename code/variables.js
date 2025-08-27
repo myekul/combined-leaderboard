@@ -41,7 +41,6 @@ let ssbVar = false
 let extraCategory = {}
 let spotlightPlayerIndex
 let spotlightFlag
-let discordData
 let aMinusPlayers
 let aPlusRuns
 let numModalPages = 3

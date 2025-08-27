@@ -48,7 +48,7 @@ function fetchTetris(category, categoryIndex) {
             prepareData()
             const url = 'https://docs.google.com/spreadsheets/d/1ZBxkZEsfwDsUpyire4Xb16er36Covk7nhR8BN_LPodI'
             const boardTitleSrc = document.getElementById('boardTitleSrc')
-            boardTitleSrc.innerHTML = `<div class='grow'>${getAnchor(url)}<img src='images/external/sheets.png'></div>`
+            boardTitleSrc.innerHTML = `<div class='grow'>${getAnchor(url)}${sharedAssetsImg('sheets')}</div>`
         }
     }, (err) => console.error("Execute error", err));
 }
@@ -211,7 +211,7 @@ function loadSheets() {
 }
 function loadSheetIcon(url, flash) {
     const boardTitleSrc = document.getElementById('boardTitleSrc')
-    boardTitleSrc.innerHTML = `<div class='grow ${flash ? 'flash' : ''}'>${getAnchor(url)}<img src='images/external/sheets.png'></div>`
+    boardTitleSrc.innerHTML = `<div class='grow ${flash ? 'flash' : ''}'>${getAnchor(url)}${sharedAssetsImg('sheets')}</div>`
     boardTitleSrc.innerHTML += `<div style='margin-left:5px'>${getSRCicon()}</div>`
 }
 function fetchSSBM() {
@@ -269,5 +269,5 @@ function loadSSBM() {
     prepareData()
     const url = 'https://docs.google.com/spreadsheets/d/15wdkLsmSU2T9Os1j-lISe-XmXH-l3Awk9xBipYnTQCI'
     const boardTitleSrc = document.getElementById('boardTitleSrc')
-    boardTitleSrc.innerHTML = `<div class='grow'>${getAnchor(url)}<img src='images/external/sheets.png'></div>`
+    boardTitleSrc.innerHTML = `<div class='grow'>${getAnchor(url)}${sharedAssetsImg('sheets')}</div>`
 }

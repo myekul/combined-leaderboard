@@ -33,7 +33,7 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 ## Planned features
 - Convert bosses array to a set?
 - Linear color scale for dates
-- Categories for date charts
+- Categories for date chart
 - Score chart should be grades, not 0-100?
 - 1.1 ILs (Goopy, Ribby, Sally, Werner)
 - Chalice Tutorial toggle?
@@ -45,9 +45,9 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Run Recap database
 - Basketball hoop
 - Titanfall 2 fullgame
+- Tab tooltip
 
 ## Known bugs
-- Leaderboard squish and stretch
 - Legacy IL loadouts are unfinished
 - Boss HP is inaccurate
 - Map color logic is weird
@@ -57,3 +57,6 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Map board title
 - Comm Best Any% DLC boards merge bug
 - Firebase not loading on startup
+- Switching from Run Recap to fullgame is buggy
+- Leaderboards scroll is bugged
+- Country modal subtitle broken

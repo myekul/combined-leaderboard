@@ -191,14 +191,11 @@ svg {
         0 10px 10px rgba(0, 0, 0, 0.2);
 }
 
-.progress-container {
-    width: 100%;
-    height: 5px;
+#progress {
     background-color: dimgray;
-    overflow: hidden;
 }
 
-.progress-bar {
+#progress-bar {
     height: 100%;
     width: 0;
     background-color: var(--banner);
@@ -338,4 +335,13 @@ svg {
 
 #tabs {
     width: 500px !important;
+}
+
+.infoImg img {
+    width: 20px;
+    height: auto;
+}
+
+.invert img {
+    filter: brightness(0) invert(1)
 }

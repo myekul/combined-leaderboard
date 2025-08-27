@@ -1,5 +1,5 @@
 function modalInfo() {
-    let HTMLContent = `<img src='images/external/myekul.png' class='container' style='height:50px;width:50px'><div class='textBlock'>`
+    let HTMLContent = `<img src='${sharedAssetsURL('myekul')}' class='container' style='height:50px;width:50px'><div class='textBlock'>`
     HTMLContent += `Hello! My name is ${myekulColor(`myekul`)} and I am a Cuphead speedrunner and web developer.
         This is my ${myekulColor(`Combined Leaderboard`)} project, a tool that organizes and ranks players based on their overall domination of a game's leaderboards.
         <br>
@@ -66,7 +66,7 @@ function modalInfo() {
     HTMLContent += `<br><br>This is a static site written entirely in raw HTML / CSS / JavaScript, which makes it extremely lightweight and efficient.
         It was created from scratch, independently devloped, and crafted specifically for the speedrunning community.
         It is also open source, ad-free, nonprofit, and costs $0 to use, host, and maintain. Enjoy!`
-    HTMLContent += `</div><img src='images/external/myekul.png' class='container' style='height:50px;width:50px;padding:10px 0'>`
+    HTMLContent += `</div><img src='${sharedAssetsURL('myekul')}' class='container' style='height:50px;width:50px;padding:10px 0'>`
     return HTMLContent
 }
 function infoTitle(title) {
@@ -96,6 +96,6 @@ function generateInfoExample() {
     document.getElementById('infoExample').innerHTML = infoExample()
 }
 function infoExternal(external) {
-    const white = external == 'github' ? 'filter:brightness(0) invert(1)' : ''
-    return `<br><img src='images/external/${external}.png' style='width:20px;height:auto;padding-right:3px;${white}'></img><span class='myekulColor`
+    const invert = external == 'github' ? 'invert' : ''
+    return `<br><span class='infoImg ${invert}' style='padding-right:4px'>${sharedAssetsImg(external)}</span><span class='myekulColor`
 }

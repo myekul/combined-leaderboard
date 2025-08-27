@@ -1,13 +1,4 @@
-function openModalCL(modal, sound, param) {
-    if (sound == 'up') {
-        playSound('cardup')
-    } else if (sound == 'move') {
-        playSound('equip_move')
-    } else if (sound == 'flip') {
-        playSound('cardflip')
-    } else if (sound == 'ready') {
-        playSound('ready')
-    }
+function openModalCL(modal, shh, param) {
     modalSliders = false
     showModal = true
     if (['tetris', 'ssbm'].includes(gameID)) {
@@ -25,44 +16,22 @@ function openModalCL(modal, sound, param) {
     }
     switch (modal) {
         case 'player':
-            playerModal(param)
-            break
-        case 'info':
-            openModal(modalInfo(), 'INFO')
+            playerModal(param, shh)
             break
         case 'country':
-            openModal(countryModal(param), 'COUNTRY')
-            break
-        case 'runRecapInfo':
-            openModal(runRecapInfo(), 'INFO')
+            openModal(countryModal(param), 'COUNTRY', '', shh)
             break
         case 'runRecapSegment':
-            openModal(runRecapSegment(param), 'SEGMENT INFO')
-            break
-        case 'runRecapDatabase':
-            openModal(runRecapDatabase(), 'DATABASE')
-            break
-        case 'runRecapUpload':
-            openModal(runRecapUpload(), 'UPLOAD')
-            break
-        case 'discord':
-            openModal(discord(), 'DISCORD')
-            break
-        case 'spotlight':
-            openModal(generateSpotlight(), 'DAILY SPOTLIGHT')
-            break
-        case 'ROTD':
-            openModal(generateROTD(), 'RUN OF THE DAY')
+            openModal(runRecapSegment(param), 'SEGMENT INFO', '', shh)
             break
     }
 }
 function closeModalCL() {
     showModal = false
-    playSound('carddown')
     document.removeEventListener("keydown", modalKeyPress);
     hide('modal-pages')
 }
-function playerModal(playerName) {
+function playerModal(playerName, shh) {
     const playerIndex = players.findIndex(player => player.name == playerName)
     globalPlayerIndex = playerIndex
     document.addEventListener("keydown", modalKeyPress);
@@ -89,11 +58,11 @@ function playerModal(playerName) {
     const modalPage = modalPageNames[modalIndex]
     const subtitle = getPlayerProfile(globalPlayerIndex)
     if (modalPage == 'reportCard') {
-        openModal(reportCard(player), 'REPORT CARD', subtitle)
+        openModal(reportCard(player), 'REPORT CARD', subtitle, shh)
     } else if (modalPage == 'videoCollection') {
-        openModal(videoCollection(player), 'VIDEO COLLECTION', subtitle)
+        openModal(videoCollection(player), 'VIDEO COLLECTION', subtitle, shh)
     } else if (modalPage == 'gradeTable') {
-        openModal(gradeTable(player), 'GRADE TABLE', subtitle)
+        openModal(gradeTable(player), 'GRADE TABLE', subtitle, shh)
     }
 }
 function scoreFromGrade(category, percentage) {
@@ -230,31 +199,6 @@ function countryModal(countryName) {
     sortPlayers(playersCopy)
     return `<div class='container'>${playersTable(playersCopy)}</div>`
 }
-function discord() {
-    let HTMLContent = ''
-    HTMLContent += `<div class='textBlock' style='max-width:500px;font-size:90%'>Join our vibrant community of Combined Leaderboard enjoyers in ${myekulColor('myekul castle')}! Stay up-to-date with all the latest features and behind-the-scenes glimpses of the website.</div>`
-    HTMLContent += `
-            <div class='container' style='padding:16px 0;gap:8px'>
-            <img src='images/external/discord.png' style='height:24px'></img>
-                ${getAnchor(discordData.instant_invite)}<div class='button banner'>Join Server!</div></a>
-                <div style='width:8px;height:8px;background-color:limegreen;border-radius:50%'></div>
-                ${discordData.presence_count}
-            </div>`
-    HTMLContent += `<div class='container'><table>`
-    discordData.members.forEach(member => {
-        // if (member.username == 'm...') {
-        //     member.username = 'myekul'
-        // }
-        const srcMember = players.find(player => player.name == member.username)
-        HTMLContent += `<tr>`
-        HTMLContent += `<td><img src='${member.avatar_url}' style='height:30px;border-radius:15px'></td>`
-        HTMLContent += `<td style='text-align:left;padding-left:5px'>${srcMember ? getPlayerName(srcMember) : member.username}</td>`
-        HTMLContent += member.game ? `<td style='padding-left:10px;color:var(--gray);text-align:left'>${member.game.name}</td>` : ''
-        HTMLContent += `</tr>`
-    })
-    HTMLContent += `</table></div>`
-    return HTMLContent
-}
 function modalKeyPress() {
     switch (event.key) {
         case 'ArrowLeft':
@@ -269,7 +213,8 @@ function modalKeyPress() {
             event.preventDefault();
             if (globalPlayerIndex > 0 && sortCategoryIndex == -1 && globalTab == 'leaderboard') {
                 globalPlayerIndex--
-                openModalCL('player', 'flip', players[globalPlayerIndex].name)
+                openModalCL('player', true, players[globalPlayerIndex].name)
+                playSound('cardflip')
             } else {
                 playSound('locked')
             }
@@ -278,7 +223,8 @@ function modalKeyPress() {
             event.preventDefault();
             if (globalPlayerIndex < 300 && globalPlayerIndex < players.length - 1 && sortCategoryIndex == -1 && globalTab == 'leaderboard') {
                 globalPlayerIndex++
-                openModalCL('player', 'flip', players[globalPlayerIndex].name)
+                openModalCL('player', true, players[globalPlayerIndex].name)
+                playSound('cardflip')
             } else {
                 playSound('locked')
             }
@@ -288,7 +234,8 @@ function modalKeyPress() {
 function modalLeft() {
     if (modalIndex > 0) {
         modalIndex--
-        openModalCL('player', 'move', players[globalPlayerIndex].name)
+        openModalCL('player', true, players[globalPlayerIndex].name)
+        playSound('move')
     } else {
         playSound('locked')
     }
@@ -296,7 +243,8 @@ function modalLeft() {
 function modalRight() {
     if (modalIndex < numModalPages) {
         modalIndex++
-        openModalCL('player', 'move', players[globalPlayerIndex].name)
+        openModalCL('player', true, players[globalPlayerIndex].name)
+        playSound('move')
     } else {
         playSound('locked')
     }

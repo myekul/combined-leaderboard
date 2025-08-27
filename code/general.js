@@ -14,7 +14,7 @@ function secondsToHMS(seconds, exception, raw) {
     } else {
         HTMLContent = `${minutes}:${secs.toString().padStart(2, '0')}`;
     }
-    if ((milliseconds && globalTab != 'charts') || exception) {
+    if ((milliseconds && globalTab != 'chart') || exception) {
         HTMLContent += displayDecimals(seconds, null, raw)
     }
     return HTMLContent
@@ -85,16 +85,7 @@ function getColorClass() {
 }
 function getScore(category, runTime) {
     const wrTime = getWorldRecord(category)
-    let percentage = wrTime / runTime
-    // if ((gameID == 'cuphead' && mode == 'levels')) {
-    //     if (runTime > category.info.time) {
-    //         percentage = 0
-    //     } else {
-    //         percentage = (category.info.time - runTime) / (category.info.time - wrTime);
-    //     }
-    // } else if (category.reverse) {
-    //     percentage = runTime / wrTime
-    // }
+    const percentage = wrTime / runTime
     return getPercentage(percentage)
 }
 function getTrophy(place) {
@@ -119,21 +110,6 @@ function trophyCase(object) {
     HTMLContent += object.count2 > 0 ? `<td class='trophyCase' style='text-align:left'>${getTrophy(2)}<span>${object.count2 > 1 ? object.count2 : ''}</span></td>` : '<td></td>'
     HTMLContent += object.count3 > 0 ? `<td class='trophyCase' style='text-align:left'>${getTrophy(3)}<span>${object.count3 > 1 ? object.count3 : ''}</span></td>` : '<td></td>'
     return HTMLContent
-}
-const fontAwesomeSet = {
-    leaderboard: ['Leaderboard', 'home'],
-    leaderboards: ['Leaderboards', 'cubes'],
-    WRs: ['World Records', 'trophy',],
-    featured: ['Featured', 'star'],
-    charts: ['Charts', 'bar-chart'],
-    map: ['Map', 'flag'],
-    sort: ['Sort', 'sort-amount-asc'],
-    runRecap: ['Run Recap', 'history'],
-    commBest: ['Comm Best Splits', 'tasks'],
-    ballpit: ['Ballpit', 'smile-o']
-}
-function getAnchor(url) {
-    return url ? `<a href="${url}" target='_blank'>` : ''
 }
 function getFlag(countryCode, countryName, size) {
     let HTMLContent = `<img src="https://www.speedrun.com/images/flags/${countryCode}.png" style="height:${size}px" title="${countryName}" alt=''></img>`
@@ -319,12 +295,6 @@ function toggleSection(section) {
         show(section)
         toggleButton.innerHTML = fontAwesome('close')
     }
-}
-function cupheadShot(shot, size, extra) {
-    if (shot) {
-        return `<img src="images/cuphead/inventory/weapons/${shot}.png" ${extra ? `class='container'` : ''} ${size ? `style='height:${size}px'` : ''}></img>`
-    }
-    return ''
 }
 function getDelta(delta) {
     const negative = delta < 0

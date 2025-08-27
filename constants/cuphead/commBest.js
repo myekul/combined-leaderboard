@@ -242,7 +242,7 @@ const commBestILs = {
             'KalaveritaTV',
             'MarkinSws',
             'Quincely0',
-            'Rapho'
+            'Taylz'
         ]
     },
     'DLC+Base C/S': {
@@ -274,6 +274,7 @@ const commBestILs = {
             "halfword",
             "PorcoBrabo",
             "minamikori",
+            'nomit',
             "alex92Tcordobes",
             'Uramatsu',
             'PorcoBrabo',

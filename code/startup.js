@@ -1,7 +1,7 @@
 initializeHash('leaderboard')
 setTitle('COMBINED LEADERBOARD')
 setFooter('2024-2025')
-setCupheadProjects()
+setDiscord()
 setSidebar(generateSidebar())
     .then(() => {
         document.getElementById('sidebarLogo').src = `images/logo/${gameID}.png`
@@ -59,6 +59,13 @@ function loadJSFile(path, callback) {
     script.onload = callback;
     document.head.appendChild(script);
 }
+function hideTabs() {
+    const tabs = document.querySelectorAll('.tabs')
+    tabs.forEach(elem => {
+        hide(elem)
+    })
+}
+hideTabs()
 function DOMloaded() {
     if (!['tetris', 'mtpo', 'spo', 'titanfall_2', 'ssbm', 'ssb64'].includes(gameID)) {
         fetch(`constants/categories/${gameID}.json`)
@@ -74,9 +81,6 @@ function DOMloaded() {
         refreshLeaderboard()
     }
     let audioNames = []
-    if (gameID == 'cuphead') {
-        audioNames = ['cardup', 'carddown', 'cardflip', 'category_select', 'equip_move', 'locked', 'move', 'ready', 'win_time_loop', 'win_time_loop_end']
-    }
     if (gameID == 'smb3') {
         audioNames = ['cardup', 'carddown', 'locked', 'cardflip', 'equip_move']
     }
@@ -86,17 +90,13 @@ function DOMloaded() {
     if (gameID == 'ssbm') {
         audioNames = ['cardup', 'carddown', 'category_select']
     }
-    audioNames.forEach(audio => {
-        const audioElement = document.createElement('audio');
-        audioElement.id = audio;
-        audioElement.src = 'sfx/' + gameID + '/' + audio + '.wav';
-        document.body.appendChild(audioElement);
-    });
+    setAudio(gameID, audioNames)
 }
 document.addEventListener('DOMContentLoaded', function () {
     show('bodyContent')
     if (gameID == 'cuphead') {
         gapi.load("client", loadClient);
+        setCupheadProjects()
         loadJSFile('constants/cuphead/commBest.js', function () {
             commBestILsCategory = commBestILs['1.1+']
             generateDropbox('sav')
@@ -156,23 +156,6 @@ if (gameID != 'tetris') {
             // console.log(data.data)
         })
 }
-function fetchDiscord() {
-    fetch('https://discord.com/api/guilds/1386406855391313960/widget.json')
-        .then(response => response.json())
-        .then(data => {
-            discordData = data
-            discordOnline(data.presence_count)
-        })
-}
-function discordOnline(num) {
-    document.getElementById('discordOnline').innerHTML = `
-        <div class='container grow' style='gap:5px' onclick="openModalCL('discord','up')">
-            <img src="images/external/discord.png" class="brightPulse" style="padding-left:10px;height:24px">
-            <div style='width:8px;height:8px;background-color:limegreen;border-radius:50%'></div>
-            ${num}
-        </div>`
-}
-fetchDiscord()
 if (['ssbm', 'tetris'].includes(gameID)) {
     const style = document.createElement('style');
     style.innerHTML = `
@@ -201,13 +184,8 @@ toggleSidebar = function (...args) {
         playSound('cardup')
     }
 }
-setTabs(['leaderboard', 'featured', null, 'WRs', 'leaderboards', null, 'charts', 'map', 'sort', null, 'ballpit'])
+setTabs(['leaderboard', 'featured', null, 'WRs', 'leaderboards', null, 'chart', 'map', 'sort', null, 'ballpit'])
     .then(() => {
-        document.querySelectorAll('#tabs .button').forEach(elem => {
-            elem.addEventListener('click', () => {
-                playSound('category_select')
-            })
-        })
         switch (gameID) {
             case 'cuphead':
                 show('modeSelection')
@@ -232,3 +210,15 @@ setTabs(['leaderboard', 'featured', null, 'WRs', 'leaderboards', null, 'charts',
                 break;
         }
     })
+const fontAwesomeSet = {
+    leaderboard: ['Leaderboard', 'home'],
+    leaderboards: ['Leaderboards', 'cubes'],
+    WRs: ['World Records', 'trophy',],
+    featured: ['Featured', 'star'],
+    chart: ['Chart', 'bar-chart'],
+    map: ['Map', 'flag'],
+    sort: ['Sort', 'sort-amount-asc'],
+    runRecap: ['Run Recap', 'history'],
+    commBest: ['Comm Best Splits', 'tasks'],
+    ballpit: ['Ballpit', 'smile-o']
+}

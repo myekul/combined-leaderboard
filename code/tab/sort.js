@@ -1,5 +1,14 @@
 function generateSort() {
     const sortCriteria = document.getElementById('dropdown_sortCriteria')
+    if (mode == 'commBestILs' && globalTab == 'sort') {
+        sortCriteria.value = 'player'
+        hide('sort_options')
+    } else if (['tetris', 'ssbm'].includes(gameID)) {
+        sortCriteria.value = 'score'
+        hide('sort_options')
+    } else {
+        show('sort_options')
+    }
     const sortRange = document.getElementById('dropdown_sortRange').value
     if (gameID == 'cuphead' && mode == 'levels' || mode == 'commBestILs') {
         show('extraSortCriteria')

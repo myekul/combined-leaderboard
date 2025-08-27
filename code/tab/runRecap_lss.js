@@ -211,7 +211,7 @@ function generate_lss() {
         const grade = runRecapGrade(trueDelta)
         const className = splitInfo[index].id
         const image = `<td class='${className}'><div class='container'>${getImage(className, 24)}</div></td>`
-        HTMLContent += `<tr class='${getRowColor(index)} ${!runRecapExample ? `clickable' onclick='openModalCL("runRecapSegment","up",${index})` : ''}'>`
+        HTMLContent += `<tr class='${getRowColor(index)} ${!runRecapExample ? `clickable' onclick='openModalCL("runRecapSegment",false,${index})` : ''}'>`
         // HTMLContent += `<tr class='${getRowColor(index)} clickable'>`
         const currentSplit = splitComparison(currentRun, index)
         splits.push(currentSplit)

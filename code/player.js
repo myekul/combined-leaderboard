@@ -32,7 +32,7 @@ function getPlayerDisplay(player, playerIndex) {
             HTMLContent += `<td>${getPlayerIcon(player, 18)}</td>`
         }
     }
-    const clickable = player?.rank && !['map', 'commBest'].includes(globalTab) ? `onclick="openModalCL('player','up','${player.name}')" class='clickable'` : ''
+    const clickable = player?.rank && !['map', 'commBest'].includes(globalTab) ? `onclick="openModalCL('player',false,'${player.name}')" class='clickable'` : ''
     HTMLContent += `<td ${clickable} style='text-align:left;font-weight: bold;font-size:80%;padding-right:5px'>${getPlayerName(player ? player : playerIndex)}</td>`
     return HTMLContent
 }
@@ -53,7 +53,7 @@ function getPlayerProfile(playerIndex) {
         const socials = ['src', 'twitch', 'youtube']
         socials.forEach(social => {
             const anchor = getAnchor(getSocial(player, social))
-            HTMLContent += anchor ? `${anchor}<img src='images/external/${social}.png' class='grow container' style='height:18px;width:auto'></a>` : ''
+            HTMLContent += anchor ? `${anchor}<img src='${sharedAssetsURL(social)}' class='grow container' style='height:18px;width:auto'></a>` : ''
         })
         HTMLContent += `</div>`
     }

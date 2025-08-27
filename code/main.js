@@ -322,8 +322,14 @@ function prepareData() {
         generateSpotlightPlayer()
         generateROTDrun()
         show('spotlight')
+    }else{
+        hide('spotlight')
     }
-    if (mode == 'fullgame' && firstTimeFull) show('refreshDiv')
+    if (mode == 'fullgame' && firstTimeFull){
+        show('refreshDiv')
+    }else{
+        hide('refreshDiv')
+    }
     const username = localStorage.getItem('username')
     if (username && !runRecapExample) {
         document.getElementById('input_username').value = username
@@ -505,12 +511,6 @@ function completeLoad() {
         loadSheets()
     }
 }
-function hideTabs() {
-    const tabs = document.querySelectorAll('.tabs')
-    tabs.forEach(elem => {
-        hide(elem)
-    })
-}
 function resetAndGo() {
     players = []
     playerNames = new Set()
@@ -527,5 +527,5 @@ function cachedCategories() {
 function firebaseReadSuccess() {
     completeLoad()
     const boardTitleSrc = document.getElementById('boardTitleSrc')
-    boardTitleSrc.innerHTML = `<img src='images/external/firebase.png'>`
+    boardTitleSrc.innerHTML = sharedAssetsImg('firebase')
 }
