@@ -95,7 +95,7 @@ function generateDropbox(elem) {
     if (fileUploaded) {
         cellContent = elem == 'sav' ? fontAwesome('folder') : `<img src="images/livesplit.png" style="width:30px">`
         HTMLContent += `<div class='container' style='padding-top:20px'>
-        <div onclick="runRecapViewPage('content','${elem}')" class='button cuphead pulseSize font2' style="font-size:150%;width:200px;height:50px">${cellContent}&nbsp;View .${elem}</div>
+        <div onclick="runRecapViewPage('content','${elem}')" class='button cuphead pulseSize font2 clickable' style="font-size:150%;width:200px;height:50px">${cellContent}&nbsp;View .${elem}</div>
         </div>`
         HTMLContent += `<div onclick="runRecapUnload('${elem}')" class='grow' style='position:absolute;bottom:8px;right:10px;font-size:130%'>${fontAwesome('trash')}</div>`
     }

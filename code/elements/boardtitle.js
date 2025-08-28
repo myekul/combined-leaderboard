@@ -1,5 +1,5 @@
 function setBoardTitle() {
-    if (sortCategoryIndex > -1) {
+    if (sortCategoryIndex > -1 && globalTab != 'leaderboards') {
         show('closeBoardTitle')
     } else {
         hide('closeBoardTitle')

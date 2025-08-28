@@ -180,10 +180,6 @@ svg {
         0 10px 10px rgba(0, 0, 0, 0.2);
 }
 
-#progress {
-    background-color: dimgray;
-}
-
 #progress-bar {
     height: 100%;
     width: 0;
@@ -299,24 +295,6 @@ svg {
     }
 }
 
-.brightPulse {
-    animation: brightPulse 1.3s infinite;
-}
-
-@keyframes brightPulse {
-    0% {
-        filter: brightness(1);
-    }
-
-    50% {
-        filter: brightness(1.5);
-    }
-
-    100% {
-        filter: brightness(1);
-    }
-}
-
 .reverse {
     transform: scaleX(-1);
     transform-origin: center;
@@ -345,5 +323,5 @@ td.short-border::after {
     bottom: 0;
     left: 0;
     width: var(--border-width, 100%);
-    border-bottom: 2px solid var(--border-color, dimgray);
+    border-bottom: 2px solid var(--border-color, #494949);
 }

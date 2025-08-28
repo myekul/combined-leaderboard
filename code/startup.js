@@ -52,13 +52,6 @@ if (['smb1', 'smbtll', 'mtpo', 'spo', 'titanfall_2', 'ssbm', 'ssb64'].includes(g
     document.getElementById('checkbox_milliseconds').checked = true;
 }
 google.charts.load('current', { packages: ['corechart'] });
-function loadJSFile(path, callback) {
-    const script = document.createElement('script');
-    script.src = path;
-    script.type = 'text/javascript';
-    script.onload = callback;
-    document.head.appendChild(script);
-}
 function hideTabs() {
     const tabs = document.querySelectorAll('.tabs')
     tabs.forEach(elem => {
@@ -97,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (gameID == 'cuphead') {
         gapi.load("client", loadClient);
         setCupheadProjects()
-        loadJSFile('constants/cuphead/commBest.js', function () {
+        addJSFile('constants/cuphead/commBest.js', () => {
             commBestILsCategory = commBestILs['1.1+']
             generateDropbox('sav')
             generateDropbox('lss')
@@ -165,11 +158,6 @@ if (['ssbm', 'tetris'].includes(gameID)) {
     `;
     document.head.appendChild(style);
 }
-const closeModalOG = closeModal
-closeModal = function () {
-    closeModalOG()
-    closeModalCL()
-}
 const showTabOG = showTab;
 showTab = function (...args) {
     if (globalTab == 'leaderboards') {
@@ -177,15 +165,6 @@ showTab = function (...args) {
     }
     showTabOG(...args)
     showTabCL(...args)
-}
-const toggleSidebarOG = toggleSidebar;
-toggleSidebar = function (...args) {
-    toggleSidebarOG(...args)
-    if (document.getElementById('sidebar').classList.contains('hidden')) {
-        playSound('carddown')
-    } else {
-        playSound('cardup')
-    }
 }
 setTabs(['leaderboard', 'featured', 'leaderboards', null, 'WRs', 'map', 'sort', null, 'ballpit'])
     .then(() => {
