@@ -1,7 +1,6 @@
 initializeHash('leaderboard')
 setTitle('COMBINED LEADERBOARD')
 setFooter('2024-2025')
-setDiscord()
 setSidebar(generateSidebar())
     .then(() => {
         document.getElementById('sidebarLogo').src = `images/logo/${gameID}.png`
@@ -73,29 +72,32 @@ function DOMloaded() {
     } else {
         refreshLeaderboard()
     }
-    let audioNames = []
-    if (gameID == 'smb3') {
-        audioNames = ['cardup', 'carddown', 'locked', 'cardflip', 'equip_move']
+    if (gameID != 'cuphead') {
+        let audioNames = []
+        if (gameID == 'smb3') {
+            audioNames = ['cardup', 'carddown', 'locked', 'cardflip', 'equip_move']
+        }
+        if (gameID == 'sm64') {
+            audioNames = ['cardup', 'carddown']
+        }
+        if (gameID == 'ssbm') {
+            audioNames = ['cardup', 'carddown', 'category_select']
+        }
+        setAudio(gameID, audioNames)
     }
-    if (gameID == 'sm64') {
-        audioNames = ['cardup', 'carddown']
-    }
-    if (gameID == 'ssbm') {
-        audioNames = ['cardup', 'carddown', 'category_select']
-    }
-    setAudio(gameID, audioNames)
 }
 document.addEventListener('DOMContentLoaded', function () {
     show('bodyContent')
     if (gameID == 'cuphead') {
         gapi.load("client", loadClient);
-        setCupheadProjects()
-        addJSFile('constants/cuphead/commBest.js', () => {
-            commBestILsCategory = commBestILs['1.1+']
-            generateDropbox('sav')
-            generateDropbox('lss')
-            runRecapDefault()
-            DOMloaded()
+        addJSFile('https://myekul.github.io/shared-assets/cuphead/cuphead.js', () => {
+            addJSFile('constants/cuphead/commBest.js', () => {
+                commBestILsCategory = commBestILs['1.1+']
+                generateDropbox('sav')
+                generateDropbox('lss')
+                runRecapDefault()
+                DOMloaded()
+            })
         })
     } else if (gameID == 'ssbm') {
         gapi.load("client", loadClient);

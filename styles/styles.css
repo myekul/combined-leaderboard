@@ -11,6 +11,10 @@ body {
     white-space: nowrap;
 }
 
+header {
+    height: 100px
+}
+
 .textBlock {
     white-space: normal;
     max-width: 700px;

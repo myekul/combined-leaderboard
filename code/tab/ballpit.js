@@ -12,9 +12,7 @@ function ballpit() {
         }
         playerIndex++
     }
-    document.getElementById('ballpit').innerHTML = HTMLContent
-    document.getElementById('ballpitRefresh').innerHTML = ballpitRefresh()
-    ballpitEngine();
+    setBallpit(HTMLContent)
 }
 function normalizePlayerValue(value) {
     const min = 90, max = 100;

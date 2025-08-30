@@ -1,4 +1,14 @@
+let d3loaded = false
 function generateMap() {
+    if (d3loaded) {
+        mapMain()
+    } else {
+        addJSFile('https://d3js.org/d3.v7.min.js', () => {
+            mapMain()
+        })
+    }
+}
+function mapMain() {
     countries = {}
     const mapMode = document.getElementById('dropdown_mapMode').value
     const mapValue = document.getElementById('dropdown_mapValue').value
