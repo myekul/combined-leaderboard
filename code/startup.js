@@ -72,19 +72,17 @@ function DOMloaded() {
     } else {
         refreshLeaderboard()
     }
-    if (gameID != 'cuphead') {
-        let audioNames = []
-        if (gameID == 'smb3') {
-            audioNames = ['cardup', 'carddown', 'locked', 'cardflip', 'equip_move']
-        }
-        if (gameID == 'sm64') {
-            audioNames = ['cardup', 'carddown']
-        }
-        if (gameID == 'ssbm') {
-            audioNames = ['cardup', 'carddown', 'category_select']
-        }
-        setAudio(gameID, audioNames)
+    let audioNames = []
+    if (gameID == 'smb3') {
+        audioNames = ['cardup', 'carddown', 'locked', 'cardflip', 'equip_move']
     }
+    if (gameID == 'sm64') {
+        audioNames = ['cardup', 'carddown']
+    }
+    if (gameID == 'ssbm') {
+        audioNames = ['cardup', 'carddown', 'category_select']
+    }
+    setAudio(gameID, audioNames)
 }
 document.addEventListener('DOMContentLoaded', function () {
     show('bodyContent')

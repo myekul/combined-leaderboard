@@ -1,4 +1,4 @@
-const NUM_SPLITS = 20
+const NUM_SPLITS = 10
 function convertDateToISO(dateString) {
     const [month, day, year] = dateString.slice(0, 10).split('/')
     const date = new Date(`${year}-${month}-${day}`)
@@ -186,7 +186,7 @@ function generate_lss() {
     <td>${splitTitle}</td>
     <td></td>
     <td></td>
-    <td></td
+    <td></td>
     <td>Segments</td>
     <td></td>
     <td>${comparisonTitle}</td>`
