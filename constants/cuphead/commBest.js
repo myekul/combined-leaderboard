@@ -5,7 +5,7 @@ const commBestILs = {
         markin: '1.1+ Any%',
         className: 'onePointOne',
         category: 0,
-        numRuns: 3,
+        numRuns: 10,
         shot1: 'lobber',
         shot2: 'spread'
     },

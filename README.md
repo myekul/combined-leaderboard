@@ -57,3 +57,4 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Leaderboards scroll is bugged
 - Country modal subtitle broken
 - Leaderboards tab is bugged upon page refresh
+- Run recap graph should have independent load

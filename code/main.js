@@ -120,6 +120,12 @@ function getCommBestILs(categoryName) {
     sortCategoryIndex = -1
     categoryName = categoryName != null ? categoryName : commBestILsCategory.tabName
     commBestILsCategory = commBestILs[categoryName]
+    const dropdown = document.getElementById('dropdown_runRecap_sav_comparison')
+    if (commBestILsCategory.name == '1.1+') {
+        dropdown.options[0].disabled = false
+    } else {
+        dropdown.options[0].disabled = true
+    }
     updateLoadouts(categoryName)
     buttonClick('commBestILs_' + commBestILsCategory.className, 'commBestILsVersionTabs', 'selected')
     resetLoad()
@@ -322,12 +328,12 @@ function prepareData() {
         generateSpotlightPlayer()
         generateROTDrun()
         show('spotlight')
-    }else{
+    } else {
         hide('spotlight')
     }
-    if (mode == 'fullgame' && firstTimeFull){
+    if (mode == 'fullgame' && firstTimeFull) {
         show('refreshDiv')
-    }else{
+    } else {
         hide('refreshDiv')
     }
     const username = localStorage.getItem('username')

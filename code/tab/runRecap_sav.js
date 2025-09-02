@@ -144,7 +144,6 @@ function runRecapCategory(categoryIndex) {
     const category = categories[categoryIndex]
     const level = getCupheadLevel(categoryIndex)
     const runTime = level?.bestTime
-    category.IGT = runTime
     category.runTime = runTime
     const prevCategory = categories[categoryIndex - 1]
     if (prevCategory) category.runTime += prevCategory.runTime
@@ -155,9 +154,9 @@ function runRecapCategory(categoryIndex) {
     category.delta = delta
     const grade = runRecapGrade(delta)
     let comparisonContent = `<div>${secondsToHMS(comparisonTime)}</div>`
-    if (document.getElementById('dropdown_runRecap_sav_comparison').value == 'top3Best') {
+    if (document.getElementById('dropdown_runRecap_sav_comparison').value == 'topBest') {
         comparisonContent += `<div class='container'>`
-        commBestILsCategory.top3BestPlayers[categoryIndex].forEach(playerIndex => {
+        commBestILsCategory.topBestPlayers[categoryIndex].forEach(playerIndex => {
             const player = players[playerIndex]
             comparisonContent += getPlayerIcon(player, 16)
         })
@@ -175,10 +174,12 @@ function runRecapCategory(categoryIndex) {
 function getComparisonTime(categoryIndex) {
     const dropdown_runRecap_sav_comparison = document.getElementById('dropdown_runRecap_sav_comparison')
     const comparison = dropdown_runRecap_sav_comparison ? dropdown_runRecap_sav_comparison.value : 'top3'
-    if (comparison == 'top3') {
+    if (comparison == 'top') {
+        return commBestILsCategory.top[categoryIndex]
+    } else if (comparison == 'top3') {
         return commBestILsCategory.top3[categoryIndex]
-    } else if (comparison == 'top3Best') {
-        return commBestILsCategory.top3Best[categoryIndex]
+    } else if (comparison == 'topBest') {
+        return commBestILsCategory.topBest[categoryIndex]
     } else if (comparison == 'theoryRun') {
         return commBestILsCategory.theoryRun[categoryIndex]
     } else if (comparison == 'commBest') {
@@ -223,24 +224,33 @@ function generate_sav(tab) {
     runRecapTab = tab ? tab : runRecapTab
     buttonClick('runRecap_' + runRecapTab, 'runRecap_sav_tabs', 'activeBanner')
     const runRecapElem = document.getElementById('runRecap')
-    if (runRecapTab == 'times') {
-        runRecapElem.innerHTML = runRecapTimes()
-        const times = categories.map(category => category.runTime)
-        const deltas = categories.map(category => category.delta)
-        runRecap_chart(times, deltas)
-    } else if (runRecapTab == 'sums') {
-        runRecapElem.innerHTML = runRecapSums()
+    switch (runRecapTab) {
+        case 'times':
+            runRecapElem.innerHTML = runRecapTimes()
+            break
+        case 'sums':
+            runRecapElem.innerHTML = runRecapSums()
+            break
+        case 'grid':
+            runRecapElem.innerHTML = runRecapGrid()
+            break
     }
+    const times = categories.map(category => category.runTime)
+    const deltas = categories.map(category => category.delta)
+    runRecap_chart(times, deltas)
 }
 function updateComparisonInfo() {
     const comparison = document.getElementById('dropdown_runRecap_sav_comparison')?.value
     let HTMLContent = ''
     switch (comparison) {
+        case 'top':
+            HTMLContent = "Average of top 10 players' boss times in their PBs"
+            break
         case 'top3':
             HTMLContent = "Average of top 3 players' boss times in their PBs"
             break
-        case 'top3Best':
-            HTMLContent = "Best of top 3 players' boss times in their PBs"
+        case 'topBest':
+            HTMLContent = "Best of top players' boss times in their PBs"
             break
         case 'theoryRun':
             HTMLContent = "Top 3 players' PB boss times averaged with comm best ILs"
@@ -300,10 +310,57 @@ function runRecapSums() {
     HTMLContent += `</table></div>`
     return HTMLContent
 }
+function runRecapGrid() {
+    let HTMLContent = `<div class='container' style='overflow-x:auto'>`
+    HTMLContent += `<table class='bigShadow'>`
+    HTMLContent += `<tr><td></td><td></td><td></td><td></td><td></td><td></td>`
+    categories.forEach(category => {
+        HTMLContent += `<td colspan=2 class='${category.info.id}'>${getImage(category.info.id)}</td>`
+    })
+    HTMLContent += `</tr>`
+    HTMLContent += `<tr><td></td><td></td><td></td><td></td><td></td><th style='text-align:right'>Your run</th>`
+    categories.forEach((category, categoryIndex) => {
+        const ILtime = getCupheadLevel(categoryIndex).bestTime
+        const comparisonTime = getComparisonTime(categoryIndex)
+        const delta = runRecapDelta(ILtime, comparisonTime)
+        const grade = runRecapGrade(delta)
+        HTMLContent += `<td class='${grade.className}' style='font-size:70%;text-align:left'>${grade.grade}</td>`
+        HTMLContent += `<td class='${category.info.id}'>${secondsToHMS(ILtime)}</td>`
+    })
+    HTMLContent += `</tr>`
+    HTMLContent += `<tr><td></td><td></td><td></td><td></td><td></td><th style='text-align:right'>&Delta;</th>`
+    categories.forEach((category, categoryIndex) => {
+        HTMLContent += `<th colspan=2 class='cuphead'>${secondsToHMS(getComparisonTime(categoryIndex))}</th>`
+    })
+    HTMLContent += `</tr>`
+    commBestILsCategory.runs.forEach((run, index) => {
+        const player = players[index]
+        HTMLContent += `<tr class='${getRowColor(index)} hover'>`
+        HTMLContent += parseRun(player, index, extraCategory, null, true)
+        HTMLContent += getPlayerDisplay(player)
+        categories.forEach((category, categoryIndex) => {
+            const ILtime = run[categoryIndex]
+            const comparisonTime = getComparisonTime(categoryIndex)
+            const delta = runRecapDelta(ILtime, comparisonTime)
+            const grade = runRecapGrade(delta)
+            HTMLContent += `<td class='${grade.className}' style='font-size:70%;text-align:left'>${grade.grade}</td>`
+            HTMLContent += `<td style='color:gray'>${secondsToHMS(ILtime)}</td>`
+        })
+        HTMLContent += `</tr>`
+    })
+    HTMLContent += `<tr><td></td><td></td><td></td><td></td><td></td><th style='text-align:right'>&Delta;</th>`
+    categories.forEach((category, categoryIndex) => {
+        HTMLContent += `<th colspan=2 class='cuphead'>${secondsToHMS(getComparisonTime(categoryIndex))}</th>`
+    })
+    HTMLContent += `</tr>`
+    HTMLContent += `</table>`
+    HTMLContent += `</div>`
+    return HTMLContent
+}
 function runRecapCopy() {
     let clipboardContent = ''
     categories.forEach(category => {
-        let time = secondsToHMS(category.IGT, true, true)
+        let time = secondsToHMS(category.runTime, true, true)
         if (!runRecapExample) {
             time = time.replace(/^0:/, "");
         }

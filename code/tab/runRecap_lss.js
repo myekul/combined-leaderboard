@@ -239,9 +239,9 @@ function generate_lss() {
                 const delta = runRecapDelta(runTime, comparisonTime)
                 const ILgrade = runRecapGrade(delta)
                 let comparisonContents = `<div class='container'>`
-                if (document.getElementById('dropdown_runRecap_sav_comparison').value == 'top3Best') {
+                if (document.getElementById('dropdown_runRecap_sav_comparison').value == 'topBest') {
                     comparisonContents += `<div class='container' style='padding-right:6px'>`
-                    commBestILsCategory.top3BestPlayers[categoryIndex].forEach(playerIndex => {
+                    commBestILsCategory.topBestPlayers[categoryIndex].forEach(playerIndex => {
                         const player = players[playerIndex]
                         comparisonContents += getPlayerIcon(player, 24)
                     })

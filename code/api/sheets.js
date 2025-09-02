@@ -156,24 +156,28 @@ function loadMyekul() {
                 commBestILsCategory.runs[i].push(time)
             }
         })
+        commBestILsCategory.top = []
         commBestILsCategory.top3 = []
-        commBestILsCategory.top3Best = new Array(commBestILsCategory.runs[0].length).fill(Infinity)
-        commBestILsCategory.top3BestPlayers = new Array(commBestILsCategory.runs[0].length).fill(null)
+        commBestILsCategory.topBest = new Array(commBestILsCategory.runs[0].length).fill(Infinity)
+        commBestILsCategory.topBestPlayers = new Array(commBestILsCategory.runs[0].length).fill(null)
         commBestILsCategory.theoryRun = []
         categories.forEach((category, categoryIndex) => {
-            let levelSum = 0
+            let topSum = 0
+            let top3Sum = 0
             commBestILsCategory.runs.forEach((run, index) => {
                 const time = run[categoryIndex]
-                levelSum += time
-                if (time < commBestILsCategory.top3Best[categoryIndex]) {
-                    commBestILsCategory.top3Best[categoryIndex] = time
-                    commBestILsCategory.top3BestPlayers[categoryIndex] = [index]
-                } else if (time == commBestILsCategory.top3Best[categoryIndex]) {
-                    commBestILsCategory.top3BestPlayers[categoryIndex].push(index)
+                topSum += time
+                if (index < 3) top3Sum += time
+                if (time < commBestILsCategory.topBest[categoryIndex]) {
+                    commBestILsCategory.topBest[categoryIndex] = time
+                    commBestILsCategory.topBestPlayers[categoryIndex] = [index]
+                } else if (time == commBestILsCategory.topBest[categoryIndex]) {
+                    commBestILsCategory.topBestPlayers[categoryIndex].push(index)
                 }
             })
-            commBestILsCategory.top3.push(levelSum / numRuns)
-            commBestILsCategory.theoryRun.push((levelSum + categories[categoryIndex].runs[0].score) / (numRuns + 1))
+            commBestILsCategory.top.push(topSum / numRuns)
+            commBestILsCategory.top3.push(top3Sum / (numRuns > 3 ? 3 : numRuns))
+            commBestILsCategory.theoryRun.push((top3Sum + categories[categoryIndex].runs[0].score) / ((numRuns > 3 ? 3 : numRuns) + 1))
         })
     }
     if (globalTab == 'runRecap') {

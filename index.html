@@ -492,22 +492,28 @@
             <div id="runRecapTab" class="tabs">
                 <div id="runRecap_home" class='runRecap_section'>
                     <div class="container">
-                        <div style="padding-right:30px">
-                            <div class="container">View Example:</div>
-                            <div id="runRecap_examples" class="container"></div>
-                        </div>
                         <div>
                             <div id='runRecap_welcome'>
                                 <div class="container" style="padding:20px 0">
                                     <div class='textBlock'>
                                         Welcome to <span class="myekulColor">Run Recap</span>! This tool allows you
                                         to upload
-                                        a <span class="myekulColor">LiveSplit .lss</span>
-                                        and a <span class="myekulColor">Cuphead .sav</span> file
+                                        a <span class="myekulColor">Cuphead .sav</span>
+                                        and a <span class="myekulColor">LiveSplit .lss</span> file
                                         to gain valuable insights about your recent run performance.
                                     </div>
                                 </div>
                             </div>
+                            <div class='container'>
+                                <div class="rrSec">.sav</div>
+                                <div class='textBlock' style="font-size:80%;color:darkgray">
+                                    You can either upload an existing .sav file from %appdata% to automatically
+                                    retrieve
+                                    IL times, or
+                                    create an empty file and insert IL times manually.
+                                </div>
+                            </div>
+                            <br>
                             <div class='container'>
                                 <div class="rrSec">.lss</div>
                                 <div class='textBlock' style="font-size:80%;color:darkgray">
@@ -519,21 +525,15 @@
                                     comparisons will not work when splitting after scorecard.
                                 </div>
                             </div>
-                            <br>
-                            <div class='container'>
-                                <div class="rrSec">.sav</div>
-                                <div class='textBlock' style="font-size:80%;color:darkgray">
-                                    You can either upload an existing .sav file from %appdata% to automatically
-                                    retrieve
-                                    IL times, or
-                                    create an empty file and insert IL times manually.
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="container" style="padding:25px 0;gap:20px">
-                        <div id="runRecap_dropBox_lss"></div>
+                        <div style="padding-right:20px">
+                            <div class="container">View Example:</div>
+                            <div id="runRecap_examples" class="container"></div>
+                        </div>
                         <div id="runRecap_dropBox_sav"></div>
+                        <div id="runRecap_dropBox_lss"></div>
                     </div>
                     <div id='runRecapError' class='container' style='display:none'>Error!</div>
                 </div>
@@ -578,13 +578,16 @@
                                 Times</div>
                             <div id='runRecap_sums' class="button" style="width:70px" onclick="generate_sav('sums')">
                                 Sums</div>
+                            <div id='runRecap_grid' class="button" style="width:70px" onclick="generate_sav('grid')">
+                                Grid</div>
                         </div>
                         <div id="runRecap_sav_comparison" class="container" style="margin: 0">
                             <div id="runRecap_divider" class="divider"></div>
                             <div class='font2' style="padding-right:10px">.sav</div>&Delta;
                             <select id="dropdown_runRecap_sav_comparison">
+                                <option value="top" disabled>Top 10 Average</option>
                                 <option value="top3" selected>Top 3 Average</option>
-                                <option value="top3Best">Top 3 Best</option>
+                                <option value="topBest">Top Bests</option>
                                 <option value="theoryRun">"Theory Run"</option>
                                 <option value="commBest">Comm Best</option>
                                 <optgroup id='runRecap_optgroup' label="Players"></optgroup>
