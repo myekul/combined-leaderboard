@@ -2,16 +2,6 @@ const API_KEY = 'AIzaSyDg6FBho-vfAm67-UdGP-8IbVFdLV23unY'
 const MYEKUL_SHEET_ID = '14l1hkW337uiyCRkNz61MNq99AEoidZdqaQUIpH5FlGU'
 const rootStyles = getComputedStyle(document.documentElement)
 
-const mausoleumID = 1481199742
-const runNguns = {
-    forestfollies: 1464969490,
-    treetoptrouble: 1464969491,
-    funhousefrazzle: 1496818712,
-    funfairfever: 1499704951,
-    perilouspiers: 1464969492,
-    ruggedridge: 1464969493
-}
-
 let playerNames = new Set()
 let players = []
 let categories = []

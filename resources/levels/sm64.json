@@ -2,106 +2,76 @@
     {
         "id": "r9gzzkjd",
         "name": "Bob-omb Battlefield",
-        "info": "bob",
-        "bg": "lawngreen",
-        "color": "black"
+        "info": "bob"
     },
     {
         "id": "o9x22m3w",
         "name": "Whomp's Fortress",
-        "info": "wf",
-        "bg": "moccasin",
-        "color": "chocolate"
+        "info": "wf"
     },
     {
         "id": "495jjvmw",
         "name": "Jolly Roger Bay",
-        "info": "jrb",
-        "bg": "darkblue",
-        "color": "darkturquoise"
+        "info": "jrb"
     },
     {
         "id": "rdq006ow",
         "name": "Cool, Cool Mountain",
-        "info": "ccm",
-        "bg": "lightskyblue",
-        "color": "white"
+        "info": "ccm"
     },
     {
         "id": "5d7776qd",
         "name": "Big Boo's Haunt",
-        "info": "bbh",
-        "bg": "slateblue",
-        "color": "white"
+        "info": "bbh"
     },
     {
         "id": "kwjyyo0w",
         "name": "Hazy Maze Cave",
-        "info": "hmc",
-        "bg": "seagreen",
-        "color": "beige"
+        "info": "hmc"
     },
     {
         "id": "owokkgjd",
         "name": "Lethal Lava Land",
-        "info": "lll",
-        "bg": "maroon",
-        "color": "orange"
+        "info": "lll"
     },
     {
         "id": "xd100vz9",
         "name": "Shifting Sand Land",
-        "info": "ssl",
-        "bg": "gold",
-        "color": "black"
+        "info": "ssl"
     },
     {
         "id": "ewpppkyw",
         "name": "Dire, Dire Docks",
-        "info": "ddd",
-        "bg": "royalblue",
-        "color": "paleturquoise"
+        "info": "ddd"
     },
     {
         "id": "y9meekzd",
         "name": "Snowman's Land",
-        "info": "sl",
-        "bg": "lightgray",
-        "color": "black"
+        "info": "sl"
     },
     {
         "id": "5wk22gvw",
         "name": "Wet-Dry World",
-        "info": "wdw",
-        "bg": "saddlebrown",
-        "color": "white"
+        "info": "wdw"
     },
     {
         "id": "592jjv7w",
         "name": "Tall, Tall Mountain",
-        "info": "ttm",
-        "bg": "orangered",
-        "color": "white"
+        "info": "ttm"
     },
     {
         "id": "rw6vvkp9",
         "name": "Tiny-Huge Island",
-        "info": "thi",
-        "bg": "limegreen",
-        "color": "beige"
+        "info": "thi"
     },
     {
         "id": "29vyy1q9",
         "name": "Tick Tock Clock",
-        "info": "ttc",
-        "bg": "khaki",
-        "color": "saddlebrown"
+        "info": "ttc"
     },
     {
         "id": "xd466vq9",
         "name": "Rainbow Ride",
-        "info": "rr",
-        "bg": "aqua",
-        "color": "black"
+        "info": "rr"
     }
 ]

@@ -1,5 +1,5 @@
 function processSavFile(playerIndex, display) {
-    fetch('resources/cupheadSav.json')
+    fetch('https://myekul.github.io/shared-assets/cuphead/sav.json')
         .then(response => response.json())
         .then(data => {
             runRecap_savFile = data
@@ -88,8 +88,8 @@ function runRecapTimes() {
     }
     assignIsles()
     HTMLContent += `<div class='container' style='gap:25px'>`
-    const follies = getCupheadLevel(runNguns['forestfollies'], true)
-    const treetop = getCupheadLevel(runNguns['treetoptrouble'], true)
+    const follies = getCupheadLevel(runNgunIDs['forestfollies'], true)
+    const treetop = getCupheadLevel(runNgunIDs['treetoptrouble'], true)
     HTMLContent += `<div>`
     if (follies.bestTime != nullTime && treetop.bestTime == nullTime) {
         HTMLContent += extraLevel('forestfollies', follies.bestTime)
@@ -118,7 +118,7 @@ function runRecapTimes() {
             if (index == levelIndex) {
                 HTMLContent += `<div style='padding-top:15px'>`
                 levelPair.forEach(level => {
-                    const levelObj = getCupheadLevel(runNguns[level], true)
+                    const levelObj = getCupheadLevel(runNgunIDs[level], true)
                     if (levelObj.bestTime != nullTime && !(level == 'forestfollies' && treetop.bestTime == nullTime)) {
                         HTMLContent += extraLevel(level, levelObj.bestTime)
                     }
@@ -313,12 +313,12 @@ function runRecapSums() {
 function runRecapGrid() {
     let HTMLContent = `<div class='container' style='overflow-x:auto'>`
     HTMLContent += `<table class='bigShadow'>`
-    HTMLContent += `<tr><td></td><td></td><td></td><td></td><td></td><td></td>`
+    HTMLContent += `<tr><td colspan=6></td>`
     categories.forEach(category => {
         HTMLContent += `<td colspan=2 class='${category.info.id}'>${getImage(category.info.id)}</td>`
     })
     HTMLContent += `</tr>`
-    HTMLContent += `<tr><td></td><td></td><td></td><td></td><td></td><th style='text-align:right'>Your run</th>`
+    HTMLContent += `<tr><th colspan=6 style='text-align:right'>Your run</th>`
     categories.forEach((category, categoryIndex) => {
         const ILtime = getCupheadLevel(categoryIndex).bestTime
         const comparisonTime = getComparisonTime(categoryIndex)
@@ -328,7 +328,7 @@ function runRecapGrid() {
         HTMLContent += `<td class='${category.info.id}'>${secondsToHMS(ILtime)}</td>`
     })
     HTMLContent += `</tr>`
-    HTMLContent += `<tr><td></td><td></td><td></td><td></td><td></td><th style='text-align:right'>&Delta;</th>`
+    HTMLContent += `<tr><th colspan=6 style='text-align:right'>&Delta;</th>`
     categories.forEach((category, categoryIndex) => {
         HTMLContent += `<th colspan=2 class='cuphead'>${secondsToHMS(getComparisonTime(categoryIndex))}</th>`
     })
@@ -348,9 +348,14 @@ function runRecapGrid() {
         })
         HTMLContent += `</tr>`
     })
-    HTMLContent += `<tr><td></td><td></td><td></td><td></td><td></td><th style='text-align:right'>&Delta;</th>`
+    HTMLContent += `<tr><th colspan=6 style='text-align:right'>&Delta;</th>`
     categories.forEach((category, categoryIndex) => {
         HTMLContent += `<th colspan=2 class='cuphead'>${secondsToHMS(getComparisonTime(categoryIndex))}</th>`
+    })
+    HTMLContent += `</tr>`
+    HTMLContent += `<tr><td colspan=6></td>`
+    categories.forEach(category => {
+        HTMLContent += `<td colspan=2 class='${category.info.id}'>${getImage(category.info.id)}</td>`
     })
     HTMLContent += `</tr>`
     HTMLContent += `</table>`
