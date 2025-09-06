@@ -88,7 +88,7 @@ function getFullgame(categoryName) {
             if (category.var4) {
                 variables += `&var-${category.var4}=${category.subcat4}`
             }
-            let game = categoryName == 'oneGun' ? 'cuphead_category_extensions' : ''
+            let game = categoryName == 'oneGun' ? 'cuphead_category_extensions' : gameID
             getLeaderboard(category, `category/${category.id}`, variables, '', game)
         })
     } else {

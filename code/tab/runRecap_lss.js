@@ -261,7 +261,7 @@ function generate_lss() {
                 <td></td>
                 <td></td>`
             } else {
-                const levelID = index == 0 ? runNguns['forestfollies'] : mausoleumID
+                const levelID = index == 0 ? runNgunIDs['forestfollies'] : mausoleumID
                 const level = getCupheadLevel(levelID, true)
                 HTMLContent += `
                 <td>${level.bestTime != nullTime ? image : ''}</td>
