@@ -49,10 +49,10 @@ function action() {
 }
 function tabAction() {
     if (['runRecap', 'commBest'].includes(globalTab) && mode != 'commBestILs') {
-        showTab('leaderboard')
+        showTab('home')
     } else {
         switch (globalTab) {
-            case 'leaderboard':
+            case 'home':
                 generateLeaderboard();
                 break;
             case 'leaderboards':
@@ -81,18 +81,20 @@ function tabAction() {
                 break
         }
         fontAwesomePage = fontAwesomeSet[globalTab]
-        if (globalTab == 'leaderboard') {
-            if (mode == 'commBestILs') {
-                show('pageTitle')
-                setPageTitle('tasks', 'Comm Best ILs')
-            } else {
+        if (fontAwesomePage) {
+            if (globalTab == 'home') {
+                if (mode == 'commBestILs') {
+                    show('pageTitle')
+                    setPageTitle('tasks', 'Comm Best ILs')
+                } else {
+                    hide('pageTitle')
+                }
+            } else if (globalTab == 'ballpit') {
                 hide('pageTitle')
+            } else {
+                show('pageTitle')
+                setPageTitle(fontAwesomePage[1], fontAwesomePage[0])
             }
-        } else if (globalTab == 'ballpit') {
-            hide('pageTitle')
-        } else {
-            show('pageTitle')
-            setPageTitle(fontAwesomePage[1], fontAwesomePage[0])
         }
     }
 }

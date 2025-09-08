@@ -128,7 +128,7 @@ function generateLeaderboard() {
     }
     let leaderboardContainer = document.getElementById('leaderboardContainer')
     const scrollLeft = leaderboardContainer ? leaderboardContainer.scrollLeft : ''
-    document.getElementById('leaderboard').innerHTML = HTMLContent
+    document.getElementById('home').innerHTML = HTMLContent
     leaderboardContainer = document.getElementById('leaderboardContainer')
     if (leaderboardContainer) {
         leaderboardContainer.scrollLeft = scrollLeft;

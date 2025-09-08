@@ -47,8 +47,7 @@
                     <div style="color:black"><i class="fa fa-tasks"></i>&nbsp;Comm Best</div>
                 </div>
                 <div class="container" style="font-size:90%;font-family:var(--font)">
-                    <div onclick="globalTab='leaderboard';getCommBestILs()" class="grade-a-plus button"
-                        style="width:70px">
+                    <div onclick="globalTab='home';getCommBestILs()" class="grade-a-plus button" style="width:70px">
                         ILs</div>
                     <div onclick="runRecapHandle('commBest')" class="grade-a-plus button" style="width:70px">Splits
                     </div>
@@ -349,11 +348,11 @@
                     </div>
                 </div>
             </div>
-            <!-- Leaderboard -->
-            <div id="leaderboardTab" class="tabs">
-                <div id='leaderboard_options_button' class='options'>
+            <!-- Home -->
+            <div id="homeTab" class="tabs">
+                <div id='home_options_button' class='options'>
                 </div>
-                <div id='leaderboard_options' style="display:none">
+                <div id='home_options' style="display:none">
                     <div class="container">
                         <input id="checkbox_numRuns" type="checkbox"># of Runs
                         <input id="checkbox_milliseconds" type="checkbox">Milliseconds
@@ -370,8 +369,9 @@
                         <input id="checkbox_year" type="checkbox">Year
                     </div>
                 </div>
-                <div id="leaderboard"></div>
+                <div id="home"></div>
             </div>
+            <!-- Leaderboards -->
             <div id="leaderboardsTab" class="tabs">
                 <div id="leaderboards"></div>
             </div>
@@ -654,10 +654,10 @@
     <script src="constants/cuphead/myekulSays.js"></script>
     <script src="constants/other.js"></script>
 
-    <script src="code/tab/leaderboard.js"></script>
+    <script src="code/tab/home.js"></script>
+    <script src="code/tab/featured.js"></script>
     <script src="code/tab/leaderboards.js"></script>
     <script src="code/tab/WRs.js"></script>
-    <script src="code/tab/featured.js"></script>
     <script src="code/tab/map.js"></script>
     <script src="code/tab/sort.js"></script>
     <script src="code/tab/runRecap.js"></script>

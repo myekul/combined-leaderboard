@@ -1,4 +1,4 @@
-document.querySelectorAll('#leaderboard_options input').forEach(input => {
+document.querySelectorAll('#home_options input').forEach(input => {
     input.addEventListener('click', () => {
         action()
     });
@@ -8,7 +8,7 @@ window.addEventListener('hashchange', () => {
 });
 document.addEventListener('keydown', function (event) {
     if (!showModal && (event.key == 'ArrowLeft' || event.key == 'ArrowRight')) {
-        if (['leaderboard', 'leaderboards', 'featured', 'map', 'sort'].includes(globalTab)) {
+        if (['home', 'leaderboards', 'featured', 'map', 'sort'].includes(globalTab)) {
             let success = false
             switch (event.key) {
                 case 'ArrowLeft':

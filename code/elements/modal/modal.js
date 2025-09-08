@@ -211,7 +211,7 @@ function modalKeyPress() {
             break;
         case 'ArrowUp':
             event.preventDefault();
-            if (globalPlayerIndex > 0 && sortCategoryIndex == -1 && globalTab == 'leaderboard') {
+            if (globalPlayerIndex > 0 && sortCategoryIndex == -1 && globalTab == 'home') {
                 globalPlayerIndex--
                 openModalCL('player', true, players[globalPlayerIndex].name)
                 playSound('cardflip')
@@ -221,7 +221,7 @@ function modalKeyPress() {
             break
         case 'ArrowDown':
             event.preventDefault();
-            if (globalPlayerIndex < 300 && globalPlayerIndex < players.length - 1 && sortCategoryIndex == -1 && globalTab == 'leaderboard') {
+            if (globalPlayerIndex < 300 && globalPlayerIndex < players.length - 1 && sortCategoryIndex == -1 && globalTab == 'home') {
                 globalPlayerIndex++
                 openModalCL('player', true, players[globalPlayerIndex].name)
                 playSound('cardflip')

@@ -1,4 +1,15 @@
-initializeHash('leaderboard')
+const fontAwesomeSet = {
+    home: ['Home', 'home'],
+    featured: ['Featured', 'star'],
+    leaderboards: ['Leaderboards', 'cubes'],
+    WRs: ['World Records', 'trophy'],
+    map: ['Map', 'flag'],
+    sort: ['Sort', 'sort-amount-asc'],
+    runRecap: ['Run Recap', 'history'],
+    commBest: ['Comm Best Splits', 'tasks'],
+    ballpit: ['Ballpit', 'smile-o']
+}
+initializeHash('home')
 setTitle('COMBINED LEADERBOARD')
 setFooter('2024-2025')
 setSidebar(generateSidebar())
@@ -166,7 +177,7 @@ showTab = function (...args) {
     showTabOG(...args)
     showTabCL(...args)
 }
-setTabs(['leaderboard', 'featured', 'leaderboards', null, 'WRs', 'map', 'sort', null, 'ballpit'])
+setTabs(['home', 'featured', 'leaderboards', null, 'WRs', 'map', 'sort', null, 'ballpit'])
     .then(() => {
         switch (gameID) {
             case 'cuphead':
@@ -192,14 +203,3 @@ setTabs(['leaderboard', 'featured', 'leaderboards', null, 'WRs', 'map', 'sort', 
                 break;
         }
     })
-const fontAwesomeSet = {
-    leaderboard: ['Leaderboard', 'home'],
-    leaderboards: ['Leaderboards', 'cubes'],
-    WRs: ['World Records', 'trophy',],
-    featured: ['Featured', 'star'],
-    map: ['Map', 'flag'],
-    sort: ['Sort', 'sort-amount-asc'],
-    runRecap: ['Run Recap', 'history'],
-    commBest: ['Comm Best Splits', 'tasks'],
-    ballpit: ['Ballpit', 'smile-o']
-}

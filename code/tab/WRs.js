@@ -43,7 +43,7 @@ function getWorldRecordPlayers(categoryIndex) {
         if (run.place == 1) count++
     })
     if (count > 4) {
-        HTMLContent += `<td></td><td class='clickable' style='text-align:left' onclick="showTab('leaderboard');organizePlayers(${categoryIndex})">-- ${count}-way tie --</td>`
+        HTMLContent += `<td></td><td class='clickable' style='text-align:left' onclick="showTab('home');organizePlayers(${categoryIndex})">-- ${count}-way tie --</td>`
     } else {
         playersCopy.forEach(player => {
             const run = player.runs[sortCategoryIndex]
