@@ -31,7 +31,7 @@ function generateBoardTitle(extra, categoryIndex, commBest) {
         HTMLContent += boardTitleCell('', content)
     }
     if (categoryIndex > -1 && extra != 2) {
-        let category = categories[categoryIndex]
+        const category = categories[categoryIndex]
         let imgsrc
         if (category.info) imgsrc = category.info.id
         let className = category.className ? category.className : imgsrc
@@ -40,11 +40,11 @@ function generateBoardTitle(extra, categoryIndex, commBest) {
         let cellContent = category.name
         if (gameID == 'cuphead' && big4()) cellContent = category.info.name
         if (mode != 'fullgame' && extra) cellContent = ''
-        if (['cuphead', 'sm64', 'mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID) && bossILindex == -1) {
+        if (bossILindex > -1) {
+            HTMLContent += boardTitleCell(category.difficulty, category.name)
+        } else {
             const content = `<div class='container' style='gap:4px'>${image + cellContent}</div>`
             HTMLContent += boardTitleCell('container ' + className, content)
-        } else {
-            HTMLContent += boardTitleCell(category.difficulty, category.name)
         }
         if (gameID == 'cuphead' && big4()) {
             HTMLContent += boardTitleCell(category.difficulty, category.name)
