@@ -63,7 +63,7 @@ function generateHeader(category, categoryIndex) {
     HTMLContent += `<th colspan=${getNumCols()} class='clickable ${globalTab != 'leaderboards' ? isSelected(categoryIndex) : ''} ${colorClass}' onclick="organizePlayers(${categoryIndex})">${cellContent}</td>`
     return HTMLContent
 }
-function generateLeaderboard() {
+function generateHome() {
     playersCopy = [...players].slice(0, getNumDisplay())
     let HTMLContent = `<div class="container" style='align-items:flex-start'>`
     HTMLContent += playersTable(playersCopy)

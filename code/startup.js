@@ -1,14 +1,3 @@
-const fontAwesomeSet = {
-    home: ['Home', 'home'],
-    featured: ['Featured', 'star'],
-    leaderboards: ['Leaderboards', 'cubes'],
-    WRs: ['World Records', 'trophy'],
-    map: ['Map', 'flag'],
-    sort: ['Sort', 'sort-amount-asc'],
-    runRecap: ['Run Recap', 'history'],
-    commBest: ['Comm Best Splits', 'tasks'],
-    ballpit: ['Ballpit', 'smile-o']
-}
 initializeHash('home')
 setTitle('COMBINED LEADERBOARD')
 setFooter('2024-2025')
@@ -16,16 +5,13 @@ setSidebar(generateSidebar())
     .then(() => {
         document.getElementById('sidebarLogo').src = `images/logo/${gameID}.png`
     })
-const url = new URL(window.location.href);
-const params = new URLSearchParams(window.location.search);
-let gameParam = params.get('game');
+let gameParam = getParam('game')
 if (!gameParam) {
     gameParam = 'cuphead'
-    url.searchParams.set('game', gameParam);
-    window.history.pushState({}, '', url);
+    setParam('game', gameParam)
 }
 const gameID = gameParam;
-let modeParam = params.get('mode')
+let modeParam = getParam('mode')
 if (['fullgame', 'levels', 'commBestILs'].includes(modeParam)) {
     setMode(modeParam)
 } else {
@@ -36,13 +22,11 @@ if (['cuphead', 'sm64', 'nsmbw'].includes(gameID)) {
 }
 if (['tetris', 'smb1', 'smb2', 'smb3', 'nsmbds'].includes(gameID)) {
     setMode('fullgame')
-    url.searchParams.delete('mode');
-    window.history.pushState({}, '', url);
+    deleteParam('mode')
 }
 if (['titanfall_2', 'mtpo', 'spo', 'ssbm', 'ssb64'].includes(gameID)) {
     setMode('levels')
-    url.searchParams.delete('mode');
-    window.history.pushState({}, '', url);
+    deleteParam('mode')
 }
 function generateSidebar() {
     let HTMLContent = ''

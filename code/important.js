@@ -53,7 +53,7 @@ function tabAction() {
     } else {
         switch (globalTab) {
             case 'home':
-                generateLeaderboard();
+                generateHome();
                 break;
             case 'leaderboards':
                 generateLeaderboards();
@@ -89,8 +89,6 @@ function tabAction() {
                 } else {
                     hide('pageTitle')
                 }
-            } else if (globalTab == 'ballpit') {
-                hide('pageTitle')
             } else {
                 show('pageTitle')
                 setPageTitle(fontAwesomePage[1], fontAwesomePage[0])
@@ -100,8 +98,7 @@ function tabAction() {
 }
 function setMode(newMode) {
     mode = newMode
-    url.searchParams.set('mode', mode);
-    window.history.pushState({}, '', url);
+    setParam('mode', mode)
     buttonClick(mode + 'Button', 'modeSelection', 'activeBanner')
     if (mode != 'levels') disableLevelModes()
 }
