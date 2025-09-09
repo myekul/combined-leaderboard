@@ -334,3 +334,8 @@ td.short-border::after {
     width: 150px;
     justify-content: center
 }
+
+.darker {
+    background-color: gray;
+    color: black
+}

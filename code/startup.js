@@ -1,3 +1,4 @@
+google.charts.load('current', { packages: ['corechart'] });
 initializeHash('home')
 setTitle('COMBINED LEADERBOARD')
 setFooter('2024-2025')
@@ -45,7 +46,6 @@ document.documentElement.style.setProperty('--bannerText', getColorFromClass(gam
 if (['smb1', 'smbtll', 'mtpo', 'spo', 'titanfall_2', 'ssbm', 'ssb64'].includes(gameID)) {
     document.getElementById('checkbox_milliseconds').checked = true;
 }
-google.charts.load('current', { packages: ['corechart'] });
 function hideTabs() {
     const tabs = document.querySelectorAll('.tabs')
     tabs.forEach(elem => {

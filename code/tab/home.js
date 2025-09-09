@@ -192,7 +192,7 @@ function parsePlayer(player, playerIndex, categoryIndex) {
         HTMLContent += parseRun(player, playerIndex, extraCategory, null, true)
         HTMLContent += mode != 'commBestILs' ? `<td style='padding:0 15px'></td>` : ''
     }
-    HTMLContent += globalTab == 'map' ? `<td class='${placeClass(playerIndex + 1)}'>${playerIndex + 1}</td>` : ''
+    HTMLContent += globalTab == 'map' ? `<td class='${placeClass[playerIndex + 1]}'>${playerIndex + 1}</td>` : ''
     if (mode != 'commBestILs' && globalTab != 'leaderboards') {
         if (!['mtpo', 'spo'].includes(gameID)) {
             HTMLContent += `<td style='font-size:75%'>${displayPercentage(player.score)}</td>`
@@ -294,7 +294,7 @@ function parseRun(player, playerIndex, category, categoryIndex, exception) {
     const trophy = getTrophy(place)
     const percentage = run.percentage.toFixed(2)
     const grade = getLetterGrade(percentage)
-    const thePlaceClass = placeClass(place)
+    const thePlaceClass = placeClass[place]
     const newColorClass = thePlaceClass ? thePlaceClass : colorClass
     const runLink = gameID != 'tetris' && run.id ? getAnchor('https://www.speedrun.com/' + gameID + '/runs/' + run.id) : ''
     const videoLink = getAnchor(run.url)

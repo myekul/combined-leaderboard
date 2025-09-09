@@ -453,7 +453,7 @@ function splitSegmentInfo(array, index, type) {
         sum += time
         HTMLContent += `<tr class='${getRowColor(segmentIndex)}'>
         <td style='font-size:70%;text-align:right;padding:0 5px'>${date ? daysAgo(getDateDif(new Date(), new Date(date))) : ''}</td>
-        <td class='${placeClass(segmentIndex + 1)}' style='font-size:70%;padding:0 3px'>${trophy ? `<div class='container trophy'>${trophy}` : segmentIndex + 1}</td>
+        <td class='${placeClass[segmentIndex + 1]}' style='font-size:70%;padding:0 3px'>${trophy ? `<div class='container trophy'>${trophy}` : segmentIndex + 1}</td>
         <td class='${split.id}' style='padding:0 5px'>${secondsToHMS(time, true)}</td>
         <td class='${run ? commBestILsCategory.className : ''}' style='font-size:80%;padding:0 5px'>${run ? secondsToHMS(run.gameTime, true) : ''}</td>
         <td style='font-size:70%;padding:0 5px'>${date ? date : ''}</td>

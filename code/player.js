@@ -1,6 +1,6 @@
 function getPlayerDisplay(player, playerIndex) {
     let HTMLContent = ''
-    HTMLContent += mode != 'commBestILs' && globalTab != 'leaderboards' ? `<td class='${placeClass(player.rank)}' style='font-size:90%'>${player.rank}</td>` : ''
+    HTMLContent += mode != 'commBestILs' && globalTab != 'leaderboards' ? `<td class='${placeClass[player.rank]}' style='font-size:90%'>${player.rank}</td>` : ''
     if (gameID != 'tetris') {
         if (document.getElementById('checkbox_flags').checked && globalTab != 'commBest') {
             HTMLContent += `<td>${getPlayerFlag(player, 12)}</td>`

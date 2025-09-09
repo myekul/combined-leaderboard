@@ -53,16 +53,6 @@ function displayPercentage(percentage) {
     }
     return ''
 }
-function placeClass(place) {
-    if (place == 1) {
-        return 'first'
-    } else if (place == 2) {
-        return 'second'
-    } else if (place == 3) {
-        return 'third'
-    }
-    return null
-}
 function getImage(image, heightParam) {
     const extension = gameID == 'spo' ? 'webp' : 'png'
     const height = heightParam ? heightParam : 36
@@ -74,11 +64,6 @@ function getColorClass() {
     if (mode == 'commBestILs') return commBestILsCategory.className
     if (cupheadVersion == 'legacy') return 'legacy'
     return gameID == 'cuphead' ? DLCnoDLC == 'dlc' ? 'dlc' : 'cuphead' : ''
-}
-function getScore(category, runTime) {
-    const wrTime = getWorldRecord(category)
-    const percentage = wrTime / runTime
-    return getPercentage(percentage)
 }
 function getTrophy(place) {
     let placeText = ''
@@ -102,9 +87,6 @@ function trophyCase(object) {
     HTMLContent += object.count2 > 0 ? `<td class='trophyCase' style='text-align:left'>${getTrophy(2)}<span>${object.count2 > 1 ? object.count2 : ''}</span></td>` : '<td></td>'
     HTMLContent += object.count3 > 0 ? `<td class='trophyCase' style='text-align:left'>${getTrophy(3)}<span>${object.count3 > 1 ? object.count3 : ''}</span></td>` : '<td></td>'
     return HTMLContent
-}
-function getWorldRecord(category) {
-    return category.runs[0]?.score
 }
 function toggleOptions(name) {
     let elemName = name ? name : globalTab
@@ -271,12 +253,4 @@ function toggleSection(section) {
         show(section)
         toggleButton.innerHTML = fontAwesome('close')
     }
-}
-function getDelta(delta) {
-    const negative = delta < 0
-    delta = Math.abs(delta)
-    return (negative ? '-' : '+') + (delta >= 60 ? secondsToHMS(delta) : delta + 's')
-}
-function redGreen(delta) {
-    return 'color:' + (delta > 0 ? 'red' : 'limegreen')
 }

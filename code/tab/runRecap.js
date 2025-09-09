@@ -286,7 +286,7 @@ function runRecapHome() {
         if (player.extra) {
             HTMLContent += `<tr class='${getRowColor(playerIndex)} clickable' onclick="processSavFile(${playerIndex});playSound('category_select')">`
             HTMLContent += `<td style='font-size:70%'>${getTrophy(playerIndex + 1) || playerIndex}</td>`
-            HTMLContent += `<td class='${placeClass(playerIndex + 1)}' style='padding:0 4px'>${secondsToHMS(player.extra.score)}</td>`
+            HTMLContent += `<td class='${placeClass[playerIndex + 1]}' style='padding:0 4px'>${secondsToHMS(player.extra.score)}</td>`
             HTMLContent += `<td>${getPlayerFlag(player, 12)}</td>`
             HTMLContent += `<td style='padding:0 3px'>${getPlayerIcon(player, 28)}</td>`
             HTMLContent += `<td style='padding-right:10px;text-align:left'>${getPlayerName(player)}</td>`
