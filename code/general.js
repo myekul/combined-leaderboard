@@ -1,9 +1,3 @@
-function getLetterGrade(percentage) {
-    for (let grade of grades) {
-        if (percentage >= grade.threshold) return grade;
-    }
-    return grades[grades.length - 1]
-}
 function secondsToHMS(seconds, exception, raw) {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
@@ -107,10 +101,6 @@ function trophyCase(object) {
     let HTMLContent = object.count1 > 0 ? `<td class='trophyCase' style='text-align:left'>${getTrophy(1)}<span>${object.count1 > 1 ? object.count1 : ''}</span></td>` : '<td></td>'
     HTMLContent += object.count2 > 0 ? `<td class='trophyCase' style='text-align:left'>${getTrophy(2)}<span>${object.count2 > 1 ? object.count2 : ''}</span></td>` : '<td></td>'
     HTMLContent += object.count3 > 0 ? `<td class='trophyCase' style='text-align:left'>${getTrophy(3)}<span>${object.count3 > 1 ? object.count3 : ''}</span></td>` : '<td></td>'
-    return HTMLContent
-}
-function getFlag(countryCode, countryName, size) {
-    let HTMLContent = `<img src="https://www.speedrun.com/images/flags/${countryCode}.png" style="height:${size}px" title="${countryName}" alt=''></img>`
     return HTMLContent
 }
 function getWorldRecord(category) {
@@ -226,18 +216,6 @@ function getDayOfYear(date) {
     const diff = date - start + (start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000;
     const oneDay = 1000 * 60 * 60 * 24;
     return Math.floor(diff / oneDay);
-}
-function getSocial(player, social) {
-    if (player.links[social]) {
-        if (social == 'src') {
-            return 'https://www.speedrun.com/user/' + player.name
-        } else if (social == 'twitch') {
-            return 'https://www.twitch.tv/' + player.links.twitch
-        } else if (social == 'youtube') {
-            return player.links.youtube
-        }
-    }
-    return ''
 }
 function normalize(percentage, value = 50) {
     if (percentage < value) {

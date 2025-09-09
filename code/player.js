@@ -1,26 +1,3 @@
-function getPlayerName(player) {
-    let playerName = player.name ? player.name : player
-    if (playerName.charAt(0) == '[') {
-        const match = playerName.match(/\(([^)]+)\)/)
-        playerName = match ? match[1] : playerName.slice(4)
-    }
-    const HTMLContent = player['name-style'] ? `<span style='background: linear-gradient(90deg, ${player['name-style'].color1}, ${player['name-style'].color2});-webkit-background-clip: text;color: transparent;'>${player.name}</span>` : playerName
-    return HTMLContent
-}
-function getPlayerFlag(player, size) {
-    const playerLocation = player.location
-    if (playerLocation) {
-        let countryCode = playerLocation.country.code
-        let countryName = playerLocation.country.name
-        return getFlag(countryCode, countryName, size)
-    }
-    return ''
-}
-function getPlayerIcon(player, size) {
-    const imgsrc = player?.links?.img ? player.links.img : ''
-    const src = imgsrc ? 'https://www.speedrun.com/static/user/' + player.id + '/image?v=' + imgsrc : 'images/null.png'
-    return `<div style='width:${size}px;height:${size}px'><img src='${src}' style='width:100%;height:100%;border-radius: 50%;object-fit: cover;object-position:center' title='${player?.name}'></img></div>`
-}
 function getPlayerDisplay(player, playerIndex) {
     let HTMLContent = ''
     HTMLContent += mode != 'commBestILs' && globalTab != 'leaderboards' ? `<td class='${placeClass(player.rank)}' style='font-size:90%'>${player.rank}</td>` : ''
@@ -63,4 +40,16 @@ function getPlayerProfile(playerIndex) {
     HTMLContent += boardTitle ? `<div class='modalBoardTitle' style='padding-left:20px'>${boardTitle}</div>` : ''
     HTMLContent += `</div>`
     return HTMLContent
+}
+function getSocial(player, social) {
+    if (player.links[social]) {
+        if (social == 'src') {
+            return 'https://www.speedrun.com/user/' + player.name
+        } else if (social == 'twitch') {
+            return 'https://www.twitch.tv/' + player.links.twitch
+        } else if (social == 'youtube') {
+            return player.links.youtube
+        }
+    }
+    return ''
 }

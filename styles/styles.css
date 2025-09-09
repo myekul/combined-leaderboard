@@ -329,3 +329,8 @@ td.short-border::after {
     width: var(--border-width, 100%);
     border-bottom: 2px solid var(--border-color, #494949);
 }
+
+#podium div {
+    width: 150px;
+    justify-content: center
+}

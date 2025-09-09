@@ -59,8 +59,6 @@ let difficultyILs = false
 let bossILindex = -1
 let isleIndex = -1
 
-// Modes
-
 let stopLeaderboards = false
 let showMore = false
 let options = false
@@ -73,24 +71,6 @@ let showModal = false
 let displayNumRuns = false
 let milliseconds = false
 let categorySet
-const grades = [
-    { grade: 'A+', className: 'grade-a-plus', threshold: 97 },
-    { grade: 'A', className: 'grade-a', threshold: 93 },
-    { grade: 'A-', className: 'grade-a-minus', threshold: 90 },
-    { grade: 'B+', className: 'grade-b-plus', threshold: 87 },
-    { grade: 'B', className: 'grade-b', threshold: 83 },
-    { grade: 'B-', className: 'grade-b-minus', threshold: 80 },
-    { grade: 'C+', className: 'grade-c-plus', threshold: 77 },
-    { grade: 'C', className: 'grade-c', threshold: 73 },
-    { grade: 'C-', className: 'grade-c-minus', threshold: 70 },
-    { grade: 'D+', className: 'grade-d-plus', threshold: 67 },
-    { grade: 'D', className: 'grade-d', threshold: 63 },
-    { grade: 'D-', className: 'grade-d-minus', threshold: 60 },
-    { grade: 'F', className: 'grade-f', threshold: 0 }
-]
-grades.forEach(grade => {
-    grade.className += ' grade'
-})
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 const seasons = [
