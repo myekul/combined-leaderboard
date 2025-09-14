@@ -29,58 +29,18 @@ function prepareData() {
     categories.forEach((category, categoryIndex) => {
         assignRuns(category, categoryIndex)
     })
-    if (mode == 'commBestILs') {
-        assignRuns(extraCategory)
-        if (commBestILsCategory.extraRuns || commBestILsCategory.extraPlayers) {
-            const morePlayers = []
-            commBestILsCategory.extraRuns?.forEach(run => {
-                morePlayers.push(run.playerName)
-            })
-            players = players.filter(player => commBestILsCategory.extraPlayers?.includes(player.name) || morePlayers.includes(player.name) || player.runs.some(run => run != 0))
-            const worldRecord = getWorldRecord(extraCategory)
-            commBestILsCategory.extraRuns?.forEach(run => {
-                const player = players.find(player => player.name == run.playerName)
-                run.score = run.score > 0 ? run.score : convertToSeconds(run.score)
-                run.percentage = getPercentage(worldRecord / run.score)
-                player.extra = run
-            })
-            const newPlayers = []
-            const badPlayers = []
-            players.forEach(player => {
-                if (player.extra) {
-                    newPlayers.push(player)
-                } else {
-                    badPlayers.push(player)
-                }
-            })
-            players = newPlayers
-            badPlayers.forEach(badPlayer => {
-                players.push(badPlayer)
-            })
-            players.sort((a, b) => a.extra?.score - b.extra?.score)
-            players.forEach((player, playerIndex) => {
-                if (player.extra) {
-                    player.extra.place = playerIndex + 1
-                }
-            })
-        }
-        players.forEach((player, playerIndex) => {
-            player.score = -playerIndex
+    if (gameID == 'mtpo') {
+        const dummyRuns = []
+        players.forEach(player => {
+            const dummyRun = { score: 42, percentage: 100, place: 1, playerName: player.name }
+            player.runs = [dummyRun, ...player.runs]
+            dummyRuns.push(dummyRun)
         })
-    } else {
-        if (gameID == 'mtpo') {
-            const dummyRuns = []
-            players.forEach(player => {
-                const dummyRun = { score: 42, percentage: 100, place: 1, playerName: player.name }
-                player.runs = [dummyRun, ...player.runs]
-                dummyRuns.push(dummyRun)
-            })
-            categories = [{ name: 'Glass Joe', info: { id: 'glassjoe' }, players: players, runs: dummyRuns }, ...categories]
-        }
-        generateRanks()
-        sortCategoryIndex = -1
-        if (!(gameID == 'ssbm' && !ssbVar)) sortPlayers(players)
+        categories = [{ name: 'Glass Joe', info: { id: 'glassjoe' }, players: players, runs: dummyRuns }, ...categories]
     }
+    generateRanks()
+    sortCategoryIndex = -1
+    if (!(gameID == 'ssbm' && !ssbVar)) sortPlayers(players)
     players.forEach((player, playerIndex) => {
         player.rank = playerIndex + 1
     })
@@ -99,7 +59,7 @@ function prepareData() {
         hide('refreshDiv')
     }
     const username = localStorage.getItem('username')
-    if (username && !runRecapExample) {
+    if (username) {
         document.getElementById('input_username').value = username
         document.getElementById('username').innerHTML = runRecapPlayer('username')
     }
@@ -132,9 +92,7 @@ function assignRuns(category, categoryIndex) {
         if (categoryIndex != null) {
             thePlayer.runs ? thePlayer.runs[categoryIndex] = run : ''
         } else {
-            if (!(mode == 'commBestILs' && commBestILsCategory.extraRuns && !commBestILsCategory.extraPlayers?.includes(thePlayer.name))) {
-                thePlayer.extra = run
-            }
+            thePlayer.extra = run
         }
         const runTime = run.score
         run.percentage = getScore(category, runTime)
@@ -222,7 +180,6 @@ function sortPlayers(playersArray, customCategoryIndex) {
             });
         } else {
             let criteria = 'score'
-            if (mode == 'commBestILs') criteria == 'rank'
             playersArray.sort((a, b) => {
                 return b[criteria] - a[criteria];
             });
@@ -259,8 +216,6 @@ function refreshLeaderboard() {
             getFullgame()
         } else if (mode == 'levels') {
             getLevels()
-        } else if (mode == 'commBestILs') {
-            getCommBestILs()
         }
     }
 }
@@ -275,9 +230,6 @@ function resetLoad() {
 }
 function completeLoad() {
     document.getElementById('progress-bar').style.width = '100%';
-    if (mode == 'commBestILs') {
-        loadSheets()
-    }
 }
 function resetAndGo() {
     players = []

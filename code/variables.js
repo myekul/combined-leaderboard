@@ -6,7 +6,6 @@ let playerNames = new Set()
 let players = []
 let categories = []
 
-let commBestILsCategory
 let modalIndex = 0
 let globalPlayerIndex = -1
 
@@ -38,19 +37,7 @@ let numModalPages = 3
 let countries = {}
 let globalCountryName
 
-const myekulSheets = {}
-const markinSheets = {}
 let globalCache
-let runRecap_savFile
-let runRecap_lssFile = {}
-let runRecap_markin
-let runRecapView = 'home'
-let runRecapElem = 'sav'
-let runRecapTime
-let runRecapTab = 'times'
-let runRecapExample = false
-let runRecapTheoretical = false
-let splitInfo = []
 
 // Big 5
 let allILs = true

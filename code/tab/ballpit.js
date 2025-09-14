@@ -5,7 +5,7 @@ function ballpit() {
     const max = 50
     while (count < max && count < players.length && playerIndex < players.length) {
         const player = players[playerIndex]
-        const playerValue = mode == 'commBestILs' ? player.extra?.percentage : player.score
+        const playerValue = player.score
         if (playerValue >= 90 && player?.links?.img) {
             HTMLContent += `<div class='ball' data-size=${normalizePlayerValue(playerValue)}>${getPlayerIcon(player, normalizePlayerValue(playerValue))}</div>`
             count++

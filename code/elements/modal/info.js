@@ -8,8 +8,7 @@ function modalInfo() {
     <br>-Click on a player's name to view their report card!
     <br>&nbsp;&nbsp;&nbsp;&nbsp;-Use arrow keys to navigate between player stats.
     <br>`
-    if (mode != 'commBestILs' && !(gameID == 'cuphead' && mode == 'levels')) {
-        HTMLContent += `${infoTitle('How it works')}
+    HTMLContent += `${infoTitle('How it works')}
             <br>Each player recieves an overall score (out of 100) and a letter grade, which are determined by a few things.
             First, to calculate a given run score (0-100), ${myekulColor(`the world record is divided by the run time`)}.
             <br><br>
@@ -28,19 +27,18 @@ function modalInfo() {
             <br><br>For each missing run, the player will recieve a placeholder score to be used in overall score calculation.
             The default placeholder is <span class='myekulColor'>([Player's best score] + 80) / 2</span>.
             To view a player's calculation scores, press the ${fontAwesome('info-circle')} button in the bottom right of their report card.<br>`
-        // if (['cuphead', 'sm64'].includes(gameID)) {
-        //     HTMLContent += `<br><div class='textBox'><i class='fa fa-exclamation-triangle myekulColor'></i> In some cases, the missing run penalty will be reduced if the player has another run in a similar category.`
-        //     if (gameID == 'cuphead') {
-        //         HTMLContent += `<br><br>-If a player has an NMG run but no submitted 1.1+ run, their NMG run will be used in 1.1+ score calculation.
-        //             <br>-If a player has a 1.1+ run but no NMG run, their NMG penalty will be reduced.
-        //             <br>-If a player has a 1.1+ and/or NMG run and a DLC run but no DLC+Base run, their DLC+Base penalty will be reduced.
-        //             <br>-If a player has a DLC+Base run but no DLC run, their DLC penalty will be reduced.`
-        //     } else if (gameID == 'sm64') {
-        //         HTMLContent += `<br><br>-If a player has a 0-Star run but no 1-Star run, their 1-Star penalty will be reduced.`
-        //     }
-        //     HTMLContent += `</div>`
-        // }
-    }
+    // if (['cuphead', 'sm64'].includes(gameID)) {
+    //     HTMLContent += `<br><div class='textBox'><i class='fa fa-exclamation-triangle myekulColor'></i> In some cases, the missing run penalty will be reduced if the player has another run in a similar category.`
+    //     if (gameID == 'cuphead') {
+    //         HTMLContent += `<br><br>-If a player has an NMG run but no submitted 1.1+ run, their NMG run will be used in 1.1+ score calculation.
+    //             <br>-If a player has a 1.1+ run but no NMG run, their NMG penalty will be reduced.
+    //             <br>-If a player has a 1.1+ and/or NMG run and a DLC run but no DLC+Base run, their DLC+Base penalty will be reduced.
+    //             <br>-If a player has a DLC+Base run but no DLC run, their DLC penalty will be reduced.`
+    //     } else if (gameID == 'sm64') {
+    //         HTMLContent += `<br><br>-If a player has a 0-Star run but no 1-Star run, their 1-Star penalty will be reduced.`
+    //     }
+    //     HTMLContent += `</div>`
+    // }
     HTMLContent += infoTitle('Disclaimer')
     HTMLContent += `<br>Overall player rank calculation can be a very subjective thing.
     I made this website as a fun hobby project, and it may not reflect the actual skill levels of each player.
@@ -59,10 +57,6 @@ function modalInfo() {
     HTMLContent += infoTitle('Special Thanks')
     HTMLContent += `<br>I'd like to dedicate this section to the Cuphead speedrunning community for cultivating an incredible and friendly online space for people to engage in this niche hobby.
     It's cheesy, but I wouldn't be the person I am today if it weren't for you guys. Much love.`
-    if (gameID == 'cuphead') {
-        HTMLContent += `<br><br>Thank you MarkinSws for creating and maintaining the Comm Best Pace / SoB sheet, and accomodating Run Recap integration.
-    <br>Thank you to all runners who have contributed to my Comm Best ILs sheet.`
-    }
     HTMLContent += `<br><br>This is a static site written entirely in raw HTML / CSS / JavaScript, which makes it extremely lightweight and efficient.
         It was created from scratch, independently devloped, and crafted specifically for the speedrunning community.
         It is also open source, ad-free, nonprofit, and costs $0 to use, host, and maintain. Enjoy!`

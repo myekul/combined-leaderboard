@@ -1,15 +1,15 @@
 function getPlayerDisplay(player, playerIndex) {
     let HTMLContent = ''
-    HTMLContent += mode != 'commBestILs' && globalTab != 'leaderboards' ? `<td class='${placeClass[player.rank]}' style='font-size:90%'>${player.rank}</td>` : ''
+    HTMLContent += globalTab != 'leaderboards' ? `<td class='${placeClass[player.rank]}' style='font-size:90%'>${player.rank}</td>` : ''
     if (gameID != 'tetris') {
-        if (document.getElementById('checkbox_flags').checked && globalTab != 'commBest') {
+        if (document.getElementById('checkbox_flags').checked) {
             HTMLContent += `<td>${getPlayerFlag(player, 12)}</td>`
         }
         if (document.getElementById('checkbox_icons').checked) {
             HTMLContent += `<td>${getPlayerIcon(player, 18)}</td>`
         }
     }
-    const clickable = player?.rank && !['map', 'commBest'].includes(globalTab) ? `onclick="openModalCL('player',false,'${player.name}')" class='clickable short-border'` : ''
+    const clickable = player?.rank && !['map'].includes(globalTab) ? `onclick="openModalCL('player',false,'${player.name}')" class='clickable short-border'` : ''
     const vibrant = document.getElementById('checkbox_vibrant')?.checked ? `--border-color:${getColorFromClass(getLetterGrade(player.score).className)};` : ''
     HTMLContent += `<td ${clickable} style='--border-width:${normalize(player?.score, 80)}%;${vibrant}text-align:left;font-weight: bold;font-size:80%;padding-right:5px'>${getPlayerName(player ? player : playerIndex)}</td>`
     return HTMLContent

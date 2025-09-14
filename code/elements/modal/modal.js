@@ -3,8 +3,6 @@ function openModalCL(modal, shh, param) {
     showModal = true
     if (['tetris', 'ssbm'].includes(gameID)) {
         numModalPages = 1
-    } else if (mode == 'commBestILs') {
-        numModalPages = 1
     } else {
         numModalPages = 2
     }
@@ -20,9 +18,6 @@ function openModalCL(modal, shh, param) {
             break
         case 'country':
             openModal(countryModal(param), 'COUNTRY', '', shh)
-            break
-        case 'runRecapSegment':
-            openModal(runRecapSegment(param), 'SEGMENT INFO', '', shh)
             break
     }
 }
@@ -49,9 +44,6 @@ function playerModal(playerName, shh) {
     pagesContent += `<div onclick="modalRight()" class='grow'>${fontAwesome('caret-right')}</div>`
     document.getElementById('modal-pages').innerHTML = pagesContent
     let modalPageNames = ['reportCard', 'videoCollection', 'gradeTable']
-    if (mode == 'commBestILs') {
-        modalPageNames.slice(0, 2)
-    }
     if (['tetris', 'ssbm'].includes(gameID)) {
         modalPageNames.splice(1, 1)
     }

@@ -5,12 +5,6 @@ function showTabCL(tab) {
     document.querySelectorAll('.hide').forEach(elem => {
         hide(elem)
     })
-    if (mode == 'commBestILs') {
-        show('commBestILsSection')
-        if (!['runRecap', 'commBest', 'ballpit'].includes(globalTab)) {
-            show('viableDiv')
-        }
-    }
     if (['cuphead', 'sm64', 'nsmbw'].includes(gameID) && mode == 'fullgame') {
         show('fullgameCategoriesSection')
     }
@@ -18,16 +12,11 @@ function showTabCL(tab) {
         show('ILsSection_' + gameID)
     }
     show(tab + 'Tab')
-    if (gameID == 'cuphead' && mode == 'levels' || mode == 'commBestILs') {
+    if (gameID == 'cuphead' && mode == 'levels') {
         document.getElementById('checkbox_hp').checked = true
     }
-    if (gameID == 'cuphead' && mode == 'levels' || mode == 'commBestILs') {
+    if (gameID == 'cuphead' && mode == 'levels') {
         show('WRs_cupheadILs_options')
-    }
-    const runRecap_details = document.getElementById('runRecap_details')
-    if (globalTab == 'runRecap') {
-        show(runRecap_details)
-        show('musicDiv')
     }
 }
 function action() {
@@ -35,9 +24,6 @@ function action() {
     tabAction()
     if (['leaderboards', 'featured', 'map', 'sort'].includes(globalTab)) {
         show('categorySelect')
-        if (mode == 'commBestILs' && globalTab == 'leaderboards') {
-            hide('categorySelect')
-        }
     } else {
         hide('categorySelect')
     }
@@ -48,51 +34,36 @@ function action() {
     updateCategories()
 }
 function tabAction() {
-    if (['runRecap', 'commBest'].includes(globalTab) && mode != 'commBestILs') {
-        showTab('home')
-    } else {
-        switch (globalTab) {
-            case 'home':
-                generateHome();
-                break;
-            case 'leaderboards':
-                generateLeaderboards();
-                break;
-            case 'WRs':
-                generateWRs();
-                break;
-            case 'featured':
-                generateFeatured();
-                break;
-            case 'map':
-                generateMap();
-                break;
-            case 'sort':
-                generateSort();
-                break;
-            case 'runRecap':
-                runRecapViewPage(runRecapView)
-                break
-            case 'commBest':
-                generateCommBest()
-                break
-            case 'ballpit':
-                ballpit()
-                break
-        }
-        fontAwesomePage = fontAwesomeSet[globalTab]
-        if (fontAwesomePage) {
-            if (globalTab == 'home') {
-                if (mode == 'commBestILs') {
-                    show('pageTitle')
-                    setPageTitle('tasks', 'Comm Best ILs')
-                } else {
-                    hide('pageTitle')
-                }
-            } else {
-                show('pageTitle')
-                setPageTitle(fontAwesomePage[1], fontAwesomePage[0])
-            }
+    switch (globalTab) {
+        case 'home':
+            generateHome();
+            break;
+        case 'leaderboards':
+            generateLeaderboards();
+            break;
+        case 'WRs':
+            generateWRs();
+            break;
+        case 'featured':
+            generateFeatured();
+            break;
+        case 'map':
+            generateMap();
+            break;
+        case 'sort':
+            generateSort();
+            break;
+        case 'ballpit':
+            ballpit()
+            break
+    }
+    fontAwesomePage = fontAwesomeSet[globalTab]
+    if (fontAwesomePage) {
+        if (globalTab == 'home') {
+            hide('pageTitle')
+        } else {
+            show('pageTitle')
+            setPageTitle(fontAwesomePage[1], fontAwesomePage[0])
         }
     }
 }

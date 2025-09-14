@@ -140,32 +140,9 @@ window.firebaseUtils = {
             querySnapshot.forEach(doc => {
                 globalCache.push(doc.data());
             });
-            if (mode != 'commBestILs') {
-                cachedCategories()
-            } else {
-                extraCategory.players = globalCache[commBestILsCategory.category].players
-                extraCategory.runs = globalCache[commBestILsCategory.category].runs
-                fetchAllData()
-            }
+            cachedCategories()
         } catch (error) {
             console.error("Error fetching documents: ", error)
         }
-    },
-    firestoreWriteRR: async () => {
-        const obj = {
-            sav: runRecap_savFile,
-            username: localStorage.getItem('username'),
-            category: commBestILsCategory.name,
-            time: runRecapTime,
-            date: new Date()
-        }
-        console.log(obj)
-        // await addDoc(collection(db, 'runRecap'), obj)
-        //     .then(() => {
-        //         console.log(`Run Recap written`);
-        //     })
-        //     .catch((error) => {
-        //         console.error(`Error writing document ${i}: `, error);
-        //     });
     },
 }

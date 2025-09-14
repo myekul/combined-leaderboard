@@ -19,14 +19,14 @@ function getWorldRecordPlayers(categoryIndex) {
     sortCategoryIndex = categoryIndex
     const playersCopy = [...players]
     sortPlayers(playersCopy)
-    // if (['levels', 'commBestILs'].includes(mode)) {
+    // if (['levels'].includes(mode)) {
     //     HTMLContent += `<td>${getImage(categories[categoryIndex].info.id)}</td>`
     // }
     const category = categories[categoryIndex]
     let worldRecord = getWorldRecord(category)
     if (!worldRecord) worldRecord = ''
     if (document.getElementById('checkbox_WRs_date').checked) {
-        HTMLContent += gameID != 'tetris' && mode != 'commBestILs' ? `<td>${playersCopy[0].runs[sortCategoryIndex].date}</td>` : ''
+        HTMLContent += gameID != 'tetris' ? `<td>${playersCopy[0].runs[sortCategoryIndex].date}</td>` : ''
     }
     if (gameID == 'cuphead' && mode != 'fullgame') {
         if (document.getElementById('checkbox_WRs_dps').checked) {
@@ -293,7 +293,7 @@ function WRsChart() {
                 fontSize: 12
             },
             minValue: 0,
-            maxValue: gameID == 'cuphead' && mode == 'levels' || mode == 'commBestILs' ? 120 : max
+            maxValue: gameID == 'cuphead' && mode == 'levels' ? 120 : max
         },
         vAxis: {
             title: checkbox_hp ? 'HP' : '# of WRs',
@@ -374,7 +374,7 @@ function showWRsTab(tab) {
     document.getElementById('WRsChart').innerHTML = ''
     if (WRsTab == 'chart') {
         show('WRsChartSection')
-        if ((gameID == 'cuphead' && mode == 'levels' || mode == 'commBestILs')) {
+        if ((gameID == 'cuphead' && mode == 'levels')) {
             show('WRsChart_options')
         } else {
             document.getElementById('dropdown_WRsChart').value = 'default'

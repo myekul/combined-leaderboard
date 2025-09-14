@@ -34,53 +34,44 @@ function reportCard(player) {
                     <td style='color:white;padding-right:3px;text-align:right'>${run?.debug ? '*' : ''}${getTrophy(place)}</td>`
             HTMLContent += image ? `<td id='modal-img' class='${classNameLogic(category)}'>${image}</td>` : ''
             HTMLContent += `<td class='${classNameLogic(category)}' style='text-align:left;padding:2px 3px'>${category.name}</td>`
-            if (mode != 'commBestILs') {
-                HTMLContent += reportCardSection(category, categoryIndex, run.score, run.percentage)
-            }
-
+            HTMLContent += reportCardSection(category, categoryIndex, run.score, run.percentage)
             HTMLContent += `</tr>`
         })
     }
     HTMLContent += `</table>`
     // HTMLContent += `<div><div id='modal_rankComparison' style='min-width:70px'>${rankComparison(player.rank)}</div></div>`
     HTMLContent += `</div>`
-    if (mode != 'commBestILs') {
-        HTMLContent += `<div class='container' style='gap:8px'>`
-        if (player.hasAllRuns) {
-            HTMLContent += `<div id='modal_sliders' onclick="toggleSliders()" class='grow'>${fontAwesome('sliders')}</div>`
-        }
-        HTMLContent +=
-            `<div class='textBox'><table class='background2'>
+    HTMLContent += `<div class='container' style='gap:8px'>`
+    if (player.hasAllRuns) {
+        HTMLContent += `<div id='modal_sliders' onclick="toggleSliders()" class='grow'>${fontAwesome('sliders')}</div>`
+    }
+    HTMLContent +=
+        `<div class='textBox'><table class='background2'>
             <tr>
                 <td>Rank:</td>
                 <td id='modal_rank' style='padding:0 5px'>${player.rank}</td>
             </tr>`
-        if (player.hasAllRuns) {
-            HTMLContent +=
-                `<tr>
+    if (player.hasAllRuns) {
+        HTMLContent +=
+            `<tr>
                     <td>GPA:</td>
                     <td id='modal_gpa'>${getGPA(player.score)}</td>
                 </tr>`
-        }
-        HTMLContent += `<td colspan=2 id='modal_scoreGradeSpan'>${scoreGradeSpan(player.score)}</td>`
-        HTMLContent += `</table></div>`
-        HTMLContent += `<div id='modal_refresh' onclick="toggleSliders();toggleSliders()" class='grow' style='display:none'>${fontAwesome('refresh')}</div>`
-        HTMLContent += `</div>`
     }
+    HTMLContent += `<td colspan=2 id='modal_scoreGradeSpan'>${scoreGradeSpan(player.score)}</td>`
+    HTMLContent += `</table></div>`
+    HTMLContent += `<div id='modal_refresh' onclick="toggleSliders();toggleSliders()" class='grow' style='display:none'>${fontAwesome('refresh')}</div>`
+    HTMLContent += `</div>`
     const myekulSaysCheck = myekulSays[player.name]
     const iconSize = 26
     HTMLContent += `<div class='container' style='align-items:center'>`
     HTMLContent += myekulSaysCheck ? `<div id='myekulSaysButton' class='grow' onclick="myekulSaysAction()"><img src='${sharedAssetsURL('myekul')}' style='width:${iconSize}px;height:auto'></div>` : `<div style='width:${iconSize}px;height:${iconSize}px'></div>`
     HTMLContent += myekulSaysCheck ? `<div id='myekulSaysEmpty' style='display:none;width:${iconSize}px;height:auto'></div>` : ''
     HTMLContent += `<div class='container'></div>`
-    if (mode != 'commBestILs') {
-        const iconSize2 = 30
-        const user = players.find(player => player.name == localStorage.getItem('username'))
-        HTMLContent += user ? `<div id='modal_userComparison' onclick="toggleUserComparison()" class='grow' style='width:${iconSize2}px;text-align:center'>${fontAwesome('exchange')}</div>` : ''
-        HTMLContent += `<div id='modal_sliders' onclick="scoreBreakdownInfo()" class='grow ${player.explanation ? 'myekulColor' : ''}' style='width:${iconSize2}px;text-align:center'>${fontAwesome('info-circle')}</div>`
-    } else {
-        HTMLContent += `<div class='container'></div>`
-    }
+    const iconSize2 = 30
+    const user = players.find(player => player.name == localStorage.getItem('username'))
+    HTMLContent += user ? `<div id='modal_userComparison' onclick="toggleUserComparison()" class='grow' style='width:${iconSize2}px;text-align:center'>${fontAwesome('exchange')}</div>` : ''
+    HTMLContent += `<div id='modal_sliders' onclick="scoreBreakdownInfo()" class='grow ${player.explanation ? 'myekulColor' : ''}' style='width:${iconSize2}px;text-align:center'>${fontAwesome('info-circle')}</div>`
     HTMLContent += `</div>`
     const textStyle = 'font-size:80%;max-width:275px;padding-bottom:15px'
     HTMLContent += player.explanation ? `<div id='playerExplanation' class='container textBlock' style='display:none;${textStyle}'>${player.explanation}</div>` : ''
@@ -172,7 +163,7 @@ function reportCardSection(category, categoryIndex, score, percentage) {
         ${userComparison(categoryIndex)}
         <td id='modal_category_${categoryIndex}_leftArrow' class='grow' style='display:none;padding-left:7px' onclick="moveSlider(${categoryIndex})">${fontAwesome('toggle-left')}</td>
         <td id='modal_category_${categoryIndex}_rightArrow' class='grow' style='display:none;padding-right:5px' onclick="moveSlider(${categoryIndex},-0.1)">${fontAwesome('toggle-right')}</td>
-        <td id='modal_category_${categoryIndex}_visual_div' class='background1 container' style='justify-content:left'><div class='${className}' style='height:23px;color:transparent !important;width:${percentage == 100 ? 102 : normalize(percentage,80)}%'>dummy</div></td>
+        <td id='modal_category_${categoryIndex}_visual_div' class='background1 container' style='justify-content:left'><div class='${className}' style='height:23px;color:transparent !important;width:${percentage == 100 ? 102 : normalize(percentage, 80)}%'>dummy</div></td>
         <td id='modal_category_${categoryIndex}_slider_div' style='display:none'><input id='modal_category_${categoryIndex}_slider' style='width:250px;accent-color:${accentColor}' class='reverse' type='range' oninput='adjustGrade(${categoryIndex})' step='0.1' min='80' max='${category.runs[0].percentage}' value='${Math.round(percentage)}'></td>`
     } else {
         HTMLContent += `<td></td><td></td>${truePercentage(categoryIndex)}`

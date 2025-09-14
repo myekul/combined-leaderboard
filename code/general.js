@@ -61,7 +61,6 @@ function getImage(image, heightParam) {
     return `<img src='${src}' style='height:${height}px;width:auto'>`
 }
 function getColorClass() {
-    if (mode == 'commBestILs') return commBestILsCategory.className
     if (cupheadVersion == 'legacy') return 'legacy'
     return gameID == 'cuphead' ? DLCnoDLC == 'dlc' ? 'dlc' : 'cuphead' : ''
 }
@@ -76,7 +75,7 @@ function getTrophy(place) {
     } else {
         return ''
     }
-    themeID = gameID == 'cuphead' ? 'jre1dqwn' : 'e87d4p8q'
+    // themeID = gameID == 'cuphead' ? 'jre1dqwn' : 'e87d4p8q'
     if (place) {
         return `<img src='images/trophy/${['cuphead', 'sm64', 'titanfall_2', 'ssb64', 'ssbm'].includes(gameID) ? gameID + '/' : ''}${place}.png' title='${placeText}' style='height:14px'>`
     }
@@ -137,7 +136,6 @@ function getNumCols() {
             numCols++
         }
     })
-    if (mode == 'commBestILs') numCols = 1
     return numCols
 }
 function showDefault() {
@@ -205,28 +203,22 @@ function normalize(percentage, value = 50) {
     }
     return ((percentage - value) / (100 - value)) * 100
 }
-function getEveryRun(numRuns, sortRange, extra) {
+function getEveryRun(numRuns, sortRange) {
     const everyRun = []
     players.slice(0, numRuns).forEach((player, playerIndex) => {
-        if (extra && mode == 'commBestILs') {
-            if (player.extra && commBest) {
-                everyRun.push({ run: player.extra, playerIndex: playerIndex })
-            }
-        } else {
-            if (sortCategoryIndex == -1) {
-                player.runs.forEach((run, runIndex) => {
-                    if (run) {
-                        if ((sortRange && sortLogic(run, sortRange)) || !sortRange) {
-                            everyRun.push({ run: run, playerIndex: playerIndex, categoryIndex: runIndex })
-                        }
-                    }
-                })
-            } else {
-                const run = player.runs[sortCategoryIndex]
+        if (sortCategoryIndex == -1) {
+            player.runs.forEach((run, runIndex) => {
                 if (run) {
                     if ((sortRange && sortLogic(run, sortRange)) || !sortRange) {
-                        everyRun.push({ run: run, playerIndex: playerIndex, categoryIndex: sortCategoryIndex })
+                        everyRun.push({ run: run, playerIndex: playerIndex, categoryIndex: runIndex })
                     }
+                }
+            })
+        } else {
+            const run = player.runs[sortCategoryIndex]
+            if (run) {
+                if ((sortRange && sortLogic(run, sortRange)) || !sortRange) {
+                    everyRun.push({ run: run, playerIndex: playerIndex, categoryIndex: sortCategoryIndex })
                 }
             }
         }
@@ -253,4 +245,50 @@ function toggleSection(section) {
         show(section)
         toggleButton.innerHTML = fontAwesome('close')
     }
+}
+function runRecapPlayer(elem) {
+    const playerString = localStorage.getItem('username')
+    const player = players.find(player => player.name == playerString)
+    globalPlayerIndex = player ? player.rank - 1 : -1
+    const playerName = player ? getPlayerName(player) : playerString
+    let HTMLContent = `<div class='container' style='gap:8px;margin:0'>`
+    HTMLContent += player ? `<div>${getPlayerIcon(player, elem == 'username' ? 28 : 40)}</div>` : ''
+    HTMLContent += `<div style='font-size:${elem == 'username' ? '110' : '130'}%'>${playerName}</div>`
+    HTMLContent += player ? `<div>${getPlayerFlag(player, elem == 'username' ? 14 : 18)}</div>` : ''
+    HTMLContent += `</div>`
+    return HTMLContent
+}
+function showInput(elem) {
+    playSound('move')
+    hide(elem)
+    const input_elem = document.getElementById('input_' + elem)
+    show(input_elem)
+    input_elem.focus()
+    input_elem.select()
+    let handled = false;
+    input_elem.addEventListener('change', () => {
+        if (!handled) {
+            hideInput(elem);
+            handled = true;
+        }
+    });
+    input_elem.addEventListener('blur', () => {
+        if (!handled) {
+            hideInput(elem);
+            handled = true;
+        }
+    });
+}
+function hideInput(elem) {
+    const input_elem = document.getElementById('input_' + elem)
+    const input = input_elem.value
+    hide(input_elem)
+    playSound('category_select')
+    const startElem = document.getElementById(elem)
+    if (elem == 'username') {
+        localStorage.setItem('username', input.trim() ? input : localStorage.getItem('username'))
+        startElem.innerHTML = runRecapPlayer(elem)
+        action()
+    }
+    show(startElem)
 }

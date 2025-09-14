@@ -6,7 +6,7 @@ function setBoardTitle() {
     }
     document.getElementById('boardTitle').innerHTML = generateBoardTitle()
 }
-function generateBoardTitle(extra, categoryIndex, commBest) {
+function generateBoardTitle(extra, categoryIndex) {
     let worldRecord
     const imgSize = 32
     if (categoryIndex == null) {
@@ -106,16 +106,6 @@ function generateBoardTitle(extra, categoryIndex, commBest) {
         if (basegameILs && isleIndex == -1 && bossILindex == -1) {
             HTMLContent += boardTitleCell('cuphead', 'Base Game')
         }
-    }
-    if (mode == 'commBestILs') {
-        const category = commBest ? commBestILs[commBest] : commBestILsCategory
-        const shotSize = categoryIndex > -1 ? 30 : 30
-        HTMLContent += boardTitleCell(category.className, category.name)
-        HTMLContent += category.shot1 ? `<td id='commBestILsWeapons' class='container' style='margin:0;gap:4px;padding:0 3px'>` : ''
-        HTMLContent += category.shot1 ? cupheadShot(category.shot1, shotSize) : ''
-        HTMLContent += category.shot2 ? cupheadShot(category.shot2, shotSize) : ''
-        HTMLContent += category.shot1 ? `</td>` : ''
-        HTMLContent += category.subcat ? boardTitleCell('', category.subcat) : ''
     }
     return boardTitleWrapper(HTMLContent)
 }

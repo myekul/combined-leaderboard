@@ -3,8 +3,8 @@ function generateLeaderboards() {
         sortCategoryIndex = 0
     }
     let HTMLContent = ''
-    HTMLContent += `<div class='container' style='gap:10px;${sortCategoryIndex == -1 && mode != 'commBestILs' ? 'overflow-x:scroll;margin:0 auto' : ''}align-items:flex-start'>`
-    if (sortCategoryIndex == -1 && mode != 'commBestILs') {
+    HTMLContent += `<div class='container' style='gap:10px;${sortCategoryIndex == -1 ? 'overflow-x:scroll;margin:0 auto' : ''}align-items:flex-start'>`
+    if (sortCategoryIndex == -1) {
         categories.forEach((category, categoryIndex) => {
             HTMLContent += `<div>`
             HTMLContent += `<div class='container'>${generateBoardTitle(1, categoryIndex)}</div>`
@@ -14,9 +14,9 @@ function generateLeaderboards() {
     } else {
         HTMLContent += leaderboardsSection(sortCategoryIndex)
     }
-    if (sortCategoryIndex > -1 || mode == 'commBestILs') {
+    if (sortCategoryIndex > -1) {
         sortPlayers(players)
-        const everyRun = getEveryRun(10, null, true)
+        const everyRun = getEveryRun(10, null)
         HTMLContent += `<div style='padding-left:20px'>
         <div id='podium' class='container' style='height:120px;align-items:flex-end;margin:0 100px'>
             <div class='second' style='height:50%'><div class='container' style='transform: translate(0px, -60px)'>${getPlayerIcon(players[1], 70)}</div></div>

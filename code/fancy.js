@@ -1,11 +1,11 @@
 function fancyRun(run, categoryIndex, extra) {
     const category = categories[categoryIndex]
     let HTMLContent = ''
-    if (mode != 'commBestILs') HTMLContent += fancyDate(run)
+    HTMLContent += fancyDate(run)
     if (sortCategoryIndex == -1 && mode != 'fullgame') {
         HTMLContent += `<td style='padding:0 5px'>`
         HTMLContent += category?.info?.id && bossILindex == -1 ? `<div class='container ${category.info.id}' style='border-radius:5px;width:50px;height:50px'>${getImage(category.info.id)}</div>` : ''
-        HTMLContent += sortCategoryIndex == -1 && mode != 'commBestILs' ? categorySpan(category) : ''
+        HTMLContent += sortCategoryIndex == -1 ? categorySpan(category) : ''
         HTMLContent += `</td>`
     }
     HTMLContent += fancyTime(run, categoryIndex, extra)

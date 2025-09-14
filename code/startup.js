@@ -13,7 +13,7 @@ if (!gameParam) {
 }
 const gameID = gameParam;
 let modeParam = getParam('mode')
-if (['fullgame', 'levels', 'commBestILs'].includes(modeParam)) {
+if (['fullgame', 'levels'].includes(modeParam)) {
     setMode(modeParam)
 } else {
     setMode('fullgame')
@@ -82,13 +82,8 @@ function DOMloaded() {
 document.addEventListener('DOMContentLoaded', function () {
     show('bodyContent')
     if (gameID == 'cuphead') {
-        gapi.load("client", loadClient);
         addJSFile('https://myekul.github.io/shared-assets/cuphead/cuphead.js', () => {
-            addJSFile('constants/cuphead/commBest.js', () => {
-                commBestILsCategory = commBestILs['1.1+']
-                generateDropbox('sav')
-                generateDropbox('lss')
-                runRecapDefault()
+            addJSFile('https://myekul.github.io/shared-assets/cuphead/commBest.js', () => {
                 DOMloaded()
             })
         })
@@ -116,22 +111,8 @@ document.querySelectorAll('.toggleSection').forEach(elem => {
 document.querySelectorAll('select').forEach(elem => {
     elem.addEventListener('change', () => {
         playSound('cardflip')
-        if (elem.id == 'dropdown_mode') {
-            switch (elem.value) {
-                case 'fullgame':
-                    getFullgame()
-                    break;
-                case 'levels':
-                    getLevels()
-                    break;
-                case 'commBestILs':
-                    getCommBestILs()
-                    break;
-            }
-        } else {
-            if (!elem.classList.contains('oneGun')) {
-                action()
-            }
+        if (!elem.classList.contains('oneGun')) {
+            action()
         }
     })
 })
@@ -166,9 +147,6 @@ setTabs(['home', 'featured', 'leaderboards', null, 'WRs', 'map', 'sort', null, '
         switch (gameID) {
             case 'cuphead':
                 show('modeSelection')
-                document.querySelectorAll('.cupheadButton').forEach(elem => {
-                    show(elem)
-                })
                 break;
             case 'sm64':
                 show('modeSelection')

@@ -5,9 +5,6 @@ function generateFeatured() {
     }
     everyRun.sort((a, b) => new Date(b.run.date) - new Date(a.run.date))
     everyRun = everyRun.filter(run => run.run.percentage >= 90)
-    if (mode == 'commBestILs') {
-        everyRun = shuffleArray(everyRun)
-    }
     let HTMLContent = ''
     HTMLContent += `<div class='container'>${fancyTable(everyRun)}</div>`
     if (gameID == 'mtpo' && sortCategoryIndex == 0) {
