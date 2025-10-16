@@ -137,7 +137,7 @@ function countryCount() {
     countriesArray.forEach((country, countryIndex) => {
         HTMLContent +=
             `<tr class='${getRowColor(countryIndex)}'>
-                <td style='text-align:right;font-size:75%'>${displayPercentage(getPercentage(country.count / total, 1))}%</td>
+                <td style='text-align:right;font-size:75%'>${displayPercentage(100 * (country.count / total, 1))}%</td>
                 <td>${country.count}</td>
                 <td>${getFlag(country.code, country.name, 15)}</td>
                 <td onclick="openModalCL('country',false,'${country.name}')" class='clickable' style='text-align:left'>${country.name}</td>

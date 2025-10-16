@@ -49,7 +49,7 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Date sort is off by 1 day
 - Calculator uses real percentages instead of balanced percentages
 - Map board title
-- Firebase not loading on startup
+- Firebase not loading on startup - Use run recap solution
 - Leaderboards scroll is bugged
 - Country modal subtitle broken
 - Leaderboards tab is bugged upon page refresh

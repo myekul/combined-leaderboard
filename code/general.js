@@ -33,26 +33,6 @@ function getGPA(value) {
     const gpa = (value / 100 * 4).toString().slice(0, 4)
     return Math.floor(gpa) + displayDecimals(gpa, true)
 }
-function getPercentage(value) {
-    if (value || value == 0) {
-        return value * 100
-    }
-    return ''
-}
-function displayPercentage(percentage) {
-    if (percentage) {
-        percentage = percentage.toFixed(2).toString()
-        let percentageDecimals = '00'
-        if (percentage.split('.').length > 1) {
-            percentageDecimals = percentage.split('.')[1]
-            if (percentageDecimals.length == 1) {
-                percentageDecimals += 0
-            }
-        }
-        return percentage.split('.')[0] + `<span style='font-size:70%;justify-self:flex-end'>.${percentageDecimals}</span>`
-    }
-    return ''
-}
 function getImage(image, heightParam) {
     const extension = gameID == 'spo' ? 'webp' : 'png'
     const height = heightParam ? heightParam : 36

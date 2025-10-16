@@ -63,7 +63,7 @@ function getCupheadSRC() {
                         stopLeaderboards = true
                         window.firebaseUtils.firestoreRead()
                     }
-                }, 2000);
+                }, 5000);
             })
         })
 }

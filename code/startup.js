@@ -83,11 +83,11 @@ document.addEventListener('DOMContentLoaded', function () {
     show('bodyContent')
     if (gameID == 'cuphead') {
         addJSFile('https://myekul.github.io/shared-assets/cuphead/cuphead.js', () => {
-            addJSFile('https://myekul.github.io/shared-assets/cuphead/commBest.js', () => {
+            addJSFile('https://myekul.github.io/run-recap/resources/commBest.js', () => {
                 DOMloaded()
             })
         })
-    } else if (gameID == 'ssbm') {
+    } else if (['tetris', 'ssbm'].includes(gameID)) {
         gapi.load("client", loadClient);
         DOMloaded()
     } else {
