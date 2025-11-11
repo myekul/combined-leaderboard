@@ -40,6 +40,7 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Basketball hoop
 - Titanfall 2 fullgame
 - Tab tooltip
+- Connect 4
 
 ## Known bugs
 - Legacy IL loadouts are unfinished
@@ -48,8 +49,5 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Some YouTube channel links are broken (SRC fault)
 - Date sort is off by 1 day
 - Calculator uses real percentages instead of balanced percentages
-- Map board title
 - Firebase not loading on startup - Use run recap solution
-- Leaderboards scroll is bugged
-- Country modal subtitle broken
 - Leaderboards tab is bugged upon page refresh

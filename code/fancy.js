@@ -42,7 +42,7 @@ function fancyPlayer(playerIndex) {
     let HTMLContent = ''
     HTMLContent += `<td style='padding-left:8px'>${getPlayerFlag(player, 20)}</td>`
     HTMLContent += `<td style='padding:0 5px'>${getPlayerIcon(player, 48)}</td>`
-    HTMLContent += `<td ${sortCategoryIndex == -1 ? `class='clickable' onclick="openModalCL('player',false,'${player.name}')"` : ''} style='font-size:120%;text-align:left;padding-right:8px'>${getPlayerName(player)}</td>`
+    HTMLContent += `<td ${sortCategoryIndex == -1 ? `class='clickable' onclick="openModalCL(false,'${player.name}')"` : ''} style='font-size:120%;text-align:left;padding-right:8px'>${getPlayerName(player)}</td>`
     return HTMLContent
 }
 function fancyTable(runs, numRuns = 5) {

@@ -1,4 +1,4 @@
-function openModalCL(modal, shh, param) {
+function openModalCL(shh, param) {
     modalSliders = false
     showModal = true
     if (['tetris', 'ssbm'].includes(gameID)) {
@@ -7,19 +7,8 @@ function openModalCL(modal, shh, param) {
         numModalPages = 2
     }
     if (modalIndex > numModalPages) modalIndex = 0
-    if (modal != 'player') {
-        modalIndex = 0
-    } else {
-        show('modal-pages')
-    }
-    switch (modal) {
-        case 'player':
-            playerModal(param, shh)
-            break
-        case 'country':
-            openModal(countryModal(param), 'COUNTRY', '', shh)
-            break
-    }
+    show('modal-pages')
+    playerModal(param, shh)
 }
 function closeModalCL() {
     showModal = false
@@ -97,7 +86,7 @@ function videoCollection(player) {
             HTMLContent += fancyRun(run, runIndex)
             if (link?.includes('you')) {
                 const videoID = getYouTubeID(link)
-                HTMLContent += `<td id='modal_stats_${runIndex}' style='text-align:right;padding:0 5px'></td>`
+                HTMLContent += `<td id='modal_stats_${runIndex}' style='text-align:right;padding:0 5px;width:120px'></td>`
                 fetchYouTube(videoID).then(data => {
                     if (data) {
                         // console.log(data)
@@ -177,20 +166,6 @@ function getExtraHeader(category) {
     const cellContent = trimDifficulty(category.name)
     return `<th class='${category.className} ${colorClass}' style="${style}">${cellContent}</th>`
 }
-function countryModal(countryName) {
-    globalCountryName = countryName
-    const country = countries[countryName]
-    let HTMLContent = `<div class='container' style='padding-top:10px'>
-    <div>${getFlag(country.code, country.name, 24)}</div>
-    <div style='font-size:140%;padding-left:10px'>${countryName}</div>`
-    const boardTitle = generateBoardTitle(1)
-    HTMLContent += boardTitle ? `<div class='modalBoardTitle' style='padding-left:20px'>${boardTitle}</div>` : ''
-    HTMLContent += `</div>`
-    document.getElementById('modal-subtitle').innerHTML = HTMLContent
-    playersCopy = [...country.players].slice(0, 100)
-    sortPlayers(playersCopy)
-    return `<div class='container'>${playersTable(playersCopy)}</div>`
-}
 function modalKeyPress() {
     switch (event.key) {
         case 'ArrowLeft':
@@ -205,7 +180,7 @@ function modalKeyPress() {
             event.preventDefault();
             if (globalPlayerIndex > 0 && sortCategoryIndex == -1 && globalTab == 'home') {
                 globalPlayerIndex--
-                openModalCL('player', true, players[globalPlayerIndex].name)
+                openModalCL(true, players[globalPlayerIndex].name)
                 playSound('cardflip')
             } else {
                 playSound('locked')
@@ -215,7 +190,7 @@ function modalKeyPress() {
             event.preventDefault();
             if (globalPlayerIndex < 300 && globalPlayerIndex < players.length - 1 && sortCategoryIndex == -1 && globalTab == 'home') {
                 globalPlayerIndex++
-                openModalCL('player', true, players[globalPlayerIndex].name)
+                openModalCL(true, players[globalPlayerIndex].name)
                 playSound('cardflip')
             } else {
                 playSound('locked')
@@ -226,7 +201,7 @@ function modalKeyPress() {
 function modalLeft() {
     if (modalIndex > 0) {
         modalIndex--
-        openModalCL('player', true, players[globalPlayerIndex].name)
+        openModalCL(true, players[globalPlayerIndex].name)
         playSound('move')
     } else {
         playSound('locked')
@@ -235,7 +210,7 @@ function modalLeft() {
 function modalRight() {
     if (modalIndex < numModalPages) {
         modalIndex++
-        openModalCL('player', true, players[globalPlayerIndex].name)
+        openModalCL(true, players[globalPlayerIndex].name)
         playSound('move')
     } else {
         playSound('locked')

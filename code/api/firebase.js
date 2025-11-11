@@ -124,7 +124,7 @@ window.firebaseUtils = {
             const docRefMain = doc(db, gameID + '_main', String(i));
             await setDoc(docRefMain, globalCache[i])
                 .then(() => {
-                    console.log(`Document ${i} written`);
+                    console.log(`Document ${i + 1} written`);
                 })
                 .catch((error) => {
                     console.error(`Error writing document ${i}: `, error);

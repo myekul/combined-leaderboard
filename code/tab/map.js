@@ -137,15 +137,29 @@ function countryCount() {
     countriesArray.forEach((country, countryIndex) => {
         HTMLContent +=
             `<tr class='${getRowColor(countryIndex)}'>
-                <td style='text-align:right;font-size:75%'>${displayPercentage(100 * (country.count / total, 1))}%</td>
+                <td style='text-align:right;font-size:75%'>${displayPercentage((country.count / total) * 100, 1)}%</td>
                 <td>${country.count}</td>
                 <td>${getFlag(country.code, country.name, 15)}</td>
-                <td onclick="openModalCL('country',false,'${country.name}')" class='clickable' style='text-align:left'>${country.name}</td>
+                <td onclick="countryModal('${country.name}')" class='clickable' style='text-align:left'>${country.name}</td>
                 ${trophyCase(country)}
                 </tr>`
     })
     HTMLContent += `</table></div>`
     return HTMLContent
+}
+function countryModal(countryName) {
+    globalCountryName = countryName
+    const country = countries[countryName]
+    playersCopy = [...country.players].slice(0, 100)
+    sortPlayers(playersCopy)
+    openModal(`<div class='container'>${playersTable(playersCopy)}</div>`, 'COUNTRY')
+    let HTMLContent = `<div class='container' style='padding-top:10px'>
+    <div>${getFlag(country.code, country.name, 24)}</div>
+    <div style='font-size:140%;padding-left:10px'>${countryName}</div>`
+    const boardTitle = generateBoardTitle(1)
+    HTMLContent += boardTitle ? `<div class='modalBoardTitle' style='padding-left:20px'>${boardTitle}</div>` : ''
+    HTMLContent += `</div>`
+    document.getElementById('modal-subtitle').innerHTML = HTMLContent
 }
 function flagArmy() {
     countriesObject = sortCategoryIndex > -1 ? categories[sortCategoryIndex].countries : countries
@@ -156,7 +170,7 @@ function flagArmy() {
     HTMLContent = ''
     countriesArray.forEach(country => {
         for (i = 0; i < country.count; i++) {
-            HTMLContent += `<div onclick="openModalCL('country',false,'${country.name}')" class='container grow'>${getFlag(country.code, country.name, 20)}</div>`
+            HTMLContent += `<div onclick="countryModal('${country.name}')" class='container grow'>${getFlag(country.code, country.name, 20)}</div>`
         }
     })
     document.getElementById('flagArmy').innerHTML = HTMLContent
@@ -237,7 +251,7 @@ function createMap() {
                 })
                 .on("click", (event, d) => {
                     if (d.properties.value) {
-                        openModalCL('country', false, d.properties.value.name)
+                        countryModal(d.properties.value.name)
                     }
                 })
         });

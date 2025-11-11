@@ -177,8 +177,7 @@ svg {
 .videoCollection div {
     display: flex;
     margin: auto;
-    justify-content: center;
-    width: 100px
+    justify-content: center
 }
 
 .trophy {

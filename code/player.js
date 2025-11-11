@@ -9,7 +9,7 @@ function getPlayerDisplay(player, playerIndex) {
             HTMLContent += `<td>${getPlayerIcon(player, 18)}</td>`
         }
     }
-    const clickable = player?.rank && !['map'].includes(globalTab) ? `onclick="openModalCL('player',false,'${player.name}')" class='clickable short-border'` : ''
+    const clickable = player?.rank && !['map'].includes(globalTab) ? `onclick="openModalCL(false,'${player.name}')" class='clickable short-border'` : ''
     const vibrant = document.getElementById('checkbox_vibrant')?.checked ? `--border-color:${getColorFromClass(getLetterGrade(player.score).className)};` : ''
     HTMLContent += `<td ${clickable} style='--border-width:${normalize(player?.score, 80)}%;${vibrant}text-align:left;font-weight: bold;font-size:80%;padding-right:5px'>${getPlayerName(player ? player : playerIndex)}</td>`
     return HTMLContent
