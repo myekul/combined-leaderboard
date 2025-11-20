@@ -32,7 +32,7 @@
                     <div id="title"></div>
                     <div class='container' style="transform: translate(0px, -5px);font-size:90%;justify-content: left;">
                         <div>The best overall players across each category</div>
-                        <div onclick="openModal(modalInfo(), 'INFO')" class="grow" style="padding-left:10px;width:25px">
+                        <div onclick="showTab('info');playSound('category_select')" class="grow" style="padding-left:10px;width:25px">
                             <i class="fa fa-info-circle"></i>
                         </div>
                     </div>
@@ -43,9 +43,6 @@
             <div class="sticky">
                 <div id='headerRow' class="container">
                     <div id="sidebarDiv"></div>
-                    <div onclick="openModal(modalInfo(), 'INFO')" class="grow" style="width:25px"><i
-                            class="fa fa-info-circle"></i>
-                    </div>
                     <div id='modeSelection' class='container' style="display:none; margin:0">
                         <div id='fullgameButton' class='button' onclick="getFullgame()">Full Game</div>
                         <div id='levelsButton' class='button' onclick="getLevels()">Individual
@@ -98,6 +95,8 @@
                                 class="button cuphead" style="width:100px">Base Game</div>
                             <div id='fullgameCategories_currentPatch' onclick="getFullgame('currentPatch')"
                                 class="button cuphead" style="width:120px">Current Patch</div>
+                            <!-- <div id='fullgameCategories_trueAny' onclick="getFullgame('trueAny')"
+                                class="button cuphead" style="width:100px">True Any%</div> -->
                             <div class='container' style='width:15px;margin:0'>&#8226;</div>
                             <div id='fullgameCategories_simple' onclick="getFullgame('simple')" class="button simple">
                                 Simple</div>
@@ -437,9 +436,17 @@
                     </div>
                 </div>
             </div>
+            <!-- Connect 4 -->
+            <div id="connect4Tab" class="tabs">
+                <div id="connect4"></div>
+            </div>
             <!-- Ballpit -->
             <div id="ballpitTab" class="tabs">
                 <div id="ballpit"></div>
+            </div>
+            <!-- Info -->
+            <div id="infoTab" class="tabs container">
+                <div id="info"></div>
             </div>
         </main>
         <footer></footer>
@@ -453,7 +460,6 @@
 
     <script src="code/elements/modal/modal.js"></script>
     <script src="code/elements/modal/reportCard.js"></script>
-    <script src="code/elements/modal/info.js"></script>
     <script src="code/elements/modal/spotlight.js"></script>
 
     <script src="code/elements/boardtitle.js"></script>
@@ -469,7 +475,9 @@
     <script src="code/tab/WRs.js"></script>
     <script src="code/tab/map.js"></script>
     <script src="code/tab/sort.js"></script>
+    <script src="code/tab/connect4.js"></script>
     <script src="code/tab/ballpit.js"></script>
+    <script src="code/tab/info.js"></script>
 
     <script src="code/cupheadLevels.js"></script>
 

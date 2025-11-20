@@ -1,4 +1,4 @@
-function modalInfo() {
+function generateInfo() {
     let HTMLContent = `<img src='${sharedAssetsURL('myekul')}' class='container' style='height:50px;width:50px'><div class='textBlock'>`
     HTMLContent += `Hello! My name is ${myekulColor(`myekul`)} and I am a Cuphead speedrunner and web developer.
         This is my ${myekulColor(`Combined Leaderboard`)} project, a tool that organizes and ranks players based on their overall domination of a game's leaderboards.
@@ -27,18 +27,6 @@ function modalInfo() {
             <br><br>For each missing run, the player will recieve a placeholder score to be used in overall score calculation.
             The default placeholder is <span class='myekulColor'>([Player's best score] + 80) / 2</span>.
             To view a player's calculation scores, press the ${fontAwesome('info-circle')} button in the bottom right of their report card.<br>`
-    // if (['cuphead', 'sm64'].includes(gameID)) {
-    //     HTMLContent += `<br><div class='textBox'><i class='fa fa-exclamation-triangle myekulColor'></i> In some cases, the missing run penalty will be reduced if the player has another run in a similar category.`
-    //     if (gameID == 'cuphead') {
-    //         HTMLContent += `<br><br>-If a player has an NMG run but no submitted 1.1+ run, their NMG run will be used in 1.1+ score calculation.
-    //             <br>-If a player has a 1.1+ run but no NMG run, their NMG penalty will be reduced.
-    //             <br>-If a player has a 1.1+ and/or NMG run and a DLC run but no DLC+Base run, their DLC+Base penalty will be reduced.
-    //             <br>-If a player has a DLC+Base run but no DLC run, their DLC penalty will be reduced.`
-    //     } else if (gameID == 'sm64') {
-    //         HTMLContent += `<br><br>-If a player has a 0-Star run but no 1-Star run, their 1-Star penalty will be reduced.`
-    //     }
-    //     HTMLContent += `</div>`
-    // }
     HTMLContent += infoTitle('Disclaimer')
     HTMLContent += `<br>Overall player rank calculation can be a very subjective thing.
     I made this website as a fun hobby project, and it may not reflect the actual skill levels of each player.
@@ -61,7 +49,7 @@ function modalInfo() {
         It was created from scratch, independently devloped, and crafted specifically for the speedrunning community.
         It is also open source, ad-free, nonprofit, and costs $0 to use, host, and maintain. Enjoy!`
     HTMLContent += `</div><img src='${sharedAssetsURL('myekul')}' class='container' style='height:50px;width:50px;padding:10px 0'>`
-    return HTMLContent
+    document.getElementById('info').innerHTML = HTMLContent
 }
 function infoTitle(title) {
     return `<br><div class='banner font2' style='font-size: 140%;padding: 0 10px;border-radius: 5px;'>${title}</div>`

@@ -5,11 +5,13 @@ function getFullgame(categoryName) {
     if (gameID == 'cuphead') {
         categories = categorySet['main'].map(obj => ({ ...obj }))
         if (categoryName) {
-            if (['basegame', 'currentPatch', 'simple', 'expert', 'oneGun'].includes(categoryName)) {
+            if (['basegame', 'currentPatch', 'trueAny', 'simple', 'expert', 'oneGun'].includes(categoryName)) {
                 if (categoryName == 'basegame') {
                     categories = categorySet['main'].slice(0, 3)
                 } else if (categoryName == 'currentPatch') {
                     categories = categorySet['main'].slice(2, 5)
+                } else if (categoryName == 'trueAny') {
+                    categories = [...categorySet['main'].slice(0, 2), ...categorySet['main'].slice(3, 5)]
                 } else if (categoryName == 'simple') {
                     const simple = ['zqoeg95l', 'jq6owpvq', 'jqz5w02q']
                     simple.forEach((subcat, index) => {
@@ -73,7 +75,7 @@ function getFullgame(categoryName) {
         }
     }
     resetLoad()
-    if (!(['sm64', 'smb1', 'sms', 'bfbb'].includes(gameID) && mode == 'fullgame' && !categoryName && firstTimeFull)) {
+    if (!(['cuphead', 'sm64', 'smb1', 'sms', 'bfbb'].includes(gameID) && mode == 'fullgame' && !categoryName && firstTimeFull)) {
         categories.forEach(category => {
             let variables = ''
             if (category.var) {

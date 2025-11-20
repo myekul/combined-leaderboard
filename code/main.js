@@ -61,7 +61,7 @@ function prepareData() {
     const username = localStorage.getItem('username')
     if (username) {
         document.getElementById('input_username').value = username
-        document.getElementById('username').innerHTML = runRecapPlayer('username')
+        document.getElementById('username').innerHTML = runRecapPlayer()
     }
     show('username')
 }
@@ -136,7 +136,6 @@ function generateRanks() {
                 }
             }
         })
-        // player.explanation = ''
         missingRuns.forEach(runIndex => {
             player.percentageSum += ideal
             player.truePercentages[runIndex] = ideal

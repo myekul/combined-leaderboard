@@ -226,15 +226,15 @@ function toggleSection(section) {
         toggleButton.innerHTML = fontAwesome('close')
     }
 }
-function runRecapPlayer(elem) {
+function runRecapPlayer() {
     const playerString = localStorage.getItem('username')
     const player = players.find(player => player.name == playerString)
     globalPlayerIndex = player ? player.rank - 1 : -1
     const playerName = player ? getPlayerName(player) : playerString
     let HTMLContent = `<div class='container' style='gap:8px;margin:0'>`
-    HTMLContent += player ? `<div>${getPlayerIcon(player, elem == 'username' ? 28 : 40)}</div>` : ''
-    HTMLContent += `<div style='font-size:${elem == 'username' ? '110' : '130'}%'>${playerName}</div>`
-    HTMLContent += player ? `<div>${getPlayerFlag(player, elem == 'username' ? 14 : 18)}</div>` : ''
+    HTMLContent += player ? `<div>${getPlayerIcon(player, 28)}</div>` : ''
+    HTMLContent += `<div style='font-size:110%'>${playerName}</div>`
+    HTMLContent += player ? `<div>${getPlayerFlag(player, 14)}</div>` : ''
     HTMLContent += `</div>`
     return HTMLContent
 }
@@ -267,7 +267,7 @@ function hideInput(elem) {
     const startElem = document.getElementById(elem)
     if (elem == 'username') {
         localStorage.setItem('username', input.trim() ? input : localStorage.getItem('username'))
-        startElem.innerHTML = runRecapPlayer(elem)
+        startElem.innerHTML = runRecapPlayer()
         action()
     }
     show(startElem)

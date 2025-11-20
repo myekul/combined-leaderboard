@@ -53,8 +53,14 @@ function tabAction() {
         case 'sort':
             generateSort();
             break;
+        case 'connect4':
+            generateConnect4()
+            break
         case 'ballpit':
             ballpit()
+            break
+        case 'info':
+            generateInfo()
             break
     }
     fontAwesomePage = fontAwesomeSet[globalTab]

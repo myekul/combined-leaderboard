@@ -71,13 +71,11 @@ function reportCard(player) {
     const iconSize2 = 30
     const user = players.find(player => player.name == localStorage.getItem('username'))
     HTMLContent += user ? `<div id='modal_userComparison' onclick="toggleUserComparison()" class='grow' style='width:${iconSize2}px;text-align:center'>${fontAwesome('exchange')}</div>` : ''
-    HTMLContent += `<div id='modal_sliders' onclick="scoreBreakdownInfo()" class='grow ${player.explanation ? 'myekulColor' : ''}' style='width:${iconSize2}px;text-align:center'>${fontAwesome('info-circle')}</div>`
+    HTMLContent += `<div id='modal_sliders' onclick="scoreBreakdownInfo()" class='grow' style='width:${iconSize2}px;text-align:center'>${fontAwesome('info-circle')}</div>`
     HTMLContent += `</div>`
-    const textStyle = 'font-size:80%;max-width:275px;padding-bottom:15px'
-    HTMLContent += player.explanation ? `<div id='playerExplanation' class='container textBlock' style='display:none;${textStyle}'>${player.explanation}</div>` : ''
     HTMLContent += myekulSaysCheck ? `<div id='myekulSays' style='display:none'>
         <div class='clickable' onclick="myekulSaysAction()">${myekulSaysDiv()}</div>
-        <div class='container textBlock' style='${textStyle}'>${myekulSaysCheck}</div>
+        <div class='container textBlock' style='font-size:80%;max-width:275px;padding-bottom:15px'>${myekulSaysCheck}</div>
         </div>` : ''
     return HTMLContent
 }
@@ -95,7 +93,6 @@ function myekulSaysAction() {
 }
 function scoreBreakdownInfo() {
     playSound('move')
-    players[globalPlayerIndex].explanation ? toggleVisibility('playerExplanation') : ''
     for (let i = 0; i < categories.length; i++) {
         toggleVisibility('modal_category_' + i + '_truePercentage')
     }

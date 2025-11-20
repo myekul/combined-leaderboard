@@ -68,6 +68,8 @@ function generateBoardTitle(extra, categoryIndex) {
             HTMLContent += boardTitleCell('cuphead', 'Base Game')
         } else if (fullgameCategory == 'currentPatch') {
             HTMLContent += boardTitleCell('cuphead', 'Current Patch')
+        } else if (fullgameCategory == 'trueAny') {
+            HTMLContent += boardTitleCell('cuphead', 'True Any%')
         } else if (fullgameCategory == 'simple') {
             HTMLContent += boardTitleCell('simple', 'Simple')
         } else if (fullgameCategory == 'expert') {

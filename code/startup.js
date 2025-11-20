@@ -147,7 +147,7 @@ showTab = function (...args) {
     showTabOG(...args)
     showTabCL(...args)
 }
-setTabs(['home', 'featured', 'leaderboards', null, 'WRs', 'map', 'sort', null, 'ballpit'])
+setTabs(['info', 'home', 'featured', 'leaderboards', null, 'WRs', 'map', 'sort', null, 'connect4', 'ballpit'])
     .then(() => {
         switch (gameID) {
             case 'cuphead':
