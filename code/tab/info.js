@@ -12,11 +12,13 @@ function generateInfo() {
             <br>Each player recieves an overall score (out of 100) and a letter grade, which are determined by a few things.
             First, to calculate a given run score (0-100), ${myekulColor(`the world record is divided by the run time`)}.
             <br><br>
-            <div class='container textBox' style='justify-content:left'>
+            <div class='container textBox border' style='justify-content:left'>
             <div onclick='generateInfoExample()' class='grow' style='width:25px;text-align:center;padding-right:3px'><i class='fa fa-refresh'></i></div>
             <div id='infoExample'>${infoExample()}</div></div>
-
-            <div class='textBox'><i class='fa fa-exclamation-triangle myekulColor'></i> If a player has a run score worse than the average of their best score and
+            <br>
+            <div class='textBox border'>
+            <i class='fa fa-exclamation-triangle myekulColor'></i>
+            If a player has a run score worse than the average of their best score and
             ${scoreGradeSpan(80)},
              but they have another run greater than that, then ${myekulColor(`their bad score will be forgiven`)}.
             This logic ensures that submitting a bad run is better than having no submission at all.

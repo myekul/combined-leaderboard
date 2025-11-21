@@ -104,8 +104,8 @@ function cupheadLevelWRs() {
                 const loadout = thisCategory.loadout
                 HTMLContent += `<td>${loadout[0] ? cupheadShot(loadout[0], '', true) : ''}</td>`
                 HTMLContent += `<td>${loadout[1] ? cupheadShot(loadout[1], '', true) : ''}</td>`
-                HTMLContent += loadout[2] ? `<td><img src='https://myekul.github.io/shared-assets/cuphead/images/inventory/super/${loadout[2]}.png' class='container'></td>` : `<td></td>`
-                HTMLContent += loadout[3] ? `<td><img src='https://myekul.github.io/shared-assets/cuphead/images/inventory/charm/${loadout[3]}.png' class='container'></td>` : `<td></td>`
+                HTMLContent += loadout[2] ? `<td><img src='https://myekul.com/shared-assets/cuphead/images/inventory/super/${loadout[2]}.png' class='container'></td>` : `<td></td>`
+                HTMLContent += loadout[3] ? `<td><img src='https://myekul.com/shared-assets/cuphead/images/inventory/charm/${loadout[3]}.png' class='container'></td>` : `<td></td>`
             }
             if (big5()) {
                 HTMLContent += `<td class='${thisCategory.difficulty}' style='width:6px'></td>`

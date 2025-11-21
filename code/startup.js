@@ -82,8 +82,8 @@ function DOMloaded() {
 document.addEventListener('DOMContentLoaded', function () {
     show('bodyContent')
     if (gameID == 'cuphead') {
-        addJSFile('https://myekul.github.io/shared-assets/cuphead/cuphead.js', () => {
-            fetch(`https://myekul.github.io/run-recap/resources/categoryData.json`)
+        addJSFile('https://myekul.com/shared-assets/cuphead/cuphead.js', () => {
+            fetch(`https://myekul.com/run-recap/resources/categoryData.json`)
                 .then(response => response.json())
                 .then(data => {
                     commBestILs = data
