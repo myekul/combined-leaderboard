@@ -1,7 +1,7 @@
 google.charts.load('current', { packages: ['corechart'] });
 initializeHash('home')
 setTitle('COMBINED LEADERBOARD')
-setFooter('2024-2025')
+setFooter(2024)
 setSidebar(generateSidebar())
     .then(() => {
         document.getElementById('sidebarLogo').src = `images/logo/${gameID}.png`
