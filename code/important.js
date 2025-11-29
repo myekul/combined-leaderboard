@@ -28,7 +28,7 @@ function action() {
         hide('categorySelect')
     }
     if (localStorage.getItem('username') == 'Narcis Prince') {
-        document.getElementById('myekulHeader').src = 'images/levels/spo/narcisprince.webp'
+        document.getElementById('siteIcon').src = 'images/levels/spo/narcisprince.webp'
     }
     setBoardTitle()
     updateCategories()

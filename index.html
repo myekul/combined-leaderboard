@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://myekul.com/shared-assets/sm64/sm64.css">
     <link rel="stylesheet" href="styles/games.css">
     <link rel="stylesheet" href="styles/styles.css">
-    <link id='favicon' rel="shortcut icon" href='https://myekul.com/shared-assets/images/myekul.png'>
+    <link id='favicon' rel="shortcut icon" href='images/favicon.png'>
     <title>Combined Leaderboard</title>
     <script src="https://apis.google.com/js/api.js"></script>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
@@ -23,16 +23,14 @@
     <div id="bodyContent" style="display:none">
         <header>
             <div id='srcGame' class="container" style="position:absolute;top:5px;left:25px"></div>
-            <div class="container" style="gap:4px;padding-top:12px">
-                <a href="https://myekul.com">
-                    <img id='myekulHeader' class='myekul grow'
-                        src="https://myekul.com/shared-assets/images/myekul.png" style="height:80px;width:80px">
-                </a>
+            <div class="container" style="gap:4px">
+                <img id='siteIcon' src="images/favicon.png" style="height:80px;width:80px">
                 <div>
-                    <div id="title"></div>
+                    <div class="font2" style="font-size:170%">COMBINED LEADERBOARD</div>
                     <div class='container' style="transform: translate(0px, -5px);font-size:90%;justify-content: left;">
                         <div>The best overall players across each category</div>
-                        <div onclick="showTab('info');playSound('category_select')" class="grow" style="padding-left:10px;width:25px">
+                        <div onclick="showTab('info');playSound('category_select')" class="grow"
+                            style="padding-left:10px;width:25px">
                             <i class="fa fa-info-circle"></i>
                         </div>
                     </div>

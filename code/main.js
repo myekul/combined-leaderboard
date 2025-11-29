@@ -61,7 +61,7 @@ function prepareData() {
     const username = localStorage.getItem('username')
     if (username) {
         document.getElementById('input_username').value = username
-        document.getElementById('username').innerHTML = runRecapPlayer()
+        document.getElementById('username').innerHTML = playerDisplay()
     }
     show('username')
 }

@@ -1,6 +1,5 @@
 google.charts.load('current', { packages: ['corechart'] });
 initializeHash('home')
-setTitle('COMBINED LEADERBOARD')
 setFooter(2024)
 setSidebar(generateSidebar())
     .then(() => {
@@ -39,6 +38,7 @@ function generateSidebar() {
         })
         HTMLContent += `</div>`
     })
+    // HTMLContent += `<div class='container grow' style='font-size:150%;height:50px'>${fontAwesome('plus')}</div>`
     return HTMLContent
 }
 document.documentElement.style.setProperty('--banner', getColorFromClass(gameID));
@@ -126,7 +126,7 @@ if (gameID != 'tetris') {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            document.getElementById('srcGame').innerHTML = `${getAnchor('https://www.speedrun.com/' + gameID)}<img src='${data.data.assets['cover-tiny'].uri}' height='90px' class='grow'></a>`
+            document.getElementById('srcGame').innerHTML = `${getAnchor('https://www.speedrun.com/' + gameID)}<img src='${data.data.assets['cover-tiny'].uri}' height='70px' class='grow'></a>`
             // console.log(data.data)
         })
 }

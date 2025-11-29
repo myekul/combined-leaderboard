@@ -226,18 +226,6 @@ function toggleSection(section) {
         toggleButton.innerHTML = fontAwesome('close')
     }
 }
-function runRecapPlayer() {
-    const playerString = localStorage.getItem('username')
-    const player = players.find(player => player.name == playerString)
-    globalPlayerIndex = player ? player.rank - 1 : -1
-    const playerName = player ? getPlayerName(player) : playerString
-    let HTMLContent = `<div class='container' style='gap:8px;margin:0'>`
-    HTMLContent += player ? `<div>${getPlayerIcon(player, 28)}</div>` : ''
-    HTMLContent += `<div style='font-size:110%'>${playerName}</div>`
-    HTMLContent += player ? `<div>${getPlayerFlag(player, 14)}</div>` : ''
-    HTMLContent += `</div>`
-    return HTMLContent
-}
 function showInput(elem) {
     playSound('move')
     hide(elem)
@@ -267,7 +255,7 @@ function hideInput(elem) {
     const startElem = document.getElementById(elem)
     if (elem == 'username') {
         localStorage.setItem('username', input.trim() ? input : localStorage.getItem('username'))
-        startElem.innerHTML = runRecapPlayer()
+        startElem.innerHTML = playerDisplay()
         action()
     }
     show(startElem)

@@ -1,5 +1,5 @@
 const myekulSays = {
-    ClipBoardGuy: `ClipBoardGuy is a BEAST at 1.1+, a former record holder and currently in 3rd place with a monstrous 27:21. He is also a top Titanfall 2 runner!`,
+    ClipBoardGuy: `ClipBoardGuy is a BEAST at 1.1+, a former record holder and currently a Top 5 runner with a monstrous 27:21. He is also a top Titanfall 2 runner!`,
     Danxi: `Danxi is a dominant IL runner who previously held all 34/34 Simple Whetstone IL world records. As a fellow Whetstone IL runner who started in 2021, Danxi was a big inspiration for me back in the day. Respect!`,
     DORNOBZBAC: `DORNOBZBAC is a prominent IL runner with a number of impressive accomplishments. 25 TRIO!!!`,
     ExclamationMarkYT: `ExclamationMarkYT is an accomplished multi-category runner who made an absolute TEAR in DLC, being a former world record holder and one of the early pioneers of the Saltimate Jutsu. He has also been the host of several Cuphead tournaments over the past few years. Holy skittles!`,
@@ -16,17 +16,17 @@ const myekulSays = {
     luigi100: `Ever heard of a Luigi swap? Well, they're named after this guy. luigi100 is a longtime runner and a pioneer of Legacy runs.`,
     MarkinSws: 'MarkinSws is an UNSTOPPABLE force in current patch categories, sweeping the competition in DLC and DLC+Base. Incredible! An inspiration for many, myself included.',
     minamikori: `See that 28:27? That was played on version 1.2. That's crazy. minamikori is an exceptional runner with a very unique set of skills. He is also a former DLC 100% world record holder.`,
-    Mine_: `Mine ahh gameplay...`,
+    Mine_: `Hi Fiona`,
     Misterbutter444: `Misterbutter444 is a prolific 1.1+ runner, boasting an incredble time of 27:36, and somehow clawing his way to the big leagues despite having a brain the size of a sandwich. Inspiring!`,
     Musically_dECLINED: `Musically_dECLINED is a runner who rose to prominence with his NMG and DLC runs. A top Charge/Spread runner, this guy revolutionized Chargimate with the discovery of the eponymously named "M-swap." With it, he's managed to get a 10:4X DLC! That's pretty sick, but it doesn't make him any less of a skin walker. Ha!`,
     myekul: `Hello! My name is myekul and I am a runner of many categories, perhaps best known for my dominance of Whetstone ILs. Over the course of 3 years, I achieved every single ground boss IL world record (108/108).
     <br><br>After I reached that milestone, I adopted my Charge mastery into fullgame runs, where I discovered the Chargimate Jutsu and managed to snag a 10:3X DLC and a 37:3X DLC+Base with Charge/Spread. I also tried my hand at 1.1+ and sniped a 27:33. Not too shabby. Hope you're enjoying the website!`,
-    nomit: `#1 in Germany! Holy buns. nomit is a superb multi-category runner, boasting fantasic achievements such as a 28:0X, 24:XX, and an 11:0X. He is also an excellent Splatoon runner!`,
+    nomit: `Holy buns. nomit is a superb multi-category runner from Germany, boasting fantasic achievements such as a 28:0X, 24:XX, and an 11:0X. He is also an excellent Splatoon runner!`,
     PorcoBrabo: `YIPPIEEE! PorcoBrabo is a prominent Brazilian Cuphead runner boasting some impressive milestones such as 29:XX 1.1 and an 11:1X DLC. Heh, not bad for an old timer.`,
     SBDWolf: `SBDWolf is one of those runners who decides they want to learn a speedrun, spends hours studying and practicing the optimal strats, and then DOMINATES the competition in the blink of an eye. His Legacy and 1.1+ runs are great examples of this. He also runs some other awesome games such as Castlevania, DKC2, and Gimmick!`,
     SlimsyLeader: `SlimsyLeader is a top IL runner with an impressive resume, perhaps best known for DOMINATING Esther Winchester ILs. In fact, he has all six Esther world records! Also, 25 TRIO!!!`,
     Spaceboy321: `Spaceboy is a MASTERFUL Whetstone IL runner, best known for making an absolute TEAR on several plane bosses. In fact, he holds every world record on Hilda, Djimmi, and Cala. Incredible!`,
     Sublime: `Sublime is an INSANE Legacy runner, having held the world record numerous times throughout the years. He is also a former Hater% world record holder!`,
-    Taylz: `Taylz is a runner from Scotland who picked up the game and managed to get a 28:XX in just 3 and a half months. A truly extraordinary feat!`,
+    Taylz: `Taylz is a runner from Scotland who managed to get a 27:XX just 6 months after picking up the speedrun. A truly extraordinary feat!`,
     Yuka: `Yuka is a Swiss runner known for his INSANE Legacy skills and wisdom. He is often refered to as a human TAS. He also has a 27:XX!!`
 }
