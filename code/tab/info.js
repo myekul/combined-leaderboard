@@ -1,5 +1,7 @@
 function generateInfo() {
-    let HTMLContent = `<img src='${sharedAssetsURL('myekul')}' class='container' style='height:50px;width:50px'><div class='textBlock'>`
+    let HTMLContent = `<div class='container'>
+    <div>
+    <img src='${sharedAssetsURL('myekul')}' class='container' style='height:50px;width:50px'><div style='width:600px;white-space: normal'>`
     HTMLContent += `Hello! My name is ${myekulColor(`myekul`)} and I am a Cuphead speedrunner and web developer.
         This is my ${myekulColor(`Combined Leaderboard`)} project, a tool that organizes and ranks players based on their overall domination of a game's leaderboards.
         <br>
@@ -51,10 +53,8 @@ function generateInfo() {
         It was created from scratch, independently devloped, and crafted specifically for the speedrunning community.
         It is also open source, ad-free, nonprofit, and costs $0 to use, host, and maintain. Enjoy!`
     HTMLContent += `</div><img src='${sharedAssetsURL('myekul')}' class='container' style='height:50px;width:50px;padding:10px 0'>`
-    document.getElementById('info').innerHTML = HTMLContent
-}
-function infoTitle(title) {
-    return `<br><div class='banner font2' style='font-size: 140%;padding: 0 10px;border-radius: 5px;'>${title}</div>`
+    HTMLContent += `</div></div>`
+    document.getElementById('content').innerHTML = HTMLContent
 }
 function infoExample() {
     const categoryIndex = getRandomNumber(0, categories.length - 1)

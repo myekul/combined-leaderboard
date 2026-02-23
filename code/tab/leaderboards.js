@@ -36,7 +36,7 @@ function generateLeaderboards() {
         sortCategoryIndex = store
     }
     HTMLContent += `</div>`
-    document.getElementById('leaderboards').innerHTML = HTMLContent
+    document.getElementById('content').innerHTML = HTMLContent
 }
 function leaderboardsSection(categoryIndex) {
     let HTMLContent = ''

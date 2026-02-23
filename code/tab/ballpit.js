@@ -1,4 +1,5 @@
 function ballpit() {
+    document.getElementById('content').innerHTML = `<div id='ballpit'></div>`
     let HTMLContent = ''
     let playerIndex = 0
     let count = 0

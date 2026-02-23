@@ -18,7 +18,7 @@ function generateConnect4() {
     //     board: board,
     // }
     HTMLContent += `</div>`
-    document.getElementById('connect4').innerHTML = HTMLContent
+    document.getElementById('content').innerHTML = HTMLContent
 }
 function insertChip(colIndex) {
     if (board[colIndex].length < 6) {

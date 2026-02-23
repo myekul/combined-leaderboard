@@ -211,7 +211,7 @@ function categorySpan(category) {
 }
 function scoreGradeSpan(percentage) {
     const grade = getLetterGrade(percentage)
-    return `<span class='${grade.className}' style='border-radius:5px;padding:0 5px'>${displayPercentage(percentage)}% ${grade.grade}</span>`
+    return `<div class='${grade.className}' style='display:inline-block;border-radius:5px;padding:0 5px'><span>${displayPercentage(percentage)}% ${grade.grade}</span></div>`
 }
 function toggleSection(section) {
     playSound('move')

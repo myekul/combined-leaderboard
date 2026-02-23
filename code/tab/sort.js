@@ -142,7 +142,7 @@ function sortRuns(sortRange) {
             } else if (sortCriteria == 'score') {
                 const percentage = run.run.percentage
                 const grade = getLetterGrade(percentage)
-                HTMLContent += `<td class='${grade.className}'>${displayPercentage(percentage)}</td>`
+                HTMLContent += `<td class='${grade.className}'><span>${displayPercentage(percentage)}</span></td>`
             } else if (sortCriteria == 'dps') {
                 const categoryHP = categories[run.categoryIndex].hp
                 HTMLContent += `<td style='text-align:right'>${getDPS(category, run.run.score)} DPS</td>`

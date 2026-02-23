@@ -1,10 +1,7 @@
 google.charts.load('current', { packages: ['corechart'] });
 initializeHash('home')
 setFooter(2024)
-setSidebar(generateSidebar())
-    .then(() => {
-        document.getElementById('sidebarLogo').src = `images/logo/${gameID}.png`
-    })
+grades.unshift({ grade: 'S', className: 'grade-s grade', threshold: 100 })
 let gameParam = getParam('game')
 if (!gameParam) {
     gameParam = 'cuphead'
@@ -28,6 +25,10 @@ if (['titanfall_2', 'mtpo', 'spo', 'ssbm', 'ssb64'].includes(gameID)) {
     setMode('levels')
     deleteParam('mode')
 }
+setSidebar(generateSidebar())
+    .then(() => {
+        document.getElementById('sidebarLogo').src = `images/logo/${gameID}.png`
+    })
 function generateSidebar() {
     let HTMLContent = ''
     const games = [['cuphead'], ['sm64', 'sms'], ['smb1', 'smbtll'], ['smb2', 'smb3'], ['nsmbds', 'nsmbw'], ['nsmbu', 'nslu'], ['dkc', 'dkc2', 'dkc3'], ['mtpo', 'spo'], ['ssb64', 'ssbm'], ['titanfall_2']]
@@ -149,20 +150,14 @@ showTab = function (...args) {
 }
 setTabs(['info', 'home', 'featured', 'leaderboards', null, 'WRs', 'map', 'sort', null, 'connect4', 'ballpit'])
     .then(() => {
+        if (['cuphead', 'sm64', 'nsmbw'].includes(gameID)) {
+            show('modeSelection')
+        }
         switch (gameID) {
-            case 'cuphead':
-                show('modeSelection')
-                break;
-            case 'sm64':
-                show('modeSelection')
-                break;
             case 'tetris':
                 document.querySelectorAll('.options').forEach(elem => hide(elem))
                 hide('featuredButton')
                 hide('mapButton')
-                break;
-            case 'nsmbw':
-                show('modeSelection')
                 break;
             case 'ssbm':
                 hide('featuredButton')

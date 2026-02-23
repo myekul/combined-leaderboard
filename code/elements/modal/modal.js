@@ -132,7 +132,7 @@ function gradeTable(player) {
         HTMLContent += `</tr>`
     }
     grades.slice(0, grades.length - 1).forEach(grade => {
-        HTMLContent += `<tr><td class='${grade.className}' style='text-align:left'>${grade.grade}</td>
+        HTMLContent += `<tr><td class='${grade.className}' style='text-align:left'><span>${grade.grade}</span></td>
         <td>${grade.threshold}%</td>`
         categories.forEach((category, categoryIndex) => {
             const gradeTime = scoreFromGrade(category, grade.threshold)
@@ -147,7 +147,7 @@ function gradeTable(player) {
                     cellContent = tetrisCheck(category, playerScore)
                 }
             }
-            HTMLContent += `<td class='${className}' style='padding:0 3px'>${cellContent}</td>`
+            HTMLContent += `<td class='${className}' style='padding:0 3px'><span>${cellContent}</span></td>`
         })
         HTMLContent += `</tr>`
     })

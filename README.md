@@ -36,6 +36,9 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Melee sums fix
 - Home run contest
 - Punch Out!! Wii
+- Celeste
+- Splatoon
+- The Messenger
 - One Gun icons
 - Basketball hoop
 - Titanfall 2 fullgame

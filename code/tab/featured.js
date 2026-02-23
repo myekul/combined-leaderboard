@@ -10,14 +10,5 @@ function generateFeatured() {
     if (gameID == 'mtpo' && sortCategoryIndex == 0) {
         HTMLContent = `<div class='container'>This leaderboard assumes everyone has a 42 Glass Joe.</div>`
     }
-    document.getElementById('featured').innerHTML = HTMLContent
-}
-// Fisher-Yates Shuffle Algorithm
-// FIND LIBRARY
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]]; // Swap elements
-    }
-    return array;
+    document.getElementById('content').innerHTML = HTMLContent
 }

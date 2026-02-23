@@ -171,9 +171,9 @@ function parsePlayer(player, playerIndex, categoryIndex) {
         if (!['mtpo', 'spo'].includes(gameID)) {
             HTMLContent += `<td style='font-size:75%'>${displayPercentage(player.score)}</td>`
         }
-        HTMLContent += `<td class='${letterGrade.className}' style='font-size:75%;text-align:left'>${letterGrade.grade}</td>`
+        HTMLContent += `<td class='${letterGrade.className}' style='font-size:75%;text-align:left'><span>${letterGrade.grade}</span></td>`
         if (['mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID)) {
-            HTMLContent += player.hasAllRuns ? `<td class='${letterGrade.className}'>${getGPA(player.score)}</td>` : `<td></td>`
+            HTMLContent += player.hasAllRuns ? `<td class='${letterGrade.className}'><span>${getGPA(player.score)}<span></td>` : `<td></td>`
             if (!(gameID == 'ssbm' && ssbVar)) {
                 HTMLContent += player.sum ? `<td>${player.sum}</td>` : `<td></td>`
             }
@@ -223,7 +223,7 @@ function parsePlayerRuns(player, playerIndex) {
         HTMLContent += !['tetris', 'mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID) ? `<td>${player.sum}</td>` : ''
         if (!['mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID)) {
             const gpaClass = player.hasAllRuns ? getLetterGrade(player.score).className : ''
-            HTMLContent += player.hasAllRuns ? `<td class='${gpaClass}'>${getGPA(player.score)}</td>` : '<td></td>'
+            HTMLContent += player.hasAllRuns ? `<td class='${gpaClass}'><span>${getGPA(player.score)}</span></td>` : '<td></td>'
         }
         HTMLContent += mode != 'fullgame' ? `<td>${categories.length - player.numRuns}</td>` : ''
     }
@@ -267,7 +267,7 @@ function parseRun(player, playerIndex, category, categoryIndex, exception) {
     const runLink = gameID != 'tetris' && run.id ? getAnchor('https://www.speedrun.com/' + gameID + '/runs/' + run.id) : ''
     const videoLink = getAnchor(run.url)
     HTMLContent += displayBoolean[0] ? `<td style='font-size:75%;text-align:left' class='${newColorClass} ${grayedOut} ${grade.className}'>${percentage}</td>` : ''
-    HTMLContent += displayBoolean[1] && !(['mtpo', 'spo'].includes(gameID) && categoryIndex == null) ? `<td style='font-size:75%;text-align:left;' class='${newColorClass} ${grayedOut} ${grade.className}'>${grade.grade}</td>` : ''
+    HTMLContent += displayBoolean[1] && !(['mtpo', 'spo'].includes(gameID) && categoryIndex == null) ? `<td style='font-size:75%;text-align:left;' class='${newColorClass} ${grayedOut} ${grade.className}'><span>${grade.grade}</span></td>` : ''
     HTMLContent += displayBoolean[2] ? `<td style='font-size:75%;padding:0 1px' class='${globalTab != 'sort' ? newColorClass : thePlaceClass} ${grayedOut} ${runLink ? 'clickable' : ''}'>${runLink}${trophy ? `<div class='container trophy'>${trophy}` : place}</td>` : ''
     HTMLContent += displayBoolean[3] ? `<td style='padding:0 3px;${['mtpo', 'spo'].includes(gameID) ? "text-align:left" : ""}' class='${globalTab != 'sort' ? newColorClass : colorClass} ${grayedOut} ${videoLink ? 'clickable' : ''}'>${videoLink}${time}</td>` : ''
     HTMLContent += displayBoolean[4] ? `<td class='${newColorClass} ${grayedOut}'>${new Date(run.date).getFullYear()}</td>` : ''

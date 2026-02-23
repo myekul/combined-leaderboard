@@ -11,7 +11,12 @@ function showTabCL(tab) {
     if (['cuphead', 'sm64', 'ssb64', 'ssbm'].includes(gameID) && mode == 'levels') {
         show('ILsSection_' + gameID)
     }
-    show(tab + 'Tab')
+    if (['featured', 'leaderboards', 'info', 'ballpit', 'connect4'].includes(globalTab)) {
+        show('content')
+    } else {
+        show(tab + 'Tab')
+        hide('content')
+    }
     if (gameID == 'cuphead' && mode == 'levels') {
         document.getElementById('checkbox_hp').checked = true
     }

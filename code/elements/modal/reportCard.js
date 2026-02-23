@@ -152,8 +152,8 @@ function reportCardSection(category, categoryIndex, score, percentage) {
         const className = classNameLogic(category) || 'banner'
         const place = players[globalPlayerIndex].runs[categoryIndex].place
         HTMLContent =
-            `<td id='modal_category_${categoryIndex}_grade' class='${grade.className}' style='font-size:90%;text-align:left;min-width:25px'>${grade.grade}</td>
-        <td id='modal_category_${categoryIndex}_percentage' class='${grade.className}' style='font-size:90%;min-width:40px'>${displayPercentage(percentage)}</td>
+            `<td id='modal_category_${categoryIndex}_grade' class='${grade.className}' style='font-size:90%;text-align:left;min-width:25px'><span>${grade.grade}</span></td>
+        <td id='modal_category_${categoryIndex}_percentage' class='${grade.className}' style='font-size:90%;min-width:40px'><span>${displayPercentage(percentage)}</span></td>
         ${truePercentage(categoryIndex)}
         <td id='modal_category_${categoryIndex}_place' class='${classNameLogic(category)}' style='display:none;font-size:75%;min-width:25px'>${place}</td>
         <td id='modal_category_${categoryIndex}_score' class='${classNameLogic(category)}' style='padding:0 3px'>${tetrisCheck(category, score)}</td>
@@ -198,10 +198,10 @@ function adjustGrade(categoryIndex) {
     const newPercentage = parseFloat(document.getElementById('modal_category_' + categoryIndex + '_slider').value)
     const gradeElem = document.getElementById('modal_category_' + categoryIndex + '_grade')
     const newLetterGrade = getLetterGrade(newPercentage)
-    gradeElem.innerHTML = newLetterGrade.grade
+    gradeElem.innerHTML = `<span>${newLetterGrade.grade}</span>`
     gradeElem.classList.remove(...gradeElem.classList)
     const percentageElem = document.getElementById('modal_category_' + categoryIndex + '_percentage')
-    percentageElem.innerHTML = displayPercentage(newPercentage)
+    percentageElem.innerHTML = `<span>${displayPercentage(newPercentage)}</span>`
     percentageElem.classList.remove(...percentageElem.classList)
     newLetterGrade.className.split(' ').forEach(className => {
         gradeElem.classList.add(className)
