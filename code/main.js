@@ -121,7 +121,7 @@ function generateRanks() {
                 player.truePercentages[runIndex] = newScore
             } else {
                 // NMG run in place of a 1.1 run
-                if ((category.name == '1.1+') && player.runs[2]) {
+                if ((category.name == '1.1+') && player.runs[2] && fullgameCategory != 'trueAny') {
                     placeholderRun(player, ideal, 2, 0)
                     // } else if (player.runs[0].score > run.score) {
                     //     player.runs[0] = runCopy
