@@ -31,10 +31,10 @@
                     <div class="font2" style="font-size:170%">COMBINED LEADERBOARD</div>
                     <div class='container' style="transform: translate(0px, -5px);font-size:90%;justify-content: left;">
                         <div>The best overall players across each category</div>
-                        <div onclick="showTab('info');playSound('category_select')" class="grow"
-                            style="padding-left:10px;width:25px">
+                        <button onclick="showTab('info');playSound('category_select')" class="grow"
+                            style="margin-left:10px;width:25px">
                             <i class="fa fa-info-circle"></i>
-                        </div>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -44,20 +44,19 @@
                 <div id='headerRow' class="container">
                     <div id="sidebarDiv"></div>
                     <div id='modeSelection' class='container' style="display:none; margin:0">
-                        <div id='fullgameButton' class='button' onclick="getFullgame()">Full Game</div>
-                        <div id='levelsButton' class='button' onclick="getLevels()">Individual
-                            Levels</div>
+                        <button id='fullgameButton' class='button' onclick="getFullgame()">Full Game</button>
+                        <button id='levelsButton' class='button' onclick="getLevels()">Individual Levels</button>
                     </div>
                     <div style="width:70px">
                         <div id="boardTitleSrc" class="container"></div>
                     </div>
                     <input id='input_username' type='text' placeholder='Your SRC username'
                         style='display:none;width:200px;font-size:100%;position:absolute;right:40px;top:4px;'>
-                    <div id='username' onclick="showInput('username')" class='container grow'
+                    <button id='username' onclick="showInput('username')" class='container grow'
                         style='display:none;position:absolute;right:40px;color:white;gap:8px'>
                         Your Username...
                         <i class="fa fa-edit" style="font-size:130%"></i>
-                    </div>
+                    </button>
                 </div>
                 <div id='progress' style="background-color: dimgray">
                     <div id="progress-bar" class="progress-bar"></div>
@@ -66,64 +65,68 @@
                 <!-- <div id='loading' style='position:absolute;right:40px;top:49px;color:white'>
                         <div>Loading API...</div>
                     </div> -->
-                <div id="refreshDiv" class='grow banner'
+                <button id="refreshDiv" class='grow banner'
                     onclick="firstTimeFull=false;getFullgame();playSound('cardflip')"
-                    style="display:none;position:absolute;left:25px;top:60px;height:48px;width:48px;border-radius:50px;text-align: center">
-                    <i class="fa fa-refresh" style="font-size:150%;margin-top:11px"></i>
-                </div>
+                    style="display:none;position:absolute;left:25px;top:60px;height:48px;width:48px;border-radius:50px;text-align:center">
+                    <i class="fa fa-refresh" style="font-size:150%"></i>
+                </button>
                 <div id="spotlight" style="display:none">
-                    <div id="ROTDdiv" class="grow"
+                    <button id="ROTDdiv" class="grow"
                         onclick="openModal(generateROTD(), 'RUN OF THE DAY', '', true);playSound('ready')"
-                        style="position:absolute;right:100px;top:55px;"></div>
-                    <div id="spotlightDiv" class='grow'
+                        style="position:absolute;right:100px;top:55px;"></button>
+                    <button id="spotlightDiv" class='grow'
                         onclick="openModal(generateSpotlight(), 'DAILY SPOTLIGHT', '', true);playSound('ready')"
-                        style="position:absolute;right:20px;top:55px;"></div>
+                        style="position:absolute;right:20px;top:55px;"></button>
                 </div>
             </div>
             <!-- Fullgame Categories -->
             <div id="fullgameCategoriesSection" class='hide' style="display:none">
-                <div id='fullgameCategoriesButton' onclick="toggleSection('fullgameCategories')" class="toggleSection">
-                </div>
+                <button id='fullgameCategoriesButton' onclick="toggleSection('fullgameCategories')"
+                    class="toggleSection">
+                </button>
                 <div id="fullgameCategories" style="display:none">
                     <div id="cuphead_fullgameCategories" style="display:none">
-                        <div class="container" style="margin-bottom:10px">
-                            <div id='cuphead_fullgameCategories_main' onclick="getFullgame()" class="button cuphead"
-                                style="width:160px;height:24px;font-size:90%">Main Leaderboard</div>
+                        <div class="container" style="margin:8px 0">
+                            <button id='cuphead_fullgameCategories_main' onclick="getFullgame()" class="button cuphead"
+                                style="width:170px;height:30px;font-size:90%">Main Leaderboard</button>
                         </div>
                         <div class="container" style="margin-bottom:6px">
-                            <div id='fullgameCategories_basegame' onclick="getFullgame('basegame')"
-                                class="button cuphead" style="width:100px">Base Game</div>
-                            <div id='fullgameCategories_currentPatch' onclick="getFullgame('currentPatch')"
-                                class="button cuphead" style="width:120px">Current Patch</div>
-                            <div id='fullgameCategories_trueAny' onclick="getFullgame('trueAny')"
-                                class="button cuphead" style="width:100px">True Any%</div>
-                            <div class='container' style='width:15px;margin:0'>&#8226;</div>
-                            <div id='fullgameCategories_simple' onclick="getFullgame('simple')" class="button simple">
-                                Simple</div>
-                            <div id='fullgameCategories_expert' onclick="getFullgame('expert')" class="button expert">
-                                Expert</div>
+                            <button id='fullgameCategories_basegame' onclick="getFullgame('basegame')"
+                                class="button cuphead" style="width:100px">Base Game</button>
+                            <button id='fullgameCategories_currentPatch' onclick="getFullgame('currentPatch')"
+                                class="button cuphead" style="width:120px">Current Patch</button>
+                            <button id='fullgameCategories_trueAny' onclick="getFullgame('trueAny')"
+                                class="button cuphead" style="width:100px">True Any%</button>
+                            <button class='container' style='width:15px;margin:0'>&#8226;</button>
+                            <button id='fullgameCategories_simple' onclick="getFullgame('simple')"
+                                class="button simple">
+                                Simple</button>
+                            <button id='fullgameCategories_expert' onclick="getFullgame('expert')"
+                                class="button expert">
+                                Expert</button>
                         </div>
                         <div class="container" style="margin-bottom:10px">
-                            <div id='fullgameCategories_onePointOne' onclick="getFullgame('1.1+')"
+                            <button id='fullgameCategories_onePointOne' onclick="getFullgame('1.1+')"
                                 class="button onePointOne">
                                 1.1+
-                            </div>
-                            <div id='fullgameCategories_legacy' onclick="getFullgame('Legacy')" class="button legacy">
+                            </button>
+                            <button id='fullgameCategories_legacy' onclick="getFullgame('Legacy')"
+                                class="button legacy">
                                 Legacy
-                            </div>
-                            <div id='fullgameCategories_nmg' onclick="getFullgame('NMG')" class="button nmg">NMG
-                            </div>
-                            <div id='fullgameCategories_dlc' onclick="getFullgame('DLC')" class="button dlc">DLC
-                            </div>
-                            <div id='fullgameCategories_dlcbase' onclick="getFullgame('DLC+Base')"
-                                class="button dlcbase">DLC+Base</div>
+                            </button>
+                            <button id='fullgameCategories_nmg' onclick="getFullgame('NMG')" class="button nmg">NMG
+                            </button>
+                            <button id='fullgameCategories_dlc' onclick="getFullgame('DLC')" class="button dlc">DLC
+                            </button>
+                            <button id='fullgameCategories_dlcbase' onclick="getFullgame('DLC+Base')"
+                                class="button dlcbase">DLC+Base</button>
                         </div>
-                        <div id='cupheadExtraButton' onclick="toggleSection('cupheadExtra')" class="toggleSection">
-                        </div>
+                        <button id='cupheadExtraButton' onclick="toggleSection('cupheadExtra')" class="toggleSection">
+                        </button>
                         <div id="cupheadExtra" style="display:none">
                             <div class="container">
-                                <div id='fullgameCategories_oneGun' onclick="getFullgame('oneGun')"
-                                    class="button cuphead">One Gun</div>
+                                <button id='fullgameCategories_oneGun' onclick="getFullgame('oneGun')"
+                                    class="button cuphead">One Gun</button>
                                 <select id="dropdown_oneGun_objective" class='oneGun' onchange="getFullgame('oneGun')">
                                     <option value="mlnxnkjq" class='cuphead' selected>Base Game</option>
                                     <option value="8104892l" class='dlc'>DLC</option>
@@ -137,26 +140,26 @@
                             </div>
                         </div>
                         <!-- <div class="container">
-                            <div id='fullgameCategories_10xxTrifecta' onclick="getFullgame('10xxTrifecta')"
-                                class="button dlc" style="width:120px">10:XX Trifecta</div>
+                            <button id='fullgameCategories_10xxTrifecta' onclick="getFullgame('10xxTrifecta')"
+                                class="button dlc" style="width:120px">10:XX Trifecta</button>
                         </div> -->
                     </div>
                     <div id="sm64_fullgameCategories" style="display:none">
                         <div class="container">
-                            <div id='sm64_fullgameCategories_main' onclick="getFullgame()" class="button banner"
-                                style="width:150px">Main Leaderboard</div>
-                            <div id='fullgameCategories_long' onclick="getFullgame('long')" class="button banner"
-                                style="width:100px">Long</div>
-                            <div id='fullgameCategories_short' onclick="getFullgame('short')" class="button banner"
-                                style="width:100px">Short</div>
+                            <button id='sm64_fullgameCategories_main' onclick="getFullgame()" class="button banner"
+                                style="width:150px">Main Leaderboard</button>
+                            <button id='fullgameCategories_long' onclick="getFullgame('long')" class="button banner"
+                                style="width:100px">Long</button>
+                            <button id='fullgameCategories_short' onclick="getFullgame('short')" class="button banner"
+                                style="width:100px">Short</button>
                         </div>
                     </div>
                     <div id="nsmbw_fullgameCategories" style="display:none">
                         <div class="container">
-                            <div id='nsmbw_fullgameCategories_main' onclick="getFullgame()" class="button banner"
-                                style="width:150px">All Solo Categories</div>
-                            <div id='fullgameCategories_main3' onclick="getFullgame('main3')" class="button banner"
-                                style="width:150px">Main 3 Categories</div>
+                            <button id='nsmbw_fullgameCategories_main' onclick="getFullgame()" class="button banner"
+                                style="width:150px">All Solo Categories</button>
+                            <button id='fullgameCategories_main3' onclick="getFullgame('main3')" class="button banner"
+                                style="width:150px">Main 3 Categories</button>
                         </div>
                     </div>
                     <!-- <div id="tetris_fullgameCategories" style="display:none">
@@ -173,23 +176,23 @@
             <div id="ILsSection_cuphead" class='hide' style="display:none">
                 <div class="container">
                     <div id='versionTabs' class='container' style="margin:0">
-                        <div id='legacy' onclick="cupheadLevelSetting('legacy','nodlc')" class="button legacy"
+                        <button id='legacy' onclick="cupheadLevelSetting('legacy','nodlc')" class="button legacy"
                             style="width:110px">Legacy 1.0
-                        </div>
-                        <!-- <div id='onePointOne' onclick="cupheadLevelSetting('onePointOne','nodlc')"
-                            class="button onePointOne" style="width:50px">1.1</div> -->
-                        <div id='currentPatch' onclick="cupheadLevelSetting('currentPatch',DLCnoDLC)"
-                            class="button cuphead">Current Patch</div>
+                        </button>
+                        <!-- <button id='onePointOne' onclick="cupheadLevelSetting('onePointOne','nodlc')"
+                            class="button onePointOne" style="width:50px">1.1</button> -->
+                        <button id='currentPatch' onclick="cupheadLevelSetting('currentPatch',DLCnoDLC)"
+                            class="button cuphead">Current Patch</button>
                     </div>
                     <div>
-                        <div id='cupheadILcategoriesButton' onclick="toggleSection('cupheadILcategories')"
-                            class="toggleSection"></div>
+                        <button id='cupheadILcategoriesButton' onclick="toggleSection('cupheadILcategories')"
+                            class="toggleSection"></button>
                     </div>
                     <div id='categoryTabs' class='container' style="margin:0">
-                        <div id='nodlcBoards' onclick="cupheadLevelSetting(cupheadVersion,'nodlc')"
-                            class="button cuphead">Main Boards</div>
-                        <div id='dlcBoards' onclick="cupheadLevelSetting('currentPatch','dlc')" class="button dlc"
-                            style="width:110px">DLC Loadout</div>
+                        <button id='nodlcBoards' onclick="cupheadLevelSetting(cupheadVersion,'nodlc')"
+                            class="button cuphead">Main Boards</button>
+                        <button id='dlcBoards' onclick="cupheadLevelSetting('currentPatch','dlc')" class="button dlc"
+                            style="width:110px">DLC Loadout</button>
                     </div>
                 </div>
                 <div id="cupheadILcategories" style="display:none">
@@ -201,75 +204,77 @@
                     <div id='difficultyTabs' class="container">
                         <div>
                             <div id='difficultyBoth' class="container">
-                                <div id='simple' onclick="getDifficulty('simple')" class="button simple">
-                                    Simple</div>
-                                <div id='regular' onclick="getDifficulty('regular')" class="button regular">
-                                    Regular
-                                </div>
-                                <div id='expert' onclick="getDifficulty('expert')" class="button expert">
-                                    Expert</div>
+                                <button id='simple' onclick="getDifficulty('simple')" class="button simple">
+                                    Simple</button>
+                                <button id='regular' onclick="getDifficulty('regular')" class="button regular">
+                                    Regular</button>
+                                <button id='expert' onclick="getDifficulty('expert')" class="button expert">
+                                    Expert</button>
                             </div>
                             <div id='difficultyOne' class="container">
-                                <div id='simpleany' onclick="specificDifficulty('simple','any')" class="button simple">
+                                <button id='simpleany' onclick="specificDifficulty('simple','any')"
+                                    class="button simple">
                                     Any%
-                                </div>
-                                <div id='simplehighest' onclick="specificDifficulty('simple', 'highest')"
-                                    class="button simple">B+</div>
-                                <div id='regularany' onclick="specificDifficulty('regular','any')"
+                                </button>
+                                <button id='simplehighest' onclick="specificDifficulty('simple', 'highest')"
+                                    class="button simple">B+</button>
+                                <button id='regularany' onclick="specificDifficulty('regular','any')"
                                     class="button regular">
-                                    Any%</div>
-                                <div id='regularhighest' onclick="specificDifficulty('regular','highest')"
-                                    class="button regular">A+</div>
-                                <div id='expertany' onclick="specificDifficulty('expert', 'any')" class="button expert">
+                                    Any%</button>
+                                <button id='regularhighest' onclick="specificDifficulty('regular','highest')"
+                                    class="button regular">A+</button>
+                                <button id='expertany' onclick="specificDifficulty('expert', 'any')"
+                                    class="button expert">
                                     Any%
-                                </div>
-                                <div id='experthighest' onclick="specificDifficulty('expert', 'highest')"
-                                    class="button expert">S-Rank</div>
+                                </button>
+                                <button id='experthighest' onclick="specificDifficulty('expert', 'highest')"
+                                    class="button expert">S-Rank</button>
                             </div>
                         </div>
-                        <div id='ground' onclick="getGroundPlane('ground')" class="button"><img id='groundimg'>
-                        </div>
-                        <div id='plane' onclick="getGroundPlane('plane')" class="button"><img id='planeimg'></div>
-                        <div id='allLevels' onclick="getAllLevels()" class='button onePointOne'
+                        <button id='ground' onclick="getGroundPlane('ground')" class="button"><img id='groundimg'>
+                        </button>
+                        <button id='plane' onclick="getGroundPlane('plane')" class="button"><img id='planeimg'></button>
+                        <button id='allLevels' onclick="getAllLevels()" class='button onePointOne'
                             style="color:white;width:50px;margin-left:10px">All
-                        </div>
+                        </button>
                     </div>
                 </div>
             </div>
             <div id="ILsSection_sm64" class='hide' style="display:none">
-                <div id='sm64ILcategoriesButton' onclick="toggleSection('sm64ILcategories')" class="toggleSection">
-                </div>
+                <button id='sm64ILcategoriesButton' onclick="toggleSection('sm64ILcategories')" class="toggleSection">
+                </button>
                 <div id='sm64ILcategories' style="display:none">
                     <div class="container">
-                        <div id='ILdefault_sm64' onclick="getLevels()" class="button">All</div>
+                        <button id='ILdefault_sm64' onclick="getLevels()" class="button">All</button>
                     </div>
                     <div class="container">
-                        <div id='Lobby' onclick="getOtherLevels('Lobby')" class="button">Lobby</div>
-                        <div id='Basement' onclick="getOtherLevels('Basement')" class="button">Basement</div>
-                        <div id='Upstairs' onclick="getOtherLevels('Upstairs')" class="button">Upstairs</div>
-                        <div id='Tippy' onclick="getOtherLevels('Tippy')" class="button">Tippy</div>
+                        <button id='Lobby' onclick="getOtherLevels('Lobby')" class="button">Lobby</button>
+                        <button id='Basement' onclick="getOtherLevels('Basement')" class="button">Basement</button>
+                        <button id='Upstairs' onclick="getOtherLevels('Upstairs')" class="button">Upstairs</button>
+                        <button id='Tippy' onclick="getOtherLevels('Tippy')" class="button">Tippy</button>
                     </div>
                 </div>
             </div>
             <div id="ILsSection_ssbm" class='hide' style="display:none">
                 <div id='ILcategories_ssbm'>
                     <div class="container">
-                        <div id='ILdefault_ssbm' onclick="getLevels()" class="button" style="width:50px">
+                        <button id='ILdefault_ssbm' onclick="getLevels()" class="button" style="width:50px">
                             <img src="https://myekul.com/shared-assets/images/sheets.png" style="height:20px">
-                        </div>
-                        <div id='ssbm_src' onclick="getOtherLevels('ssbm_src')" class="button" style="width:50px"><img
-                                src="https://myekul.com/shared-assets/images/src.png" style="height:20px"></div>
+                        </button>
+                        <button id='ssbm_src' onclick="getOtherLevels('ssbm_src')" class="button"
+                            style="width:50px"><img src="https://myekul.com/shared-assets/images/src.png"
+                                style="height:20px"></button>
                     </div>
                 </div>
             </div>
             <div id="ILsSection_ssb64" class='hide' style="display:none">
                 <div id='ILcategories_ssb64'>
                     <div class="container">
-                        <div id='ILdefault_ssb64' onclick="getLevels()" class="button" style="width:50px">
+                        <button id='ILdefault_ssb64' onclick="getLevels()" class="button" style="width:50px">
                             <img src="images/ssb64/target.png" style="height:20px">
-                        </div>
-                        <div id='boardThePlatforms' onclick="getOtherLevels('boardThePlatforms')" class="button"
-                            style="width:50px"><img src="images/ssb64/platform.png" style="height:20px"></div>
+                        </button>
+                        <button id='boardThePlatforms' onclick="getOtherLevels('boardThePlatforms')" class="button"
+                            style="width:50px"><img src="images/ssb64/platform.png" style="height:20px"></button>
                     </div>
                 </div>
             </div>
@@ -297,8 +302,8 @@
             </div>
             <!-- Home -->
             <div id="homeTab" class="tabs">
-                <div id='home_options_button' class='options'>
-                </div>
+                <button id='home_options_button' class='options'>
+                </button>
                 <div id='home_options' style="display:none">
                     <div class="container">
                         <input id="checkbox_numRuns" type="checkbox"># of Runs
@@ -325,7 +330,7 @@
                     <div id='WRs_sums' onclick="showWRsTab('sums')" class="button">Sums</div>
                     <div id='WRs_chart' onclick="showWRsTab('chart')" class="button">Times</div>
                 </div>
-                <div id='WRs_options_button' class='options'></div>
+                <button id='WRs_options_button' class='options'></button>
                 <div id='WRs_options' class="container" style="display:none">
                     <input id='checkbox_WRs_date' onclick="action()" type="checkbox">Date
                     <div id="WRs_cupheadILs_options" class="hide">
@@ -351,7 +356,7 @@
             </div>
             <!-- Map -->
             <div id="mapTab" class="tabs">
-                <div id='map_options_button' class='options'></div>
+                <button id='map_options_button' class='options'></button>
                 <div id='map_options' class="container" style="display:none">
                     <div>
                         <input id='checkbox_map_color' onclick="action()" type="checkbox">Color

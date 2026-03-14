@@ -43,7 +43,7 @@ function generateSpotlight() {
             HTMLContent += `<table>`
             const rowColor = getRowColor(rowCount)
             HTMLContent += `<tr class='${rowColor}'>${fancyTime(run, runIndex)}</tr>`
-            HTMLContent += `<tr class='${rowColor}'>${fancyThumbnail(run, 200)}</tr>`
+            HTMLContent += `<tr class='${rowColor}'>${fancyThumbnail(run, true)}</tr>`
             HTMLContent += `<tr class='${rowColor}' style='height:40px'>${fancyDate(run)}</tr>`
             HTMLContent += `</table>`
         }

@@ -53,12 +53,12 @@ th {
     width: 85px
 }
 
-#difficultyBoth div {
+#difficultyBoth button {
     width: 124px;
     height: 20px;
 }
 
-#difficultyOne div {
+#difficultyOne button {
     width: 60px;
     height: 20px;
 }

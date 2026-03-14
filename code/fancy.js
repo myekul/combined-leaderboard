@@ -13,7 +13,7 @@ function fancyRun(run, categoryIndex, extra) {
     return HTMLContent
 }
 function fancyThumbnail(run, size) {
-    return `<td>${getThumbnail(run.url, getYouTubeID(run.url), size)}</td>`
+    return `<td>${getThumbnail(run.url, size)}</td>`
 }
 function fancyDate(run) {
     const date = run.date

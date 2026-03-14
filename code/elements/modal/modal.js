@@ -61,21 +61,6 @@ function fetchYouTube(videoID) {
             return data.items[0]
         })
 }
-function getYouTubeID(link) {
-    let videoID = link.split('/')[link.split('/').length - 1].split('"')[0]
-    if (link.includes('?') && !link.includes('watch?')) {
-        videoID = videoID.split('?')[0]
-    }
-    if (videoID.includes('=')) {
-        videoID = videoID.split('=')[1].split('&')[0]
-    }
-    return videoID
-}
-function getThumbnail(link, videoID, size) {
-    const thumbnailSize = size ? 'width:224px;height:126px' : 'width:160px;height:90px'
-    const src = link.includes('twitch') ? 'images/twitch.png' : `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`
-    return getAnchor(link) + `<img src='${src}' class='grow' style="${thumbnailSize}"></img></a>`
-}
 function videoCollection(player) {
     let HTMLContent = `<div class='container'><table style='border-collapse:collapse'>`
     let runCount = 0
