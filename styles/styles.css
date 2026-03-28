@@ -176,11 +176,6 @@ svg {
     justify-content: center
 }
 
-.trophy {
-    filter: drop-shadow(0.5px 1px 0 black) drop-shadow(-0.5px -0.5px 0 black);
-    padding: 0 3px
-}
-
 .glassjoe {
     background-color: var(--mtpo);
 }
@@ -219,24 +214,6 @@ svg {
 
 .invert img {
     filter: brightness(0) invert(1)
-}
-
-td.short-border {
-    position: relative;
-}
-
-td.short-border::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: var(--border-width, 100%);
-    border-bottom: 2px solid var(--border-color, #494949);
-}
-
-#podium div {
-    width: 150px;
-    justify-content: center
 }
 
 .darker {

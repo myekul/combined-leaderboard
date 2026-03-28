@@ -177,12 +177,6 @@ function getDayOfYear(date) {
     const oneDay = 1000 * 60 * 60 * 24;
     return Math.floor(diff / oneDay);
 }
-function normalize(percentage, value = 50) {
-    if (percentage < value) {
-        return 0
-    }
-    return ((percentage - value) / (100 - value)) * 100
-}
 function getEveryRun(numRuns, sortRange) {
     const everyRun = []
     players.slice(0, numRuns).forEach((player, playerIndex) => {
@@ -208,10 +202,6 @@ function getEveryRun(numRuns, sortRange) {
 function categorySpan(category) {
     const className = big5() ? category.difficulty : classNameLogic(category)
     return `<span class='${className}' ${className ? "style='border-radius:5px;padding:0 3px'" : ''}>${category.name}</span>`
-}
-function scoreGradeSpan(percentage) {
-    const grade = getLetterGrade(percentage)
-    return `<div class='${grade.className}' style='display:inline-block;border-radius:5px;padding:0 5px'><span>${displayPercentage(percentage)}% ${grade.grade}</span></div>`
 }
 function toggleSection(section) {
     playSound('move')

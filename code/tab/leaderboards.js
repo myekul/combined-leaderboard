@@ -17,19 +17,7 @@ function generateLeaderboards() {
     if (sortCategoryIndex > -1) {
         sortPlayers(players)
         const everyRun = getEveryRun(10, null)
-        HTMLContent += `<div style='padding-left:20px'>
-        <div id='podium' class='container' style='height:120px;align-items:flex-end;margin:0 100px'>
-            <div class='second' style='height:50%'><div class='container' style='transform: translate(0px, -60px)'>${getPlayerIcon(players[1], 70)}</div></div>
-            <div class='first' style='height:70%'><div class='container' style='transform: translate(0px, -60px)'>${getPlayerIcon(players[0], 70)}</div></div>
-            <div class='third' style='height:30%'><div class='container' style='transform: translate(0px, -60px)'>${getPlayerIcon(players[2], 70)}</div></div>
-        </div>`
-        HTMLContent += `<div class='container' style='gap:10px;padding:15px 0'>`
-        players.slice(3, 10).forEach(player => {
-            HTMLContent += `<div>${getPlayerIcon(player, 50)}</div>`
-        })
-        HTMLContent += `</div>`
-        HTMLContent += fancyTable(everyRun, 10)
-        HTMLContent += `</div>`
+        HTMLContent += podium(everyRun)
         const store = sortCategoryIndex
         sortCategoryIndex = -1
         sortPlayers(players)
