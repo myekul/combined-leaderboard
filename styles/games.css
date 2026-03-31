@@ -66,19 +66,19 @@
     color: black
 }
 
-.smo {
-    background-color: #E60012;
-    color: white
-}
-
 .smg1 {
     background-color: darkslateblue;
     color: white;
 }
 
-.facade {
-    background-color: gray;
+.smo {
+    background-color: #E60012;
     color: white
+}
+
+.dkb {
+    background-color: darkslategray;
+    color: gold
 }
 
 .dkc {
@@ -103,6 +103,11 @@
 
 .ssbm {
     background-color: black;
+    color: white
+}
+
+.facade {
+    background-color: gray;
     color: white
 }
 
