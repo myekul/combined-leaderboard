@@ -66,6 +66,16 @@
     color: black
 }
 
+.smo {
+    background-color: #E60012;
+    color: white
+}
+
+.smg1 {
+    background-color: darkslateblue;
+    color: white;
+}
+
 .facade {
     background-color: gray;
     color: white

@@ -31,13 +31,12 @@ function getFullgame(categoryName) {
                     categories = categorySet['One Gun']
                     categories.forEach(category => {
                         category.id = 'jdz8ro3d'
-                        category.var = 'kn049kdl'
-                        category.var2 = 'dlo67y5l'
-                        category.subcat2 = document.getElementById('dropdown_oneGun_objective').value
-                        category.var3 = 'ql6gwyx8'
-                        category.subcat3 = document.getElementById('dropdown_oneGun_difficulty').value
-                        category.var4 = 'wl36rvyl'
-                        category.subcat4 = '4qyndmd1'
+                        category.vars = [
+                            ['kn049kdl', category.subcat],
+                            ['dlo67y5l', document.getElementById('dropdown_oneGun_objective').value],
+                            ['ql6gwyx8', document.getElementById('dropdown_oneGun_difficulty').value],
+                            ['wl36rvyl', '4qyndmd1']
+                        ]
                     })
                 }
                 fullgameCategory = categoryName
@@ -75,21 +74,13 @@ function getFullgame(categoryName) {
         }
     }
     resetLoad()
-    if (!(['sm64', 'smb1', 'sms', 'bfbb'].includes(gameID) && mode == 'fullgame' && !categoryName && firstTimeFull)) {
+    if (!(['sm64', 'smb1', 'sms', 'smo', 'bfbb'].includes(gameID) && mode == 'fullgame' && !categoryName && firstTimeFull)) {
         categories.forEach(category => {
             let variables = ''
-            if (category.var) {
-                variables += `var-${category.var}=${category.subcat}`
-            }
-            if (category.var2) {
-                variables += `&var-${category.var2}=${category.subcat2}`
-            }
-            if (category.var3) {
-                variables += `&var-${category.var3}=${category.subcat3}`
-            }
-            if (category.var4) {
-                variables += `&var-${category.var4}=${category.subcat4}`
-            }
+            category.vars?.forEach((varPair, index) => {
+                if (index > 0) variables += '&'
+                variables += `var-${varPair[0]}=${varPair[1]}`
+            })
             let game = categoryName == 'oneGun' ? 'cuphead_category_extensions' : gameID
             getLeaderboard(category, `category/${category.id}`, variables, '', game)
         })

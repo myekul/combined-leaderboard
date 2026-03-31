@@ -31,7 +31,7 @@ setSidebar(generateSidebar())
     })
 function generateSidebar() {
     let HTMLContent = ''
-    const games = [['cuphead'], ['sm64', 'sms'], ['smb1', 'smbtll'], ['smb2', 'smb3'], ['nsmbds', 'nsmbw'], ['nsmbu', 'nslu'], ['dkc', 'dkc2', 'dkc3'], ['mtpo', 'spo'], ['ssb64', 'ssbm'], ['titanfall_2']]
+    const games = [['cuphead'], ['sm64', 'sms'], ['smg1', 'smo'], ['smb1', 'smbtll'], ['smb2', 'smb3'], ['nsmbds', 'nsmbw'], ['nsmbu', 'nslu'], ['dkc', 'dkc2', 'dkc3'], ['mtpo', 'spo'], ['ssb64', 'ssbm'], ['titanfall_2']]
     games.forEach(gameSet => {
         HTMLContent += `<div class='container'>`
         gameSet.forEach(game => {

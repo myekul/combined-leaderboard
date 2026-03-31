@@ -3,35 +3,55 @@
         "name": "Any%",
         "className": "onePointOne",
         "id": "xk9qg420",
-        "var": "e8mp30v8",
-        "subcat": "lr3zyx2l"
+        "vars": [
+            [
+                "e8mp30v8",
+                "lr3zyx2l"
+            ]
+        ]
     },
     {
         "name": "All Missions",
         "className": "legacy",
         "id": "q251xqyd",
-        "var": "e8mp30v8",
-        "subcat": "lr3zyx2l"
+        "vars": [
+            [
+                "e8mp30v8",
+                "lr3zyx2l"
+            ]
+        ]
     },
     {
         "name": "All Scrolls",
         "className": "nmg",
         "id": "5dwomg2g",
-        "var": "e8mp30v8",
-        "subcat": "lr3zyx2l"
+        "vars": [
+            [
+                "e8mp30v8",
+                "lr3zyx2l"
+            ]
+        ]
     },
     {
         "name": "NG+",
         "className": "dlc",
         "id": "zd3gre2n",
-        "var": "e8mp30v8",
-        "subcat": "lr3zyx2l"
+        "vars": [
+            [
+                "e8mp30v8",
+                "lr3zyx2l"
+            ]
+        ]
     },
     {
         "name": "100%",
         "className": "dlcbase",
         "id": "jdznev3d",
-        "var": "e8mp30v8",
-        "subcat": "lr3zyx2l"
+        "vars": [
+            [
+                "e8mp30v8",
+                "lr3zyx2l"
+            ]
+        ]
     }
 ]
