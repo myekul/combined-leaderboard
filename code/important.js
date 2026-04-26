@@ -1,5 +1,4 @@
 function showTabCL(tab) {
-    window.firebaseUtils.screenView()
     hideTabs()
     tooltipStyle?.remove()
     document.querySelectorAll('.hide').forEach(elem => {

@@ -6,10 +6,11 @@ function generateLeaderboards() {
     HTMLContent += `<div class='container' style='gap:10px;${sortCategoryIndex == -1 ? 'overflow-x:scroll;margin:0 auto' : ''}align-items:flex-start'>`
     if (sortCategoryIndex == -1) {
         categories.forEach((category, categoryIndex) => {
-            HTMLContent += `<div>`
-            HTMLContent += `<div class='container'>${generateBoardTitle(1, categoryIndex)}</div>`
-            HTMLContent += leaderboardsSection(categoryIndex)
-            HTMLContent += `</div>`
+            HTMLContent += `
+            <div>
+                <div class='container'>${generateBoardTitle(1, categoryIndex)}</div>
+                ${leaderboardsSection(categoryIndex)}
+            </div>`
         })
     } else {
         HTMLContent += leaderboardsSection(sortCategoryIndex)

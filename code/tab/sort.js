@@ -113,8 +113,9 @@ function sortRuns(sortRange) {
     let HTMLContent = `<div class='container'><table class='bigShadow'>`
     everyRun.slice(0, getNumDisplay()).forEach((run, runIndex) => {
         if (!(sortCriteria == 'date' && !run.run.date)) {
-            HTMLContent += `<tr class='${getRowColor(runIndex)}'>`
-            HTMLContent += `<td>${runIndex + 1}</td>`
+            HTMLContent += `
+            <tr class='${getRowColor(runIndex)}'>
+            <td>${runIndex + 1}</td>`
             const player = players[run.playerIndex]
             const category = categories[run.categoryIndex]
             const className = big5() ? category.difficulty : classNameLogic(category)
@@ -129,15 +130,16 @@ function sortRuns(sortRange) {
                 // }
                 const date = new Date()
                 const runDate = new Date(run.run.date)
-                HTMLContent += `<td style='font-size:80%'>${daysAgo(getDateDif(date, runDate))}</td>`
-                HTMLContent += `<td>${run.run.date}</td>`
+                HTMLContent += `
+                <td style='font-size:80%'>${daysAgo(getDateDif(date, runDate))}</td>
+                <td>${run.run.date}</td>`
                 if (sortDateOptions.value == 'dayofweek') {
-                    HTMLContent += `<td>${daysOfWeek[runDate.getDay()]}</td>`
+                    HTMLContent += `<td>${DAYS_OF_THE_WEEK[runDate.getDay()]}</td>`
                 } else if (sortDateOptions.value == 'season') {
                     const season = seasons[getSeason(runDate.getMonth())]
                     HTMLContent += `<td style='background-color:${season.color}'>${season.name}</td>`
                 } else if (sortDateOptions.value == 'month') {
-                    HTMLContent += `<td>${months[runDate.getMonth()]}</td>`
+                    HTMLContent += `<td>${MONTHS[runDate.getMonth()]}</td>`
                 }
             } else if (sortCriteria == 'score') {
                 const percentage = run.run.percentage
@@ -145,16 +147,19 @@ function sortRuns(sortRange) {
                 HTMLContent += `<td class='${grade.className}'><span>${displayPercentage(percentage)}</span></td>`
             } else if (sortCriteria == 'dps') {
                 const categoryHP = categories[run.categoryIndex].hp
-                HTMLContent += `<td style='text-align:right'>${getDPS(category, run.run.score)} DPS</td>`
-                HTMLContent += `<td style='text-align:right;font-size:75%'>${categoryHP} HP</td>`
+                HTMLContent += `
+                <td style='text-align:right'>${getDPS(category, run.run.score)} DPS</td>
+                <td style='text-align:right;font-size:75%'>${categoryHP} HP</td>`
             }
             if (sortCategoryIndex == -1) {
-                HTMLContent += `<td class='${className}'>${category.name}</td>`
-                HTMLContent += category.info ? `<td class='${category.info.id}'><div class='container'>${getImage(category.info.id, 20)}</div></td>` : ''
+                HTMLContent += `
+                <td class='${className}'>${category.name}</td>
+                ${category.info ? `<td class='${category.info.id}'><div class='container'>${getImage(category.info.id, 20)}</div></td>` : ''}`
             }
-            HTMLContent += parseRun(player, run.playerIndex, category, run.categoryIndex)
-            HTMLContent += getPlayerDisplay(player)
-            HTMLContent += `</tr>`
+            HTMLContent += `
+            ${parseRun(player, run.playerIndex, category, run.categoryIndex)}
+            ${getPlayerDisplay(player)}
+            </tr>`
         }
     })
     HTMLContent += `</table></div>`
@@ -180,18 +185,18 @@ function drawSortChart(runs, sortCriteria, minDate) {
             if (sortDateOptions == 'year') {
                 runData = date.getFullYear()
             } else if (sortDateOptions == 'month') {
-                units = months
+                units = MONTHS
                 runData = units[date.getMonth()]
             } else if (sortDateOptions == 'dayofyear') {
                 runData = getDayOfYear(date)
             } else if (sortDateOptions == 'dayofmonth') {
                 runData = date.getDate()
             } else if (sortDateOptions == 'dayofweek') {
-                units = daysOfWeek
+                units = DAYS_OF_THE_WEEK
                 runData = units[date.getDay()]
             } else if (sortDateOptions == 'season') {
-                units = seasons
-                runData = seasons[getSeason(date.getMonth())].name
+                units = SEASONS
+                runData = SEASONS[getSeason(date.getMonth())].name
             }
         }
         acc[runData] = (acc[runData] || 0) + 1;
@@ -288,7 +293,7 @@ function drawSortChart(runs, sortCriteria, minDate) {
 function drawSortPieChart(chartData) {
     let slices = {}
     if (document.getElementById('sortDateOptions').value == 'season') {
-        seasons.forEach((season, seasonIndex) => {
+        SEASONS.forEach((season, seasonIndex) => {
             slices[seasonIndex] = { color: season.color }
         })
     }

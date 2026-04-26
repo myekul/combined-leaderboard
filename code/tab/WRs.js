@@ -43,14 +43,17 @@ function getWorldRecordPlayers(categoryIndex) {
         if (run.place == 1) count++
     })
     if (count > 4) {
-        HTMLContent += `<td></td><td class='clickable' style='text-align:left' onclick="showTab('home');organizePlayers(${categoryIndex})">-- ${count}-way tie --</td>`
+        HTMLContent += `
+        <td></td>
+        <td class='clickable' style='text-align:left' onclick="showTab('home');organizePlayers(${categoryIndex})">-- ${count}-way tie --</td>`
     } else {
         playersCopy.forEach(player => {
             const run = player.runs[sortCategoryIndex]
             if (run?.place == 1) {
                 // HTMLContent += `<td>${getPlayerFlag(player, 12)}</td>`
-                HTMLContent += `<td>${getPlayerIcon(player, 18)}</td>`
-                HTMLContent += `<td class='clickable' style='text-align:left'>${getAnchor(run.url)}${run.debug ? '*' : ''}${getPlayerName(player)}</td>`
+                HTMLContent += `
+                <td>${getPlayerIcon(player, 18)}</td>
+                <td class='clickable' style='text-align:left'>${getAnchor(run.url)}${run.debug ? '*' : ''}${getPlayerName(player)}</td>`
             }
         })
     }
@@ -63,7 +66,7 @@ function WRs() {
         everyRun.sort((a, b) => b.run.percentage - a.run.percentage)
         everyRun = everyRun.slice(0, categories.length)
         everyRun.sort((a, b) => a.categoryIndex - b.categoryIndex)
-        HTMLContent += fancyTable(everyRun)
+        HTMLContent += fancyTable(everyRun, categories.length)
     } else {
         categories.forEach((category, categoryIndex) => {
             HTMLContent += WRsCategoryDisplay(category, categoryIndex)
@@ -76,8 +79,9 @@ function WRs() {
 function WRsCategoryDisplay(category, categoryIndex) {
     let HTMLContent = ''
     const className = classNameLogic(category)
-    HTMLContent += `<tr class='${getRowColor(categoryIndex)}'>`
-    HTMLContent += `<td class='${className}' style='text-align:left;font-weight:bold;padding:0 3px'>${category.name}</td>`
+    HTMLContent += `
+    <tr class='${getRowColor(categoryIndex)}'>
+    <td class='${className}' style='text-align:left;font-weight:bold;padding:0 3px'>${category.name}</td>`
     if (category.info) {
         HTMLContent += `<td style='padding:0' class='${className} container'>${getImage(category.info.id, 24)}</td>`
     }
@@ -102,10 +106,11 @@ function cupheadLevelWRs() {
             const thisCategory = categories[categoryIndex]
             if (loadoutsChecked) {
                 const loadout = thisCategory.loadout
-                HTMLContent += `<td>${loadout[0] ? cupheadShot(loadout[0], '', true) : ''}</td>`
-                HTMLContent += `<td>${loadout[1] ? cupheadShot(loadout[1], '', true) : ''}</td>`
-                HTMLContent += `<td>${loadout[2] ? cupheadItem(loadout[2], '', true) : 'super'}</td>`
-                HTMLContent += `<td>${loadout[3] ? cupheadItem(loadout[3], '', true) : 'charm'}</td>`
+                HTMLContent += `
+                <td>${loadout[0] ? cupheadShot(loadout[0], '', true) : ''}</td>
+                <td>${loadout[1] ? cupheadShot(loadout[1], '', true) : ''}</td>
+                <td>${loadout[2] ? cupheadItem('superart' + loadout[2], '', true, 'super') : ''}</td>
+                <td>${loadout[3] ? cupheadItem(loadout[3], '', true, 'charm') : ''}</td>`
             }
             if (big5()) {
                 HTMLContent += `<td class='${thisCategory.difficulty}' style='width:6px'></td>`
@@ -151,9 +156,10 @@ function WRsSumsCuphead() {
             }
             HTMLContent += `</tr>`
         }
-        HTMLContent += `<tr class='${getRowColor(categoryIndex)}'>`
-        HTMLContent += `<td class='${category.info.id}' style='text-align:right'>${category.info.name}</td>`
-        HTMLContent += `<th class='${category.info.id} container'>${getImage(category.info.id, 21)}</th>`
+        HTMLContent += `
+        <tr class='${getRowColor(categoryIndex)}'>
+            <td class='${category.info.id}' style='text-align:right'>${category.info.name}</td>
+            <th class='${category.info.id} container'>${getImage(category.info.id, 21)}</th>`
         if (numCats == 4) HTMLContent += `<td></td><td></td>`
         let sum = 0
         let thisCategory
@@ -341,8 +347,11 @@ function WRsInfo(sortObject, objectReference, WRs, allWRs) {
         objectReference = null
         sortObject = WRs
     }
-    let HTMLContent = `<div class='container'><table>`
-    HTMLContent += `<tr><td></td>`
+    let HTMLContent = `
+    <div class='container'>
+        <table>
+            <tr>
+                <td></td>`
     if (objectReference) {
         HTMLContent += `<td>All</td>`
         objectReference.forEach(object => {

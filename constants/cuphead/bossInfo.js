@@ -1,33 +1,33 @@
 const loadouts = {
     therootpack: [
         ['charge', 'spread', '', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone'],
         ['lobber', 'spread', '', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone'],
         ['lobber', 'spread', '', 'whetstone'],
-        ['lobber', 'spread', 'super3', 'whetstone']
+        ['lobber', 'spread', 'iii', 'whetstone']
     ],
     goopylegrande: [
-        ['charge', 'spread', 'super3', 'whetstone']
+        ['charge', 'spread', 'iii', 'whetstone']
     ],
     hildaberg: [],
     cagneycarnation: [
         ['charge', 'spread', '', 'whetstone'],
-        ['charge', 'spread', 'super1', 'whetstone'],
+        ['charge', 'spread', 'i', 'whetstone'],
         ['charge', 'spread', '', 'whetstone'],
-        ['charge', 'spread', 'super2', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone']
+        ['charge', 'spread', 'ii', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone']
     ],
     ribbyandcroaks: [
-        ['charge', 'spread', 'super3', 'whetstone']
+        ['charge', 'spread', 'iii', 'whetstone']
     ],
     baronessvonbonbon: [
-        ['charge', 'spread', 'super3', 'whetstone']
+        ['charge', 'spread', 'iii', 'whetstone']
     ],
     beppitheclown: [
         ['charge', 'spread', '', 'whetstone'],
-        ['charge', 'spread', 'super2', 'whetstone'],
+        ['charge', 'spread', 'ii', 'whetstone'],
         ['charge', 'spread', '', 'whetstone'],
         ['charge', 'spread', '', 'whetstone'],
         ['charge', 'spread', '', 'whetstone'],
@@ -35,65 +35,65 @@ const loadouts = {
     ],
     djimmithegreat: [],
     grimmatchstick: [
-        ['charge', 'spread', 'super3', 'whetstone']
+        ['charge', 'spread', 'iii', 'whetstone']
     ],
     wallywarbles: [],
     rumorhoneybottoms: [
         ['charge', 'peashooter', '', 'whetstone'],
         ['charge', 'peashooter', '', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone']
+        ['charge', 'spread', 'iii', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone']
     ],
     captainbrineybeard: [
-        ['charge', 'lobber', 'super3', 'coffee']
+        ['charge', 'lobber', 'iii', 'coffee']
     ],
     sallystageplay: [
         ['charge', 'spread', '', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone'],
         ['charge', 'spread', '', 'whetstone'],
         ['charge', 'spread', '', 'whetstone'],
         ['charge', 'spread', '', 'whetstone'],
         ['charge', 'spread', '', 'whetstone']
     ],
     wernerwerman: [
-        ['charge', 'spread', 'super3', 'whetstone']
+        ['charge', 'spread', 'iii', 'whetstone']
     ],
     drkahlsrobot: [],
     calamaria: [],
     phantomexpress: [
         ['charge', 'spread', '', 'whetstone'],
-        ['charge', 'spread', 'super1', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone']
+        ['charge', 'spread', 'i', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone']
     ],
     kingdice: [
-        ['charge', 'spread', 'super3', 'whetstone']
+        ['charge', 'spread', 'iii', 'whetstone']
     ],
     thedevil: [
         [],
         [],
         ['charge', 'spread', '', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone'],
         ['charge', 'spread', '', 'whetstone']
     ],
     glumstonethegiant: [
-        ['charge', 'spread', 'super3', 'whetstone']
+        ['charge', 'spread', 'iii', 'whetstone']
     ],
     moonshinemob: [
-        ['charge', 'lobber', 'super3', 'whetstone'],
-        ['charge', 'spread', 'super1', 'whetstone'],
-        ['charge', 'lobber', 'super3', 'whetstone'],
-        ['charge', 'lobber', 'super3', 'whetstone'],
-        ['charge', 'lobber', 'super3', 'whetstone'],
-        ['charge', 'lobber', 'super3', 'whetstone']
+        ['charge', 'lobber', 'iii', 'whetstone'],
+        ['charge', 'spread', 'i', 'whetstone'],
+        ['charge', 'lobber', 'iii', 'whetstone'],
+        ['charge', 'lobber', 'iii', 'whetstone'],
+        ['charge', 'lobber', 'iii', 'whetstone'],
+        ['charge', 'lobber', 'iii', 'whetstone']
     ],
     thehowlingaces: [
-        ['charge', 'spread', 'super3', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone'],
         ['charge', 'spread', '', 'whetstone'],
         ['charge', 'spread', '', 'whetstone'],
         ['charge', 'spread', '', 'whetstone'],
@@ -101,68 +101,68 @@ const loadouts = {
         ['charge', 'spread', '', 'whetstone']
     ],
     mortimerfreeze: [
-        ['charge', 'spread', 'super3', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone'],
-        ['charge', 'spread', 'super2', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone'],
-        ['charge', 'spread', 'super2', 'whetstone']
+        ['charge', 'spread', 'iii', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone'],
+        ['charge', 'spread', 'ii', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone'],
+        ['charge', 'spread', 'ii', 'whetstone']
     ],
     estherwinchester: [],
     chefsaltbaker: [
         [],
         [],
-        ['charge', 'lobber', 'super3', 'whetstone'],
-        ['charge', 'lobber', 'super3', 'whetstone'],
-        ['charge', 'spread', 'super2', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone']
+        ['charge', 'lobber', 'iii', 'whetstone'],
+        ['charge', 'lobber', 'iii', 'whetstone'],
+        ['charge', 'spread', 'ii', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone']
     ]
 };
 const loadoutsDLC = {
     therootpack: [
         ['twistup', 'spread', '', 'whetstone'],
-        ['twistup', 'spread', 'super3', 'whetstone'],
+        ['twistup', 'spread', 'iii', 'whetstone'],
         ['twistup', 'spread', '', 'whetstone'],
         ['spread', 'twistup', '', 'whetstone'],
         ['twistup', 'spread', '', 'whetstone'],
         ['spread', 'twistup', '', 'whetstone']
     ],
     goopylegrande: [
-        ['charge', 'converge', 'super3', 'whetstone'],
-        ['charge', 'converge', 'super3', 'whetstone'],
-        ['charge', 'converge', 'super3', 'whetstone'],
-        ['charge', 'converge', 'super3', 'whetstone'],
-        ['charge', 'twistup', 'super3', 'whetstone'],
-        ['charge', 'twistup', 'super3', 'whetstone']
+        ['charge', 'converge', 'iii', 'whetstone'],
+        ['charge', 'converge', 'iii', 'whetstone'],
+        ['charge', 'converge', 'iii', 'whetstone'],
+        ['charge', 'converge', 'iii', 'whetstone'],
+        ['charge', 'twistup', 'iii', 'whetstone'],
+        ['charge', 'twistup', 'iii', 'whetstone']
     ],
     hildaberg: [],
     cagneycarnation: [
         ['charge', 'twistup', '', 'whetstone'],
-        ['charge', 'twistup', 'super1', 'whetstone'],
+        ['charge', 'twistup', 'i', 'whetstone'],
         ['charge', 'twistup', '', 'whetstone'],
-        ['charge', 'twistup', 'super3', 'whetstone'],
-        ['charge', 'twistup', 'super3', 'whetstone'],
-        ['charge', 'converge', 'super3', 'whetstone']
+        ['charge', 'twistup', 'iii', 'whetstone'],
+        ['charge', 'twistup', 'iii', 'whetstone'],
+        ['charge', 'converge', 'iii', 'whetstone']
     ],
     ribbyandcroaks: [
-        ['charge', 'converge', 'super3', 'whetstone'],
-        ['charge', 'converge', 'super3', 'whetstone'],
+        ['charge', 'converge', 'iii', 'whetstone'],
+        ['charge', 'converge', 'iii', 'whetstone'],
         ['spread', 'twistup', '', 'whetstone'],
         ['roundabout', 'spread', '', 'astralcookie'],
         ['charge', 'spread', '', 'astralcookie'],
         ['charge', 'spread', '', 'heartring']
     ],
     baronessvonbonbon: [
-        ['charge', 'converge', 'super3', 'whetstone'],
+        ['charge', 'converge', 'iii', 'whetstone'],
         ['charge', 'twistup', '', 'whetstone'],
-        ['charge', 'converge', 'super3', 'whetstone'],
+        ['charge', 'converge', 'iii', 'whetstone'],
         ['charge', 'spread', '', 'astralcookie'],
         ['charge', 'spread', '', 'astralcookie'],
         ['charge', 'spread', '', 'astralcookie']
     ],
     beppitheclown: [
         ['charge', 'twistup', '', 'whetstone'],
-        ['charge', 'twistup', 'super2', 'whetstone'],
+        ['charge', 'twistup', 'ii', 'whetstone'],
         ['charge', 'converge', '', 'whetstone'],
         ['charge', 'converge', '', 'whetstone'],
         ['charge', 'converge', '', 'whetstone'],
@@ -170,40 +170,40 @@ const loadoutsDLC = {
     ],
     djimmithegreat: [],
     grimmatchstick: [
-        ['charge', 'converge', 'super3', 'whetstone'],
-        ['charge', 'twistup', 'super3', 'whetstone'],
-        ['charge', 'converge', 'super3', 'whetstone'],
-        ['charge', 'twistup', 'super3', 'whetstone'],
-        ['charge', 'twistup', 'super3', 'whetstone'],
-        ['charge', 'twistup', 'super3', 'whetstone']
+        ['charge', 'converge', 'iii', 'whetstone'],
+        ['charge', 'twistup', 'iii', 'whetstone'],
+        ['charge', 'converge', 'iii', 'whetstone'],
+        ['charge', 'twistup', 'iii', 'whetstone'],
+        ['charge', 'twistup', 'iii', 'whetstone'],
+        ['charge', 'twistup', 'iii', 'whetstone']
     ],
     wallywarbles: [],
     rumorhoneybottoms: [
         ['charge', 'converge', '', 'whetstone'],
-        ['charge', 'converge', 'super2', 'whetstone'],
-        ['charge', 'converge', 'super3', 'whetstone'],
-        ['charge', 'converge', 'super3', 'whetstone'],
-        ['charge', 'converge', 'super3', 'whetstone'],
-        ['charge', 'converge', 'super3', 'whetstone']
+        ['charge', 'converge', 'ii', 'whetstone'],
+        ['charge', 'converge', 'iii', 'whetstone'],
+        ['charge', 'converge', 'iii', 'whetstone'],
+        ['charge', 'converge', 'iii', 'whetstone'],
+        ['charge', 'converge', 'iii', 'whetstone']
     ],
     captainbrineybeard: [
         ['charge', 'twistup', '', 'coffee'],
         ['charge', 'twistup', '', 'coffee'],
         ['charge', 'twistup', '', 'coffee'],
         ['charge', 'twistup', '', 'coffee'],
-        ['charge', 'converge', 'super3', 'coffee'],
-        ['charge', 'converge', 'super3', 'coffee']
+        ['charge', 'converge', 'iii', 'coffee'],
+        ['charge', 'converge', 'iii', 'coffee']
     ],
     sallystageplay: [
         ['charge', 'twistup', '', 'whetstone'],
-        ['charge', 'twistup', 'super3', 'whetstone'],
+        ['charge', 'twistup', 'iii', 'whetstone'],
         ['charge', 'spread', '', 'astralcookie'],
         ['charge', 'spread', '', 'astralcookie'],
         ['charge', 'converge', '', 'whetstone'],
         ['charge', 'converge', '', 'whetstone']
     ],
     wernerwerman: [
-        ['charge', 'twistup', 'super3', 'whetstone']
+        ['charge', 'twistup', 'iii', 'whetstone']
     ],
     drkahlsrobot: [],
     calamaria: [],
@@ -212,33 +212,33 @@ const loadoutsDLC = {
         ['lobber', 'spread', '', 'astralcookie'],
         ['lobber', 'spread', '', 'astralcookie'],
         ['lobber', 'spread', '', 'astralcookie'],
-        ['charge', 'converge', 'super3', 'whetstone'],
-        ['charge', 'converge', 'super3', 'whetstone']
+        ['charge', 'converge', 'iii', 'whetstone'],
+        ['charge', 'converge', 'iii', 'whetstone']
     ],
     kingdice: [
         [],
         [],
-        ['charge', 'converge', 'super3', 'whetstone'],
-        ['charge', 'converge', 'super3', 'whetstone'],
-        ['charge', 'twistup', 'super3', 'whetstone'],
-        ['charge', 'twistup', 'super3', 'whetstone']
+        ['charge', 'converge', 'iii', 'whetstone'],
+        ['charge', 'converge', 'iii', 'whetstone'],
+        ['charge', 'twistup', 'iii', 'whetstone'],
+        ['charge', 'twistup', 'iii', 'whetstone']
     ],
     thedevil: [
-        ['charge', 'converge', 'super3', 'whetstone']
+        ['charge', 'converge', 'iii', 'whetstone']
     ],
     glumstonethegiant: [
-        ['charge', 'twistup', 'super3', 'whetstone']
+        ['charge', 'twistup', 'iii', 'whetstone']
     ],
     moonshinemob: [
         ['charge', 'converge', '', 'whetstone'],
-        ['charge', 'crackshot', 'super1', 'whetstone'],
-        ['charge', 'converge', 'super3', 'whetstone'],
-        ['charge', 'converge', 'super3', 'whetstone'],
-        ['charge', 'converge', 'super3', 'whetstone'],
-        ['charge', 'converge', 'super3', 'whetstone']
+        ['charge', 'crackshot', 'i', 'whetstone'],
+        ['charge', 'converge', 'iii', 'whetstone'],
+        ['charge', 'converge', 'iii', 'whetstone'],
+        ['charge', 'converge', 'iii', 'whetstone'],
+        ['charge', 'converge', 'iii', 'whetstone']
     ],
     thehowlingaces: [
-        ['charge', 'converge', 'super3', 'whetstone'],
+        ['charge', 'converge', 'iii', 'whetstone'],
         ['charge', 'converge', '', 'whetstone'],
         ['charge', 'twistup', '', 'whetstone'],
         ['charge', 'twistup', '', 'whetstone'],
@@ -246,12 +246,12 @@ const loadoutsDLC = {
         ['charge', 'spread', '', 'astralcookie']
     ],
     mortimerfreeze: [
-        ['charge', 'twistup', 'super3', 'whetstone'],
-        ['charge', 'converge', 'super3', 'whetstone'],
-        ['charge', 'twistup', 'super3', 'whetstone'],
-        ['charge', 'twistup', 'super2', 'whetstone'],
-        ['charge', 'twistup', 'super3', 'whetstone'],
-        ['charge', 'twistup', 'super2', 'whetstone']
+        ['charge', 'twistup', 'iii', 'whetstone'],
+        ['charge', 'converge', 'iii', 'whetstone'],
+        ['charge', 'twistup', 'iii', 'whetstone'],
+        ['charge', 'twistup', 'ii', 'whetstone'],
+        ['charge', 'twistup', 'iii', 'whetstone'],
+        ['charge', 'twistup', 'ii', 'whetstone']
     ],
     estherwinchester: [],
     chefsaltbaker: [
@@ -347,40 +347,40 @@ const loadoutsLegacy = {
     rumorhoneybottoms: [
         ['charge', 'peashooter', '', 'whetstone'],
         ['charge', 'peashooter', '', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone']
+        ['charge', 'spread', 'iii', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone']
     ],
     captainbrineybeard: [
-        ['charge', 'lobber', 'super3', 'coffee']
+        ['charge', 'lobber', 'iii', 'coffee']
     ],
     sallystageplay: [
         ['charge', 'spread', '', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone'],
         ['charge', 'spread', '', 'whetstone'],
         ['charge', 'spread', '', 'whetstone'],
         ['charge', 'spread', '', 'whetstone'],
         ['charge', 'spread', '', 'whetstone']
     ],
     wernerwerman: [
-        ['charge', 'spread', 'super3', 'whetstone']
+        ['charge', 'spread', 'iii', 'whetstone']
     ],
     drkahlsrobot: [],
     calamaria: [],
     phantomexpress: [
         ['charge', 'spread', '', 'whetstone'],
-        ['charge', 'spread', 'super1', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone'],
-        ['charge', 'spread', 'super3', 'whetstone']
+        ['charge', 'spread', 'i', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone'],
+        ['charge', 'spread', 'iii', 'whetstone']
     ],
     kingdice: [
-        ['charge', 'spread', 'super3', 'whetstone']
+        ['charge', 'spread', 'iii', 'whetstone']
     ],
     thedevil: [
-        ['charge', 'spread', 'super3', 'whetstone']
+        ['charge', 'spread', 'iii', 'whetstone']
     ]
 };
 const bossHP = {

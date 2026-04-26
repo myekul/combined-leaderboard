@@ -1,5 +1,4 @@
 const API_KEY = 'AIzaSyDg6FBho-vfAm67-UdGP-8IbVFdLV23unY'
-const MYEKUL_SHEET_ID = '14l1hkW337uiyCRkNz61MNq99AEoidZdqaQUIpH5FlGU'
 const rootStyles = getComputedStyle(document.documentElement)
 
 let playerNames = new Set()
@@ -58,11 +57,13 @@ let showModal = false
 let displayNumRuns = false
 let milliseconds = false
 let categorySet
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-const seasons = [
+
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const DAYS_OF_THE_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+const SEASONS = [
     { name: 'Spring', color: 'mediumorchid' },
     { name: 'Summer', color: 'limegreen' },
     { name: 'Fall', color: 'orange' },
     { name: 'Winter', color: 'cornflowerblue' }
 ]
+const SUPPORTERS = ['SBDWolf', 'Lewzr', 'FailedCriminal']

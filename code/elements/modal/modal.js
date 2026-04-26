@@ -75,12 +75,13 @@ function videoCollection(player) {
                 fetchYouTube(videoID).then(data => {
                     if (data) {
                         // console.log(data)
-                        let innerHTMLContent = `<div class='videoCollection'>`
                         const viewCount = data.statistics.viewCount
-                        innerHTMLContent += `<div>${parseInt(viewCount).toLocaleString()} view${viewCount == 1 ? '' : 's'}</div>`
-                        innerHTMLContent += `<div>${parseInt(data.statistics.likeCount).toLocaleString()}&nbsp;${fontAwesome('thumbs-up')}</div>`
-                        innerHTMLContent += `<div>${parseInt(data.statistics.commentCount).toLocaleString()}&nbsp;${fontAwesome('commenting')}</div>`
-                        innerHTMLContent += `</div>`
+                        let innerHTMLContent = `
+                        <div class='videoCollection'>
+                            <div>${parseInt(viewCount).toLocaleString()} view${viewCount == 1 ? '' : 's'}</div>
+                            <div>${parseInt(data.statistics.likeCount).toLocaleString()}&nbsp;${fontAwesome('thumbs-up')}</div>
+                            <div>${parseInt(data.statistics.commentCount).toLocaleString()}&nbsp;${fontAwesome('commenting')}</div>
+                        </div>`
                         if (modalIndex == 1) {
                             document.getElementById('modal_stats_' + runIndex).innerHTML = innerHTMLContent
                         }

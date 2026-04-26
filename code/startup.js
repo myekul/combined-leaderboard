@@ -31,16 +31,42 @@ setSidebar(generateSidebar())
     })
 function generateSidebar() {
     let HTMLContent = ''
-    const games = [['cuphead'], ['sm64', 'sms'], ['smg1', 'smg2'], ['smo', 'dkb'], ['smb1', 'smbtll'], ['smb2', 'smb3'], ['nsmbds', 'nsmbw'], ['nsmbu', 'nslu'], ['dkc', 'dkc2', 'dkc3'], ['mtpo', 'spo'], ['ssb64', 'ssbm'], ['titanfall_2']]
-    games.forEach(gameSet => {
-        HTMLContent += `<div class='container'>`
-        gameSet.forEach(game => {
-            HTMLContent += `<a href='?game=${game}' class="container grow ${game}" style='width:100%'><img src="images/logo/${game}.png"></a>`
+    const games = [['cuphead'], ['sm64', 'sms'], ['smg1', 'smg2'], ['smo', 'dkb'], ['smb1', 'smbtll'], ['smb2', 'smb3'], ['dkc', 'dkc2', 'dkc3'], ['mtpo', 'spo'], ['ssb64', 'ssbm']]
+    gamesShort = ['cuphead', 'sm64', 'smo', 'smb1']
+    gamesShort.forEach(game => {
+        HTMLContent += `<a href='?game=${game}' class="container grow ${game}" style='width:100%'><img src="images/logo/${game}.png"></a>`
+    })
+    HTMLContent += `
+    <div class='container grow banner font2' style='gap:8px;font-size:120%;height:50px' onclick="moreGames()">
+    ${fontAwesome('plus')}
+    MORE GAMES
+    ${fontAwesome('plus')}
+    </div>`
+    return HTMLContent
+}
+function moreGames() {
+    let HTMLContent = ''
+    let games = []
+    games.push([['cuphead', 'titanfall_2'], ['dkc', 'dkc2'], ['dkc3', 'dkb'], ['mtpo', 'spo'], ['ssb64', 'ssbm'], ['splatoon1', 'facade'], ['the_escapists', 'the_messenger'], ['shar']])
+    games.push([['smb1', 'smbtll'], ['smb2', 'smb3'], ['nsmbds', 'nsmbw'], ['nsmb2', 'nsmbu'], ['nslu', 'sm64ds'], ['sm64', 'sms'], ['smg1', 'smg2'], ['smo']])
+    HTMLContent += `<div class='container' style='margin:20px'>`
+    games.forEach(gameSetSet => {
+        HTMLContent += `<div>`
+        gameSetSet.forEach(gameSet => {
+            HTMLContent += `<div class='container'>`
+            gameSet.forEach(game => {
+                HTMLContent += `<a href='?game=${game}' class="container grow ${game}" style='width:120px;height:60px'><img src="images/logo/${game}.png" style='max-width: 250px;
+            width: 80%;
+            height: 55px;
+            object-fit: contain;
+            padding: 1px 0'></a>`
+            })
+            HTMLContent += `</div>`
         })
         HTMLContent += `</div>`
     })
-    // HTMLContent += `<div class='container grow' style='font-size:150%;height:50px'>${fontAwesome('plus')}</div>`
-    return HTMLContent
+    HTMLContent += `</div>`
+    openModal(HTMLContent, 'ALL GAMES')
 }
 document.documentElement.style.setProperty('--banner', getColorFromClass(gameID));
 document.documentElement.style.setProperty('--bannerText', getColorFromClass(gameID, true));
@@ -148,7 +174,7 @@ showTab = function (...args) {
     showTabOG(...args)
     showTabCL(...args)
 }
-setTabs(['info', 'home', 'featured', 'leaderboards', null, 'WRs', 'map', 'sort', null, 'connect4', 'ballpit'])
+setTabs(['info', 'home', 'featured', 'leaderboards', null, 'WRs', 'map', 'sort', null, 'ballpit', [`<button class='grow' onclick="supporterModal()"><img src='images/supporters.png' style='width:30px;margin-left:5px'></button>`]])
     .then(() => {
         if (['cuphead', 'sm64', 'nsmbw'].includes(gameID)) {
             show('modeSelection')

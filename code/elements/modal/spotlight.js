@@ -25,10 +25,11 @@ function generateROTDrun() {
     ROTDindex = getDailyRandomIndex(aPlusRuns)
     const run = aPlusRuns[ROTDindex]
     let HTMLContent = ''
-    HTMLContent += `<div class='button ${categories[run.categoryIndex].className}' style='width:94px;height:28px;justify-content:left'>`
-    HTMLContent += `<div>${getPlayerIcon(players[run.playerIndex], 32)}</div>
-    <div class='container' style='font-size:150%'>${secondsToHMS(run.run.score)}</div>`
-    HTMLContent += `</div>`
+    HTMLContent += `
+    <div class='button ${categories[run.categoryIndex].className}' style='width:94px;height:28px;justify-content:left'>
+        <div>${getPlayerIcon(players[run.playerIndex], 32)}</div>
+        <div class='container' style='font-size:150%'>${secondsToHMS(run.run.score)}</div>
+    </div>`
     document.getElementById('ROTDdiv').innerHTML = HTMLContent
 }
 function generateSpotlight() {
@@ -40,21 +41,23 @@ function generateSpotlight() {
     player.runs.forEach((run, runIndex) => {
         if (run) {
             rowCount++
-            HTMLContent += `<table>`
             const rowColor = getRowColor(rowCount)
-            HTMLContent += `<tr class='${rowColor}'>${fancyTime(run, runIndex)}</tr>`
-            HTMLContent += `<tr class='${rowColor}'>${fancyThumbnail(run, true)}</tr>`
-            HTMLContent += `<tr class='${rowColor}' style='height:40px'>${fancyDate(run)}</tr>`
-            HTMLContent += `</table>`
+            HTMLContent += `
+            <table>
+                <tr class='${rowColor}'>${fancyTime(run, runIndex)}</tr>
+                <tr class='${rowColor}'>${fancyThumbnail(run, true)}</tr>
+                <tr class='${rowColor}' style='height:40px'>${fancyDate(run)}</tr>
+            </table>`
         }
     })
     HTMLContent += `</div></div>`
     const myekulSaysText = myekulSays[player.name]
     if (myekulSaysText) {
-        HTMLContent += `<div style='width:500px;margin:20px auto;'>`
-        HTMLContent += myekulSaysDiv()
-        HTMLContent += `<div class='container textBlock' style='font-size:80%'>${myekulSaysText}</div>`
-        HTMLContent += `</div>`
+        HTMLContent += `
+        <div style='width:500px;margin:20px auto;'>
+            ${myekulSaysDiv()}
+            <div class='container textBlock' style='font-size:80%'>${myekulSaysText}</div>
+        </div>`
     }
     return HTMLContent
 }

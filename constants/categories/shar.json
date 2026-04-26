@@ -1,0 +1,68 @@
+[
+    {
+        "name": "All Story Missions",
+        "className": "onePointOne",
+        "id": "mndxp12q",
+        "vars": [
+            [
+                "ql6gj9v8",
+                "gq7nyov1"
+            ]
+        ]
+    },
+    {
+        "name": "Any%",
+        "className": "legacy",
+        "id": "prkleq2n",
+        "vars": [
+            [
+                "kn0zej78",
+                "lx5gj0j1"
+            ]
+        ]
+    },
+    {
+        "name": "100%",
+        "className": "nmg",
+        "id": "7wk6oqk1",
+        "vars": [
+            [
+                "6njqp4el",
+                "9qjx743l"
+            ]
+        ]
+    },
+    {
+        "name": "ASM (NG+)",
+        "className": "dlc",
+        "id": "z273lzd0",
+        "vars": [
+            [
+                "yn2165d8",
+                "4qyjzy2q"
+            ]
+        ]
+    },
+    {
+        "name": "No Mission Warps",
+        "className": "dlcbase",
+        "id": "xw201vkn",
+        "vars": [
+            [
+                "9l71g74l",
+                "klry30mq"
+            ]
+        ]
+    },
+    {
+        "name": "All Tasks NLR",
+        "className": "gray",
+        "id": "z27o7x5d",
+        "vars": [
+            [
+                "jlz56wyl",
+                "gq7r54dl"
+            ]
+        ]
+    }
+]

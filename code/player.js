@@ -17,17 +17,20 @@ function getPlayerDisplay(player, playerIndex) {
 function getPlayerProfile(playerIndex) {
     let HTMLContent = ''
     const player = players[playerIndex]
-    HTMLContent += `<div class='container' style='padding-top:8px'>`
-    HTMLContent += gameID != 'tetris' ? `<div style='padding-right:10px'>${getPlayerIcon(player, 64)}</div>` : ''
-    HTMLContent += `<div>`
-    HTMLContent += `<div class='container' style='padding-bottom:2px'>`
-    HTMLContent += `<div style='font-size:150%;margin:0'>${getPlayerName(player)}</div>`
-    HTMLContent += `</div>`
+    HTMLContent += `
+    <div class='container' style='padding-top:8px'>
+    ${gameID != 'tetris' ? `<div style='padding-right:10px'>${getPlayerIcon(player, 64)}</div>` : ''}
+    <div>
+        <div class='container' style='padding-bottom:2px'>
+        <div style='font-size:150%;margin:0'>${getPlayerName(player)}</div>
+        ${SUPPORTERS.includes(player.name) ? `<button class='grow' onclick="supporterModal()"><img src='images/supporters.png' style='width:28px;margin-top:4px;margin-left:8px'></button>` : ''}
+    </div>`
     if (player.links) {
-        HTMLContent += `<div class='container' style='gap:5px;justify-content:flex-start'>`
         const flag = getPlayerFlag(player, 14)
-        HTMLContent += `<div>${flag}</div>`
-        HTMLContent += flag ? `<div class='container' style='width:10px;margin:0'>&#8226;</div>` : ''
+        HTMLContent += `
+        <div class='container' style='gap:5px;justify-content:flex-start'>
+            <div>${flag}</div>
+            ${flag ? `<div class='container' style='width:10px;margin:0'>&#8226;</div>` : ''}`
         const socials = ['src', 'twitch', 'youtube']
         socials.forEach(social => {
             const anchor = getAnchor(getSocial(player, social))

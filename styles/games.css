@@ -3,6 +3,10 @@
     color: white
 }
 
+.sm64ds {
+    background-color: royalblue;
+}
+
 .tetris {
     background-color: black;
     color: white
@@ -10,7 +14,7 @@
 
 .titanfall_2 {
     background-color: cadetblue;
-    color: azure
+    color: black
 }
 
 .smb1 {
@@ -41,6 +45,11 @@
 .nsmbw {
     background-color: #eb1c26;
     color: white
+}
+
+.nsmb2 {
+    background-color: gold;
+    color: black
 }
 
 .nsmbu {
@@ -134,4 +143,9 @@
 .splatoon1 {
     background-color: darkorange;
     color: white
+}
+
+.shar {
+    background-color: yellow;
+    color: black
 }

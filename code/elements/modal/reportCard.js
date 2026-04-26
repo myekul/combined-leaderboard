@@ -14,9 +14,10 @@ function reportCard(player) {
                     HTMLContent += `<th rowspan=${numCats} class='${category.info.id}'>${getImage(category.info.id)}</th>`
                 }
                 const thisCategory = categories[categoryIndex]
-                HTMLContent += `<td>${getTrophy(place)}</td>`
-                HTMLContent += `<td class='${thisCategory.difficulty}' style='text-align:left'>${difficultyILs ? trimDifficulty(thisCategory.name) : thisCategory.name}</td>`
-                HTMLContent += reportCardSection(category, categoryIndex, run.score, percentage)
+                HTMLContent += `
+                <td>${getTrophy(place)}</td>
+                <td class='${thisCategory.difficulty}' style='text-align:left'>${difficultyILs ? trimDifficulty(thisCategory.name) : thisCategory.name}</td>
+                ${reportCardSection(category, categoryIndex, run.score, percentage)}`
                 categoryIndex++
             }
             HTMLContent += `</tr>`
@@ -31,11 +32,11 @@ function reportCard(player) {
             }
             HTMLContent +=
                 `<tr>
-                    <td style='color:white;padding-right:3px;text-align:right'>${run?.debug ? '*' : ''}${getTrophy(place)}</td>`
-            HTMLContent += image ? `<td id='modal-img' class='${classNameLogic(category)}'>${image}</td>` : ''
-            HTMLContent += `<td class='${classNameLogic(category)}' style='text-align:left;padding:2px 3px'>${category.name}</td>`
-            HTMLContent += reportCardSection(category, categoryIndex, run.score, run.percentage)
-            HTMLContent += `</tr>`
+                    <td style='color:white;padding-right:3px;text-align:right'>${run?.debug ? '*' : ''}${getTrophy(place)}</td>
+                    ${image ? `<td id='modal-img' class='${classNameLogic(category)}'>${image}</td>` : ''}
+                    <td class='${classNameLogic(category)}' style='text-align:left;padding:2px 3px'>${category.name}</td>
+                    ${reportCardSection(category, categoryIndex, run.score, run.percentage)}
+                </tr>`
         })
     }
     HTMLContent += `</table>`
@@ -43,7 +44,7 @@ function reportCard(player) {
     HTMLContent += `</div>`
     HTMLContent += `<div class='container' style='gap:8px'>`
     if (player.hasAllRuns) {
-        HTMLContent += `<div id='modal_sliders' onclick="toggleSliders()" class='grow'>${fontAwesome('sliders')}</div>`
+        HTMLContent += `<button id='modal_sliders' onclick="toggleSliders()" class='grow'>${fontAwesome('sliders')}</button>`
     }
     HTMLContent +=
         `<div class='textBox'><table class='background2'>
@@ -54,13 +55,13 @@ function reportCard(player) {
     if (player.hasAllRuns) {
         HTMLContent +=
             `<tr>
-                    <td>GPA:</td>
-                    <td id='modal_gpa'>${getGPA(player.score)}</td>
-                </tr>`
+                <td>GPA:</td>
+                <td id='modal_gpa'>${getGPA(player.score)}</td>
+            </tr>`
     }
     HTMLContent += `<td colspan=2 id='modal_scoreGradeSpan'>${scoreGradeSpan(player.score)}</td>`
     HTMLContent += `</table></div>`
-    HTMLContent += `<div id='modal_refresh' onclick="toggleSliders();toggleSliders()" class='grow' style='display:none'>${fontAwesome('refresh')}</div>`
+    HTMLContent += `<button id='modal_refresh' onclick="toggleSliders();toggleSliders()" class='grow' style='display:none'>${fontAwesome('refresh')}</button>`
     HTMLContent += `</div>`
     const myekulSaysCheck = myekulSays[player.name]
     const iconSize = 26
@@ -70,8 +71,8 @@ function reportCard(player) {
     HTMLContent += `<div class='container'></div>`
     const iconSize2 = 30
     const user = players.find(player => player.name == localStorage.getItem('username'))
-    HTMLContent += user ? `<div id='modal_userComparison' onclick="toggleUserComparison()" class='grow' style='width:${iconSize2}px;text-align:center'>${fontAwesome('exchange')}</div>` : ''
-    HTMLContent += `<div id='modal_sliders' onclick="scoreBreakdownInfo()" class='grow' style='width:${iconSize2}px;text-align:center'>${fontAwesome('info-circle')}</div>`
+    HTMLContent += user ? `<button id='modal_userComparison' onclick="toggleUserComparison()" class='grow' style='width:${iconSize2}px;text-align:center'>${fontAwesome('exchange')}</button>` : ''
+    HTMLContent += `<button id='modal_sliders' onclick="scoreBreakdownInfo()" class='grow' style='width:${iconSize2}px;text-align:center'>${fontAwesome('info-circle')}</button>`
     HTMLContent += `</div>`
     HTMLContent += myekulSaysCheck ? `<div id='myekulSays' style='display:none'>
         <div class='clickable' onclick="myekulSaysAction()">${myekulSaysDiv()}</div>

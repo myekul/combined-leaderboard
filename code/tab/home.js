@@ -12,8 +12,8 @@ function playersTable(playersArray, categoryIndex) {
     if (!['leaderboards', 'map'].includes(globalTab)) {
         HTMLContent +=
             `<tr style='${getHeaderSize()}'>
-        <th colspan=10 class='clickable gray ${!(sortCategoryIndex > -1) ? 'selected' : ''}' onclick="showDefault()">Player</th>
-        </tr>`
+                <th colspan=11 class='clickable gray ${!(sortCategoryIndex > -1) ? 'selected' : ''}' onclick="showDefault()">Player</th>
+            </tr>`
     }
     playersArray.forEach((player, playerIndex) => {
         if (sortCategoryIndex == -1 || player.runs[sortCategoryIndex]) {
@@ -139,13 +139,14 @@ function parsePlayer(player, playerIndex, categoryIndex) {
     const letterGrade = getLetterGrade(player.score)
     const pulseClass = localStorage.getItem('username') == player.name ? 'pulseClass' : ''
     HTMLContent += `<tr class='${getRowColor(playerIndex)} categoryLabel ${pulseClass}' style='height:23px'>`
-    HTMLContent += sortCategoryIndex > -1 ? `<td class='container' style='justify-content:right'><div class='${classNameLogic(categories[sortCategoryIndex])}' style='height:20px;color:transparent !important;width:${normalize(player.runs[sortCategoryIndex]?.percentage, 90)}%'>dummydummy</div></td>` : ''
+    HTMLContent += sortCategoryIndex > -1 ? `<td class='container' style='justify-content:right'><div class='${classNameLogic(categories[sortCategoryIndex]) || 'gray'}' style='height:20px;color:transparent !important;width:${normalize(player.runs[sortCategoryIndex]?.percentage, 90)}%'>dummydummy</div></td>` : ''
     if (categoryIndex > -1) {
         const categoryName = categories[categoryIndex].name
         if (['DLC', 'DLC+Base'].includes(categoryName) && !fullgameCategory) {
             if (player.runs[categoryIndex].percentage > 90) {
-                HTMLContent += `<td>${cupheadShot(determineShot1(player, categoryName), 20, true)}</td>`
-                HTMLContent += `<td>${cupheadShot('spread', 20, true)}</td>`
+                HTMLContent += `
+                <td>${cupheadShot(determineShot1(player, categoryName), 20, true)}</td>
+                <td>${cupheadShot('spread', 20, true)}</td>`
             } else {
                 HTMLContent += `<td></td><td></td>`
             }

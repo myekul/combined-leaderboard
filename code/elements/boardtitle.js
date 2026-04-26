@@ -112,9 +112,10 @@ function generateBoardTitle(extra, categoryIndex) {
     return boardTitleWrapper(HTMLContent)
 }
 function updateCategories() {
-    let HTMLContent = `<table>`
-    HTMLContent += `<tr>${fancyHeader(1)}</tr>`
-    HTMLContent += `<tr>`
+    let HTMLContent = `
+    <table>
+        <tr>${fancyHeader(1)}</tr>
+        <tr>`
     categories.forEach((category, categoryIndex) => {
         let className = category.className
         if (category.info && bossILindex == -1 && !(gameID == 'cuphead' && big4())) {
@@ -126,11 +127,9 @@ function updateCategories() {
                 categoryName = trimDifficulty(category.name)
                 className = category.difficulty
             }
-            if (!className) className = 'gray'
-            HTMLContent += `<th onclick="organizePlayers(${categoryIndex})" class='${className} clickable ${isSelected(categoryIndex)}' style='width:80px'>${categoryName}</th>`
+            HTMLContent += `<th onclick="organizePlayers(${categoryIndex})" class='${className || 'gray'} clickable ${isSelected(categoryIndex)}' style='width:80px'>${categoryName}</th>`
         }
     })
     HTMLContent += `</tr></table>`
-    const categoriesElem = document.getElementById('categoriesElem')
-    categoriesElem.innerHTML = HTMLContent
+    document.getElementById('categoriesElem').innerHTML = HTMLContent
 }

@@ -86,10 +86,13 @@ th {
     height: 40px
 }
 
-.chartLabel {
+.countryTooltip {
+    background: white;
+    border: 2px solid #ccc;
+    padding: 5px;
+    border-radius: 4px;
     color: black;
-    font-size: 125%;
-    padding: 0 5px
+    gap: 8px
 }
 
 #chartPlayer {
@@ -104,11 +107,6 @@ th {
 
 #mapTooltip {
     position: absolute;
-    background: white;
-    border: 1px solid #ccc;
-    padding: 5px;
-    border-radius: 4px;
-    font-size: 75%;
     pointer-events: none;
     display: none;
 }
@@ -141,10 +139,19 @@ th {
 
 #flagArmy {
     display: grid;
-    grid-template-columns: repeat(20, 1fr);
-    width: 700px;
-    row-gap: 3px;
-    margin: 20px auto
+    grid-template-columns: repeat(10, 1fr);
+    width: 350px;
+    row-gap: 3px
+}
+
+#top50List {
+    width: 100%;
+    max-height: 260px;
+    overflow: auto;
+}
+
+#top50List table {
+    width: 100%;
 }
 
 #WRs td img {
@@ -219,4 +226,23 @@ svg {
 .darker {
     background-color: gray;
     color: black
+}
+
+#sidebar {
+    width: 200px !important
+}
+
+.supporter div {
+    justify-content: left;
+    padding: 1px
+}
+
+.infoTitle {
+    background-color: var(--banner);
+    color: var(--bannerText);
+    font-family: var(--font2);
+    font-size: 140%;
+    padding: 0 10px;
+    margin: 20px 0;
+    border-radius: 5px;
 }
