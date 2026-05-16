@@ -7,7 +7,7 @@ function showTabCL(tab) {
     if (['cuphead', 'sm64', 'nsmbw'].includes(gameID) && mode == 'fullgame') {
         show('fullgameCategoriesSection')
     }
-    if (['cuphead', 'sm64', 'ssb64', 'ssbm'].includes(gameID) && mode == 'levels') {
+    if (['cuphead', 'sm64', 'ssb64'].includes(gameID) && mode == 'levels') {
         show('ILsSection_' + gameID)
     }
     if (['featured', 'leaderboards', 'info', 'ballpit', 'connect4'].includes(globalTab)) {

@@ -1,13 +1,11 @@
 function getPlayerDisplay(player, playerIndex) {
     let HTMLContent = ''
     HTMLContent += globalTab != 'leaderboards' ? `<td class='${placeClass[player.rank]}' style='font-size:90%'>${player.rank}</td>` : ''
-    if (gameID != 'tetris') {
-        if (document.getElementById('checkbox_flags').checked) {
-            HTMLContent += `<td>${getPlayerFlag(player, 12)}</td>`
-        }
-        if (document.getElementById('checkbox_icons').checked) {
-            HTMLContent += `<td>${getPlayerIcon(player, 18)}</td>`
-        }
+    if (document.getElementById('checkbox_flags').checked) {
+        HTMLContent += `<td>${getPlayerFlag(player, 12)}</td>`
+    }
+    if (document.getElementById('checkbox_icons').checked) {
+        HTMLContent += `<td>${getPlayerIcon(player, 18)}</td>`
     }
     const clickable = player?.rank && !['map'].includes(globalTab) ? `onclick="openModalCL(false,'${player.name}')" class='clickable short-border'` : ''
     const vibrant = document.getElementById('checkbox_vibrant')?.checked ? `--border-color:${getColorFromClass(getLetterGrade(player.score).className)};` : ''
@@ -19,11 +17,11 @@ function getPlayerProfile(playerIndex) {
     const player = players[playerIndex]
     HTMLContent += `
     <div class='container' style='padding-top:8px'>
-    ${gameID != 'tetris' ? `<div style='padding-right:10px'>${getPlayerIcon(player, 64)}</div>` : ''}
+    <div style='padding-right:10px'>${getPlayerIcon(player, 64)}</div>
     <div>
         <div class='container' style='padding-bottom:2px'>
         <div style='font-size:150%;margin:0'>${getPlayerName(player)}</div>
-        ${SUPPORTERS.includes(player.name) ? `<button class='grow' onclick="supporterModal()"><img src='images/supporters.png' style='width:28px;margin-top:4px;margin-left:8px'></button>` : ''}
+        ${SUPPORTERS_EXPANDED.includes(player.name) ? `<button class='grow' onclick="supporterModal()"><img src='images/supporters.png' style='width:28px;margin-top:4px;margin-left:8px'></button>` : ''}
     </div>`
     if (player.links) {
         const flag = getPlayerFlag(player, 14)

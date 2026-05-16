@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://myekul.com/shared-assets/sm64/sm64.css">
     <link rel="stylesheet" href="styles/games.css">
     <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/media.css">
     <link id='favicon' rel="shortcut icon" href='images/favicon.png'>
     <title>Combined Leaderboard</title>
     <script src="https://apis.google.com/js/api.js"></script>
@@ -24,14 +25,17 @@
 <body>
     <div id="bodyContent" style="display:none">
         <header>
-            <div id='srcGame' class="container" style="position:absolute;top:5px;left:25px"></div>
+            <div class="container" style="position:absolute;top:5px;left:25px;gap:8px">
+                <div id='srcGame' style="height:70px;min-width:50px"></div>
+                <img id="gameLogo" style="height:55px;max-width:155px;object-fit:contain;margin-left:8px">
+            </div>
             <div class="container" style="gap:4px">
                 <img id='siteIcon' src="images/favicon.png" style="height:80px;width:auto">
                 <div>
-                    <div class="font2" style="font-size:170%">COMBINED LEADERBOARD</div>
-                    <div class='container' style="transform: translate(0px, -5px);font-size:90%;justify-content: left;">
-                        <div>The best overall players across each category</div>
-                        <button onclick="showTab('info');playSound('category_select')" class="grow" style="margin-left:10px;width:25px">
+                    <div id='combinedLeaderboard' class="font2" style="font-size:175%;">COMBINED LEADERBOARD</div>
+                    <div class='container' style="transform: translate(0px, -3px);font-size:85%;justify-content:left;margin-left:1px">
+                        <div style="font-weight:bold">The best overall players across each category</div>
+                        <button onclick="showTab('info');playSound('category_select')" class="grow" style="margin-left:4px;width:25px">
                             <i class="fa fa-info-circle"></i>
                         </button>
                     </div>
@@ -133,14 +137,6 @@
                             <button id='fullgameCategories_main3' onclick="getFullgame('main3')" class="button banner" style="width:150px">Main 3 Categories</button>
                         </div>
                     </div>
-                    <!-- <div id="tetris_fullgameCategories" style="display:none">
-                        <div class="container">
-                            <div id='tetris_fullgameCategories_main' onclick="getFullgame()" class="button banner"
-                                style="width:100px">Pace</div>
-                            <div id='fullgameCategories_all' onclick="getFullgame('tetrisAll')" class="button banner"
-                                style="width:100px">All</div>
-                        </div>
-                    </div> -->
                 </div>
             </div>
             <!-- Individual Levels -->
@@ -213,16 +209,6 @@
                     </div>
                 </div>
             </div>
-            <div id="ILsSection_ssbm" class='hide' style="display:none">
-                <div id='ILcategories_ssbm'>
-                    <div class="container">
-                        <button id='ILdefault_ssbm' onclick="getLevels()" class="button" style="width:50px">
-                            <img src="https://myekul.com/shared-assets/images/sheets.png" style="height:20px">
-                        </button>
-                        <button id='ssbm_src' onclick="getOtherLevels('ssbm_src')" class="button" style="width:50px"><img src="https://myekul.com/shared-assets/images/src.png" style="height:20px"></button>
-                    </div>
-                </div>
-            </div>
             <div id="ILsSection_ssb64" class='hide' style="display:none">
                 <div id='ILcategories_ssb64'>
                     <div class="container">
@@ -258,19 +244,28 @@
                 </button>
                 <div id='home_options' style="display:none">
                     <div class="container">
-                        <input id="checkbox_numRuns" type="checkbox"># of Runs
-                        <input id="checkbox_milliseconds" type="checkbox">Milliseconds
+                        <input id="checkbox_numRuns" type="checkbox">
+                        <label for="checkbox_numRuns"># of Runs</label>
+                        <input id="checkbox_milliseconds" type="checkbox">
+                        <label for="checkbox_milliseconds">Milliseconds</label>
                     </div>
                     <div class="container">
-                        <input id="checkbox_flags" type="checkbox" checked>Flags
-                        <input id="checkbox_icons" type="checkbox" checked>Icons
+                        <input id="checkbox_flags" type="checkbox" checked>
+                        <label for="checkbox_milliseconds">Flags</label>
+                        <input id="checkbox_icons" type="checkbox" checked>
+                        <label for="checkbox_icons">Icons</label>
                     </div>
                     <div class="container">
-                        <input id="checkbox_percentage" type="checkbox">Score
-                        <input id="checkbox_grade" type="checkbox" checked>Grade
-                        <input id="checkbox_place" type="checkbox" checked>Place
-                        <input id="checkbox_time" type="checkbox" checked>Time
-                        <input id="checkbox_year" type="checkbox">Year
+                        <input id="checkbox_percentage" type="checkbox">
+                        <label for="checkbox_percentage">Score</label>
+                        <input id="checkbox_grade" type="checkbox" checked>
+                        <label for="checkbox_grade">Grade</label>
+                        <input id="checkbox_place" type="checkbox" checked>
+                        <label for="checkbox_place">Place</label>
+                        <input id="checkbox_time" type="checkbox" checked>
+                        <label for="checkbox_time">Time</label>
+                        <input id="checkbox_year" type="checkbox">
+                        <label for="checkbox_year">Year</label>
                     </div>
                 </div>
                 <div id="home"></div>
@@ -284,11 +279,15 @@
                 </div>
                 <button id='WRs_options_button' class='options'></button>
                 <div id='WRs_options' class="container" style="display:none">
-                    <input id='checkbox_WRs_date' onclick="action()" type="checkbox">Date
+                    <input id='checkbox_WRs_date' onclick="action()" type="checkbox">
+                    <label for="checkbox_WRs_date">Date</label>
                     <div id="WRs_cupheadILs_options" class="hide">
-                        <input id='checkbox_WRs_loadouts' onclick="action()" type="checkbox" checked>Loadouts
-                        <input id='checkbox_WRs_dps' onclick="action()" type="checkbox">DPS
-                        <input id='checkbox_WRs_hp' onclick="action()" type="checkbox">HP
+                        <input id='checkbox_WRs_loadouts' onclick="action()" type="checkbox" checked>
+                        <label for="checkbox_WRs_loadouts">Loadouts</label>
+                        <input id='checkbox_WRs_dps' onclick="action()" type="checkbox">
+                        <label for="checkbox_WRs_dps">DPS</label>
+                        <input id='checkbox_WRs_hp' onclick="action()" type="checkbox">
+                        <label for="checkbox_WRs_hp">HP</label>
                     </div>
                 </div>
                 <div id="WRs"></div>
@@ -300,7 +299,8 @@
                             <option value="difficulty">Difficulty</option>
                             <option value="groundPlane">Ground / Plane</option>
                         </select>
-                        <input id='checkbox_hp' type="checkbox" onchange="action()">HP
+                        <input id='checkbox_hp' type="checkbox" onchange="action()">
+                        <label for="checkbox_hp">HP</label>
                     </div>
                     <div id="WRsChart" style="height:500px;width:95%;padding:5px 0" class="container"></div>
                     <div id="WRsInfo"></div>
@@ -310,12 +310,10 @@
             <div id="mapTab" class="tabs">
                 <button id='map_options_button' class='options'></button>
                 <div id='map_options' class="container" style="display:none">
-                    <div>
-                        <input id='checkbox_map_color' onclick="action()" type="checkbox">Color
-                    </div>
-                    <div>
-                        <input id='checkbox_map_players' onclick="action()" type="checkbox" checked>Players
-                    </div>
+                    <input id='checkbox_map_color' onclick="action()" type="checkbox">
+                    <label for="checkbox_map_color">Color</label>
+                    <input id='checkbox_map_players' onclick="action()" type="checkbox" checked>
+                    <label for="checkbox_map_players">Players</label>
                 </div>
                 <div>
                     <div>

@@ -91,10 +91,10 @@ function getLocation(player, countriesObject) {
         if (['England', 'Northern Ireland', 'Scotland', 'Wales'].includes(countryName)) {
             countryName = 'United Kingdom'
         }
-        // if (['Québec'].includes(countryName)) {
-        //     countryName = 'Canada'
-        //     code = 'ca'
-        // }
+        if (['ca/qc'].includes(code)) {
+            countryName = 'Canada'
+            code = 'ca'
+        }
         if (countryName == 'Puerto Rico') {
             countryName = 'United States'
             code = 'us'
@@ -156,18 +156,18 @@ function countryCount() {
             }
         })
     })
-    let HTMLContent = ''
-    HTMLContent += `<div style='margin:0'><div class='container'>${generateBoardTitle(1)}</div>`
-    HTMLContent += `<table class='bigShadow'>`
+    let HTMLContent = `
+    <div style='margin:0'><div class='container'>${generateBoardTitle(1)}</div>
+    <table class='bigShadow'>`
     countriesArray.forEach((country, countryIndex) => {
-        HTMLContent +=
-            `<tr class='${getRowColor(countryIndex)}'>
-                <td style='text-align:right;font-size:75%'>${displayPercentage((country.count / total) * 100, 1)}%</td>
-                <td>${country.count}</td>
-                <td>${getFlag(country.code, country.name, 15)}</td>
-                <td onclick="countryModal('${country.name}')" class='clickable' style='text-align:left'>${country.name}</td>
-                ${trophyCase(country)}
-                </tr>`
+        HTMLContent += `
+        <tr class='${getRowColor(countryIndex)}'>
+            <td style='text-align:right;font-size:75%'>${displayPercentage((country.count / total) * 100, 1)}%</td>
+            <td>${country.count}</td>
+            <td>${getFlag(country.code, country.name, 15)}</td>
+            <td onclick="countryModal('${country.name}')" class='clickable' style='text-align:left'>${country.name}</td>
+            ${trophyCase(country)}
+        </tr>`
     })
     HTMLContent += `</table></div>`
     return HTMLContent

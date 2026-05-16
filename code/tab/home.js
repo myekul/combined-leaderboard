@@ -93,7 +93,7 @@ function generateHome() {
         }
     }
     if (globalTab != 'leaderboards') {
-        HTMLContent += !['tetris', 'mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID) ? `<th>Sum</td>` : ''
+        HTMLContent += !['mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID) ? `<th>Sum</td>` : ''
         HTMLContent += !['mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID) ? `<th>GPA</td>` : ''
         HTMLContent += mode != 'fullgame' ? `<th>N/A</td>` : ''
     }
@@ -175,9 +175,7 @@ function parsePlayer(player, playerIndex, categoryIndex) {
         HTMLContent += `<td class='${letterGrade.className}' style='font-size:75%;text-align:left'><span>${letterGrade.grade}</span></td>`
         if (['mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID)) {
             HTMLContent += player.hasAllRuns ? `<td class='${letterGrade.className}'><span>${getGPA(player.score)}<span></td>` : `<td></td>`
-            if (!(gameID == 'ssbm' && ssbVar)) {
-                HTMLContent += player.sum ? `<td>${player.sum}</td>` : `<td></td>`
-            }
+            HTMLContent += player.sum ? `<td>${player.sum}</td>` : `<td></td>`
         }
     }
     HTMLContent += getPlayerDisplay(player, playerIndex)
@@ -221,7 +219,7 @@ function parsePlayerRuns(player, playerIndex) {
         categories.forEach((category, categoryIndex) => {
             HTMLContent += parseRun(player, playerIndex, category, categoryIndex)
         })
-        HTMLContent += !['tetris', 'mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID) ? `<td>${player.sum}</td>` : ''
+        HTMLContent += !['mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID) ? `<td>${player.sum}</td>` : ''
         if (!['mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID)) {
             const gpaClass = player.hasAllRuns ? getLetterGrade(player.score).className : ''
             HTMLContent += player.hasAllRuns ? `<td class='${gpaClass}'><span>${getGPA(player.score)}</span></td>` : '<td></td>'
@@ -258,14 +256,14 @@ function parseRun(player, playerIndex, category, categoryIndex, exception) {
         return HTMLContent
     }
     const score = run.score
-    const time = tetrisCheck(category, score)
+    const time = secondsToHMS(score)
     const place = run.place
     const trophy = getTrophy(place)
     const percentage = run.percentage.toFixed(2)
     const grade = getLetterGrade(percentage)
     const thePlaceClass = placeClass[place]
     const newColorClass = thePlaceClass ? thePlaceClass : colorClass
-    const runLink = gameID != 'tetris' && run.id ? getAnchor('https://www.speedrun.com/' + gameID + '/runs/' + run.id) : ''
+    const runLink = run.id ? getAnchor('https://www.speedrun.com/' + gameID + '/runs/' + run.id) : ''
     const videoLink = getAnchor(run.url)
     HTMLContent += displayBoolean[0] ? `<td style='font-size:75%;text-align:left' class='${newColorClass} ${grayedOut} ${grade.className}'>${percentage}</td>` : ''
     HTMLContent += displayBoolean[1] && !(['mtpo', 'spo'].includes(gameID) && categoryIndex == null) ? `<td style='font-size:75%;text-align:left;' class='${newColorClass} ${grayedOut} ${grade.className}'><span>${grade.grade}</span></td>` : ''

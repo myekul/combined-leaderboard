@@ -10,6 +10,6 @@ function fancyRun(run, categoryIndex, extra) {
         </td>`
     }
     HTMLContent += fancyTime(run, categoryIndex, extra)
-    HTMLContent += fancyThumbnail(run)
+        + fancyThumbnail(run)
     return HTMLContent
 }

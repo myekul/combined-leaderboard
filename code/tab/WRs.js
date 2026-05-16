@@ -2,7 +2,7 @@ function generateWRs() {
     showWRsTab(WRsTab)
 }
 function WRsPlayers() {
-    let HTMLContent = `<div class='container'><table class='bigShadow' style='${mode == 'fullgame' && gameID != 'tetris' ? 'border-collapse:collapse' : ''}'>`
+    let HTMLContent = `<div class='container'><table class='bigShadow' style='${mode == 'fullgame' ? 'border-collapse:collapse' : ''}'>`
     if (gameID == 'cuphead' && mode != 'fullgame') {
         if (document.getElementById('checkbox_WRs_dps').checked || document.getElementById('checkbox_WRs_hp').checked) {
             assignHP()
@@ -26,7 +26,7 @@ function getWorldRecordPlayers(categoryIndex) {
     let worldRecord = getWorldRecord(category)
     if (!worldRecord) worldRecord = ''
     if (document.getElementById('checkbox_WRs_date').checked) {
-        HTMLContent += gameID != 'tetris' ? `<td>${playersCopy[0].runs[sortCategoryIndex].date}</td>` : ''
+        HTMLContent += `<td>${playersCopy[0].runs[sortCategoryIndex].date}</td>`
     }
     if (gameID == 'cuphead' && mode != 'fullgame') {
         if (document.getElementById('checkbox_WRs_dps').checked) {
@@ -37,7 +37,7 @@ function getWorldRecordPlayers(categoryIndex) {
         }
     }
     const className = mode == 'fullgame' ? 'first' : classNameLogic(category)
-    HTMLContent += `<td class='${className}' style='padding:0 5px'>${tetrisCheck(category, worldRecord)}</td>`
+    HTMLContent += `<td class='${className}' style='padding:0 5px'>${secondsToHMS(worldRecord)}</td>`
     let count = 0
     category.runs.forEach(run => {
         if (run.place == 1) count++
@@ -61,7 +61,7 @@ function getWorldRecordPlayers(categoryIndex) {
 }
 function WRs() {
     let HTMLContent = ''
-    if (mode == 'fullgame' && gameID != 'tetris') {
+    if (mode == 'fullgame') {
         let everyRun = getEveryRun()
         everyRun.sort((a, b) => b.run.percentage - a.run.percentage)
         everyRun = everyRun.slice(0, categories.length)
@@ -81,7 +81,7 @@ function WRsCategoryDisplay(category, categoryIndex) {
     const className = classNameLogic(category)
     HTMLContent += `
     <tr class='${getRowColor(categoryIndex)}'>
-    <td class='${className}' style='text-align:left;font-weight:bold;padding:0 3px'>${category.name}</td>`
+        <td class='${className}' style='text-align:left;font-weight:bold;padding:0 3px'>${category.name}</td>`
     if (category.info) {
         HTMLContent += `<td style='padding:0' class='${className} container'>${getImage(category.info.id, 24)}</td>`
     }
@@ -132,9 +132,10 @@ function WRsSums() {
         categories.forEach((category, categoryIndex) => {
             const worldRecord = getWorldRecord(category)
             sum += worldRecord
-            HTMLContent += WRsCategoryDisplay(category, categoryIndex)
-            HTMLContent += `<td class='${classNameLogic(category)}' style='padding:0 3px'>${tetrisCheck(category, worldRecord)}</td>`
-            HTMLContent += `</tr>`
+            HTMLContent += `
+            ${WRsCategoryDisplay(category, categoryIndex)}
+            <td class='${classNameLogic(category)}' style='padding:0 3px'>${secondsToHMS(worldRecord)}</td>
+            </tr>`
         })
         HTMLContent += `</table></div>`
         HTMLContent += `<div class='container' style='margin-top:20px;font-size:150%'>${secondsToHMS(sum)}</div>`
@@ -390,7 +391,6 @@ function showWRsTab(tab) {
             document.getElementById('checkbox_hp').checked = false
         }
     }
-    if (gameID == 'tetris') hide('WRsTabs')
     if (WRsTab == 'players') {
         WRsPlayers()
     } else if (WRsTab == 'sums') {

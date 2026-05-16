@@ -25,7 +25,6 @@ let tooltipStyle
 let WRsTab = 'players'
 let fullgameCategory
 let sm64ILsSection
-let ssbVar = false
 let extraCategory = {}
 let spotlightPlayerIndex
 let spotlightFlag
@@ -66,4 +65,8 @@ const SEASONS = [
     { name: 'Fall', color: 'orange' },
     { name: 'Winter', color: 'cornflowerblue' }
 ]
-const SUPPORTERS = ['SBDWolf', 'Lewzr', 'FailedCriminal']
+const SUPPORTERS = [['Lewzr', 'SBDWolf'], ['Taylz', 'FailedCriminal']]
+const SUPPORTERS_EXPANDED = []
+SUPPORTERS.forEach(supporterGroup => {
+    supporterGroup.forEach(supporter => { SUPPORTERS_EXPANDED.push(supporter) })
+})

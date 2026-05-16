@@ -1,11 +1,7 @@
 function openModalCL(shh, param) {
     modalSliders = false
     showModal = true
-    if (['tetris', 'ssbm'].includes(gameID)) {
-        numModalPages = 1
-    } else {
-        numModalPages = 2
-    }
+    numModalPages = 2
     if (modalIndex > numModalPages) modalIndex = 0
     show('modal-pages')
     playerModal(param, shh)
@@ -22,20 +18,11 @@ function playerModal(playerName, shh) {
     let player = players[globalPlayerIndex]
     let pagesContent = `<div onclick="modalLeft()" class='grow'>${fontAwesome('caret-left')}</div>`;
     for (let i = 0; i <= numModalPages; i++) {
-        pagesContent += `<div style='gap:10px'>`
-        if (i == modalIndex) {
-            pagesContent += fontAwesome('circle')
-        } else {
-            pagesContent += fontAwesome('circle-o')
-        }
-        pagesContent += `</div>`
+        pagesContent += `<div>${fontAwesome('circle' + (i == modalIndex ? '' : '-o'))}</div>`
     }
     pagesContent += `<div onclick="modalRight()" class='grow'>${fontAwesome('caret-right')}</div>`
     document.getElementById('modal-pages').innerHTML = pagesContent
     let modalPageNames = ['reportCard', 'videoCollection', 'gradeTable']
-    if (['tetris', 'ssbm'].includes(gameID)) {
-        modalPageNames.splice(1, 1)
-    }
     const modalPage = modalPageNames[modalIndex]
     const subtitle = getPlayerProfile(globalPlayerIndex)
     if (modalPage == 'reportCard') {
@@ -122,7 +109,7 @@ function gradeTable(player) {
         <td>${grade.threshold}%</td>`
         categories.forEach((category, categoryIndex) => {
             const gradeTime = scoreFromGrade(category, grade.threshold)
-            let cellContent = tetrisCheck(category, gradeTime)
+            let cellContent = secondsToHMS(gradeTime)
             let className = grade.className
             const playerRun = player.runs[categoryIndex]
             if (playerRun) {
@@ -130,7 +117,7 @@ function gradeTable(player) {
                 const matchingRun = getLetterGrade(playerRun.percentage).grade == grade.grade
                 className = matchingRun ? 'selected' : className
                 if (matchingRun) {
-                    cellContent = tetrisCheck(category, playerScore)
+                    cellContent = secondsToHMS(playerScore)
                 }
             }
             HTMLContent += `<td class='${className}' style='padding:0 3px'><span>${cellContent}</span></td>`

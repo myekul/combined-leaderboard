@@ -246,3 +246,10 @@ svg {
     margin: 20px 0;
     border-radius: 5px;
 }
+
+#combinedLeaderboard,
+#modal-header {
+    text-shadow: 1.5px 1.5px black;
+    color: white !important;
+    -webkit-text-stroke: 1px black
+}

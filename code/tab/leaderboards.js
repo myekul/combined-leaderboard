@@ -2,8 +2,7 @@ function generateLeaderboards() {
     if (sortCategoryIndex == -1) {
         sortCategoryIndex = 0
     }
-    let HTMLContent = ''
-    HTMLContent += `<div class='container' style='gap:10px;${sortCategoryIndex == -1 ? 'overflow-x:scroll;margin:0 auto' : ''}align-items:flex-start'>`
+    let HTMLContent = `<div class='container' style='gap:10px;${sortCategoryIndex == -1 ? 'overflow-x:scroll;margin:0 auto' : ''}align-items:flex-start'>`
     if (sortCategoryIndex == -1) {
         categories.forEach((category, categoryIndex) => {
             HTMLContent += `

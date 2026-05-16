@@ -64,7 +64,6 @@ function getOtherLevels(section) {
                     getLeaderboard(category, `level/${category.id}/02qx7zky`, '&var-' + category.var + '=' + category.worldRTA) // Any%
                 })
             } else if (gameID == 'ssbm') {
-                ssbVar = section
                 categories.forEach(category => {
                     getLeaderboard(category, `level/xd0xp0dq/9kvx3w32`, '&var-r8rp00ne=' + category.id)
                 })

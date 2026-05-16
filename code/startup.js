@@ -17,7 +17,7 @@ if (['fullgame', 'levels'].includes(modeParam)) {
 if (['cuphead', 'sm64', 'nsmbw'].includes(gameID)) {
     show(gameID + '_fullgameCategories')
 }
-if (['tetris', 'smb1', 'smb2', 'smb3', 'nsmbds'].includes(gameID)) {
+if (['smb1', 'smb2', 'smb3', 'nsmbds'].includes(gameID)) {
     setMode('fullgame')
     deleteParam('mode')
 }
@@ -28,6 +28,7 @@ if (['titanfall_2', 'mtpo', 'spo', 'ssbm', 'ssb64'].includes(gameID)) {
 setSidebar(generateSidebar())
     .then(() => {
         document.getElementById('sidebarLogo').src = `images/logo/${gameID}.png`
+        document.getElementById('gameLogo').src = `images/logo/${gameID}.png`
     })
 function generateSidebar() {
     let HTMLContent = ''
@@ -38,16 +39,16 @@ function generateSidebar() {
     })
     HTMLContent += `
     <div class='container grow banner font2' style='gap:8px;font-size:120%;height:50px' onclick="moreGames()">
-    ${fontAwesome('plus')}
-    MORE GAMES
-    ${fontAwesome('plus')}
+        ${fontAwesome('plus')}
+        MORE GAMES
+        ${fontAwesome('plus')}
     </div>`
     return HTMLContent
 }
 function moreGames() {
     let HTMLContent = ''
     let games = []
-    games.push([['cuphead', 'titanfall_2'], ['dkc', 'dkc2'], ['dkc3', 'dkb'], ['mtpo', 'spo'], ['ssb64', 'ssbm'], ['splatoon1', 'facade'], ['the_escapists', 'the_messenger'], ['shar']])
+    games.push([['cuphead', 'titanfall_2'], ['dkc', 'dkc2'], ['dkc3', 'dkb'], ['mtpo', 'spo'], ['ssb64', 'ssbm'], ['bfbb', 'facade'], ['the_escapists', 'the_messenger'], ['splatoon1', 'shar']])
     games.push([['smb1', 'smbtll'], ['smb2', 'smb3'], ['nsmbds', 'nsmbw'], ['nsmb2', 'nsmbu'], ['nslu', 'sm64ds'], ['sm64', 'sms'], ['smg1', 'smg2'], ['smo']])
     HTMLContent += `<div class='container' style='margin:20px'>`
     games.forEach(gameSetSet => {
@@ -81,7 +82,7 @@ function hideTabs() {
 }
 hideTabs()
 function DOMloaded() {
-    if (!['tetris', 'mtpo', 'spo', 'titanfall_2', 'ssbm', 'ssb64'].includes(gameID)) {
+    if (!['mtpo', 'spo', 'titanfall_2', 'ssbm', 'ssb64'].includes(gameID)) {
         fetch(`constants/categories/${gameID}.json`)
             .then(response => response.json())
             .then(data => {
@@ -119,9 +120,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.error('Oops!', error)
                 })
         })
-    } else if (['tetris', 'ssbm'].includes(gameID)) {
-        gapi.load("client", loadClient);
-        DOMloaded()
     } else {
         DOMloaded()
     }
@@ -148,16 +146,14 @@ document.querySelectorAll('select').forEach(elem => {
         }
     })
 })
-if (gameID != 'tetris') {
-    const url = `https://www.speedrun.com/api/v1/games/${gameID}`
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('srcGame').innerHTML = `${getAnchor('https://www.speedrun.com/' + gameID)}<img src='${data.data.assets['cover-tiny'].uri}' height='70px' class='grow'></a>`
-            // console.log(data.data)
-        })
-}
-if (['ssbm', 'tetris'].includes(gameID)) {
+const url = `https://www.speedrun.com/api/v1/games/${gameID}`
+fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('srcGame').innerHTML = `${getAnchor('https://www.speedrun.com/' + gameID)}<img src='${data.data.assets['cover-tiny'].uri}' height='70px' class='grow'></a>`
+        // console.log(data.data)
+    })
+if (['ssbm'].includes(gameID)) {
     const style = document.createElement('style');
     style.innerHTML = `
         #github {
@@ -178,16 +174,5 @@ setTabs(['info', 'home', 'featured', 'leaderboards', null, 'WRs', 'map', 'sort',
     .then(() => {
         if (['cuphead', 'sm64', 'nsmbw'].includes(gameID)) {
             show('modeSelection')
-        }
-        switch (gameID) {
-            case 'tetris':
-                document.querySelectorAll('.options').forEach(elem => hide(elem))
-                hide('featuredButton')
-                hide('mapButton')
-                break;
-            case 'ssbm':
-                hide('featuredButton')
-                hide('mapButton')
-                break;
         }
     })

@@ -6,7 +6,7 @@ function getPlayers(category) {
 function addPlayer(player) {
     const initialSize = playerNames.size
     playerNames.add(player.name)
-    if (playerNames.size > initialSize && !(!['tetris', 'ssbm'].includes(gameID) && !player.id)) {
+    if (playerNames.size > initialSize) {
         const playerCopy = { ...player }
         playerCopy.runs = new Array(categories.length).fill(0)
         players.push(playerCopy)
@@ -40,7 +40,7 @@ function prepareData() {
     }
     generateRanks()
     sortCategoryIndex = -1
-    if (!(gameID == 'ssbm' && !ssbVar)) sortPlayers(players)
+    sortPlayers(players)
     players.forEach((player, playerIndex) => {
         player.rank = playerIndex + 1
     })
@@ -170,19 +170,10 @@ function organizePlayers(categoryIndex, shh) {
 function sortPlayers(playersArray, customCategoryIndex) {
     const categoryIndex = customCategoryIndex != null ? customCategoryIndex : sortCategoryIndex
     if (categoryIndex == -1) {
-        if (gameID == 'ssbm' && !ssbVar) {
-            players.sort((a, b) => {
-                if (!a.sum && !b.sum) return 0;
-                if (!a.sum) return 1;
-                if (!b.sum) return -1;
-                return convertToSeconds(a.sum) - convertToSeconds(b.sum);
-            });
-        } else {
-            let criteria = 'score'
-            playersArray.sort((a, b) => {
-                return b[criteria] - a[criteria];
-            });
-        }
+        let criteria = 'score'
+        playersArray.sort((a, b) => {
+            return b[criteria] - a[criteria];
+        });
     } else {
         const isReverse = categories[categoryIndex].reverse
         playersArray.sort((a, b) => {
@@ -205,10 +196,7 @@ function sortPlayers(playersArray, customCategoryIndex) {
 }
 function refreshLeaderboard() {
     sortCategoryIndex = -1
-    if (gameID == 'tetris') {
-        categories = tetris['main']
-        fetchAllData()
-    } else if (mode == 'fullgame' && !categorySet) {
+    if (mode == 'fullgame' && !categorySet) {
         generateCategories(gameID)
     } else {
         if (mode == 'fullgame') {

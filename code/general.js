@@ -136,12 +136,6 @@ function big4() {
 function big5() {
     return bossILindex > -1 || big4()
 }
-function tetrisCheck(category, score) {
-    if (score) {
-        return gameID == 'tetris' ? category.reverse ? Math.round(score).toLocaleString() : (score / 1).toFixed(2) : secondsToHMS(score)
-    }
-    return ''
-}
 function getNumDisplay() {
     if (globalTab == 'sort') {
         return showMore ? 1000 : 300

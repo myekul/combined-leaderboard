@@ -32,8 +32,6 @@ function getLeaderboard(category, query, variables, extra, thisGameID = gameID) 
                             getLeaderboard(mtpo, `category/${mtpo.id}`, '', true)
                         } else if (gameID == 'spo') {
                             getLeaderboard(spo, `category/${spo.id}`, '', true)
-                        } else if (gameID == 'ssbm' && !ssbVar) {
-                            fetchAllData()
                         } else {
                             const boardTitleSrc = document.getElementById('boardTitleSrc')
                             boardTitleSrc.innerHTML = getSRCicon()
@@ -56,18 +54,13 @@ function getLeaderboard(category, query, variables, extra, thisGameID = gameID) 
                 }
             } else {
                 extraCategory.runs = cleanRuns(data.data.runs)
-                if (gameID == 'cuphead') {
-                    extraCategory.players = cleanPlayers(data.data.players.data)
-                    fetchAllData()
-                } else {
-                    if (gameID == 'sm64') {
-                        extraCategory.className = categorySet[0].className
-                    }
-                    assignRuns(extraCategory)
-                    prepareData()
-                    const boardTitleSrc = document.getElementById('boardTitleSrc')
-                    boardTitleSrc.innerHTML = getSRCicon()
+                if (gameID == 'sm64') {
+                    extraCategory.className = categorySet[0].className
                 }
+                assignRuns(extraCategory)
+                prepareData()
+                const boardTitleSrc = document.getElementById('boardTitleSrc')
+                boardTitleSrc.innerHTML = getSRCicon()
             }
         })
         .catch(error => {

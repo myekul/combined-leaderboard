@@ -1,11 +1,5 @@
 function generateSort() {
     const sortCriteria = document.getElementById('dropdown_sortCriteria')
-    if (['tetris', 'ssbm'].includes(gameID)) {
-        sortCriteria.value = 'score'
-        hide('sort_options')
-    } else {
-        show('sort_options')
-    }
     const sortRange = document.getElementById('dropdown_sortRange').value
     if (gameID == 'cuphead' && mode == 'levels') {
         show('extraSortCriteria')
@@ -176,6 +170,7 @@ function drawSortChart(runs, sortCriteria, minDate) {
     let max = sortCriteria == 'date' ? new Date().getFullYear() : 100
     const sortDateOptions = document.getElementById('sortDateOptions').value
     let units
+    const totalRuns = runs.filter(item => item.run).length
     const frequencyData = runs.reduce((acc, item) => {
         let runData
         if (sortCriteria == 'score') {
@@ -202,7 +197,7 @@ function drawSortChart(runs, sortCriteria, minDate) {
         acc[runData] = (acc[runData] || 0) + 1;
         return acc;
     }, {});
-    const labels = ['Percentage', 'Count']
+    const labels = [sortCriteria == 'score' ? 'Score' : 'Date', '% of Runs']
     if (sortCriteria == 'score' || (sortCriteria == 'date' && sortDateOptions == 'season')) {
         labels.push({ role: 'style' })
     }
@@ -210,7 +205,9 @@ function drawSortChart(runs, sortCriteria, minDate) {
         units.forEach(unit => {
             let unitName = unit
             if (sortDateOptions == 'season') unitName = unit.name
-            const newEntry = [unitName, frequencyData[unitName]]
+            const count = frequencyData[unitName] || 0
+            const percent = totalRuns ? (count / totalRuns) * 100 : 0
+            const newEntry = [unitName, percent]
             if (sortDateOptions == 'season') newEntry.push(unit.color)
             fullData.push(newEntry)
         })
@@ -223,7 +220,9 @@ function drawSortChart(runs, sortCriteria, minDate) {
             max = 31
         }
         for (let i = min; i <= max; i++) {
-            const newEntry = [i.toString(), frequencyData[i] || Infinity]
+            const count = frequencyData[i] || 0
+            const percent = totalRuns ? (count / totalRuns) * 100 : 0
+            const newEntry = [i.toString(), percent]
             if (sortCriteria == 'score') {
                 newEntry.push(getColorFromClass(getLetterGrade(i).className))
             }
@@ -252,11 +251,11 @@ function drawSortChart(runs, sortCriteria, minDate) {
             },
             // slantedText: true,
             // slantedTextAngle: 'auto',
-            minValue: 0,
-            maxValue: 100
+            minValue: min,
+            maxValue: max
         },
         vAxis: {
-            title: '# of Runs',
+            title: '% of Runs',
             titleTextStyle: {
                 color: 'white',
                 fontName: getFont()

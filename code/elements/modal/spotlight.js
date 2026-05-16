@@ -64,12 +64,11 @@ function generateSpotlight() {
 function generateROTD() {
     let HTMLContent = ''
     const run = aPlusRuns[ROTDindex]
-    HTMLContent += `
+    return `
     <table>
-    <tr>
-    ${fancyRun(run.run, run.categoryIndex)}
-    ${fancyPlayer(run.playerIndex)}
-    </tr>
+        <tr>
+            ${fancyRun(run.run, run.categoryIndex)}
+            ${fancyPlayer(run.playerIndex)}
+        </tr>
     </table>`
-    return HTMLContent
 }

@@ -30,13 +30,13 @@ function reportCard(player) {
             if (category.info) {
                 image = getImage(category.info.id, 21)
             }
-            HTMLContent +=
-                `<tr>
-                    <td style='color:white;padding-right:3px;text-align:right'>${run?.debug ? '*' : ''}${getTrophy(place)}</td>
-                    ${image ? `<td id='modal-img' class='${classNameLogic(category)}'>${image}</td>` : ''}
-                    <td class='${classNameLogic(category)}' style='text-align:left;padding:2px 3px'>${category.name}</td>
-                    ${reportCardSection(category, categoryIndex, run.score, run.percentage)}
-                </tr>`
+            HTMLContent += `
+            <tr>
+                <td style='color:white;padding-right:3px;text-align:right'>${run?.debug ? '*' : ''}${getTrophy(place)}</td>
+                ${image ? `<td id='modal-img' class='${classNameLogic(category)}'>${image}</td>` : ''}
+                <td class='${classNameLogic(category)}' style='text-align:left;padding:2px 3px'>${category.name}</td>
+                ${reportCardSection(category, categoryIndex, run.score, run.percentage)}
+            </tr>`
         })
     }
     HTMLContent += `</table>`
@@ -46,44 +46,55 @@ function reportCard(player) {
     if (player.hasAllRuns) {
         HTMLContent += `<button id='modal_sliders' onclick="toggleSliders()" class='grow'>${fontAwesome('sliders')}</button>`
     }
-    HTMLContent +=
-        `<div class='textBox'><table class='background2'>
-            <tr>
-                <td>Rank:</td>
-                <td id='modal_rank' style='padding:0 5px'>${player.rank}</td>
-            </tr>`
+    HTMLContent += `
+    <div class='textBox'><table class='background2'>
+        <tr>
+            <td>Rank:</td>
+            <td id='modal_rank' style='padding:0 5px'>${player.rank}</td>
+        </tr>`
     if (player.hasAllRuns) {
-        HTMLContent +=
-            `<tr>
-                <td>GPA:</td>
-                <td id='modal_gpa'>${getGPA(player.score)}</td>
-            </tr>`
+        HTMLContent += `
+        <tr>
+            <td>GPA:</td>
+            <td id='modal_gpa'>${getGPA(player.score)}</td>
+        </tr>`
     }
-    HTMLContent += `<td colspan=2 id='modal_scoreGradeSpan'>${scoreGradeSpan(player.score)}</td>`
-    HTMLContent += `</table></div>`
-    HTMLContent += `<button id='modal_refresh' onclick="toggleSliders();toggleSliders()" class='grow' style='display:none'>${fontAwesome('refresh')}</button>`
-    HTMLContent += `</div>`
+    HTMLContent += `
+                <td colspan=2 id='modal_scoreGradeSpan'>${scoreGradeSpan(player.score)}</td>
+            </table>
+        </div>
+        <button id='modal_refresh' onclick="toggleSliders();toggleSliders()" class='grow' style='display:none'>${fontAwesome('refresh')}</button>
+    </div>`
     const myekulSaysCheck = myekulSays[player.name]
     const iconSize = 26
-    HTMLContent += `<div class='container' style='align-items:center'>`
-    HTMLContent += myekulSaysCheck ? `<div id='myekulSaysButton' class='grow' onclick="myekulSaysAction()"><img src='${sharedAssetsURL('myekul')}' style='width:${iconSize}px;height:auto'></div>` : `<div style='width:${iconSize}px;height:${iconSize}px'></div>`
-    HTMLContent += myekulSaysCheck ? `<div id='myekulSaysEmpty' style='display:none;width:${iconSize}px;height:auto'></div>` : ''
-    HTMLContent += `<div class='container'></div>`
     const iconSize2 = 30
     const user = players.find(player => player.name == localStorage.getItem('username'))
-    HTMLContent += user ? `<button id='modal_userComparison' onclick="toggleUserComparison()" class='grow' style='width:${iconSize2}px;text-align:center'>${fontAwesome('exchange')}</button>` : ''
-    HTMLContent += `<button id='modal_sliders' onclick="scoreBreakdownInfo()" class='grow' style='width:${iconSize2}px;text-align:center'>${fontAwesome('info-circle')}</button>`
-    HTMLContent += `</div>`
-    HTMLContent += myekulSaysCheck ? `<div id='myekulSays' style='display:none'>
-        <div class='clickable' onclick="myekulSaysAction()">${myekulSaysDiv()}</div>
-        <div class='container textBlock' style='font-size:80%;max-width:275px;padding-bottom:15px'>${myekulSaysCheck}</div>
-        </div>` : ''
+    HTMLContent += `<div class='container' style='align-items:center'>`
+    if (myekulSaysCheck) {
+        HTMLContent += `
+        <div id='myekulSaysButton' class='grow' onclick="myekulSaysAction()"><img src='${sharedAssetsURL('myekul')}' style='width:${iconSize}px;height:auto'></div>
+        <div id='myekulSaysEmpty' style='display:none;width:${iconSize}px;height:auto'></div>`
+    } else {
+        HTMLContent += `<div style='width:${iconSize}px;height:${iconSize}px'></div>`
+    }
+    HTMLContent += `<div class='container'></div>
+    ${user ? `<button id='modal_userComparison' onclick="toggleUserComparison()" class='grow' style='width:${iconSize2}px;text-align:center'>${fontAwesome('exchange')}</button>` : ''}
+    <button id='modal_sliders' onclick="scoreBreakdownInfo()" class='grow' style='width:${iconSize2}px;text-align:center'>${fontAwesome('info-circle')}</button>
+    </div>`
+    if (myekulSaysCheck) {
+        HTMLContent += `
+        <div id='myekulSays' style='display:none'>
+            <div class='clickable' onclick="myekulSaysAction()">${myekulSaysDiv()}</div>
+            <div class='container textBlock' style='font-size:80%;max-width:275px;padding-bottom:15px'>${myekulSaysCheck}</div>
+        </div>`
+    }
     return HTMLContent
 }
 function myekulSaysDiv() {
-    return `<div class='container' style='justify-content:left;margin:0'>
-    <img src='${sharedAssetsURL('myekul')}' style='height:30px;width:auto;padding-right:5px'>
-    <div style='font-size:110%'>${myekulColor('myekul')} says...</div>
+    return `
+    <div class='container' style='justify-content:left;margin:0'>
+        <img src='${sharedAssetsURL('myekul')}' style='height:30px;width:auto;padding-right:5px'>
+        <div style='font-size:110%'>${myekulColor('myekul')} says...</div>
     </div>`
 }
 function myekulSaysAction() {
@@ -152,19 +163,19 @@ function reportCardSection(category, categoryIndex, score, percentage) {
         // const accentColor=getColorFromClass(classNameLogic(category))
         const className = classNameLogic(category) || 'banner'
         const place = players[globalPlayerIndex].runs[categoryIndex].place
-        HTMLContent =
-            `<td id='modal_category_${categoryIndex}_grade' class='${grade.className}' style='font-size:90%;text-align:left;min-width:25px'><span>${grade.grade}</span></td>
+        HTMLContent = `
+        <td id='modal_category_${categoryIndex}_grade' class='${grade.className}' style='font-size:90%;text-align:left;min-width:25px'><span>${grade.grade}</span></td>
         <td id='modal_category_${categoryIndex}_percentage' class='${grade.className}' style='font-size:90%;min-width:40px'><span>${displayPercentage(percentage)}</span></td>
         ${truePercentage(categoryIndex)}
         <td id='modal_category_${categoryIndex}_place' class='${classNameLogic(category)}' style='display:none;font-size:75%;min-width:25px'>${place}</td>
-        <td id='modal_category_${categoryIndex}_score' class='${classNameLogic(category)}' style='padding:0 3px'>${tetrisCheck(category, score)}</td>
+        <td id='modal_category_${categoryIndex}_score' class='${classNameLogic(category)}' style='padding:0 3px'>${secondsToHMS(score)}</td>
         ${userComparison(categoryIndex)}
         <td id='modal_category_${categoryIndex}_leftArrow' class='grow' style='display:none;padding-left:7px' onclick="moveSlider(${categoryIndex})">${fontAwesome('toggle-left')}</td>
         <td id='modal_category_${categoryIndex}_rightArrow' class='grow' style='display:none;padding-right:5px' onclick="moveSlider(${categoryIndex},-0.1)">${fontAwesome('toggle-right')}</td>
         <td id='modal_category_${categoryIndex}_visual_div' class='background1 container' style='justify-content:left'><div class='${className}' style='height:23px;color:transparent !important;width:${percentage == 100 ? 102 : normalize(percentage, 90)}%'>dummy</div></td>
         <td id='modal_category_${categoryIndex}_slider_div' style='display:none'><input id='modal_category_${categoryIndex}_slider' style='width:250px;accent-color:${accentColor}' class='reverse' type='range' oninput='adjustGrade(${categoryIndex})' step='0.1' min='80' max='${category.runs[0].percentage}' value='${Math.round(percentage)}'></td>`
     } else {
-        HTMLContent += `<td></td><td></td>${truePercentage(categoryIndex)}`
+        HTMLContent = `<td></td><td></td>${truePercentage(categoryIndex)}`
     }
     return HTMLContent
 }
@@ -188,11 +199,13 @@ function userComparison(categoryIndex) {
     const userScore = user?.runs[categoryIndex]?.score
     if (userScore) {
         const delta = userScore - playerScore
-        return `<td id='modal_category_${categoryIndex}_userDelta' class='${redGreen(delta)}' style='display:none;min-width:30px;font-size:80%;padding:0 2px'>${getDelta((delta).toFixed(2))}</td>
-    <td id='modal_category_${categoryIndex}_userComparison' style='display:none;min-width:30px;font-size:80%;padding:0 2px'>${tetrisCheck(categories[categoryIndex], userScore)}</td>`
+        return `
+        <td id='modal_category_${categoryIndex}_userDelta' class='${redGreen(delta)}' style='display:none;min-width:30px;font-size:80%;padding:0 2px'>${getDelta((delta).toFixed(2))}</td>
+        <td id='modal_category_${categoryIndex}_userComparison' style='display:none;min-width:30px;font-size:80%;padding:0 2px'>${secondsToHMS(userScore)}</td>`
     }
-    return `<td id='modal_category_${categoryIndex}_userDelta' style='display:none'></td>
-    <td id='modal_category_${categoryIndex}_userComparison' style='display:none'></td>`
+    return `
+        <td id='modal_category_${categoryIndex}_userDelta' style='display:none'></td>
+        <td id='modal_category_${categoryIndex}_userComparison' style='display:none'></td>`
 }
 function adjustGrade(categoryIndex) {
     show('modal_refresh')
@@ -211,7 +224,7 @@ function adjustGrade(categoryIndex) {
     const scoreElem = document.getElementById('modal_category_' + categoryIndex + '_score')
     const category = categories[categoryIndex]
     modalPercentages[categoryIndex] = parseFloat(newPercentage)
-    scoreElem.innerHTML = tetrisCheck(category, scoreFromGrade(category, newPercentage))
+    scoreElem.innerHTML = secondsToHMS(scoreFromGrade(category, newPercentage))
     let newPlayerPercentage = 0
     modalPercentages.forEach(modalPercentage => {
         newPlayerPercentage += modalPercentage

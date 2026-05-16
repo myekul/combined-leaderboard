@@ -69,7 +69,7 @@ function getFullgame(categoryName) {
     }
     if (!categoryName) {
         fullgameCategory = ''
-        if (['cuphead', 'sm64', 'nsmbw', 'tetris'].includes(gameID)) {
+        if (['cuphead', 'sm64', 'nsmbw'].includes(gameID)) {
             buttonClick(gameID + '_fullgameCategories_main', 'fullgameCategories', 'active')
         }
     }

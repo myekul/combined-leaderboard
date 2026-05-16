@@ -1,30 +1,3 @@
-// Tetris
-const tetris = {
-    main: [
-        {
-            name: 'Maxout',
-            tabName: 'NTSC Maxout Lines',
-            range: 'A:E'
-        },
-        {
-            name: 'Rollover',
-            tabName: 'NTSC Rollover Lines',
-            range: 'A:E'
-        },
-        {
-            name: 'Into-29',
-            tabName: 'NTSC Into-29',
-            range: 'A:E',
-            reverse: true
-        },
-        {
-            name: '39 Linecap',
-            tabName: 'NTSC 39 Linecap',
-            range: 'A:E',
-            reverse: true
-        }
-    ]
-}
 // SM64
 const sm64Var = `var-e8m7em86=9qj7z0oq` // Platform - N64
 // Titanfall 2

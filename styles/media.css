@@ -1,0 +1,29 @@
+@media screen and (max-width: 1000px) {
+    #gameLogo {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    #srcGame {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    #ROTDdiv {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    #spotlightDiv {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 1380px) {
+    #cupheadProjects {
+        display: none;
+    }
+}

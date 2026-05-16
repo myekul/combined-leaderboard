@@ -2,8 +2,7 @@ const board = Array.from({ length: 7 }, () => [])
 board[2].push(1)
 let connect4turn = 2
 function generateConnect4() {
-    let HTMLContent = ''
-    HTMLContent += `
+    let HTMLContent = `
     <div class='container' style='margin-bottom:20px'>Coming soon!</div>
     <div class='container banner' style='width:520px;height:430px;border-radius:15px;'>`
     board.forEach((row, colIndex) => {
