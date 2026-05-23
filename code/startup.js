@@ -46,11 +46,10 @@ function generateSidebar() {
     return HTMLContent
 }
 function moreGames() {
-    let HTMLContent = ''
-    let games = []
+    const games = []
     games.push([['cuphead', 'titanfall_2'], ['dkc', 'dkc2'], ['dkc3', 'dkb'], ['mtpo', 'spo'], ['ssb64', 'ssbm'], ['bfbb', 'facade'], ['the_escapists', 'the_messenger'], ['splatoon1', 'shar']])
     games.push([['smb1', 'smbtll'], ['smb2', 'smb3'], ['nsmbds', 'nsmbw'], ['nsmb2', 'nsmbu'], ['nslu', 'sm64ds'], ['sm64', 'sms'], ['smg1', 'smg2'], ['smo']])
-    HTMLContent += `<div class='container' style='margin:20px'>`
+    let HTMLContent = `<div class='container' style='margin:20px'>`
     games.forEach(gameSetSet => {
         HTMLContent += `<div>`
         gameSetSet.forEach(gameSet => {
@@ -170,7 +169,7 @@ showTab = function (...args) {
     showTabOG(...args)
     showTabCL(...args)
 }
-setTabs(['info', 'home', 'featured', 'leaderboards', null, 'WRs', 'map', 'sort', null, 'ballpit', [`<button class='grow' onclick="supporterModal()"><img src='images/supporters.png' style='width:30px;margin-left:5px'></button>`]])
+setTabs(['info', 'home', 'featured', 'leaderboards', null, 'WRs', 'map', 'sort', null, 'ballpit'])
     .then(() => {
         if (['cuphead', 'sm64', 'nsmbw'].includes(gameID)) {
             show('modeSelection')

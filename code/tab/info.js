@@ -16,7 +16,7 @@ function generateInfo() {
     <br><br>
     <div class='container textBox border' style='justify-content:left'>
         <div onclick='generateInfoExample()' class='grow' style='width:25px;text-align:center;padding-right:3px'><i class='fa fa-refresh'></i></div>
-        <div id='infoExample'>${infoExample()}</div>
+        <div id='infoExample'></div>
     </div>
     <br>
     <div class='textBox border'>
@@ -39,19 +39,15 @@ function generateInfo() {
     but I encourage you to make your own conclusions.
     <div class='infoTitle'>Services Used</div>
     ${infoExternal('src')} clickable' style='text-decoration:underline'>${getAnchor('https://github.com/speedruncomorg/api')}Speedrun.com API</a></span>&nbspis used to extract data from the SRC database.
-    ${infoExternal('sheets')}'>Google Sheets API</span>&nbspis used to extract data from spreadsheets.
     ${infoExternal('firebase')}'>Firebase API</span>&nbspis used to cache and organize data from SRC.
     ${infoExternal('youtube')}'>YouTube API</span>&nbspis used to retrieve video statistics.
     ${infoExternal('github')}'>GitHub Pages</span>&nbspis used to host this site.
     <br><br>Additionally, ${myekulColor('Google Charts')} and ${myekulColor('D3.js')} are used for data visualizations.
     <div class='infoTitle'>Special Thanks</div>
-    I'd like to dedicate this section to the Cuphead speedrunning community for cultivating an incredible and friendly online space for people to engage in this niche hobby.
-    It's cheesy, but I wouldn't be the person I am today if it weren't for you guys. Much love.
-    <br><br>This is a static site written entirely in raw HTML / CSS / JavaScript, which makes it extremely lightweight and efficient.
-    It was created from scratch, independently devloped, and crafted specifically for the speedrunning community.
-    It is also open source, ad-free, nonprofit, and costs $0 to use, host, and maintain. Enjoy!
+    ${specialThanks}
     </div></div>`
     document.getElementById('content').innerHTML = HTMLContent
+    generateInfoExample(true)
 }
 function infoExample() {
     const categoryIndex = getRandomNumber(0, categories.length - 1)
@@ -69,11 +65,12 @@ function infoExample() {
     const exampleRun = examplePlayer.runs[categoryIndex]
     const WRholder = getPlayerName(playersCopy[0])
     return `
-    e.g. For ${categorySpan(category)}, ${getPlayerName(examplePlayer)} has a ${secondsToHMS(exampleRun.score)} and the world record is ${secondsToHMS(getWorldRecord(category))} by ${WRholder}.
+    e.g. For ${categorySpan(category)}, ${getPlayerName(examplePlayer)} has a ${secondsToHMS(exampleRun.score)},
+    <br>and the world record is ${secondsToHMS(getWorldRecord(category))} by ${WRholder}.
     <br>The calculation would be ${secondsToHMS(getWorldRecord(category))} / ${secondsToHMS(exampleRun.score)}.
     <br>${getPlayerName(examplePlayer)} would recieve ${scoreGradeSpan(exampleRun.percentage)} for this category.`
 }
-function generateInfoExample() {
+function generateInfoExample(shh) {
     playSound('move')
     document.getElementById('infoExample').innerHTML = infoExample()
 }

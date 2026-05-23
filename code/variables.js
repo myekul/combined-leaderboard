@@ -65,8 +65,3 @@ const SEASONS = [
     { name: 'Fall', color: 'orange' },
     { name: 'Winter', color: 'cornflowerblue' }
 ]
-const SUPPORTERS = [['Lewzr', 'SBDWolf'], ['Taylz', 'FailedCriminal']]
-const SUPPORTERS_EXPANDED = []
-SUPPORTERS.forEach(supporterGroup => {
-    supporterGroup.forEach(supporter => { SUPPORTERS_EXPANDED.push(supporter) })
-})

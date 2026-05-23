@@ -17,10 +17,9 @@ body {
 }
 
 .textBox {
-    background-color: var(--background2);
+    background-color: var(--background1);
     border-radius: 5px;
-    padding: 3px;
-    margin: 5px;
+    padding: 10px;
     font-size: 90%
 }
 
@@ -230,21 +229,6 @@ svg {
 
 #sidebar {
     width: 200px !important
-}
-
-.supporter div {
-    justify-content: left;
-    padding: 1px
-}
-
-.infoTitle {
-    background-color: var(--banner);
-    color: var(--bannerText);
-    font-family: var(--font2);
-    font-size: 140%;
-    padding: 0 10px;
-    margin: 20px 0;
-    border-radius: 5px;
 }
 
 #combinedLeaderboard,
