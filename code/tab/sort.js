@@ -11,7 +11,9 @@ function generateSort() {
     let HTMLContent = ''
     if (['player', 'joindate', 'bestScore'].includes(sortCriteria.value)) {
         hide('sortChartDiv')
-        HTMLContent += `<div class='container'><table class='bigShadow'>`
+        HTMLContent += `
+        <div class='container'>
+            <table class='bigShadow'>`
         const playersCopy = [...players]
         if (sortCriteria.value == 'joindate') {
             playersCopy.sort((a, b) => {

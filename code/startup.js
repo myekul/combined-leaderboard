@@ -82,7 +82,7 @@ function hideTabs() {
 hideTabs()
 function DOMloaded() {
     if (!['mtpo', 'spo', 'titanfall_2', 'ssbm', 'ssb64'].includes(gameID)) {
-        fetch(`constants/categories/${gameID}.json`)
+        fetch(`resources/fullgame/${gameID}.json`)
             .then(response => response.json())
             .then(data => {
                 categorySet = data

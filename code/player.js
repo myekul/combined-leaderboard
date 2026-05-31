@@ -21,7 +21,7 @@ function getPlayerProfile(playerIndex) {
     <div>
         <div class='container' style='padding-bottom:2px'>
         <div style='font-size:150%;margin:0'>${getPlayerName(player)}</div>
-        ${SUPPORTERS_EXPANDED.includes(player.name) ? `<button class='grow' onclick="supporterModal()"><img src='images/supporters.png' style='width:28px;margin-top:4px;margin-left:8px'></button>` : ''}
+        ${SUPPORTERS_EXPANDED.includes(player.name) ? `<button class='grow' onclick="supporterModal()"><img src='https://myekul.com/shared-assets/images/supporters.png' style='width:28px;margin-top:4px;margin-left:8px'></button>` : ''}
     </div>`
     if (player.links) {
         const flag = getPlayerFlag(player, 14)

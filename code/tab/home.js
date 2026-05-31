@@ -11,9 +11,9 @@ function playersTable(playersArray, categoryIndex) {
     let HTMLContent = `<div class='bigShadow' ${globalTab != 'leaderboards' ? `style='align-self: flex-end;'` : ''}><div style='overflow-x:scroll;'><table>`
     if (!['leaderboards', 'map'].includes(globalTab)) {
         HTMLContent +=
-            `<tr style='${getHeaderSize()}'>
-                <th colspan=11 class='clickable gray ${!(sortCategoryIndex > -1) ? 'selected' : ''}' onclick="showDefault()">Player</th>
-            </tr>`
+        `<tr style='${getHeaderSize()}'>
+            <th colspan=11 class='clickable gray ${!(sortCategoryIndex > -1) ? 'selected' : ''}' onclick="showDefault()">Player</th>
+        </tr>`
     }
     playersArray.forEach((player, playerIndex) => {
         if (sortCategoryIndex == -1 || player.runs[sortCategoryIndex]) {
@@ -32,9 +32,9 @@ function fancyHeader(numCols, extra) {
             const numCats = cupheadNumCats(category)
             const cellText = !difficultyILs ? `<span style='font-size:120%;font-weight:bold'>${category.info.name}</span>` : ''
             HTMLContent +=
-                `<td colspan=${numCols * numCats} ${!extra ? `onclick="getBossIL('${category.info.id}')" class='clickable'` : ''}>
-                    <div style='padding:1px 10px;gap:10px' class='container ${category.info.id}'>${getImage(category.info.id, 36)}${cellText}</div>
-                </td>`
+            `<td colspan=${numCols * numCats} ${!extra ? `onclick="getBossIL('${category.info.id}')" class='clickable'` : ''}>
+                <div style='padding:1px 10px;gap:10px' class='container ${category.info.id}'>${getImage(category.info.id, 36)}${cellText}</div>
+            </td>`
             categoryIndex += numCats
         }
     }
@@ -62,11 +62,11 @@ function generateHeader(category, categoryIndex) {
 }
 function generateHome() {
     playersCopy = [...players].slice(0, getNumDisplay())
-    let HTMLContent = `<div class="container" style='align-items:flex-start'>`
-    HTMLContent += playersTable(playersCopy)
-    HTMLContent +=
-        `<div id='leaderboardContainer' class='bigShadow'>
-        <table>`
+    let HTMLContent = `
+    <div class="container" style='align-items:flex-start'>
+        ${playersTable(playersCopy)}
+        <div id='leaderboardContainer' class='bigShadow'>
+            <table>`
     if (displayNumRuns) {
         categories.forEach(category => {
             let numRuns = category.runs.length
@@ -93,8 +93,11 @@ function generateHome() {
         }
     }
     if (globalTab != 'leaderboards') {
-        HTMLContent += !['mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID) ? `<th>Sum</td>` : ''
-        HTMLContent += !['mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID) ? `<th>GPA</td>` : ''
+        if(!['mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID)){
+            HTMLContent+=`
+            <th>Sum</td>
+            <th>GPA</td>`
+        }
         HTMLContent += mode != 'fullgame' ? `<th>N/A</td>` : ''
     }
     HTMLContent += `</tr>`

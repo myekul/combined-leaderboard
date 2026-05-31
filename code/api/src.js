@@ -1,5 +1,5 @@
 function getLeaderboard(category, query, variables, extra, thisGameID = gameID) {
-    const url = `https://www.speedrun.com/api/v1/leaderboards/${thisGameID}/${query}?${variables}&top=300&embed=players,category`;
+    const url = `https://www.speedrun.com/api/v1/leaderboards/${thisGameID}/${query}?${variables}&top=300&embed=players,category,variables`;
     fetch(url, {
         method: "GET",
         headers: {
@@ -12,7 +12,6 @@ function getLeaderboard(category, query, variables, extra, thisGameID = gameID) 
             if ((!data.data)) throw new Error('Wrong data!')
             if (stopLeaderboards) throw new Error('Leaderboards have stopped.')
             if (!extra) {
-                // console.log(data.data)
                 category.runs = cleanRuns(data.data.runs)
                 category.players = cleanPlayers(data.data.players.data)
                 getPlayers(category)
