@@ -112,6 +112,10 @@ window.firebaseUtils = {
     },
     firestoreWriteMain: async () => {
         for (let i = 0; i < globalCache.length; i++) {
+            if (gameID == 'cuphead') {
+                globalCache[i].var1 = globalCache[i].vars[0]
+                globalCache[i].var2 = globalCache[i].vars[1]
+            }
             delete globalCache[i].vars
             const docRefMain = doc(db, gameID + '_main', String(i));
             await setDoc(docRefMain, globalCache[i])
