@@ -1,5 +1,5 @@
 function getLeaderboard(category, query, variables, extra, thisGameID = gameID) {
-    const url = `https://www.speedrun.com/api/v1/leaderboards/${thisGameID}/${query}?${variables}&top=300&embed=players,category,variables`;
+    const url = `https://www.speedrun.com/api/v1/leaderboards/${thisGameID}/${query}?${variables}&top=300&embed=players,category`;
     fetch(url, {
         method: "GET",
         headers: {

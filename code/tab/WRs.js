@@ -390,6 +390,8 @@ function showWRsTab(tab) {
             document.getElementById('dropdown_WRsChart').value = 'default'
             document.getElementById('checkbox_hp').checked = false
         }
+    } else {
+        hide('WRsChartSection')
     }
     if (WRsTab == 'players') {
         WRsPlayers()

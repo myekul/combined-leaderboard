@@ -9,8 +9,10 @@ function generateSort() {
     }
     if (sortCriteria.value == 'date') show('sortDateOptions')
     let HTMLContent = ''
-    if (['player', 'joindate', 'bestScore'].includes(sortCriteria.value)) {
+    if (['score', 'player', 'joindate', 'bestScore'].includes(sortCriteria.value)) {
         hide('sortChartDiv')
+    }
+    if (['player', 'joindate', 'bestScore'].includes(sortCriteria.value)) {
         HTMLContent += `
         <div class='container'>
             <table class='bigShadow'>`
@@ -100,13 +102,15 @@ function sortRuns(sortRange) {
         if (bRun) return 1;
         return 0;
     });
-    if (['score', 'date'].includes(sortCriteria)) {
+    if (sortCriteria == 'date') {
+        show('sortChartDiv')
         google.charts.setOnLoadCallback(function () {
             drawSortChart(everyRun, sortCriteria, minDate)
         });
-        show('sortChartDiv')
     }
-    let HTMLContent = `<div class='container'><table class='bigShadow'>`
+    let HTMLContent = `
+    <div class='container'>
+        <table class='bigShadow' style='margin:0 auto'>`
     everyRun.slice(0, getNumDisplay()).forEach((run, runIndex) => {
         if (!(sortCriteria == 'date' && !run.run.date)) {
             HTMLContent += `
@@ -158,7 +162,9 @@ function sortRuns(sortRange) {
             </tr>`
         }
     })
-    HTMLContent += `</table></div>`
+    HTMLContent += `
+        </table>
+    </div>`
     if (!showMore && everyRun.length > getNumDisplay()) {
         HTMLContent += `<div onclick="showMorePlayers()" class='button' style='margin:0 auto;margin-top:15px'>Show More</div>`
     } else {

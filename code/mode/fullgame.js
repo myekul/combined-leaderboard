@@ -14,18 +14,18 @@ function getFullgame(categoryName) {
                     categories = [...categorySet['main'].slice(0, 2), ...categorySet['main'].slice(3, 5)]
                 } else if (categoryName == 'simple') {
                     const simple = ['zqoeg95l', 'jq6owpvq', 'jqz5w02q']
-                    simple.forEach((subcat, index) => {
-                        categories[index].subcat = subcat
+                    simple.forEach((id, index) => {
+                        categories[index].vars[0][1] = id
                     })
-                    categories[3].subcat2 = '192g6pyq'
-                    categories[4].subcat2 = 'ln86pool'
+                    categories[3].vars[1][1] = '192g6pyq'
+                    categories[4].vars[1][1] = 'ln86pool'
                 } else if (categoryName == 'expert') {
                     const expert = ['rqv209r1', '81w2j9m1', 'gq74o7yq']
-                    expert.forEach((subcat, index) => {
-                        categories[index].subcat = subcat
+                    expert.forEach((id, index) => {
+                        categories[index].vars[0][1] = id
                     })
-                    categories[3].subcat2 = '12ver0dq'
-                    categories[4].subcat2 = '10ve8ool'
+                    categories[3].vars[1][1] = '12ver0dq'
+                    categories[4].vars[1][1] = '10ve8ool'
                 } else if (categoryName == 'oneGun') {
                     // const objective = categoryName.split('_')[1]
                     categories = categorySet['One Gun']

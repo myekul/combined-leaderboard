@@ -112,13 +112,12 @@ window.firebaseUtils = {
     },
     firestoreWriteMain: async () => {
         for (let i = 0; i < globalCache.length; i++) {
-            if (gameID == 'cuphead') {
-                globalCache[i].var1 = globalCache[i].vars[0]
-                globalCache[i].var2 = globalCache[i].vars[1]
-            }
-            delete globalCache[i].vars
+            if (globalCache[i].vars[0]) globalCache[i].var1 = globalCache[i].vars[0]
+            if (globalCache[i].vars[1]) globalCache[i].var2 = globalCache[i].vars[1]
             const docRefMain = doc(db, gameID + '_main', String(i));
-            await setDoc(docRefMain, globalCache[i])
+            const temp = { ...globalCache[i] }
+            delete temp.vars
+            await setDoc(docRefMain, temp)
                 .then(() => {
                     console.log(`Document ${i + 1} written`);
                 })

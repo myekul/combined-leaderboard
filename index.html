@@ -302,7 +302,7 @@
                         <input id='checkbox_hp' type="checkbox" onchange="action()">
                         <label for="checkbox_hp">HP</label>
                     </div>
-                    <div id="WRsChart" style="height:500px;width:95%;padding:5px 0" class="container"></div>
+                    <div id="WRsChart" class='container border shadow' style="height:500px;width:1300px;padding:5px 0" class="container"></div>
                     <div id="WRsInfo"></div>
                 </div>
             </div>
@@ -318,7 +318,7 @@
                 <div>
                     <div>
                         <div id="mapTooltip"></div>
-                        <svg id="world-map" class='container' width="1100" height="500"></svg>
+                        <svg id="world-map" class='container border shadow' width="1100" height="500"></svg>
                     </div>
                     <div class="container" style="padding:15px">
                         <select id="dropdown_mapMode">
@@ -346,7 +346,7 @@
             </div>
             <!-- Sort -->
             <div id="sortTab" class="tabs" style="margin-top:15px">
-                <div id='sort_options' class="container">
+                <div id='sort_options' class="container" style="margin-bottom:10px">
                     <select id="dropdown_sortCriteria">
                         <optgroup label="Runs">
                             <option value="score" selected>Score</option>
@@ -383,8 +383,8 @@
                         <option value="dayofweek">Day of Week</option>
                     </select>
                     <div id='sortChartDiv' class="container hide" style="padding-top:5px;padding-bottom:15px;gap:10px">
-                        <div id="sortChart" style="width:70%;height:300px"></div>
-                        <div id="sortPieChart" class='hide' style="width:20%;height:300px"></div>
+                        <div id="sortChart" class='border shadow' style="width:70%;height:300px"></div>
+                        <div id="sortPieChart" class='border shadow hide' style="width:20%;height:300px"></div>
                     </div>
                     <div class="container">
                         <div id="sort" style="width:50%"></div>
@@ -429,6 +429,8 @@
     <script src="code/important.js"></script>
     <script src="code/player.js"></script>
     <script src="code/fancy.js"></script>
+
+    <script src="code/pbProgression.js"></script>
 
     <script src="code/generation.js"></script>
 

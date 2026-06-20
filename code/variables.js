@@ -23,6 +23,7 @@ let modalSliders = false
 let modalPercentages = []
 let tooltipStyle
 let WRsTab = 'players'
+let leaderboardsTab = 'leaderboards'
 let fullgameCategory
 let sm64ILsSection
 let extraCategory = {}
@@ -56,6 +57,8 @@ let showModal = false
 let displayNumRuns = false
 let milliseconds = false
 let categorySet
+
+let topPlayerHistories = []
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const DAYS_OF_THE_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']

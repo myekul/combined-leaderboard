@@ -1,5 +1,6 @@
-function getPlayerDisplay(player, playerIndex) {
+function getPlayerDisplay(player, playerIndex, progression) {
     let HTMLContent = ''
+    if (progression) HTMLContent = `<div class='container' style='gap:4px'>`
     HTMLContent += globalTab != 'leaderboards' ? `<td class='${placeClass[player.rank]}' style='font-size:90%'>${player.rank}</td>` : ''
     if (document.getElementById('checkbox_flags').checked) {
         HTMLContent += `<td>${getPlayerFlag(player, 12)}</td>`
@@ -10,6 +11,7 @@ function getPlayerDisplay(player, playerIndex) {
     const clickable = player?.rank && !['map'].includes(globalTab) ? `onclick="openModalCL(false,'${player.name}')" class='clickable short-border'` : ''
     const vibrant = document.getElementById('checkbox_vibrant')?.checked ? `--border-color:${getColorFromClass(getLetterGrade(player.score).className)};` : ''
     HTMLContent += `<td ${clickable} style='--border-width:${normalize(player?.score, 80)}%;${vibrant}text-align:left;font-weight: bold;font-size:80%;padding-right:5px'>${getPlayerName(player ? player : playerIndex)}</td>`
+    if (progression) HTMLContent += `</div>`
     return HTMLContent
 }
 function getPlayerProfile(playerIndex) {
