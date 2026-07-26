@@ -24,9 +24,9 @@ function generateROTDrun() {
     aPlusRuns = getEveryRun().filter(run => run.run.percentage >= 97 && players[run.playerIndex].links.img)
     ROTDindex = getDailyRandomIndex(aPlusRuns)
     const run = aPlusRuns[ROTDindex]
-    let HTMLContent = ''
-    HTMLContent += `
-    <div class='button ${categories[run.categoryIndex].className}' style='width:94px;height:28px;justify-content:left'>
+    const width = run.run.score > 3600 ? 116 : 94
+    const HTMLContent = `
+    <div class='button ${categories[run.categoryIndex].className}' style='width:${width}px;height:28px;justify-content:left'>
         <div>${getPlayerIcon(players[run.playerIndex], 32)}</div>
         <div class='container' style='font-size:150%'>${secondsToHMS(run.run.score)}</div>
     </div>`
@@ -34,8 +34,7 @@ function generateROTDrun() {
 }
 function generateSpotlight() {
     const player = players[spotlightPlayerIndex]
-    let HTMLContent = ''
-    HTMLContent += getPlayerProfile(spotlightPlayerIndex)
+    let HTMLContent = getPlayerProfile(spotlightPlayerIndex)
     HTMLContent += `<div class='container' style='margin-top:20px'><div class='container bigShadow'>`
     let rowCount = 0
     player.runs.forEach((run, runIndex) => {
@@ -62,7 +61,6 @@ function generateSpotlight() {
     return HTMLContent
 }
 function generateROTD() {
-    let HTMLContent = ''
     const run = aPlusRuns[ROTDindex]
     return `
     <table>

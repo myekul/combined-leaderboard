@@ -146,10 +146,10 @@ function classNameLogic(category) {
     return category.info ? category.info.id : category.className
 }
 function getBackgroundColor() {
-    return rootStyles.getPropertyValue('--background2')
+    return ROOT_STYLES.getPropertyValue('--background2')
 }
 function getFont() {
-    return rootStyles.getPropertyValue('--font')
+    return ROOT_STYLES.getPropertyValue('--font')
 }
 function getDPS(category, score) {
     return Math.round(category.hp / (score - 4))

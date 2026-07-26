@@ -99,7 +99,7 @@ function DOMloaded() {
         audioNames = ['cardup', 'carddown', 'locked', 'cardflip', 'equip_move']
     }
     if (gameID == 'sm64') {
-        audioNames = ['cardup', 'carddown']
+        audioNames = ['cardup', 'carddown', 'locked', 'category_select']
     }
     if (gameID == 'ssbm') {
         audioNames = ['cardup', 'carddown', 'category_select']

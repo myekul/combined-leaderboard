@@ -65,6 +65,8 @@ function getFullgame(categoryName) {
                 if (categoryName == 'main3') categories = categorySet.slice(0, 3)
             }
             buttonClick('fullgameCategories_' + categoryName, 'fullgameCategories', 'active')
+        } else if (gameID == 'sm64') {
+            spotlightFlag = true
         }
     }
     if (!categoryName) {

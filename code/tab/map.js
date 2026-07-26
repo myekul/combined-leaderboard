@@ -220,13 +220,13 @@ function createMap(mapMode) {
         const maxValue = Math.max(...values);
         const colorChecked = document.getElementById('checkbox_map_color').checked
         let color = '#fff'
-        // let color = rootStyles.getPropertyValue('--banner')
+        // let color = ROOT_STYLES.getPropertyValue('--banner')
         if (colorChecked && gameID == 'cuphead') {
             color = sortCategoryIndex > -1 && !(gameID == 'sm64' && mode == 'levels')
                 ? gameID == 'cuphead' && categories[sortCategoryIndex].info
                     ? getComputedStyle(document.getElementsByClassName(categories[sortCategoryIndex].info.id)[0]).backgroundColor
                     : getComputedStyle(document.getElementsByClassName(categories[sortCategoryIndex].className)[0]).backgroundColor
-                : rootStyles.getPropertyValue('--banner')
+                : ROOT_STYLES.getPropertyValue('--banner')
         }
         const colorScale = d3.scaleLinear()
             .domain([0, maxValue])

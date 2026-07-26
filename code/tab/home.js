@@ -276,7 +276,7 @@ function parseRun(player, playerIndex, category, categoryIndex, exception) {
     return HTMLContent
 }
 function showMorePlayers() {
-    playSound('ready')
+    playSound('category_select')
     showMore = true
     action()
 }

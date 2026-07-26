@@ -1,53 +1,18 @@
-function generateInfo() {
-    let HTMLContent = `
-    <div class='container'>
-    <div>
-    <img src='${sharedAssetsURL('myekul')}' class='container' style='height:50px;width:50px'><div style='width:600px;white-space: normal'>
-    Hello! My name is ${myekulColor(`myekul`)} and I am a Cuphead speedrunner and web developer.
-    This is my ${myekulColor(`Combined Leaderboard`)} project, a tool that organizes and ranks players based on their overall domination of a game's leaderboards.
-    <div class='infoTitle'>Controls</div>
-    -Use left and right arrow keys to switch between categories.
-    <br>-Click on a player's name to view their report card!
-    <br>&nbsp;&nbsp;&nbsp;&nbsp;-Use arrow keys to navigate between player stats.
-    <br>
-    <div class='infoTitle'>How it works</div>
-    Each player recieves an overall score (out of 100) and a letter grade, which are determined by a few things.
-    First, to calculate a given run score (0-100), ${myekulColor(`the world record is divided by the run time`)}.
-    <br><br>
-    <div class='container textBox border' style='justify-content:left'>
-        <div onclick='generateInfoExample()' class='grow' style='width:25px;text-align:center;padding-right:3px'><i class='fa fa-refresh'></i></div>
-        <div id='infoExample'></div>
-    </div>
-    <br>
-    <div class='textBox border'>
-        <i class='fa fa-exclamation-triangle myekulColor'></i>
-        If a player has a run score worse than the average of their best score and
-        ${scoreGradeSpan(80)},
-        but they have another run greater than that, then ${myekulColor(`their bad score will be forgiven`)}.
-        This logic ensures that submitting a bad run is better than having no submission at all.
-    </div>
-    <br>After a player's run scores are determined, missing runs are taken into consideration.
-    <span class='myekulColor'>If a player is missing a run, they will recieve an overall score penalty</span>.
-    <br><br>For each missing run, the player will recieve a placeholder score to be used in overall score calculation.
-    The default placeholder is <span class='myekulColor'>([Player's best score] + 80) / 2</span>.
-    To view a player's calculation scores, press the ${fontAwesome('info-circle')} button in the bottom right of their report card.<br>
-    <div class='infoTitle'>Disclaimer</div>
-    Overall player rank calculation can be a very subjective thing.
-    I made this website as a fun hobby project, and it may not reflect the actual skill levels of each player.
-    <br><br>
-    Personally, I like to think of it as an "overall player relevancy" ranking as opposed to a "player skill" ranking,
-    but I encourage you to make your own conclusions.
-    <div class='infoTitle'>Services Used</div>
-    ${infoExternal('src')} clickable' style='text-decoration:underline'>${getAnchor('https://github.com/speedruncomorg/api')}Speedrun.com API</a></span>&nbspis used to extract data from the SRC database.
-    ${infoExternal('firebase')}'>Firebase API</span>&nbspis used to cache and organize data from SRC.
-    ${infoExternal('youtube')}'>YouTube API</span>&nbspis used to retrieve video statistics.
-    ${infoExternal('github')}'>GitHub Pages</span>&nbspis used to host this site.
-    <br><br>Additionally, ${myekulColor('Google Charts')} and ${myekulColor('D3.js')} are used for data visualizations.
-    <div class='infoTitle'>Special Thanks</div>
-    ${specialThanks}
-    </div></div>`
-    document.getElementById('content').innerHTML = HTMLContent
+async function generateInfo() {
+    await setHTML('html/info.html', 'content')
     generateInfoExample(true)
+    if (gameID == 'cuphead') document.getElementById('specialThanks').innerHTML = specialThanks
+    document.querySelectorAll('.infoImg').forEach(img => {
+        const external = img.id.split('_')[1]
+        const invert = external == 'github' ? 'invert' : ''
+        const underline = external == 'src' ? 'style="text-decoration:underline"' : ''
+        let innerHTML = `
+        <br>
+        <span class='infoImg ${invert}'>${sharedAssetsImg(external)}</span>
+        <span class='myekulColor' ${underline}>${externalNames[external]}</span>`
+        img.innerHTML = innerHTML
+    })
+    document.getElementById('info_scoreGradeSpan').innerHTML = scoreGradeSpan(80)
 }
 function infoExample() {
     const categoryIndex = getRandomNumber(0, categories.length - 1)
@@ -71,10 +36,12 @@ function infoExample() {
     <br>${getPlayerName(examplePlayer)} would recieve ${scoreGradeSpan(exampleRun.percentage)} for this category.`
 }
 function generateInfoExample(shh) {
-    playSound('move')
+    if (!shh) playSound('move')
     document.getElementById('infoExample').innerHTML = infoExample()
 }
-function infoExternal(external) {
-    const invert = external == 'github' ? 'invert' : ''
-    return `<br><span class='infoImg ${invert}' style='padding-right:4px'>${sharedAssetsImg(external)}</span><span class='myekulColor`
+const externalNames = {
+    'src': 'Speedrun.com API',
+    'firebase': 'Firebase API',
+    'youtube': 'YouTube API',
+    'github': 'GitHub'
 }
