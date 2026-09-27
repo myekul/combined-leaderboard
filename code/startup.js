@@ -116,8 +116,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(data => {
                     commBestILs = data
                     DOMloaded()
-                }).catch(error => {
-                    console.error('Oops!', error)
                 })
         })
     } else {

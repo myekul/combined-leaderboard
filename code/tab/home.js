@@ -207,10 +207,11 @@ function parsePlayer(player, playerIndex, categoryIndex) {
     return HTMLContent
 }
 function determineShot1(player, categoryName) {
-    const category = categoryName ? categoryName : commBestILsCategory.name
-    if (commBestILs[category + ' L/S'].extraPlayers?.includes(player.name)) {
+    const category = categoryName || globalThis.commBestILsCategory?.name
+    if (!category || !globalThis.commBestILs) return
+    if (commBestILs[category + ' L/S']?.extraPlayers?.includes(player.name)) {
         return 'lobber'
-    } else if (commBestILs[category + ' C/S'].extraPlayers?.includes(player.name)) {
+    } else if (commBestILs[category + ' C/S']?.extraPlayers?.includes(player.name)) {
         return 'charge'
     }
 }

@@ -50,5 +50,4 @@ A tool that organizes and ranks speedrunners based on their overall domination o
 - Calculator uses real percentages instead of balanced percentages
 - Firebase not loading on startup - Use run recap solution
 - Leaderboards tab is bugged upon page refresh
-- Cuphead broken on mobile
 - Simple / Expert -> Main Categories is broken

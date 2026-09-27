@@ -1,13 +1,10 @@
 function getLeaderboard(category, query, variables, extra, thisGameID = gameID) {
     const url = `https://www.speedrun.com/api/v1/leaderboards/${thisGameID}/${query}?${variables}&top=300&embed=players,category`;
-    fetch(url, {
-        method: "GET",
-        headers: {
-            "User-Agent": "combinedLeaderboard",
-            "Content-Type": "application/json"
-        }
-    })
-        .then(response => response.json())
+    fetch(url)
+        .then(response => {
+            if (!response.ok) throw new Error(`Speedrun.com returned ${response.status}`)
+            return response.json()
+        })
         .then(data => {
             if ((!data.data)) throw new Error('Wrong data!')
             if (stopLeaderboards) throw new Error('Leaderboards have stopped.')
@@ -71,9 +68,8 @@ function getLeaderboard(category, query, variables, extra, thisGameID = gameID) 
                 if (gameID == 'cuphead' && mode == 'levels') {
                     window.firebaseUtils.firestoreRead()
                     console.log('Too many API requests!')
-                } else {
-                    // const loadingText = document.getElementById('loadingText')
-                    // loadingText.innerText = 'Too many API requests! Please reload the page.'
+                } else if (gameID == 'cuphead' && mode == 'fullgame' && !fullgameCategory && window.firebaseUtils) {
+                    window.firebaseUtils.firestoreReadMain()
                 }
             }
         });
