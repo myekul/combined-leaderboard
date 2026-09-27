@@ -9,3 +9,8 @@ const SEASONS = [
     { name: 'Fall', color: 'orange' },
     { name: 'Winter', color: 'cornflowerblue' }
 ]
+
+const GAMES_LEVELS = ['titanfall_2', 'mtpo', 'spo', 'powii', 'ssbm', 'ssb64']
+const GAMES_MILLISECONDS = ['smb1', 'smbtll', 'mtpo', 'spo', 'powii', 'titanfall_2', 'ssbm', 'ssb64']
+const GAMES_PUNCHOUT = ['mtpo', 'spo', 'powii']
+const GAMES_FANCYSUM = ['mtpo', 'spo', 'powii', 'ssb64', 'ssbm']

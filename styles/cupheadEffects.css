@@ -1,0 +1,77 @@
+.cuphead-effect-layer {
+    position: fixed;
+    z-index: 10000;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    pointer-events: none;
+}
+
+.cuphead-effect-layer img {
+    position: relative;
+    display: block;
+    max-width: min(90vw, 720px);
+    max-height: 85vh;
+    object-fit: contain;
+}
+
+.cuphead-effect-start {
+    z-index: 10001;
+}
+
+.cuphead-effect-ready {
+    animation: cuphead-effect-ready-wipe 1.5s linear forwards;
+}
+
+.cuphead-effect-wallop {
+    animation: cuphead-effect-wallop-size 1.2s linear forwards;
+}
+
+.cuphead-effect-victory::before {
+    position: absolute;
+    inset: 0;
+    content: '';
+    background: rgb(0 0 0 / 40%);
+    animation: cuphead-effect-victory-dim 1.5s linear forwards;
+}
+
+.cuphead-effect-victory img {
+    animation: cuphead-effect-victory-wipe 1.5s linear forwards;
+}
+
+.cuphead-effect-defeat {
+    background: rgb(0 0 0 / 40%);
+    animation: cuphead-effect-defeat-fade 1.5s ease-out forwards;
+}
+
+.cuphead-effect-defeat img {
+    animation: cuphead-effect-defeat-fade 1.5s ease-out forwards;
+}
+
+@keyframes cuphead-effect-ready-wipe {
+    0% { clip-path: inset(0 100% 0 0); }
+    17%, 100% { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes cuphead-effect-wallop-size {
+    0% { transform: scale(2.5); opacity: 1; }
+    20% { transform: scale(1); opacity: 1; }
+    80%, 90% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1.4); opacity: 0; }
+}
+
+@keyframes cuphead-effect-victory-wipe {
+    0%, 8% { clip-path: inset(0 100% 0 0); }
+    23%, 77% { clip-path: inset(0 0 0 0); }
+    92%, 100% { clip-path: inset(0 0 0 100%); }
+}
+
+@keyframes cuphead-effect-victory-dim {
+    0%, 70% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes cuphead-effect-defeat-fade {
+    0%, 72% { opacity: 1; }
+    100% { opacity: 0; }
+}

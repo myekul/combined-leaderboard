@@ -1,4 +1,10 @@
 function setBoardTitle() {
+    if (globalTab == 'connect4') {
+        hide('boardTitleDiv')
+        hide('closeBoardTitle')
+        return
+    }
+    show('boardTitleDiv')
     if (sortCategoryIndex > -1 && globalTab != 'leaderboards') {
         show('closeBoardTitle')
     } else {

@@ -1,0 +1,86 @@
+[
+    {
+        "id": "y9m81zd5",
+        "name": "Glass Joe",
+        "info": "glassjoe",
+        "bg": "goldenrod"
+    },
+    {
+        "id": "5wkp1vd4",
+        "name": "Von Kaiser",
+        "info": "vonkaiser",
+        "bg": "goldenrod"
+    },
+    {
+        "id": "5925n796",
+        "name": "Disco Kid",
+        "info": "discokid",
+        "bg": "goldenrod"
+    },
+    {
+        "id": "29v25qdv",
+        "name": "King Hippo",
+        "info": "kinghippo",
+        "bg": "goldenrod"
+    },
+    {
+        "id": "xd4xrq9m",
+        "name": "Piston Hondo",
+        "info": "pistonhondo",
+        "bg": "steelblue"
+    },
+    {
+        "id": "xd0x3mdq",
+        "name": "Bear Hugger",
+        "info": "bearhugger",
+        "bg": "steelblue"
+    },
+    {
+        "id": "rw63epw7",
+        "name": "Great Tiger",
+        "info": "greattiger",
+        "bg": "steelblue"
+    },
+    {
+        "id": "n93om290",
+        "name": "Don Flamenco",
+        "info": "donflamenco",
+        "bg": "steelblue"
+    },
+    {
+        "id": "z98nmr9l",
+        "name": "Aran Ryan",
+        "info": "aranryan",
+        "bg": "slateblue"
+    },
+    {
+        "id": "rdnnq5dm",
+        "name": "Soda Popinski",
+        "info": "sodapopinski",
+        "bg": "slateblue"
+    },
+    {
+        "id": "ldy23pw3",
+        "name": "Bald Bull",
+        "info": "baldbull",
+        "bg": "slateblue"
+    },
+    {
+        "id": "n93om790",
+        "name": "Super Macho Man",
+        "info": "supermachoman",
+        "bg": "slateblue"
+    },
+    {
+        "id": "z98nm79l",
+        "name": "Mr. Sandman",
+        "info": "mrsandman",
+        "bg": "slateblue"
+    },
+    {
+        "id": "rdnnqndm",
+        "name": "Donkey Kong",
+        "info": "donkeykong",
+        "bg": "sienna"
+    }
+]

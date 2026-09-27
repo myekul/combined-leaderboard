@@ -18,7 +18,7 @@ function getOtherLevels(section) {
             } else {
                 buttonClick('ILdefault_' + gameID, 'ILcategories_' + gameID, 'activeBanner')
             }
-            if (['mtpo', 'spo', 'ssbm', 'ssb64'].includes(gameID)) {
+            if (['mtpo', 'spo', 'powii', 'ssbm', 'ssb64'].includes(gameID)) {
                 const style = document.createElement('style');
                 document.head.appendChild(style);
                 categories.forEach(category => {
@@ -58,6 +58,10 @@ function getOtherLevels(section) {
             } else if (gameID == 'spo') {
                 categories.forEach(category => {
                     getLeaderboard(category, `level/${category.id}/wdmy8odq`, spoVarIL) // NTSC
+                })
+            } else if (gameID == 'powii') {
+                categories.forEach(category => {
+                    getLeaderboard(category, `level/${category.id}/jdr9w5d6`) // Contender
                 })
             } else if (gameID == 'nsmbw') {
                 categories.forEach(category => {

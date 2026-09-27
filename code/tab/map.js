@@ -79,7 +79,7 @@ function getMapPlayers(mapMode) {
         playersCopy = players.slice(0, 100)
     }
     playersCopy.forEach(player => {
-        if (player.name == 'Musically_dECLINED') player.location.region = { code: 'us/tn' };
+        if (player.name == 'Declined') player.location.region = { code: 'us/tn' };
         if (player.name == 'myekul') player.location.region = { code: 'us/ma' };
     })
     return playersCopy

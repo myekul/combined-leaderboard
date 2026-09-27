@@ -13,7 +13,7 @@ function secondsToHMS(seconds, exception, raw) {
 }
 function displayDecimals(value, exception, raw) {
     let msString = value.toString().split('.')[1] || '';
-    const twoDecimals = ['cuphead', 'mtpo', 'ssbm', 'ssb64'].includes(gameID) || exception;
+    const twoDecimals = ['cuphead', 'mtpo', 'powii', 'ssbm', 'ssb64'].includes(gameID) || exception;
     const length = twoDecimals ? 2 : 3;
     msString = msString.padEnd(3, '0').slice(0, length);
     if (parseInt(msString)) {
@@ -34,7 +34,7 @@ function getGPA(value) {
     return Math.floor(gpa) + displayDecimals(gpa, true)
 }
 function getImage(image, heightParam) {
-    const extension = gameID == 'spo' ? 'webp' : 'png'
+    const extension = ['spo', 'powii'].includes(gameID) ? 'webp' : 'png'
     const height = heightParam ? heightParam : 36
     let src = `images/levels/${gameID}/${image}.${extension}`
     if (['cuphead', 'sm64'].includes(gameID)) src = `https://myekul.com/shared-assets/${gameID}/images/${image}.png`

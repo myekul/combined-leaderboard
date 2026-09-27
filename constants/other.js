@@ -17,3 +17,6 @@ const spo = {
     ]
 }
 const spoVarIL = 'var-ylp6jqdn=gq7mekpq' // NTSC
+const powii = {
+    id: 'n2yjpo12' // Contender%
+}

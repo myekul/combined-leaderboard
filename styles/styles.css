@@ -181,10 +181,6 @@ th {
     justify-content: center
 }
 
-.glassjoe {
-    background-color: var(--mtpo);
-}
-
 .pulseClass {
     animation: pulse 1.3s infinite;
 }

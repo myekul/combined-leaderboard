@@ -8,6 +8,11 @@ if (!gameParam) {
     setParam('game', gameParam)
 }
 const gameID = gameParam;
+if (gameID == 'mtpo') {
+    const glassJoeStyle = document.createElement('style')
+    glassJoeStyle.textContent = '.glassjoe { background-color: var(--mtpo); }'
+    document.head.append(glassJoeStyle)
+}
 let modeParam = getParam('mode')
 if (['fullgame', 'levels'].includes(modeParam)) {
     setMode(modeParam)
@@ -17,11 +22,7 @@ if (['fullgame', 'levels'].includes(modeParam)) {
 if (['cuphead', 'sm64', 'nsmbw'].includes(gameID)) {
     show(gameID + '_fullgameCategories')
 }
-if (['smb1', 'smb2', 'smb3', 'nsmbds'].includes(gameID)) {
-    setMode('fullgame')
-    deleteParam('mode')
-}
-if (['titanfall_2', 'mtpo', 'spo', 'ssbm', 'ssb64'].includes(gameID)) {
+if (GAMES_LEVELS.includes(gameID)) {
     setMode('levels')
     deleteParam('mode')
 }
@@ -32,7 +33,6 @@ setSidebar(generateSidebar())
     })
 function generateSidebar() {
     let HTMLContent = ''
-    const games = [['cuphead'], ['sm64', 'sms'], ['smg1', 'smg2'], ['smo', 'dkb'], ['smb1', 'smbtll'], ['smb2', 'smb3'], ['dkc', 'dkc2', 'dkc3'], ['mtpo', 'spo'], ['ssb64', 'ssbm']]
     gamesShort = ['cuphead', 'sm64', 'smo', 'smb1']
     gamesShort.forEach(game => {
         HTMLContent += `<a href='?game=${game}' class="container grow ${game}" style='width:100%'><img src="images/logo/${game}.png"></a>`
@@ -47,7 +47,8 @@ function generateSidebar() {
 }
 function moreGames() {
     const games = []
-    games.push([['cuphead', 'titanfall_2'], ['dkc', 'dkc2'], ['dkc3', 'dkb'], ['mtpo', 'spo'], ['ssb64', 'ssbm'], ['bfbb', 'facade'], ['the_escapists', 'the_messenger'], ['splatoon1', 'shar']])
+    // Re-add Facade
+    games.push([['cuphead', 'titanfall_2'], ['dkc', 'dkc2'], ['dkc3', 'dkb'], ['ssb64', 'ssbm'], ['mtpo', 'spo'], ['powii', 'bfbb'], ['the_escapists', 'the_messenger'], ['splatoon1', 'shar']])
     games.push([['smb1', 'smbtll'], ['smb2', 'smb3'], ['smw', 'nsmbds'], ['nsmbw', 'nsmb2'], ['nsmbu', 'nslu'], ['sm64', 'sms'], ['smg1', 'smg2'], ['smo', 'sm64ds']])
     let HTMLContent = `<div class='container' style='margin:20px'>`
     games.forEach(gameSetSet => {
@@ -70,7 +71,7 @@ function moreGames() {
 }
 document.documentElement.style.setProperty('--banner', getColorFromClass(gameID));
 document.documentElement.style.setProperty('--bannerText', getColorFromClass(gameID, true));
-if (['smb1', 'smbtll', 'mtpo', 'spo', 'titanfall_2', 'ssbm', 'ssb64'].includes(gameID)) {
+if (GAMES_MILLISECONDS.includes(gameID)) {
     document.getElementById('checkbox_milliseconds').checked = true;
 }
 function hideTabs() {
@@ -81,7 +82,7 @@ function hideTabs() {
 }
 hideTabs()
 function DOMloaded() {
-    if (!['mtpo', 'spo', 'titanfall_2', 'ssbm', 'ssb64'].includes(gameID)) {
+    if (!['mtpo', 'spo', 'powii', 'titanfall_2', 'ssbm', 'ssb64'].includes(gameID)) {
         fetch(`resources/fullgame/${gameID}.json`)
             .then(response => response.json())
             .then(data => {
@@ -169,7 +170,7 @@ showTab = function (...args) {
     showTabOG(...args)
     showTabCL(...args)
 }
-setTabs(['info', 'home', 'featured', 'leaderboards', null, 'WRs', 'map', 'sort', null, 'ballpit'])
+setTabs(['info', 'home', 'featured', 'leaderboards', null, 'WRs', 'map', 'sort', null, 'connect4', 'ballpit'])
     .then(() => {
         if (['cuphead', 'sm64', 'nsmbw'].includes(gameID)) {
             show('modeSelection')

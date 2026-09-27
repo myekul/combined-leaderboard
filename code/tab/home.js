@@ -11,7 +11,7 @@ function playersTable(playersArray, categoryIndex) {
     let HTMLContent = `<div class='bigShadow' ${globalTab != 'leaderboards' ? `style='align-self: flex-end;'` : ''}><div style='overflow-x:scroll;'><table>`
     if (!['leaderboards', 'map'].includes(globalTab)) {
         HTMLContent +=
-        `<tr style='${getHeaderSize()}'>
+            `<tr style='${getHeaderSize()}'>
             <th colspan=11 class='clickable gray ${!(sortCategoryIndex > -1) ? 'selected' : ''}' onclick="showDefault()">Player</th>
         </tr>`
     }
@@ -32,7 +32,7 @@ function fancyHeader(numCols, extra) {
             const numCats = cupheadNumCats(category)
             const cellText = !difficultyILs ? `<span style='font-size:120%;font-weight:bold'>${category.info.name}</span>` : ''
             HTMLContent +=
-            `<td colspan=${numCols * numCats} ${!extra ? `onclick="getBossIL('${category.info.id}')" class='clickable'` : ''}>
+                `<td colspan=${numCols * numCats} ${!extra ? `onclick="getBossIL('${category.info.id}')" class='clickable'` : ''}>
                 <div style='padding:1px 10px;gap:10px' class='container ${category.info.id}'>${getImage(category.info.id, 36)}${cellText}</div>
             </td>`
             categoryIndex += numCats
@@ -93,8 +93,8 @@ function generateHome() {
         }
     }
     if (globalTab != 'leaderboards') {
-        if(!['mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID)){
-            HTMLContent+=`
+        if (!GAMES_FANCYSUM.includes(gameID)) {
+            HTMLContent += `
             <th>Sum</td>
             <th>GPA</td>`
         }
@@ -166,17 +166,17 @@ function parsePlayer(player, playerIndex, categoryIndex) {
             HTMLContent += `<td style='padding:0 10px'></td>`
         }
     }
-    if (['titanfall_2', 'mtpo', 'spo'].includes(gameID) || (['sm64', 'nsmbw'].includes(gameID) && mode == 'levels')) {
+    if (['titanfall_2', 'mtpo', 'spo', 'powii'].includes(gameID) || (['sm64', 'nsmbw'].includes(gameID) && mode == 'levels')) {
         HTMLContent += parseRun(player, playerIndex, extraCategory, null, true)
         HTMLContent += `<td style='padding:0 15px'></td>`
     }
     HTMLContent += globalTab == 'map' ? `<td class='${placeClass[playerIndex + 1]}'>${playerIndex + 1}</td>` : ''
     if (globalTab != 'leaderboards') {
-        if (!['mtpo', 'spo'].includes(gameID)) {
+        if (!GAMES_PUNCHOUT.includes(gameID)) {
             HTMLContent += `<td style='font-size:75%'>${displayPercentage(player.score)}</td>`
         }
         HTMLContent += `<td class='${letterGrade.className}' style='font-size:75%;text-align:left'><span>${letterGrade.grade}</span></td>`
-        if (['mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID)) {
+        if (GAMES_FANCYSUM.includes(gameID)) {
             HTMLContent += player.hasAllRuns ? `<td class='${letterGrade.className}'><span>${getGPA(player.score)}<span></td>` : `<td></td>`
             HTMLContent += player.sum ? `<td>${player.sum}</td>` : `<td></td>`
         }
@@ -222,8 +222,8 @@ function parsePlayerRuns(player, playerIndex) {
         categories.forEach((category, categoryIndex) => {
             HTMLContent += parseRun(player, playerIndex, category, categoryIndex)
         })
-        HTMLContent += !['mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID) ? `<td>${player.sum}</td>` : ''
-        if (!['mtpo', 'spo', 'ssb64', 'ssbm'].includes(gameID)) {
+        if (!GAMES_FANCYSUM.includes(gameID)) {
+            HTMLContent += `<td>${player.sum}</td>`
             const gpaClass = player.hasAllRuns ? getLetterGrade(player.score).className : ''
             HTMLContent += player.hasAllRuns ? `<td class='${gpaClass}'><span>${getGPA(player.score)}</span></td>` : '<td></td>'
         }
@@ -239,7 +239,7 @@ function parseRun(player, playerIndex, category, categoryIndex, exception) {
     const grayedOut = categoryIndex != null && sortCategoryIndex > -1 ? categoryIndex == sortCategoryIndex ? '' : 'grayedOut' : ''
     const run = categoryIndex == null ? player.extra : player.runs[categoryIndex]
     if (!run) {
-        if (!['mtpo', 'spo'].includes(gameID) && (playerIndex == 0 || playerIndex == 19)) {
+        if (!GAMES_PUNCHOUT.includes(gameID) && (playerIndex == 0 || playerIndex == 19)) {
             HTMLContent += displayBoolean[0] ? `<td class='hiddenText ${colorClass} ${grayedOut}' style='font-size:75%;text-align:left;'>100.0</td>` : ''
             HTMLContent += displayBoolean[1] ? `<td class='hiddenText ${colorClass} ${grayedOut}' style='font-size:75%;text-align:left;'>A+</td>` : ''
             HTMLContent += displayBoolean[2] ? `<td class='hiddenText ${colorClass} ${grayedOut}' style='font-size:75%;text-align:left;'>99</td>` : ''
@@ -250,7 +250,7 @@ function parseRun(player, playerIndex, category, categoryIndex, exception) {
                 if (booleanIndex == 2) {
                     HTMLContent += boolean ? `<td class='${colorClass} ${grayedOut}' style='padding:0 10px'></td>` : ''
                 } else {
-                    if (!(['mtpo', 'spo'].includes(gameID) && categoryIndex == null && booleanIndex == 1)) {
+                    if (!(GAMES_PUNCHOUT.includes(gameID) && categoryIndex == null && booleanIndex == 1)) {
                         HTMLContent += boolean ? `<td class='${colorClass} ${grayedOut}'></td>` : ''
                     }
                 }
@@ -269,9 +269,9 @@ function parseRun(player, playerIndex, category, categoryIndex, exception) {
     const runLink = run.id ? getAnchor('https://www.speedrun.com/' + gameID + '/runs/' + run.id) : ''
     const videoLink = getAnchor(run.url)
     HTMLContent += displayBoolean[0] ? `<td style='font-size:75%;text-align:left' class='${newColorClass} ${grayedOut} ${grade.className}'>${percentage}</td>` : ''
-    HTMLContent += displayBoolean[1] && !(['mtpo', 'spo'].includes(gameID) && categoryIndex == null) ? `<td style='font-size:75%;text-align:left;' class='${newColorClass} ${grayedOut} ${grade.className}'><span>${grade.grade}</span></td>` : ''
+    HTMLContent += displayBoolean[1] && !(['mtpo', 'spo', 'powii'].includes(gameID) && categoryIndex == null) ? `<td style='font-size:75%;text-align:left;' class='${newColorClass} ${grayedOut} ${grade.className}'><span>${grade.grade}</span></td>` : ''
     HTMLContent += displayBoolean[2] ? `<td style='font-size:75%;padding:0 1px' class='${globalTab != 'sort' ? newColorClass : thePlaceClass} ${grayedOut} ${runLink ? 'clickable' : ''}'>${runLink}${trophy ? `<div class='container trophy'>${trophy}` : place}</td>` : ''
-    HTMLContent += displayBoolean[3] ? `<td style='padding:0 3px;${['mtpo', 'spo'].includes(gameID) ? "text-align:left" : ""}' class='${globalTab != 'sort' ? newColorClass : colorClass} ${grayedOut} ${videoLink ? 'clickable' : ''}'>${videoLink}${time}</td>` : ''
+    HTMLContent += displayBoolean[3] ? `<td style='padding:0 3px;${['mtpo', 'spo', 'powii'].includes(gameID) ? "text-align:left" : ""}' class='${globalTab != 'sort' ? newColorClass : colorClass} ${grayedOut} ${videoLink ? 'clickable' : ''}'>${videoLink}${time}</td>` : ''
     HTMLContent += displayBoolean[4] ? `<td class='${newColorClass} ${grayedOut}'>${new Date(run.date).getFullYear()}</td>` : ''
     return HTMLContent
 }

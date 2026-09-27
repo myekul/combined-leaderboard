@@ -1,0 +1,254 @@
+.connect4-controls {
+    box-sizing: border-box;
+    width: min(520px, calc(100% - 24px));
+    height: 34px;
+    flex-wrap: nowrap;
+    gap: 8px;
+    margin: 12px auto;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.connect4-controls .button {
+    flex: 0 0 auto;
+    width: clamp(88px, 25vw, 140px);
+}
+
+.connect4-controls input {
+    width: min(260px, 70vw);
+    padding: 6px 8px;
+}
+
+.connect4-match-center {
+    display: grid;
+    place-items: center;
+    width: 110px;
+    height: 42px;
+}
+
+.connect4-rematch {
+    width: max-content;
+    min-width: 90px;
+}
+
+.connect4-player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    min-width: 0;
+}
+
+.connect4-player-icon {
+    position: relative;
+    display: block;
+    width: 42px;
+    height: 42px;
+}
+
+.connect4-player-crown {
+    position: absolute;
+    top: -15px;
+    left: 80%;
+    height: 25px;
+    transform: translateX(-50%);
+}
+
+.connect4-winner-slot {
+    position: relative;
+    justify-self: center;
+    flex: 0 0 42px;
+    width: 42px;
+    flex-direction: row;
+}
+
+.connect4-winner-label {
+    position: absolute;
+    top: 50%;
+    font-weight: bold;
+    white-space: nowrap;
+    transform: translateY(-50%);
+}
+
+.connect4-winner-left .connect4-winner-label {
+    right: 100%;
+    margin-right: 10px;
+}
+
+.connect4-winner-right .connect4-winner-label {
+    left: 100%;
+    margin-left: 10px;
+}
+
+.connect4-opponent-leave {
+    display: grid;
+    place-items: center;
+    position: relative;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+}
+
+.connect4-opponent-leave:hover .connect4-player-icon,
+.connect4-opponent-leave:focus-visible .connect4-player-icon {
+    opacity: 0.3;
+    transition: opacity 200ms ease;
+}
+
+.connect4-opponent-leave-mark {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    opacity: 0;
+    color: white;
+    font-size: 20px;
+    pointer-events: none;
+    transition: opacity 200ms ease;
+}
+
+.connect4-opponent-leave:hover .connect4-opponent-leave-mark,
+.connect4-opponent-leave:focus-visible .connect4-opponent-leave-mark {
+    opacity: 1;
+}
+
+.connect4-radial-timer {
+    position: relative;
+    display: grid;
+    place-items: center;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: conic-gradient(var(--banner) var(--timer-progress, 100%), var(--background2) 0);
+    font-variant-numeric: tabular-nums;
+    font-weight: bold;
+}
+
+.connect4-radial-timer::before {
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    background: var(--background1);
+    content: '';
+}
+
+.connect4-radial-timer span {
+    position: relative;
+}
+
+.connect4-radial-timer.warning span {
+    color: salmon;
+}
+
+.connect4-board {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 6px;
+    box-sizing: border-box;
+    width: min(520px, calc(100% - 24px));
+    margin: 12px auto;
+    padding: 10px;
+    border-radius: 15px;
+}
+
+.connect4-landing {
+    width: min(520px, calc(100% - 24px));
+    margin: 0px auto;
+    margin-bottom: 12px;
+}
+
+.connect4-landing .connect4-controls {
+    margin: 0 auto 12px;
+}
+
+.connect4-landing .connect4-board {
+    width: 100%;
+    margin: 0;
+}
+
+.connect4-column {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+    background: none;
+}
+
+.connect4-column:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+
+.connect4-cell {
+    display: grid;
+    place-items: center;
+    box-sizing: border-box;
+    aspect-ratio: 1;
+    width: 100%;
+    min-width: 0;
+    padding: 3px;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    background: var(--background2);
+}
+
+.connect4-cell.player1,
+.connect4-cell.player2 {
+    border-color: transparent;
+    background: linear-gradient(var(--background2), var(--background2)) padding-box,
+        linear-gradient(135deg, var(--connect4-color-start), var(--connect4-color-end)) border-box;
+}
+
+.connect4-cell>div {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.connect4-cell img {
+    display: block;
+}
+
+.connect4-winning-chip {
+    position: relative;
+}
+
+.connect4-win-star {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 32px;
+    pointer-events: none;
+}
+
+.connect4-match-header {
+    display: grid;
+    grid-template-columns: minmax(42px, 1fr) 110px minmax(42px, 1fr);
+    width: min(300px, calc(100% - 24px));
+    margin: 0px auto;
+    margin-bottom: 12px
+}
+
+.connect4-empty-player {
+    display: inline-grid;
+    place-items: center;
+    box-sizing: border-box;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: 2px dashed currentColor;
+    border-radius: 50%;
+    background: transparent;
+    color: inherit;
+    font-size: 18px;
+}
