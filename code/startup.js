@@ -8,6 +8,8 @@ if (!gameParam) {
     setParam('game', gameParam)
 }
 const gameID = gameParam;
+if (gameID == 'sm64') setMyekulProjects('mario')
+if (gameID == 'pikmin3dx') setMyekulProjects('pikmin')
 if (gameID == 'mtpo') {
     const glassJoeStyle = document.createElement('style')
     glassJoeStyle.textContent = '.glassjoe { background-color: var(--mtpo); }'
@@ -48,7 +50,7 @@ function generateSidebar() {
 function moreGames() {
     const games = []
     // Re-add Facade
-    games.push([['cuphead', 'titanfall_2'], ['dkc', 'dkc2'], ['dkc3', 'dkb'], ['ssb64', 'ssbm'], ['mtpo', 'spo'], ['powii', 'bfbb'], ['the_escapists', 'the_messenger'], ['splatoon1', 'shar']])
+    games.push([['cuphead', 'titanfall_2'], ['dkc', 'dkc2'], ['dkc3', 'dkb'], ['ssb64', 'ssbm'], ['mtpo', 'spo'], ['powii', 'pikmin3dx'], ['shar', 'bfbb'], ['facade', 'the_escapists'], ['splatoon1', 'the_messenger']])
     games.push([['smb1', 'smbtll'], ['smb2', 'smb3'], ['smw', 'nsmbds'], ['nsmbw', 'nsmb2'], ['nsmbu', 'nslu'], ['sm64', 'sms'], ['smg1', 'smg2'], ['smo', 'sm64ds']])
     let HTMLContent = `<div class='container' style='margin:20px'>`
     games.forEach(gameSetSet => {
