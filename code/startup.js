@@ -1,3 +1,4 @@
+let loadouts, loadoutsDLC, loadoutsLegacy;
 google.charts.load('current', { packages: ['corechart'] });
 initializeHash('home')
 setFooter(2024)
@@ -49,8 +50,7 @@ function generateSidebar() {
 }
 function moreGames() {
     const games = []
-    // Re-add Facade
-    games.push([['cuphead', 'titanfall_2'], ['dkc', 'dkc2'], ['dkc3', 'dkb'], ['ssb64', 'ssbm'], ['mtpo', 'spo'], ['powii', 'pikmin3dx'], ['shar', 'bfbb'], ['facade', 'the_escapists'], ['splatoon1', 'the_messenger']])
+    games.push([['dkc', 'dkc2', 'dkc3'], ['dkb', 'ssb64', 'ssbm'], ['mtpo', 'spo', 'powii'], ['pikmin3dx', 'splatoon1', 'shar'], ['bfbb', 'facade', 'the_escapists'], ['titanfall_2', 'cuphead', 'the_messenger']])
     games.push([['smb1', 'smbtll'], ['smb2', 'smb3'], ['smw', 'nsmbds'], ['nsmbw', 'nsmb2'], ['nsmbu', 'nslu'], ['sm64', 'sms'], ['smg1', 'smg2'], ['smo', 'sm64ds']])
     let HTMLContent = `<div class='container' style='margin:20px'>`
     games.forEach(gameSetSet => {
@@ -113,9 +113,16 @@ document.addEventListener('DOMContentLoaded', function () {
     show('bodyContent')
     if (gameID == 'cuphead') {
         addJSFile('https://myekul.com/shared-assets/cuphead/cuphead.js', () => {
-            fetch(`https://myekul.com/run-recap/resources/categoryData.json`)
-                .then(response => response.json())
-                .then(data => {
+            Promise.all([
+                fetch('https://myekul.com/run-recap/resources/categoryData.json')
+                    .then(response => response.json()),
+                fetch('constants/cuphead/bossInfo.json')
+                    .then(response => {
+                        return response.json()
+                    })
+            ])
+                .then(([data, bossInfo]) => {
+                    ({ loadouts, loadoutsDLC, loadoutsLegacy } = bossInfo)
                     commBestILs = data
                     DOMloaded()
                 })

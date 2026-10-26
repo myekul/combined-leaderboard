@@ -76,7 +76,7 @@ function getFullgame(categoryName) {
         }
     }
     resetLoad()
-    if (!(['sm64', 'smb1', 'sms', 'smo', 'bfbb'].includes(gameID) && mode == 'fullgame' && !categoryName && firstTimeFull)) {
+    if (!(GAMES_FIREBASE.includes(gameID) && mode == 'fullgame' && !categoryName && firstTimeFull)) {
         categories.forEach(category => {
             let variables = ''
             category.vars?.forEach((varPair, index) => {
