@@ -1,7 +1,6 @@
 function fancyRun(run, categoryIndex, extra) {
     const category = categories[categoryIndex]
-    let HTMLContent = ''
-    HTMLContent += fancyDate(run)
+    let HTMLContent = fancyDate(run)
     if (sortCategoryIndex == -1 && mode != 'fullgame') {
         HTMLContent += `
         <td style='padding:0 5px'>

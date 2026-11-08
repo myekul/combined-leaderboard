@@ -22,8 +22,8 @@
     }
 }
 
-@media screen and (max-width: 1380px) {
-    #cupheadProjects {
+@media screen and (max-width: 1300px) {
+    #myekulProjects {
         display: none;
     }
 }

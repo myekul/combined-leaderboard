@@ -15,4 +15,4 @@ const GAMES_MILLISECONDS = ['smb1', 'smbtll', 'mtpo', 'spo', 'powii', 'titanfall
 const GAMES_PUNCHOUT = ['mtpo', 'spo', 'powii']
 const GAMES_FANCYSUM = ['mtpo', 'spo', 'powii', 'ssb64', 'ssbm']
 
-const GAMES_FIREBASE = ['smo']
+const GAMES_FIREBASE = ['smo', 'celeste']

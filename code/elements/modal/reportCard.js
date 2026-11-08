@@ -1,5 +1,5 @@
 function reportCard(player) {
-    let HTMLContent = `<div class='container'><table>`
+    let HTMLContent_rows = ``
     if (gameID == 'cuphead' && mode == 'levels' && big5()) {
         let categoryIndex = 0
         while (categoryIndex < categories.length) {
@@ -9,18 +9,18 @@ function reportCard(player) {
                 const run = player.runs[categoryIndex]
                 const percentage = run?.percentage
                 const place = run?.place
-                HTMLContent += `<tr class='${getRowColor(categoryIndex)}'>`
+                HTMLContent_rows += `<tr class='${getRowColor(categoryIndex)}'>`
                 if (i == 1) {
-                    HTMLContent += `<th rowspan=${numCats} class='${category.info.id}'>${getImage(category.info.id)}</th>`
+                    HTMLContent_rows += `<th rowspan=${numCats} class='${category.info.id}'>${getImage(category.info.id)}</th>`
                 }
                 const thisCategory = categories[categoryIndex]
-                HTMLContent += `
+                HTMLContent_rows += `
                 <td>${getTrophy(place)}</td>
                 <td class='${thisCategory.difficulty}' style='text-align:left'>${difficultyILs ? trimDifficulty(thisCategory.name) : thisCategory.name}</td>
                 ${reportCardSection(category, categoryIndex, run.score, percentage)}`
                 categoryIndex++
             }
-            HTMLContent += `</tr>`
+            HTMLContent_rows += `</tr>`
         }
     } else {
         categories.forEach((category, categoryIndex) => {
@@ -30,7 +30,7 @@ function reportCard(player) {
             if (category.info) {
                 image = getImage(category.info.id, 21)
             }
-            HTMLContent += `
+            HTMLContent_rows += `
             <tr>
                 <td style='color:white;padding-right:3px;text-align:right'>${run?.debug ? '*' : ''}${getTrophy(place)}</td>
                 ${image ? `<td id='modal-img' class='${classNameLogic(category)}'>${image}</td>` : ''}
@@ -39,27 +39,29 @@ function reportCard(player) {
             </tr>`
         })
     }
-    HTMLContent += `</table>`
-    // HTMLContent += `<div><div id='modal_rankComparison' style='min-width:70px'>${rankComparison(player.rank)}</div></div>`
-    HTMLContent += `</div>`
-    HTMLContent += `<div class='container' style='gap:8px'>`
+    let HTMLContent_GPA = ''
     if (player.hasAllRuns) {
-        HTMLContent += `<button id='modal_sliders' onclick="toggleSliders()" class='grow'>${fontAwesome('sliders')}</button>`
-    }
-    HTMLContent += `
-    <div class='textBox'><table class='background2'>
-        <tr>
-            <td>Rank:</td>
-            <td id='modal_rank' style='padding:0 5px'>${player.rank}</td>
-        </tr>`
-    if (player.hasAllRuns) {
-        HTMLContent += `
+        HTMLContent_GPA = `
         <tr>
             <td>GPA:</td>
             <td id='modal_gpa'>${getGPA(player.score)}</td>
         </tr>`
     }
-    HTMLContent += `
+    let HTMLContent = `
+    <div class='container'>
+        <table>
+        ${HTMLContent_rows}
+        </table>
+    </div>
+    <div class='container' style='gap:8px'>
+        ${player.hasAllRuns ? `<button id='modal_sliders' onclick="toggleSliders()" class='grow'>${fontAwesome('sliders')}</button>` : ''}
+        <div class='textBox'>
+            <table class='background2'>
+                <tr>
+                    <td>Rank:</td>
+                    <td id='modal_rank' style='padding:0 5px'>${player.rank}</td>
+                </tr>
+                ${HTMLContent_GPA}
                 <td colspan=2 id='modal_scoreGradeSpan'>${scoreGradeSpan(player.score)}</td>
             </table>
         </div>
@@ -117,23 +119,6 @@ function toggleUserComparison() {
         toggleVisibility('modal_category_' + i + '_userComparison')
     }
 }
-// function rankComparison(rank) {
-//     let HTMLContent = '<table>'
-//     const thisPlayer = players[globalPlayerIndex]
-//     let player2 = players[rank - 2]
-//     if (player2?.name == thisPlayer.name) {
-//         player2 = players[rank - 1]
-//     }
-//     HTMLContent += player2 ? `<tr><td>${rank > 1 ? rank - 1 : ''}</td><td>${rank > 1 ? getPlayerIcon(player2, 25) : `<td style='height:25px'></td>`}</td></tr>` : `<tr style='height:25px'></tr>`
-//     HTMLContent += `<tr><td>${rank}</td><td>${getPlayerIcon(players[globalPlayerIndex], 35)}</td></tr>`
-//     let player3 = players[rank]
-//     if (player3?.name == thisPlayer.name) {
-//         player3 = players[rank]
-//     }
-//     HTMLContent += player3 ? `<tr><td>${rank + 1}</td><td>${getPlayerIcon(player3, 25)}</td></tr>` : `<tr style='height:25px'></tr>`
-//     HTMLContent += `</table>`
-//     return HTMLContent
-// }
 function toggleSliders() {
     playSound('move')
     if (modalSliders) {
@@ -147,7 +132,6 @@ function toggleSliders() {
             show('modal_category_' + i + '_leftArrow')
             show('modal_category_' + i + '_rightArrow')
         }
-        // show('modal_rankComparison')
         modalSliders = true
     }
     modalPercentages = []

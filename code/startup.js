@@ -50,7 +50,7 @@ function generateSidebar() {
 }
 function moreGames() {
     const games = []
-    games.push([['dkc', 'dkc2', 'dkc3'], ['dkb', 'ssb64', 'ssbm'], ['mtpo', 'spo', 'powii'], ['pikmin3dx', 'splatoon1', 'shar'], ['bfbb', 'facade', 'the_escapists'], ['titanfall_2', 'cuphead', 'the_messenger']])
+    games.push([['dkc', 'dkc2', 'dkc3'], ['dkb', 'ssb64', 'ssbm'], ['mtpo', 'spo', 'powii'], ['pikmin3dx', 'splatoon1', 'shar'], ['bfbb', 'facade', 'the_escapists'], ['titanfall_2', 'cuphead', 'celeste'], ['the_messenger']])
     games.push([['smb1', 'smbtll'], ['smb2', 'smb3'], ['smw', 'nsmbds'], ['nsmbw', 'nsmb2'], ['nsmbu', 'nslu'], ['sm64', 'sms'], ['smg1', 'smg2'], ['smo', 'sm64ds']])
     let HTMLContent = `<div class='container' style='margin:20px'>`
     games.forEach(gameSetSet => {
