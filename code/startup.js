@@ -1,4 +1,4 @@
-let loadouts, loadoutsDLC, loadoutsLegacy;
+let loadouts, loadoutsLegacy;
 google.charts.load('current', { packages: ['corechart'] });
 initializeHash('home')
 setFooter(2024)

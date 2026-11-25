@@ -407,7 +407,7 @@ function assignLoadouts() {
         const category = categories[categoryIndex]
         const numCats = cupheadNumCats(category)
         for (let i = 1; i <= numCats; i++) {
-            let loadout = cupheadVersion == 'legacy' ? loadoutsLegacy[category.info.id] : DLCnoDLC == 'nodlc' ? loadouts[category.info.id] : loadoutsDLC[category.info.id]
+            let loadout = cupheadVersion == 'legacy' ? loadoutsLegacy[category.info.id] : loadouts[category.info.id]
             if (difficultyILs && loadout.length > 1) {
                 if (levelDifficulty == 'simple') {
                     loadout = loadout.slice(0, 2)
@@ -419,7 +419,7 @@ function assignLoadouts() {
             }
             let theLoadout = []
             if (loadout.length == 0) {
-                const charm = DLCnoDLC == 'nodlc' ? 'whetstone' : 'divinerelic'
+                const charm = 'whetstone'
                 theLoadout = ['', '', '', charm]
             } else {
                 let index = loadout.length == 1 ? 0 : i - 1

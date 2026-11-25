@@ -42,7 +42,7 @@ function getImage(image, heightParam) {
 }
 function getColorClass() {
     if (cupheadVersion == 'legacy') return 'legacy'
-    return gameID == 'cuphead' ? DLCnoDLC == 'dlc' ? 'dlc' : 'cuphead' : ''
+    return gameID == 'cuphead' ? 'cuphead' : ''
 }
 function getTrophy(place) {
     let placeText = ''

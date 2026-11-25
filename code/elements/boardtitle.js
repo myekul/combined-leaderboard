@@ -105,9 +105,6 @@ function generateBoardTitle(extra, categoryIndex) {
         if (!big5()) {
             HTMLContent += boardTitleCell(levelDifficulty, getCupheadCategory(anyHighest, levelDifficulty))
         }
-        if (DLCnoDLC == 'dlc') {
-            HTMLContent += boardTitleCell('dlc', 'DLC')
-        }
         if (cupheadVersion == 'legacy') {
             HTMLContent += boardTitleCell('legacy', 'Legacy')
         }

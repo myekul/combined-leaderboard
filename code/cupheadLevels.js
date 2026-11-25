@@ -1,10 +1,8 @@
-function cupheadLevelSetting(version, DLCorNot) {
+function cupheadLevelSetting(version) {
     if (typeof version == 'string') {
         cupheadVersion = version
-        DLCnoDLC = DLCorNot
     }
     buttonClick(cupheadVersion, 'versionTabs', 'active')
-    buttonClick(DLCnoDLC + 'Boards', 'categoryTabs', 'active')
     if (bossILindex > -1 || isleIndex > -1) {
         if (cupheadVersion == 'legacy' && (bossILindex >= 19 || isleIndex == 4)) {
             cupheadVersion = 'currentPatch'
@@ -47,7 +45,7 @@ function getCupheadSRC() {
             categories.forEach(level => {
                 level.difficulty = levelDifficulty
                 level.version = cupheadVersion
-                level.category = ILcats[anyHighest + DLCnoDLC].id
+                level.category = ILcats[anyHighest].id
             });
             if (bossILindex > -1) {
                 getCupheadBoss()
@@ -171,7 +169,7 @@ function getCupheadBoss() {
             const newBoss = { ...boss }
             newBoss.name = getCupheadCategory(anyOrHighest, difficulty)
             newBoss.difficulty = difficulty
-            newBoss.category = ILcats[anyOrHighest + DLCnoDLC].id
+            newBoss.category = ILcats[anyOrHighest].id
             newBoss.version = cupheadVersion
             categories.push(newBoss)
         })
@@ -210,7 +208,7 @@ function updateILbosses() {
     let HTMLContent = `<table><tr>`
     if (cupheadVersion != 'onePointOne') {
         const checkbox_basegameILs = document.getElementById('checkbox_basegameILs')
-        if (DLCnoDLC == 'dlc' || cupheadVersion == 'legacy') {
+        if (cupheadVersion == 'legacy') {
             basegameILs = false
             checkbox_basegameILs.checked = true
             checkbox_basegameILs.style.opacity = 0

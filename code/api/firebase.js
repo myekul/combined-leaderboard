@@ -13,9 +13,6 @@ import { getFirestore, doc, addDoc, setDoc, getDocs, getDoc, collection, query, 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
 
-function getCollection() {
-    return cupheadVersion + DLCnoDLC
-}
 function fixIndex(index) {
     if (index < 10) return index = '0' + index
     return index
@@ -24,7 +21,7 @@ function docRef() {
     const document = bossILindex > -1
         ? fixIndex(bossILindex + 1) + '-' + bosses[bossILindex].id
         : levelDifficulty + anyHighest
-    return doc(db, getCollection(), document)
+    return doc(db, cupheadVersion, document)
 }
 function reduction() {
     const obj = {};
@@ -222,7 +219,7 @@ window.firebaseUtils = {
     },
     firestoreRead25: async () => {
         let numDocs = cupheadVersion == 'currentPatch' && !basegameILs ? 25 : 19
-        const collectionRef = collection(db, getCollection())
+        const collectionRef = collection(db, cupheadVersion)
         let query1 = query(collectionRef, limit(numDocs))
         if (difficultyILs && levelDifficulty == 'simple') {
             numDocs = cupheadVersion == 'currentPatch' && !basegameILs ? 22 : 17

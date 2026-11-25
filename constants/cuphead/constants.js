@@ -1,19 +1,11 @@
 const ILcats = {
-    anynodlc: {
-        name: 'anyNoDLC',
+    any: {
+        name: 'any',
         id: '8246xjgd'
     },
-    highestnodlc: {
-        name: 'highestNoDLC',
+    highest: {
+        name: 'highest',
         id: '9d86pe32'
-    },
-    anydlc: {
-        name: 'anyDLC',
-        id: 'z275j35k'
-    },
-    highestdlc: {
-        name: 'highestDLC',
-        id: 'zdno9r72'
     }
 }
 const difficulties = [

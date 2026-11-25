@@ -9,7 +9,6 @@ let mode = 'fullgame'
 
 let cupheadVersion = 'currentPatch'
 let levelDifficulty = 'regular'
-let DLCnoDLC = 'nodlc'
 let anyHighest = 'any'
 
 let processedCategories = 0
